@@ -1,0 +1,54 @@
+* {
+    outline: none !important;
+}
+body {
+    min-width: 15rem;
+    min-height: 30rem;
+    background-color: #fff;
+    color: rgb(247, 243, 243);
+    font-family: "Ubuntu", Arial, sans-serif;
+    overflow: hidden;
+}
+.Tobicord {
+    background-color: #36393f;
+    height: 100vh;
+    width: 100vw;
+    margin: 0px;
+}
+#root {
+    height: 100%;
+}
+
+.sectionBox {
+    display: grid;
+    grid-template-columns: min-content minmax(0px, 1fr) min-content;
+    grid-template-rows: 100%;
+    background-color: rgb(30, 30, 38);
+    height: 100%;
+    position: relative;
+}
+.leftSection {
+    z-index: 2000;
+    position: relative;
+    height: 100%;
+    width: 280px;
+    transition: none 0s ease 0s;
+}
+.middleSection {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    height: 100%;
+    background-color: rgb(30, 30, 38);
+}
+.rightSection {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    position: relative;
+    border-left: 1px solid rgb(73, 73, 92);
+    will-change: transform;
+    transition: transform 300ms ease-in-out 0s;
+    background-color: rgb(30, 30, 38);
+    width: 220px;
+}

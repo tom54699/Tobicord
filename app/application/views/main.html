@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+        <link rel="stylesheet" href="/css/main.css" />
+        <link rel="stylesheet" href="/css/common.css" />
+        <script src="three.r134.min.js"></script>
+        <script src="vanta.net.min.js"></script>
+        <script>
+            VANTA.NET({
+                el: "#your-element-selector",
+                mouseControls: true,
+                touchControls: true,
+                gyroControls: false,
+                minHeight: 200.0,
+                minWidth: 200.0,
+                scale: 1.0,
+                scaleMobile: 1.0,
+            })
+        </script>
+    </head>
+    <body class="Tobicord">
+        <div id="root">
+            <div class="sectionBox" id="mainContainer">
+                <section class="leftSection">1</section>
+                <section class="middleSection">2</section>
+                <section class="rightSection">3</section>
+            </div>
+        </div>
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+        <script type="module" src="/js/main.js"></script>
+        <script type="module" src="/js/axios.js"></script>
+    </body>
+</html>
