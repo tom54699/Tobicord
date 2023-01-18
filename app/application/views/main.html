@@ -5,29 +5,155 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Document</title>
+        <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU"
+            crossorigin="anonymous"
+        />
+        <script
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ"
+            crossorigin="anonymous"
+        ></script>
         <link rel="stylesheet" href="/css/main.css" />
         <link rel="stylesheet" href="/css/common.css" />
-        <script src="three.r134.min.js"></script>
-        <script src="vanta.net.min.js"></script>
-        <script>
-            VANTA.NET({
-                el: "#your-element-selector",
-                mouseControls: true,
-                touchControls: true,
-                gyroControls: false,
-                minHeight: 200.0,
-                minWidth: 200.0,
-                scale: 1.0,
-                scaleMobile: 1.0,
-            })
-        </script>
     </head>
     <body class="Tobicord">
         <div id="root">
             <div class="sectionBox" id="mainContainer">
-                <section class="leftSection">1</section>
-                <section class="middleSection">2</section>
-                <section class="rightSection">3</section>
+                <section class="leftSection">
+                    <button class="leftSection-fold-button-container">
+                        <div class="leftSection-fold-button-svg svg-hover"></div>
+                    </button>
+                    <div class="leftSection-container">
+                        <section class="leftSection-nav"></section>
+                        <section class="leftSection-spaces">
+                            <div class="leftSection-spaces-top">
+                                <div class="leftSection-spaces-top-title-container">
+                                    <div class="leftSection-spaces-top-title">動漫畫</div>
+                                </div>
+                                <div class="leftSection-spaces-top-subtitle-container">
+                                    <button class="leftSection-spaces-top-subtitle-gear-container">
+                                        <div class="leftSection-spaces-top-subtitle-gear-svg svg-hover"></div>
+                                    </button>
+                                    <div class="leftSection-spaces-top-subtitle-addFriend-frame">
+                                        <button lass="leftSection-spaces-top-subtitle-addFriend-container">
+                                            <div class="leftSection-spaces-top-subtitle-addFriend-svg svg-hover"></div>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="leftSection-spaces-search">
+                                <div class="leftSection-spaces-search-input-container">
+                                    <div class="leftSection-spaces-search-input-container-glass-svg"></div>
+                                    <input
+                                        placeholder="Search organization"
+                                        class="leftSection-spaces-search-input-container-input"
+                                    />
+                                    <button class="leftSection-spaces-search-input-container-button">
+                                        <div
+                                            class="leftSection-spaces-search-input-container-close-svg svg-hover"
+                                        ></div>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="leftSection-spaces-container">
+                                <div class="leftSection-spaces-container-top">
+                                    <div class="leftSection-spaces-container-top-title">Spaces</div>
+                                    <div class="leftSection-spaces-container-top-add-button-container"></div>
+                                </div>
+                                <div class="leftSection-spaces-container-main">
+                                    <div class="leftSection-spaces-container-main-card-container">
+                                        <div class="leftSection-spaces-container-main-card">
+                                            <button class="leftSection-spaces-container-main-card-button">
+                                                <div
+                                                    class="leftSection-spaces-container-main-card-star-svg svg-hover"
+                                                ></div>
+                                            </button>
+                                            <div class="leftSection-spaces-container-main-card-title">
+                                                Starred Collections
+                                            </div>
+                                        </div>
+                                        <div class="leftSection-spaces-container-main-card">
+                                            <button class="leftSection-spaces-container-main-card-button">
+                                                <div
+                                                    class="leftSection-spaces-container-main-card-lock-svg svg-hover"
+                                                ></div>
+                                            </button>
+                                            <div class="leftSection-spaces-container-main-card-title">漫畫</div>
+                                        </div>
+                                        <div class="leftSection-spaces-container-main-card">
+                                            <button class="leftSection-spaces-container-main-card-button">
+                                                <div
+                                                    class="leftSection-spaces-container-main-card-folder-svg svg-hover"
+                                                ></div>
+                                            </button>
+                                            <div class="leftSection-spaces-container-main-card-title">動畫</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                </section>
+                <section class="middleSection">
+                    <div class="middleSection-top">
+                        <div class="middleSection-top-container">
+                            <div class="middleSection-top-tilte">漫畫</div>
+                            <span class="middleSection-top-subtilte"> | 1 collections</span>
+                            <button class="middleSection-top-config-button">
+                                <div class="middleSection-top-gear-svg svg-hover"></div>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="middleSection-nav">
+                        <div class="middleSection-nav-list">
+                            <div class="middleSection-nav-tag-button-container">
+                                <button
+                                    class="middleSection-nav-button"
+                                    data-bs-toggle="dropdown"
+                                    aria-expanded="false"
+                                >
+                                    <div class="middleSection-nav-tag-svg"></div>
+                                    <span class="middleSection-nav-button-text">Tag Filter</span>
+                                    <div class="arrow-down-svg"></div>
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                    <li><a class="dropdown-item" href="#">Clear all Tags</a></li>
+                                    <li><a class="dropdown-item" href="#">奇幻</a></li>
+                                    <li><a class="dropdown-item" href="#">科幻</a></li>
+                                </ul>
+                            </div>
+                            <button class="middleSection-nav-button">
+                                <span class="middleSection-nav-button-text">EXPAND</span>
+                            </button>
+                            <button class="middleSection-nav-button">
+                                <span class="middleSection-nav-button-text">COLLAPSE</span>
+                            </button>
+                        </div>
+                        <div class="middleSection-nav-add-button-container">
+                            <button class="middleSection-nav-add-button">
+                                <div class="middleSection-nav-add-svg"></div>
+                                <span class="middleSection-nav-add-text">ADD COLLECTION</span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="middleSection-container"></div>
+                </section>
+                <section class="rightSection">
+                    <button class="rightSection-fold-button">
+                        <div class="rightSection-fold-button-svg svg-hover"></div>
+                    </button>
+                    <div class="rightSection-container">
+                        <div class="rightSection-nav">
+                            <div class="rightSection-nav-title">Open Tabs</div>
+                        </div>
+                        <div class="rightSection-spaces">
+                            <div class="window-tabs-container"></div>
+                        </div>
+                    </div>
+                </section>
             </div>
         </div>
         <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>

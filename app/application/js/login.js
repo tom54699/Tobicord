@@ -47,13 +47,14 @@ registerButton.addEventListener("click", async () => {
         if (result.message === "ok") {
             location.href = "/auth"
         } else {
+            registerInvalidFormatMessageClean()
             for (let i of result.errorMessages) {
+                console.log(i)
                 if (i.param === "email") {
                     num = 2
                 } else {
                     num = 3
                 }
-                registerInvalidFormatMessageClean()
                 registerInvalidFormatMessage(i.msg, num)
             }
         }
