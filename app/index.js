@@ -13,7 +13,7 @@ const portNum = 3000
 
 const app = express()
 app.use(cors())
-app.use(cookieParser())
+app.use(cookieParser("123456"))
 //app.use(helmet())
 app.engine("html", hbs.__express)
 app.set("view engine", "html")

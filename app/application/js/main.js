@@ -1,3 +1,5 @@
+const logoutButton = document.getElementsByClassName("user-popover-logout-button")
+
 window.addEventListener("load", () => {
     checkMainPageAuth()
 })
@@ -22,3 +24,28 @@ async function checkMainPageAuth() {
         location.href = "/auth"
     }
 }
+
+// logout
+logoutButton[0].addEventListener("click", async () => {
+    try {
+        const accessToken = localStorage.getItem("accessToken")
+        const headers = {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+            Authorization: `Bearer ${accessToken}`,
+        }
+        const config = {
+            headers: headers,
+        }
+        const response = await axios.delete("/auth/logout", config)
+        const result = await response.data
+        console.log(result)
+        if (result.message === "ok") {
+            localStorage.removeItem("accessToken")
+            location.href = "/auth"
+        }
+    } catch (error) {
+        console.log(error)
+        location.href = "/auth"
+    }
+})

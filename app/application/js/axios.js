@@ -1,6 +1,9 @@
 // 全局設定 AJAX Request 攔截器 (interceptor)
 axios.interceptors.request.use(
     async function (config) {
+        //const accessToken = localStorage.getItem("accessToken")
+        //config.headers.Authorization = "123"
+        //console.log(config.headers)
         return config
     },
     function (error) {

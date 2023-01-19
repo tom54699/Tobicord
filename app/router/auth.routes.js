@@ -4,6 +4,7 @@ const router = express.Router()
 
 const authController = require("../controller/auth.controller")
 const refreshMiddleware = require("../middlewares/refresh.middleware")
+const authMiddleware = require("../middlewares/auth.middleware")
 
 router.get("/", (req, res) => {
     res.render("login")
@@ -16,5 +17,5 @@ router.post(
     check("password").trim().isLength({ min: 6 }).withMessage("- must be at least 6 characters"),
     authController.register
 )
-
+router.delete("/logout", authMiddleware, authController.logout)
 module.exports = router

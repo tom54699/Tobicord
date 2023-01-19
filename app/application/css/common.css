@@ -1,3 +1,28 @@
 .none {
     display: none;
 }
+.svg-hover:hover {
+    background-color: rgb(214, 73, 107);
+}
+a:hover {
+    color: rgb(214, 73, 107);
+}
+.svg-white {
+    background-color: rgb(255, 255, 255);
+}
+.svg-gray {
+    background-color: rgb(124, 124, 154);
+}
+.dropdown-menu {
+    background-color: rgb(47, 50, 60);
+    top: calc(100% + 4px);
+    width: max-content;
+    max-height: 20rem;
+    overflow-y: auto;
+    box-shadow: rgb(112 112 140 / 15%) 1px 2px 4px;
+}
+.dropdown-item:hover {
+    background-color: #9e3d56;
+    box-shadow: rgb(112 112 140 / 15%) 1px 2px 4px;
+    color: rgb(255, 255, 255);
+}

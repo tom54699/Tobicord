@@ -11,11 +11,6 @@
             integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU"
             crossorigin="anonymous"
         />
-        <script
-            src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ"
-            crossorigin="anonymous"
-        ></script>
         <link rel="stylesheet" href="/css/main.css" />
         <link rel="stylesheet" href="/css/common.css" />
     </head>
@@ -27,7 +22,60 @@
                         <div class="leftSection-fold-button-svg svg-hover"></div>
                     </button>
                     <div class="leftSection-container">
-                        <section class="leftSection-nav"></section>
+                        <section class="leftSection-nav">
+                            <div class="leftSection-nav-top">
+                                <div class="leftSection-nav-top-category-container">
+                                    <button class="leftSection-nav-top-category-button" tabindex="3">
+                                        <div class="leftSection-nav-top-category">
+                                            <div class="leftSection-nav-top-category-title">動漫</div>
+                                        </div>
+                                    </button>
+                                </div>
+                                <div class="leftSection-nav-top-category-container">
+                                    <button class="leftSection-nav-top-category-button" tabindex="3">
+                                        <div class="leftSection-nav-top-category">
+                                            <div class="leftSection-nav-top-category-title">小說</div>
+                                        </div>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <button class="add-svg svg-gray svg-hover"></button>
+                            <div class="leftSection-nav-bottom">
+                                <div class="leftSection-nav-bottom-question-container" tabindex="4">
+                                    <div class="leftSection-nav-bottom-button">
+                                        <div class="leftSection-nav-bottom-question-svg"></div>
+                                    </div>
+                                </div>
+
+                                <div class="leftSection-nav-bottom-notice-container" tabindex="4">
+                                    <div class="leftSection-nav-bottom-button">
+                                        <div class="leftSection-nav-bottom-notice-svg"></div>
+                                    </div>
+                                </div>
+                                <div class="leftSection-nav-bottom-user-container" tabindex="4">
+                                    <div class="leftSection-nav-bottom-button">
+                                        <div class="leftSection-nav-bottom-user-svg"></div>
+                                    </div>
+                                    <section class="user-popover-container">
+                                        <div class="user-popover">
+                                            <div class="user-popover-account">
+                                                <div class="user-popover-account-title">Account</div>
+                                                <span class="user-popover-account-email"
+                                                    >moonightear (tom54699@gmail.com)</span
+                                                >
+                                                <a class="user-popover-edit-account">Edit account</a>
+                                                <a class="user-popover-change-password">Change Password</a>
+                                            </div>
+                                            <div class="user-popover-logout">
+                                                <br />
+                                                <a class="user-popover-logout-button">Log out</a>
+                                            </div>
+                                        </div>
+                                    </section>
+                                </div>
+                            </div>
+                        </section>
                         <section class="leftSection-spaces">
                             <div class="leftSection-spaces-top">
                                 <div class="leftSection-spaces-top-title-container">
@@ -65,28 +113,28 @@
                                 </div>
                                 <div class="leftSection-spaces-container-main">
                                     <div class="leftSection-spaces-container-main-card-container">
-                                        <div class="leftSection-spaces-container-main-card">
+                                        <div class="leftSection-spaces-container-main-card" tabindex="0">
                                             <button class="leftSection-spaces-container-main-card-button">
                                                 <div
-                                                    class="leftSection-spaces-container-main-card-star-svg svg-hover"
+                                                    class="leftSection-spaces-container-main-card-star-svg svg-focus"
                                                 ></div>
                                             </button>
                                             <div class="leftSection-spaces-container-main-card-title">
                                                 Starred Collections
                                             </div>
                                         </div>
-                                        <div class="leftSection-spaces-container-main-card">
+                                        <div class="leftSection-spaces-container-main-card" tabindex="1">
                                             <button class="leftSection-spaces-container-main-card-button">
                                                 <div
-                                                    class="leftSection-spaces-container-main-card-lock-svg svg-hover"
+                                                    class="leftSection-spaces-container-main-card-lock-svg svg-focus"
                                                 ></div>
                                             </button>
                                             <div class="leftSection-spaces-container-main-card-title">漫畫</div>
                                         </div>
-                                        <div class="leftSection-spaces-container-main-card">
+                                        <div class="leftSection-spaces-container-main-card" tabindex="2">
                                             <button class="leftSection-spaces-container-main-card-button">
                                                 <div
-                                                    class="leftSection-spaces-container-main-card-folder-svg svg-hover"
+                                                    class="leftSection-spaces-container-main-card-folder-svg svg-focus"
                                                 ></div>
                                             </button>
                                             <div class="leftSection-spaces-container-main-card-title">動畫</div>
@@ -100,8 +148,8 @@
                 <section class="middleSection">
                     <div class="middleSection-top">
                         <div class="middleSection-top-container">
-                            <div class="middleSection-top-tilte">漫畫</div>
-                            <span class="middleSection-top-subtilte"> | 1 collections</span>
+                            <div class="middleSection-top-title">My Collections</div>
+                            <span class="middleSection-top-subtitle"> | 1 collections</span>
                             <button class="middleSection-top-config-button">
                                 <div class="middleSection-top-gear-svg svg-hover"></div>
                             </button>
@@ -116,25 +164,39 @@
                                     aria-expanded="false"
                                 >
                                     <div class="middleSection-nav-tag-svg"></div>
-                                    <span class="middleSection-nav-button-text">Tag Filter</span>
+                                    <span>Tag Filter</span>
                                     <div class="arrow-down-svg"></div>
                                 </button>
                                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                    <li><a class="dropdown-item" href="#">Clear all Tags</a></li>
-                                    <li><a class="dropdown-item" href="#">奇幻</a></li>
-                                    <li><a class="dropdown-item" href="#">科幻</a></li>
+                                    <li class="dropdown-item middleSection-nav-dropdown-menu-li-container">
+                                        <span>Clear all Tags</span>
+                                    </li>
+                                    <li class="dropdown-item middleSection-nav-dropdown-menu-li-container">
+                                        <div class="middleSection-nav-tag-svg"></div>
+                                        <span> 奇幻</span>
+                                        <button class="edit-svg-container">
+                                            <div class="edit-svg"></div>
+                                        </button>
+                                    </li>
+                                    <li class="dropdown-item middleSection-nav-dropdown-menu-li-container">
+                                        <div class="middleSection-nav-tag-svg"></div>
+                                        <span> 科幻</span>
+                                        <button class="edit-svg-container">
+                                            <div class="edit-svg"></div>
+                                        </button>
+                                    </li>
                                 </ul>
                             </div>
                             <button class="middleSection-nav-button">
-                                <span class="middleSection-nav-button-text">EXPAND</span>
+                                <span>EXPAND</span>
                             </button>
                             <button class="middleSection-nav-button">
-                                <span class="middleSection-nav-button-text">COLLAPSE</span>
+                                <span>COLLAPSE</span>
                             </button>
                         </div>
                         <div class="middleSection-nav-add-button-container">
                             <button class="middleSection-nav-add-button">
-                                <div class="middleSection-nav-add-svg"></div>
+                                <div class="add-svg svg-white"></div>
                                 <span class="middleSection-nav-add-text">ADD COLLECTION</span>
                             </button>
                         </div>
@@ -159,5 +221,15 @@
         <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
         <script type="module" src="/js/main.js"></script>
         <script type="module" src="/js/axios.js"></script>
+        <script
+            src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.1/dist/umd/popper.min.js"
+            integrity="sha384-W8fXfP3gkOKtndU4JGtKDvXbO53Wy8SZCQHczT5FMiiqmQfUpWbYdTil/SxwZgAN"
+            crossorigin="anonymous"
+        ></script>
+        <script
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.min.js"
+            integrity="sha384-skAcpIdS7UcVUC05LJ9Dxay8AXcDYfBJqt1CJ85S/CFujBsIzCIv+l9liuYLaMQ/"
+            crossorigin="anonymous"
+        ></script>
     </body>
 </html>

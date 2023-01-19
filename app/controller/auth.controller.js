@@ -24,6 +24,15 @@ class AuthController {
             next(err)
         }
     }
+    async logout(req, res, next) {
+        try {
+            const response = await authService.logout()
+            res.clearCookie("refreshToken")
+            return res.status(200).json({ message: "ok" })
+        } catch (err) {
+            next(err)
+        }
+    }
     async refreshToken(req, res, next) {
         try {
             const { access, refresh } = await authService.refresh({
