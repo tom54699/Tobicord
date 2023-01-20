@@ -11,10 +11,12 @@
             integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU"
             crossorigin="anonymous"
         />
+        <link href="/css/font.css" rel="stylesheet" />
         <link rel="stylesheet" href="/css/main.css" />
         <link rel="stylesheet" href="/css/common.css" />
     </head>
     <body class="Tobicord">
+        <div class="preload-back-ground"></div>
         <div id="root">
             <div class="sectionBox" id="mainContainer">
                 <section class="leftSection">
@@ -109,7 +111,16 @@
                             <div class="leftSection-spaces-container">
                                 <div class="leftSection-spaces-container-top">
                                     <div class="leftSection-spaces-container-top-title">Spaces</div>
-                                    <div class="leftSection-spaces-container-top-add-button-container"></div>
+                                    <div class="leftSection-spaces-container-top-button-container">
+                                        <span class="leftSection-spaces-container-top-button">
+                                            <div class="leftSection-spaces-container-top-add-tooltips">
+                                                Create or Browse Spaces
+                                            </div>
+                                            <button class="leftSection-spaces-container-top-add-button">
+                                                <div class="leftSection-spaces-container-top-add-svg"></div>
+                                            </button>
+                                        </span>
+                                    </div>
                                 </div>
                                 <div class="leftSection-spaces-container-main">
                                     <div class="leftSection-spaces-container-main-card-container">
@@ -166,6 +177,7 @@
                                     <div class="middleSection-nav-tag-svg"></div>
                                     <span>Tag Filter</span>
                                     <div class="arrow-down-svg"></div>
+                                    <div class="arrow-up-svg"></div>
                                 </button>
                                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                                     <li class="dropdown-item middleSection-nav-dropdown-menu-li-container">
@@ -202,6 +214,28 @@
                         </div>
                     </div>
                     <div class="middleSection-container"></div>
+                    <div class="middleSection-tab-popover-container">
+                        <span class="middleSection-tab-popover-title">(3 tabs selected)</span>
+                        <button class="middleSection-tab-popover-move-button">
+                            <div class="middleSection-tab-popover-move-svg"></div>
+                            <span class="middleSection-tab-popover-move-text">MOVE</span>
+                        </button>
+                        <button class="middleSection-tab-popover-open-button">
+                            <div class="middleSection-tab-popover-open-svg"></div>
+                            <span class="middleSection-tab-popover-open-text">Open tabs</span>
+                        </button>
+                        <button class="middleSection-tab-popover-create-button">
+                            <div class="middleSection-tab-popover-create-svg"></div>
+                            <span class="middleSection-tab-popover-create-text">Create new collection</span>
+                        </button>
+                        <button class="middleSection-tab-popover-delete-button">
+                            <div class="middleSection-tab-popover-delete-svg"></div>
+                            <span class="middleSection-tab-popover-delete-text">DELETE</span>
+                        </button>
+                        <button class="middleSection-tab-popover-close-button">
+                            <div class="middleSection-tab-popover-close-svg"></div>
+                        </button>
+                    </div>
                 </section>
                 <section class="rightSection">
                     <button class="rightSection-fold-button">
@@ -212,13 +246,205 @@
                             <div class="rightSection-nav-title">Open Tabs</div>
                         </div>
                         <div class="rightSection-spaces">
-                            <div class="window-tabs-container"></div>
+                            <div class="rightSection-spaces-window-container">
+                                <div class="rightSection-spaces-window-tabs-container">
+                                    <div class="rightSection-spaces-window-tabs-box">
+                                        <div class="rightSection-spaces-window-tabs-container-close-container">
+                                            <span class="rightSection-spaces-window-tabs-container-close-title"
+                                                >Are you sure you want to close this window?</span
+                                            >
+                                            <div
+                                                class="rightSection-spaces-window-tabs-container-close-button-container"
+                                            >
+                                                <button class="rightSection-spaces-window-tabs-container-return-button">
+                                                    <span class="rightSection-spaces-window-tabs-container-return-text"
+                                                        >Cancel</span
+                                                    >
+                                                </button>
+                                                <button class="rightSection-spaces-window-tabs-container-close-button">
+                                                    <span class="rightSection-spaces-window-tabs-container-close-text"
+                                                        >Yes, Close</span
+                                                    >
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="rightSection-spaces-window-tabs-line">
+                                            <div class="rightSection-spaces-window-tabs-left-block">
+                                                <span class="rightSection-spaces-window-title">Window 1</span>
+                                                <button
+                                                    class="rightSection-spaces-window-fold-button"
+                                                    tabindex="3"
+                                                    data-bs-toggle="collapse"
+                                                    data-bs-target="#collapseExample"
+                                                    aria-expanded="false"
+                                                    aria-controls="collapseExample"
+                                                >
+                                                    <div class="arrow-right-svg"></div>
+                                                    <div class="rightSection-spaces-window-arrow-down-svg"></div>
+                                                </button>
+                                            </div>
+                                            <div class="rightSection-spaces-window-tabs-right-block">
+                                                <div>
+                                                    <span class="rightSection-spaces-window-tabs-download-container">
+                                                        <button class="rightSection-spaces-window-tabs-download-button">
+                                                            <div
+                                                                class="rightSection-spaces-window-tabs-download-svg"
+                                                            ></div>
+                                                            <div
+                                                                class="rightSection-spaces-window-tabs-download-tool-tips"
+                                                            >
+                                                                Save Session
+                                                            </div>
+                                                        </button>
+                                                    </span>
+                                                </div>
+                                                <span class="rightSection-spaces-window-tabs-close-container">
+                                                    <button class="rightSection-spaces-window-tabs-close-button">
+                                                        <div class="rightSection-spaces-window-tabs-close-svg"></div>
+                                                        <div class="rightSection-spaces-window-tabs-close-tool-tips">
+                                                            Close
+                                                        </div>
+                                                    </button>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div
+                                            class="rightSection-spaces-window-tabs-cards-container collapse"
+                                            id="collapseExample"
+                                        >
+                                            <div class="rightSection-spaces-window-no-tab-container none">
+                                                <div class="rightSection-spaces-window-no-tab">No tabs</div>
+                                            </div>
+                                            <div class="rightSection-spaces-window-tabs-card-frame">
+                                                <div class="rightSection-spaces-window-tabs-card">
+                                                    <div class="rightSection-spaces-window-tabs-url-image-container">
+                                                        <img
+                                                            class="rightSection-spaces-window-tabs-url-image"
+                                                            src="https://github.githubassets.com/favicons/favicon-dark.svg"
+                                                        />
+                                                        <div
+                                                            class="rightSection-spaces-window-tabs-check-box-container"
+                                                            tabindex="5"
+                                                        >
+                                                            <span
+                                                                class="rightSection-spaces-window-tabs-check-box check-box"
+                                                            ></span>
+                                                        </div>
+                                                    </div>
+                                                    <span class="rightSection-spaces-window-tabs-card-title"
+                                                        >SsuJ-Chang/17TeSyun99: A dodging game & public chat room</span
+                                                    >
+                                                    <button
+                                                        class="rightSection-spaces-window-tabs-card-close-button"
+                                                    ></button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="rightSection-spaces-window-tabs-container">
+                                    <div class="rightSection-spaces-window-tabs-box">
+                                        <div class="rightSection-spaces-window-tabs-container-close-container">
+                                            <span class="rightSection-spaces-window-tabs-container-close-title"
+                                                >Are you sure you want to close this window?</span
+                                            >
+                                            <div
+                                                class="rightSection-spaces-window-tabs-container-close-button-container"
+                                            >
+                                                <button class="rightSection-spaces-window-tabs-container-return-button">
+                                                    <span class="rightSection-spaces-window-tabs-container-return-text"
+                                                        >Cancel</span
+                                                    >
+                                                </button>
+                                                <button class="rightSection-spaces-window-tabs-container-close-button">
+                                                    <span class="rightSection-spaces-window-tabs-container-close-text"
+                                                        >Yes, Close</span
+                                                    >
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="rightSection-spaces-window-tabs-line">
+                                            <div class="rightSection-spaces-window-tabs-left-block">
+                                                <span class="rightSection-spaces-window-title">Window 1</span>
+                                                <button
+                                                    class="rightSection-spaces-window-fold-button"
+                                                    tabindex="3"
+                                                    data-bs-toggle="collapse"
+                                                    data-bs-target="#collapseExample"
+                                                    aria-expanded="false"
+                                                    aria-controls="collapseExample"
+                                                >
+                                                    <div class="arrow-right-svg"></div>
+                                                    <div class="rightSection-spaces-window-arrow-down-svg"></div>
+                                                </button>
+                                            </div>
+                                            <div class="rightSection-spaces-window-tabs-right-block">
+                                                <div>
+                                                    <span class="rightSection-spaces-window-tabs-download-container">
+                                                        <button class="rightSection-spaces-window-tabs-download-button">
+                                                            <div
+                                                                class="rightSection-spaces-window-tabs-download-svg"
+                                                            ></div>
+                                                            <div
+                                                                class="rightSection-spaces-window-tabs-download-tool-tips"
+                                                            >
+                                                                Save Session
+                                                            </div>
+                                                        </button>
+                                                    </span>
+                                                </div>
+                                                <span class="rightSection-spaces-window-tabs-close-container">
+                                                    <button class="rightSection-spaces-window-tabs-close-button">
+                                                        <div class="rightSection-spaces-window-tabs-close-svg"></div>
+                                                        <div class="rightSection-spaces-window-tabs-close-tool-tips">
+                                                            Close
+                                                        </div>
+                                                    </button>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div
+                                            class="rightSection-spaces-window-tabs-cards-container collapse"
+                                            id="collapseExample"
+                                        >
+                                            <div class="rightSection-spaces-window-no-tab-container none">
+                                                <div class="rightSection-spaces-window-no-tab">No tabs</div>
+                                            </div>
+                                            <div class="rightSection-spaces-window-tabs-card-frame">
+                                                <div class="rightSection-spaces-window-tabs-card">
+                                                    <div class="rightSection-spaces-window-tabs-url-image-container">
+                                                        <img
+                                                            class="rightSection-spaces-window-tabs-url-image"
+                                                            src="https://github.githubassets.com/favicons/favicon-dark.svg"
+                                                        />
+                                                        <div
+                                                            class="rightSection-spaces-window-tabs-check-box-container"
+                                                            tabindex="5"
+                                                        >
+                                                            <span
+                                                                class="rightSection-spaces-window-tabs-check-box check-box"
+                                                            ></span>
+                                                        </div>
+                                                    </div>
+                                                    <span class="rightSection-spaces-window-tabs-card-title"
+                                                        >SsuJ-Chang/17TeSyun99: A dodging game & public chat room</span
+                                                    >
+                                                    <button
+                                                        class="rightSection-spaces-window-tabs-card-close-button"
+                                                    ></button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </section>
             </div>
         </div>
         <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
         <script type="module" src="/js/main.js"></script>
         <script type="module" src="/js/axios.js"></script>
         <script
