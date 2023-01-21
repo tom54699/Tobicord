@@ -917,6 +917,8 @@ input[placeholder] {
 .middleSection-nav-add-text {
     color: rgb(255, 255, 255);
 }
+.middleSection-container {
+}
 .middleSection-tab-popover-container {
     display: flex;
     bottom: 30px;
@@ -1063,7 +1065,7 @@ input[placeholder] {
     border-left: 1px solid rgb(73, 73, 92);
     will-change: transform;
     transition: transform 300ms ease-in-out 0s;
-    background-color: #1e1e26;
+    background-color: rgb(30, 30, 38);
     width: 220px;
 }
 .rightSection-container {
@@ -1093,6 +1095,12 @@ input[placeholder] {
     transform: rotate(180deg);
     left: 5px;
     background-color: inherit;
+}
+.rightSec {
+    left: -20px;
+    border-radius: none;
+    box-shadow: rgb(112 112 140 / 15%) -2px 0px 2px;
+    transform: rotate(0deg);
 }
 .rightSection-fold-button-svg {
     width: 1.25rem;
