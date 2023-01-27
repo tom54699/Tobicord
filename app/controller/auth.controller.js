@@ -40,7 +40,7 @@ class AuthController {
                 name: req.name,
                 token: req.cookies.refreshToken,
             })
-            res.cookie("refreshToken", `${refresh}`, { httpOnly: true })
+            await res.cookie("refreshToken", `${refresh}`, { httpOnly: true })
             return res.status(200).json({
                 message: "ok",
                 accessToken: access,

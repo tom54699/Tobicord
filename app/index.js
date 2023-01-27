@@ -49,6 +49,7 @@ sequelize
 const authRoutes = require("./router/auth.routes")
 const usersRoutes = require("./router/users.routes")
 const mainRoutes = require("./router/main.routes")
+const windowRoutes = require("./router/window.routes")
 const errorMiddleware = require("./middlewares/error.middleware")
 
 app.get("/", (req, res) => {
@@ -58,6 +59,7 @@ app.get("/", (req, res) => {
 app.use("/auth", authRoutes)
 app.use("/users", usersRoutes)
 app.use("/main", mainRoutes)
+app.use("/window", windowRoutes)
 app.use(errorMiddleware)
 
 app.listen(portNum, () => {

@@ -12,7 +12,8 @@ class AuthService {
         }
         const hash = response.password
         if (bcrypt.compareSync(password, hash)) {
-            return jwtService.generate(email, "Tom")
+            const username = await MemberTable.GetMemberNameByEmail(email)
+            return jwtService.generate(email, username)
         } else {
             return { message: "Invalid credentials" }
         }
@@ -38,7 +39,7 @@ class AuthService {
                 timeType: "EX",
                 time: parseInt(process.env.JWT_REFRESH_TIME, 10),
             })
-            return jwtService.generate(email, name)
+            return await jwtService.generate(email, name)
         } catch (err) {
             console.log(err)
         }

@@ -1,6 +1,6 @@
 const jwt = require("jsonwebtoken")
 class JwtService {
-    generate(email, name) {
+    async generate(email, name) {
         const message = "ok"
         const access = jwt.sign(
             {

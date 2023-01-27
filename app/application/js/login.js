@@ -1,3 +1,5 @@
+import { authApi } from "./API/fetchApi.js"
+
 const loginCard = document.getElementById("loginCard")
 const signupCard = document.getElementById("signupCard")
 const loginButton = document.getElementById("loginButton")
@@ -11,11 +13,6 @@ const loginEmailInput = document.getElementById("loginEmailInput")
 const registerButton = document.getElementById("registerButton")
 const errorMessage = document.getElementsByClassName("errorMessage")
 const errorMessageTile = document.getElementsByClassName("errorMessageTile ")
-let registerEmail
-let registerPassword
-let registerUsername
-let loginEmail
-let loginPassword
 
 signUpSwitchButton.addEventListener("click", () => {
     loginCard.classList.add("none")
@@ -29,19 +26,11 @@ loginSwitchButton.addEventListener("click", () => {
 
 registerButton.addEventListener("click", async () => {
     try {
-        registerEmail = registerEmailInput.value
-        registerPassword = registerPasswordInput.value
-        registerUsername = registerUsernameInput.value
-        const headers = {
-            "Content-Type": "application/json",
-            Accept: "application/json",
-        }
-        const content = {
-            email: registerEmail,
-            password: registerPassword,
-            username: registerUsername,
-        }
-        const response = await axios.post("/auth/register", content, headers)
+        const response = await authApi.register(
+            registerEmailInput.value,
+            registerPasswordInput.value,
+            registerUsernameInput.value
+        )
         const result = await response.data
         let num
         if (result.message === "ok") {
@@ -81,17 +70,7 @@ function registerInvalidFormatMessageClean() {
 loginButton.addEventListener("click", async () => {
     try {
         loginInvalidFormatMessageClean()
-        loginEmail = loginEmailInput.value
-        loginPassword = loginPasswordInput.value
-        const headers = {
-            "Content-Type": "application/json",
-            Accept: "application/json",
-        }
-        const content = {
-            email: loginEmail,
-            password: loginPassword,
-        }
-        const response = await axios.put("/auth/login", content, headers)
+        const response = await authApi.login(loginEmailInput.value, loginPasswordInput.value)
         const result = await response.data
         if (result.message === "ok") {
             localStorage.setItem("accessToken", result.accessToken)

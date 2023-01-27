@@ -18,9 +18,18 @@ const CheckLoginData = async (email, password) => {
     })
     return response
 }
+const GetMemberNameByEmail = async (email) => {
+    const response = await Members.findOne({
+        attributes: ["username"],
+        where: { email: email },
+    })
+    const username = response.dataValues.username
+    return username
+}
 
 module.exports = {
     AddMembersBasicData,
     CheckEmailRepeat,
     CheckLoginData,
+    GetMemberNameByEmail,
 }

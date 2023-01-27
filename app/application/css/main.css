@@ -1111,6 +1111,41 @@ input[placeholder] {
     -webkit-mask-size: cover;
     background-color: rgb(197, 197, 211);
 }
+.reload-svg-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 10px;
+    cursor: pointer;
+    transform: rotate(180deg);
+    margin-top: 3px;
+}
+@keyframes rotation {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.rotating-element {
+    animation: rotation 2s linear infinite;
+}
+.reload-svg {
+    width: 1rem;
+    height: 1rem;
+    mask: url("../images/reload.svg") no-repeat 50% 50%;
+    mask-size: cover;
+    -webkit-mask: url("../images/reload.svg") no-repeat 50% 50%;
+    -webkit-mask-size: cover;
+    background-color: rgb(214, 73, 107);
+    box-shadow: none;
+    transition: box-shadow 0.1s ease-in-out 0.2s;
+}
+.reload-svg:hover {
+    box-shadow: rgb(30 30 38 / 30%) 0px 0px 0px 1000px inset;
+}
 
 .rightSection-nav {
     display: flex;
@@ -1129,7 +1164,6 @@ input[placeholder] {
     letter-spacing: 0.05em;
     text-transform: uppercase;
     line-height: 140%;
-    margin-right: 20px;
     font-weight: 700;
     white-space: nowrap;
     color: rgb(197, 197, 211);

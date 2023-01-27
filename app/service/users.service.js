@@ -1,7 +1,7 @@
 class UsersService {
     loggedIn(req) {
         return {
-            name: req.name,
+            username: req.name,
             email: req.email,
         }
     }
