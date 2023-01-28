@@ -39,6 +39,8 @@ class RightSectionBuild {
                 this.removeWindowCheckId(i.windowId)
                 this.windowTabContainerAddEvent(i.windowId)
             }
+            this.deleteWindowTabCardPopoverButton()
+            this.openSelectedWindowTab()
         } catch (error) {
             console.log(error)
         }
@@ -273,6 +275,56 @@ class RightSectionBuild {
             userWindowCards.parentNode.removeChild(userWindowCards)
         })
     }
+    deleteWindowTabCardPopoverButton() {
+        const middleSectionTabPopoverDeleteButton = document.getElementsByClassName(
+            "middleSection-tab-popover-delete-button"
+        )
+        middleSectionTabPopoverDeleteButton[0].addEventListener("click", () => {
+            console.log(this.isWindowTabsCheck)
+            let isisWindowTabsCheckTrue = []
+            Object.keys(this.isWindowTabsCheck).forEach((key) => {
+                if (this.isWindowTabsCheck[key] === true) {
+                    isisWindowTabsCheckTrue.push(key)
+                }
+            })
+            for (let i of isisWindowTabsCheckTrue) {
+                const userWindowCards = document.getElementById(`userWindowCards-${i}`)
+                this.removeTabCheckId(i)
+                this.countCheckAmount()
+                userWindowCards.parentNode.removeChild(userWindowCards)
+            }
+            isisWindowTabsCheckTrue = []
+        })
+    }
+    openSelectedWindowTab() {
+        const middleSectionTabPopoverOpenButton = document.getElementsByClassName(
+            "middleSection-tab-popover-open-button"
+        )
+        middleSectionTabPopoverOpenButton[0].addEventListener("click", () => {
+            let isisWindowTabsCheckTrue = []
+            Object.keys(this.isWindowTabsCheck).forEach((key) => {
+                if (this.isWindowTabsCheck[key] === true) {
+                    isisWindowTabsCheckTrue.push(key)
+                }
+            })
+            for (let i of isisWindowTabsCheckTrue) {
+                for (let j of Object.values(this.windowData)) {
+                    if (j[i]) {
+                        console.log(j[i].tabUrl)
+                        let hnd = window.open(`${j[i].tabUrl}`, "_blank")
+                        if (!hnd) {
+                            let div = document.createElement("div")
+                            div.style =
+                                "position:absolute;top:3px;right:3px;opacity:1;background-color:purple;color:white;padding:6px;"
+                            div.innerText = "開啟新視窗時遭快顯封鎖"
+                            document.body.appendChild(div)
+                        }
+                    }
+                }
+            }
+            isisWindowTabsCheckTrue = []
+        })
+    }
     /* 打勾後popover的視窗*/
     countCheckAmount() {
         const checkSelectedAmount = document.getElementsByClassName("middleSection-tab-popover-title")
@@ -375,6 +427,112 @@ class MainPageBuild {
     }
 }
 
+class LeftSectionBuild {
+    constructor() {
+        this.categoryName
+    }
+    leftSectionNavPlusButtonAddEvent() {
+        const leftSectionNavPlusButton = document.getElementsByClassName("add-svg")
+        const mask = document.getElementsByClassName("mask")
+        const middleSectionAddCategoryPopoverContainer = document.getElementsByClassName(
+            "middleSection-add-category-popover-container"
+        )
+        const middleSectionAddCategoryPopoverBox = document.getElementsByClassName(
+            "middleSection-add-category-popover-box"
+        )
+        leftSectionNavPlusButton[0].addEventListener("click", () => {
+            middleSectionAddCategoryPopoverContainer[0].style.zIndex = "9999"
+            middleSectionAddCategoryPopoverBox[0].style.transform = "translate(-50%)"
+            mask[0].style.display = "block"
+        })
+    }
+    closeAddCategoryPopover() {
+        const addCategoryPopoverFormNameInputAlert = document.getElementsByClassName(
+            "middleSection-add-category-popover-box-form-name-input-alert"
+        )
+        const addCategoryPopoverBoxCloseSvg = document.getElementsByClassName(
+            "middleSection-add-category-popover-box-close-svg-container"
+        )
+        const addCategoryPopoverBoxCloseButton = document.getElementsByClassName(
+            "middleSection-add-category-popover-box-form-cancel-button"
+        )
+        const mask = document.getElementsByClassName("mask")
+        const middleSectionAddCategoryPopoverContainer = document.getElementsByClassName(
+            "middleSection-add-category-popover-container"
+        )
+        const middleSectionAddCategoryPopoverBox = document.getElementsByClassName(
+            "middleSection-add-category-popover-box"
+        )
+        addCategoryPopoverBoxCloseButton[0].addEventListener("click", () => {
+            middleSectionAddCategoryPopoverContainer[0].style.zIndex = "-1000"
+            middleSectionAddCategoryPopoverBox[0].style.transform = "translate(-50%,-150%)"
+            mask[0].style.display = "none"
+            addCategoryPopoverFormNameInputAlert[0].style.display = "none"
+        })
+        addCategoryPopoverBoxCloseSvg[0].addEventListener("click", () => {
+            middleSectionAddCategoryPopoverContainer[0].style.zIndex = "-1000"
+            middleSectionAddCategoryPopoverBox[0].style.transform = "translate(-50%,-150%)"
+            mask[0].style.display = "none"
+            addCategoryPopoverFormNameInputAlert[0].style.display = "none"
+        })
+    }
+    getAddCategoryPopoverInputValue() {
+        const addCategoryPopoverFormNameInput = document.getElementsByClassName(
+            "middleSection-add-category-popover-box-form-name-input"
+        )
+        const addCategoryPopoverFormInviteInput = document.getElementsByClassName(
+            "middleSection-add-category-popover-box-form-invite-input"
+        )
+        addCategoryPopoverFormNameInput[0].addEventListener("input", (e) => {
+            this.categoryName = e.target.value
+        })
+    }
+    createCategoryButtonAddEvent() {
+        const mask = document.getElementsByClassName("mask")
+        const addCategoryPopoverFormNameInput = document.getElementsByClassName(
+            "middleSection-add-category-popover-box-form-name-input"
+        )
+        const middleSectionAddCategoryPopoverContainer = document.getElementsByClassName(
+            "middleSection-add-category-popover-container"
+        )
+        const middleSectionAddCategoryPopoverBox = document.getElementsByClassName(
+            "middleSection-add-category-popover-box"
+        )
+        const addCategoryPopoverFormCreateButton = document.getElementsByClassName(
+            "middleSection-add-category-popover-box-form-create-button"
+        )
+        const addCategoryPopoverFormNameInputAlert = document.getElementsByClassName(
+            "middleSection-add-category-popover-box-form-name-input-alert"
+        )
+        addCategoryPopoverFormCreateButton[0].addEventListener("click", () => {
+            const inputValue = this.categoryName
+            if (!inputValue || !inputValue.trim()) {
+                addCategoryPopoverFormNameInputAlert[0].style.display = "block"
+            } else {
+                this.generateCategory(this.categoryName)
+                middleSectionAddCategoryPopoverContainer[0].style.zIndex = "-1000"
+                middleSectionAddCategoryPopoverBox[0].style.transform = "translate(-50%,-150%)"
+                mask[0].style.display = "none"
+                addCategoryPopoverFormNameInputAlert[0].style.display = "none"
+                this.categoryName = ""
+                addCategoryPopoverFormNameInput[0].value = ""
+            }
+        })
+    }
+    generateCategory(categoryName) {
+        const leftSectionNavTop = document.getElementsByClassName("leftSection-nav-top")
+        const leftSectionNavTopCategoryContainer = document.createElement("div")
+        let showCategoryName = categoryName.slice(0, 2)
+        leftSectionNavTopCategoryContainer.classList.add("leftSection-nav-top-category-container")
+        leftSectionNavTopCategoryContainer.innerHTML = ` <button class="leftSection-nav-top-category-button" tabindex="3">
+        <div class="leftSection-nav-top-category">
+            <div class="leftSection-nav-top-category-title">${showCategoryName}</div>
+        </div>
+        </button>`
+        leftSectionNavTop[0].appendChild(leftSectionNavTopCategoryContainer)
+    }
+}
 const rightSectionBuild = new RightSectionBuild()
 const mainPageBuild = new MainPageBuild()
-export { rightSectionBuild, mainPageBuild }
+const leftSectionBuild = new LeftSectionBuild()
+export { rightSectionBuild, mainPageBuild, leftSectionBuild }

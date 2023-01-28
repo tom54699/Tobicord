@@ -1,5 +1,5 @@
 import { authApi, windowApi } from "./API/fetchApi.js"
-import { rightSectionBuild, mainPageBuild } from "./generatePage.js"
+import { rightSectionBuild, mainPageBuild, leftSectionBuild } from "./generatePage.js"
 const logoutButton = document.getElementsByClassName("user-popover-logout-button")
 const preloadBackGround = document.getElementsByClassName("preload-back-ground")
 let isCheck = false
@@ -10,13 +10,15 @@ window.addEventListener("load", async () => {
 })
 window.addEventListener("DOMContentLoaded", async () => {
     await checkMainPageAuth()
-    let isIE = /*@cc_on!@*/ false || !!document.documentMode
-    let isEdge = !isIE && !!window.StyleMedia
-    console.log(isEdge)
     if (isCheck) {
-        /* Right-Session Cards */
+        /* Right-Section Cards */
         await rightSectionBuild.getUserWindow()
         await rightSectionBuild.reloadWindows()
+        /* Left Section Cards */
+        leftSectionBuild.leftSectionNavPlusButtonAddEvent()
+        leftSectionBuild.closeAddCategoryPopover()
+        leftSectionBuild.getAddCategoryPopoverInputValue()
+        leftSectionBuild.createCategoryButtonAddEvent()
     }
     mainPageBuild.rightSectionFold()
     mainPageBuild.leftSectionFold()
