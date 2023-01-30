@@ -1,0 +1,36 @@
+version: "3.7"
+
+services:
+    app:
+        image: tom54699/tobicord:latest
+        container_name: app
+        restart: always
+        networks:
+            - tobicord-network
+        env_file:
+            - .env
+        depends_on:
+            - redis
+    redis:
+        image: ./redis
+        container_name: redis
+        restart: always
+        ports:
+            - "6379:6379"
+        volumes:
+            - /home/ubuntu/redis-data:/data
+        networks:
+            - tobicord-network
+    nginx:
+        build: ./nginx
+        container_name: nginx
+        restart: always
+        ports:
+            - "80:80"
+            - "443:443"
+        depends_on:
+            - app
+        networks:
+            - tobicord-network
+networks:
+    tobicord-network:

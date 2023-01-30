@@ -5,10 +5,3 @@ services:
         build: ./app
         container_name: app
         restart: always
-        networks:
-            - tobicord-network
-        env_file:
-            - .env
-
-networks:
-    tobicord-network:

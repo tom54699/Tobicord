@@ -12,5 +12,3 @@ const sequelize = new Sequelize("tobicord", process.env["AWS_RDS_USER"], process
 })
 
 module.exports = sequelize
-
-// axios

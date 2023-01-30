@@ -1,4 +1,4 @@
-import { authApi, windowApi } from "./API/fetchApi.js"
+import { authApi, windowApi, organizationApi } from "./API/fetchApi.js"
 import { rightSectionBuild, mainPageBuild, leftSectionBuild } from "./generatePage.js"
 const logoutButton = document.getElementsByClassName("user-popover-logout-button")
 const preloadBackGround = document.getElementsByClassName("preload-back-ground")
@@ -14,6 +14,7 @@ window.addEventListener("DOMContentLoaded", async () => {
         /* Right-Section Cards */
         await rightSectionBuild.getUserWindow()
         await rightSectionBuild.reloadWindows()
+        await leftSectionBuild.createCategoryButton()
         /* Left Section Cards */
         leftSectionBuild.leftSectionNavPlusButtonAddEvent()
         leftSectionBuild.closeAddCategoryPopover()

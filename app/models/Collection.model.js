@@ -1,14 +1,15 @@
 const Sequelize = require("sequelize")
 const sequelize = require("../config/database.config")
-const Organization = sequelize.define(
-    "Organization",
+
+const Collection = sequelize.define(
+    "Collection",
     {
         id: {
             type: Sequelize.INTEGER,
             autoIncrement: true,
             primaryKey: true,
         },
-        organizationName: {
+        collectionName: {
             type: Sequelize.STRING(500),
             allowNull: false,
         },
@@ -17,4 +18,5 @@ const Organization = sequelize.define(
         freezeTableName: true,
     }
 )
-module.exports = Organization
+
+module.exports = Collection

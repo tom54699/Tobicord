@@ -66,7 +66,50 @@ class WindowApi {
     }
 }
 
+class OrganizationApi {
+    async uploadOrganizationData(organizationName) {
+        try {
+            const headers = {
+                "Content-Type": "application/json",
+                Accept: "application/json",
+                Authorization: `Bearer ${window.localStorage.getItem("accessToken")}`,
+            }
+            const config = {
+                headers: headers,
+            }
+            const content = {
+                organizationName: organizationName,
+            }
+            const response = await axios.post("/organization", content, config)
+            return response
+        } catch (err) {
+            console.log(err)
+            return err
+        }
+    }
+    async getUserOrganizationData() {
+        try {
+            const headers = {
+                "Content-Type": "application/json",
+                Accept: "application/json",
+                Authorization: `Bearer ${window.localStorage.getItem("accessToken")}`,
+            }
+            const config = {
+                headers: headers,
+            }
+            const response = await axios.get("/organization", config)
+            console.log(response)
+            const organizationNames = response.data.organizationData
+            return organizationNames
+        } catch (err) {
+            console.log(err)
+            return err
+        }
+    }
+}
+
 const authApi = new AuthApi()
 const windowApi = new WindowApi()
+const organizationApi = new OrganizationApi()
 
-export { authApi, windowApi }
+export { authApi, windowApi, organizationApi }

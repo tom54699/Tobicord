@@ -1,6 +1,7 @@
 const authService = require("../service/auth.service.js")
 const MemberTable = require("../service/MemberTable")
 const { validationResult } = require("express-validator")
+const RedisService = require("../service/redis.service.js")
 const bcrypt = require("bcrypt")
 
 class AuthController {
@@ -28,6 +29,7 @@ class AuthController {
         try {
             const response = await authService.logout()
             res.clearCookie("refreshToken")
+            RedisService.disconnect()
             return res.status(200).json({ message: "ok" })
         } catch (err) {
             next(err)

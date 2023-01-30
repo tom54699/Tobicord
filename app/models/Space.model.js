@@ -1,14 +1,14 @@
 const Sequelize = require("sequelize")
 const sequelize = require("../config/database.config")
-const Organization = sequelize.define(
-    "Organization",
+const Space = sequelize.define(
+    "Space",
     {
         id: {
             type: Sequelize.INTEGER,
             autoIncrement: true,
             primaryKey: true,
         },
-        organizationName: {
+        spaceName: {
             type: Sequelize.STRING(500),
             allowNull: false,
         },
@@ -17,4 +17,4 @@ const Organization = sequelize.define(
         freezeTableName: true,
     }
 )
-module.exports = Organization
+module.exports = Space

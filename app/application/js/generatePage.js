@@ -1,4 +1,4 @@
-import { authApi, windowApi } from "./API/fetchApi.js"
+import { authApi, windowApi, organizationApi } from "./API/fetchApi.js"
 class RightSectionBuild {
     constructor() {
         this.isWindowTabsCheck = {}
@@ -509,6 +509,7 @@ class LeftSectionBuild {
             if (!inputValue || !inputValue.trim()) {
                 addCategoryPopoverFormNameInputAlert[0].style.display = "block"
             } else {
+                organizationApi.uploadOrganizationData(this.categoryName)
                 this.generateCategory(this.categoryName)
                 middleSectionAddCategoryPopoverContainer[0].style.zIndex = "-1000"
                 middleSectionAddCategoryPopoverBox[0].style.transform = "translate(-50%,-150%)"
@@ -518,6 +519,12 @@ class LeftSectionBuild {
                 addCategoryPopoverFormNameInput[0].value = ""
             }
         })
+    }
+    async createCategoryButton() {
+        const categoryNames = await organizationApi.getUserOrganizationData()
+        for (let i of categoryNames) {
+            this.generateCategory(i.organizationName)
+        }
     }
     generateCategory(categoryName) {
         const leftSectionNavTop = document.getElementsByClassName("leftSection-nav-top")

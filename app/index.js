@@ -6,7 +6,6 @@ const cors = require("cors")
 const helmet = require("helmet")
 const crypto = require("crypto")
 const cookieParser = require("cookie-parser")
-const axios = require("axios")
 require("dotenv").config()
 const sequelize = require("./config/database.config")
 const portNum = 3000
@@ -32,8 +31,9 @@ app.use(
         parameterLimit: "10000", //限制參數個數
     })
 )
+
+const associations = require("./models/associations")
 /*
-const Members = require("./models/Members.model")
 sequelize.sync({ force: true }).then(() => {
     console.log("Tables created")
 })*/
@@ -50,6 +50,7 @@ const authRoutes = require("./router/auth.routes")
 const usersRoutes = require("./router/users.routes")
 const mainRoutes = require("./router/main.routes")
 const windowRoutes = require("./router/window.routes")
+const organizationRoutes = require("./router/organization.routes")
 const errorMiddleware = require("./middlewares/error.middleware")
 
 app.get("/", (req, res) => {
@@ -60,6 +61,7 @@ app.use("/auth", authRoutes)
 app.use("/users", usersRoutes)
 app.use("/main", mainRoutes)
 app.use("/window", windowRoutes)
+app.use("/organization", organizationRoutes)
 app.use(errorMiddleware)
 
 app.listen(portNum, () => {
