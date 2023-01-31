@@ -6,14 +6,14 @@ const Space = require("./Space.model")
 const Collection = require("./Collection.model")
 const Tab = require("./Tab.model")
 
-Member.belongsToMany(Organization, { through: "Member_Organization" })
-Organization.belongsToMany(Member, { through: "Member_Organization" })
+Member.belongsToMany(Organization, { through: "Member_Organization", onDelete: "cascade" })
+Organization.belongsToMany(Member, { through: "Member_Organization", onDelete: "cascade" })
 
-Organization.hasMany(Space)
+Organization.hasMany(Space, { onDelete: "cascade" })
 Space.belongsTo(Organization)
 
-Space.hasMany(Collection)
+Space.hasMany(Collection, { onDelete: "cascade" })
 Collection.belongsTo(Space)
 
-Collection.hasMany(Tab)
+Collection.hasMany(Tab, { onDelete: "cascade" })
 Tab.belongsTo(Collection)

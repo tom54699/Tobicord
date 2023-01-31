@@ -66,7 +66,7 @@
                         <section class="leftSection-spaces">
                             <div class="leftSection-spaces-top">
                                 <div class="leftSection-spaces-top-title-container">
-                                    <div class="leftSection-spaces-top-title">動漫畫</div>
+                                    <div class="leftSection-spaces-top-title"></div>
                                 </div>
                                 <div class="leftSection-spaces-top-subtitle-container">
                                     <button class="leftSection-spaces-top-subtitle-gear-container">
@@ -221,7 +221,7 @@
                             <div class="middleSection-tab-popover-close-svg"></div>
                         </button>
                     </div>
-                    <div class="middleSection-add-category-popover-container">
+                    <div class="middleSection-popover-container">
                         <div class="middleSection-add-category-popover-box">
                             <button class="middleSection-add-category-popover-box-close-svg-container">
                                 <div class="middleSection-add-category-popover-box-close-svg"></div>
@@ -270,6 +270,152 @@
                                         </button>
                                     </div>
                                 </div>
+                            </div>
+                        </div>
+                        <div class="organization-setting-popover-box">
+                            <button class="organization-setting-popover-box-close-svg-container">
+                                <div class="organization-setting-popover-box-close-svg"></div>
+                            </button>
+                            <div>
+                                <div>
+                                    <div class="organization-setting-popover-left-nav-box">
+                                        <span>Preferences</span>
+                                        <span>Members</span>
+                                    </div>
+                                    <div class="organization-setting-popover-right-box">
+                                        <h3 class="organization-setting-popover-right-box-title"></h3>
+                                        <div class="organization-setting-popover-right-box-name">
+                                            <h4>organization Name</h4>
+                                            <form class="organization-setting-popover-right-box-edit-name-form">
+                                                <div>
+                                                    <div>
+                                                        <input
+                                                            class="organization-setting-popover-right-box-edit-name-input"
+                                                            placeholder="Type Name"
+                                                            disabled
+                                                            value=""
+                                                        />
+                                                    </div>
+                                                    <span
+                                                        class="organization-setting-popover-right-box-edit-name-alert none"
+                                                        >Organization name must be greater than 1 character</span
+                                                    >
+                                                </div>
+                                                <a class="organization-setting-popover-right-box-edit-button">Edit</a>
+                                                <div
+                                                    class="organization-setting-popover-right-box-save-button-box none"
+                                                >
+                                                    <button
+                                                        class="organization-setting-popover-right-box-save-cancel-button"
+                                                        type="button"
+                                                    >
+                                                        <span>Cancel</span>
+                                                    </button>
+                                                    <button
+                                                        class="organization-setting-popover-right-box-save-button"
+                                                        type="button"
+                                                    >
+                                                        <span>Save</span>
+                                                    </button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <div class="organization-setting-popover-right-box-theme">
+                                            <h4>Theme</h4>
+                                            <a class="organization-setting-popover-right-box-theme-change-button"
+                                                >Change</a
+                                            >
+                                            <span>
+                                                <div>
+                                                    <div></div>
+                                                    <span>pink (Default)</span>
+                                                </div>
+                                            </span>
+                                        </div>
+                                        <div class="organization-setting-popover-right-box-Delete">
+                                            <h4>Delete Organization</h4>
+                                            <a class="organization-setting-popover-right-box-Delete-button"
+                                                >Delete Organization</a
+                                            >
+                                            <span>Once you delete the organization, there is no going back.</span>
+                                        </div>
+                                        <button class="organization-setting-popover-right-box-close-button">
+                                            <span>Close</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="organization-delete-popover-box">
+                            <button class="organization-delete-popover-box-close-svg-container">
+                                <div class="organization-delete-popover-box-close-svg"></div>
+                            </button>
+                            <div>
+                                <div class="organization-delete-popover-container">
+                                    <h3>Are you sure you want to delete<b class="organization-delete-name"></b>?</h3>
+                                    <div>
+                                        <span
+                                            >When you delete an organization you will be permanently deleting all
+                                            collections, notes, and tags for everyone invite and shared.</span
+                                        >
+                                    </div>
+                                    <span>Please type<b class="organization-delete-name"></b> to confirm deletion</span>
+                                    <div>
+                                        <div>
+                                            <div>
+                                                <input
+                                                    class="organization-delete-name-double-check-input"
+                                                    placeholder="Type Name"
+                                                />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <button
+                                        id="organization-delete-confirm-button"
+                                        class="organization-delete-confirm-button"
+                                        disabled
+                                    >
+                                        <span class="organization-delete-confirm-text"
+                                            >I understand and want to delete organization</span
+                                        >
+                                    </button>
+                                    <button class="organization-delete-popover-box-cancel-button">
+                                        <span>No, thanks</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="organization-success-delete-popover-box">
+                            <button class="organization-success-delete-popover-box-close-svg-container">
+                                <div class="organization-success-delete-popover-box-close-svg"></div>
+                            </button>
+                            <h4 class="organization-success-delete-text">"999" Deleted</h4>
+                            <div>
+                                <button class="organization-success-delete-popover-box-close-button">
+                                    <span>Done</span>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="space-create-popover-box">
+                            <button class="space-create-popover-box-close-svg-container">
+                                <div class="space-create-popover-box-close-svg"></div>
+                            </button>
+                            <div>
+                                <form class="space-create-popover-container">
+                                    <h3>Create a Space</h3>
+                                    <div>
+                                        <h5>Name your space</h5>
+                                        <input class="space-create-name-input" placeholder="Space name" />
+                                    </div>
+                                    <div class="space-create-popover-box-form-button-container">
+                                        <button class="space-create-popover-box-form-cancel-button">
+                                            <span>Cancel</span>
+                                        </button>
+                                        <button class="space-create-popover-box-form-create-button">
+                                            <span>Create</span>
+                                        </button>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                     </div>

@@ -98,9 +98,49 @@ class OrganizationApi {
                 headers: headers,
             }
             const response = await axios.get("/organization", config)
-            console.log(response)
             const organizationNames = response.data.organizationData
             return organizationNames
+        } catch (err) {
+            console.log(err)
+            return err
+        }
+    }
+    async updateOrganizationData(organizationName, newOrganizationName) {
+        try {
+            const headers = {
+                "Content-Type": "application/json",
+                Accept: "application/json",
+                Authorization: `Bearer ${window.localStorage.getItem("accessToken")}`,
+            }
+            const config = {
+                headers: headers,
+            }
+            const content = {
+                organizationName: organizationName,
+                newOrganizationName: newOrganizationName,
+            }
+            const response = await axios.put("/organization", content, config)
+            return response
+        } catch (err) {
+            console.log(err)
+            return err
+        }
+    }
+    async deleteOrganizationData(organizationName) {
+        try {
+            const headers = {
+                "Content-Type": "application/json",
+                Accept: "application/json",
+                Authorization: `Bearer ${window.localStorage.getItem("accessToken")}`,
+            }
+            const config = {
+                headers: headers,
+                data: {
+                    organizationName: organizationName,
+                },
+            }
+            const response = await axios.delete("/organization", config)
+            return response
         } catch (err) {
             console.log(err)
             return err

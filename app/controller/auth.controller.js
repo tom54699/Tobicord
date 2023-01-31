@@ -9,18 +9,17 @@ class AuthController {
         try {
             const response = await authService.login(req.body)
             if (response.message !== "ok") {
-                return (
-                    res.json({
-                        message: "Invalid credentials",
-                        errorMessages: [{ msg: "- invalid email or password" }],
-                    }),
-                    422
-                )
-            } else res.cookie("refreshToken", `${response.refresh}`, { httpOnly: true })
-            return res.status(200).json({
-                message: "ok",
-                accessToken: response.access,
-            })
+                return res.status(422).json({
+                    message: "Invalid credentials",
+                    errorMessages: [{ msg: "- invalid email or password" }],
+                })
+            } else {
+                res.cookie("refreshToken", `${response.refresh}`, { httpOnly: true })
+                return res.status(200).json({
+                    message: "ok",
+                    accessToken: response.access,
+                })
+            }
         } catch (err) {
             next(err)
         }
@@ -29,7 +28,6 @@ class AuthController {
         try {
             const response = await authService.logout()
             res.clearCookie("refreshToken")
-            RedisService.disconnect()
             return res.status(200).json({ message: "ok" })
         } catch (err) {
             next(err)
@@ -56,13 +54,10 @@ class AuthController {
             const { username, email, password } = req.body
             const errors = validationResult(req)
             if (!errors.isEmpty()) {
-                return (
-                    res.json({
-                        message: "invalid format",
-                        errorMessages: errors.array(),
-                    }),
-                    422
-                )
+                return res.status(422).json({
+                    message: "invalid format",
+                    errorMessages: errors.array(),
+                })
             }
             const response = await MemberTable.CheckEmailRepeat(email)
             if (response === null) {

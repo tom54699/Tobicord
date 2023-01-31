@@ -13,6 +13,10 @@ const Collection = sequelize.define(
             type: Sequelize.STRING(500),
             allowNull: false,
         },
+        collectionStar: {
+            type: Sequelize.BOOLEAN,
+            defaultValue: false,
+        },
     },
     {
         freezeTableName: true,

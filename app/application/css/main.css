@@ -33,7 +33,7 @@ body {
     min-height: 30rem;
     background-color: #fff;
     color: rgb(247, 243, 243);
-    font-family: "Noto Sans TC", Arial, sans-serif;
+    font-family: Ubuntu, Arial, sans-serif;
     overflow: hidden;
 }
 .Tobicord {
@@ -1059,7 +1059,7 @@ input[placeholder] {
     background-color: rgb(214, 73, 107);
 }
 
-.middleSection-add-category-popover-container {
+.middleSection-popover-container {
     position: absolute;
     height: 100%;
     z-index: -1000;
@@ -1209,14 +1209,16 @@ input[placeholder] {
     color: rgb(174, 174, 217);
 }
 
-.middleSection-add-category-popover-box-form-button-container {
+.middleSection-add-category-popover-box-form-button-container,
+.space-create-popover-box-form-button-container {
     display: flex;
     gap: 10px;
     position: relative;
     -webkit-box-pack: justify;
     justify-content: space-between;
 }
-.middleSection-add-category-popover-box-form-cancel-button {
+.middleSection-add-category-popover-box-form-cancel-button,
+.space-create-popover-box-form-cancel-button {
     color: rgb(214, 73, 107);
     border-radius: 5px;
     display: flex;
@@ -1239,7 +1241,8 @@ input[placeholder] {
     transition: background 300ms ease-in-out 0s;
 }
 
-.middleSection-add-category-popover-box-form-create-button {
+.middleSection-add-category-popover-box-form-create-button,
+.space-create-popover-box-form-create-button {
     background: rgb(214, 73, 107);
     color: rgb(255, 255, 255);
     border-radius: 5px;
@@ -1261,12 +1264,655 @@ input[placeholder] {
     padding: 5px 20px;
     transition: background 300ms ease-in-out 0s;
 }
-.middleSection-add-category-popover-box-form-cancel-button:hover {
+.middleSection-add-category-popover-box-form-cancel-button:hover,
+.space-create-popover-box-form-cancel-button:hover {
     color: rgb(170, 63, 91);
     background: rgb(56, 56, 73);
 }
-.middleSection-add-category-popover-box-form-create-button:hover {
+.middleSection-add-category-popover-box-form-create-button:hover,
+.space-create-popover-box-form-create-button:hover {
     background: rgb(170, 63, 91);
+}
+.organization-setting-popover-box {
+    position: fixed;
+    top: 10%;
+    left: 50%;
+    color: rgb(94, 93, 102);
+    font-size: 14px;
+    z-index: 9000;
+    transform: translate(-50%, -150%);
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    box-shadow: rgb(91 76 76 / 13%) 0px 2px 25px;
+    animation: 0.7s cubic-bezier(0.68, -0.55, 0.265, 1.3) 0s 1 normal forwards running dOnrbB;
+    width: 650px;
+    height: 621px;
+    background: rgb(73, 73, 92);
+    border-radius: 5px;
+    padding: 0px;
+    transition: transform 0.3s ease-in-out 0.2s;
+}
+.organization-setting-popover-box-close-svg-container,
+.organization-delete-popover-box-close-svg-container,
+.space-create-popover-box-close-svg-container,
+.organization-success-delete-popover-box-close-svg-container {
+    padding: 0px;
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+.organization-setting-popover-box-close-svg,
+.organization-delete-popover-box-close-svg,
+.space-create-popover-box-close-svg,
+.organization-success-delete-popover-box-close-svg {
+    width: 1.25rem;
+    height: 1.25rem;
+    mask: url("../images/close.svg") no-repeat 50% 50%;
+    mask-size: cover;
+    -webkit-mask: url("../images/close.svg") no-repeat 50% 50%;
+    -webkit-mask-size: cover;
+    background-color: rgb(124, 124, 154);
+    transition: background-color 0.3s ease-in-out;
+}
+.organization-setting-popover-box-close-svg:hover,
+.organization-delete-popover-box-close-svg:hover,
+.space-create-popover-box-close-svg:hover,
+.organization-success-delete-popover-box-close-svg:hover {
+    background-color: rgb(214, 73, 107);
+}
+.organization-setting-popover-box > div:nth-child(2) {
+    height: 100%;
+    color: rgb(183, 183, 206);
+}
+.organization-setting-popover-box > div:nth-child(2) > div:nth-child(1) {
+    display: flex;
+    gap: 0px;
+    height: 100%;
+}
+.organization-setting-popover-left-nav-box {
+    background-color: rgb(54, 54, 67);
+    display: flex;
+    flex-direction: column;
+    min-width: 120px;
+    padding: 1.25rem;
+    gap: 15px;
+}
+.organization-setting-popover-left-nav-box > span:nth-child(1) {
+    font-weight: 400;
+    text-overflow: ellipsis;
+    white-space: normal;
+    overflow: hidden;
+    font-size: 14px;
+    cursor: pointer;
+    color: rgb(214, 73, 107);
+    border-bottom: 1px solid rgb(214, 73, 107);
+    padding-bottom: 10px;
+}
+.organization-setting-popover-left-nav-box > span:nth-child(2) {
+    font-weight: 400;
+    font-family: Ubuntu, Arial, sans-serif;
+    text-overflow: ellipsis;
+    white-space: normal;
+    overflow: hidden;
+    font-size: 14px;
+    cursor: pointer;
+    color: rgb(197, 197, 211);
+    padding-bottom: 10px;
+}
+.organization-setting-popover-right-box {
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    -webkit-box-flex: 1;
+    flex-grow: 1;
+    gap: 20px;
+    overflow: hidden;
+}
+.organization-setting-popover-right-box > h3 {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    font-size: 18px;
+    color: rgb(197, 197, 211);
+    white-space: nowrap;
+}
+.organization-setting-popover-right-box-name {
+    display: flex;
+    flex-direction: column;
+    -webkit-box-pack: justify;
+    justify-content: space-between;
+    gap: 0px;
+}
+.organization-setting-popover-right-box-name > h4,
+.organization-setting-popover-right-box-theme > h4,
+.organization-setting-popover-right-box-Delete > h4 {
+    text-overflow: ellipsis;
+    white-space: normal;
+    overflow: hidden;
+    font-size: 16px;
+    color: rgb(197, 197, 211);
+    text-transform: capitalize;
+}
+.organization-setting-popover-right-box-edit-name-form {
+    display: grid;
+    width: 100%;
+    position: relative;
+    grid-template-columns: 1fr min-content;
+    gap: 0px;
+    -webkit-box-pack: justify;
+    place-content: end space-between;
+    min-height: 25px;
+    border: 0px;
+    padding: 0px;
+    border-radius: 5px;
+    -webkit-box-align: center;
+    align-items: center;
+}
+
+.organization-setting-popover-right-box-edit-button {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    cursor: pointer;
+    place-self: flex-start flex-end;
+    font-size: 14px;
+    white-space: nowrap;
+    color: rgb(197, 197, 211);
+    text-decoration: underline;
+}
+.organization-setting-popover-right-box-save-button-box {
+    display: flex;
+    gap: 10px;
+}
+.organization-setting-popover-right-box-save-cancel-button {
+    color: rgb(214, 73, 107);
+    border-radius: 5px;
+    padding: 5px 10px;
+    display: flex;
+    flex-direction: row;
+    -webkit-box-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    align-items: center;
+    white-space: nowrap;
+    gap: 10px;
+    position: relative;
+    font-weight: 500;
+    text-transform: uppercase;
+    text-align: center;
+    width: min-content;
+    height: 24px;
+    font-size: 12px;
+}
+.organization-setting-popover-right-box-save-cancel-button:hover {
+    color: rgb(170, 63, 91);
+    background: rgb(56, 56, 73);
+}
+.organization-setting-popover-right-box-save-button {
+    background: rgb(214, 73, 107);
+    color: rgb(255, 255, 255);
+    border-radius: 5px;
+    padding: 5px 10px;
+    display: flex;
+    flex-direction: row;
+    -webkit-box-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    align-items: center;
+    white-space: nowrap;
+    gap: 10px;
+    position: relative;
+    font-weight: 500;
+    text-transform: uppercase;
+    text-align: center;
+    width: min-content;
+    height: 24px;
+    font-size: 12px;
+}
+.organization-setting-popover-right-box-save-button:hover {
+    background: rgb(170, 63, 91);
+}
+.organization-setting-popover-right-box-edit-name-form > div:nth-child(1) {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    position: relative;
+    gap: 10px;
+    width: 100%;
+}
+.organization-setting-popover-right-box-edit-name-form > div:nth-child(1) > div:nth-child(1) {
+    position: relative;
+    width: 100%;
+}
+.organization-setting-popover-right-box-edit-name-input {
+    outline: none;
+    width: 100%;
+    transition: border-bottom 0.3s cubic-bezier(0.68, -0.55, 0.265, 1) 0s;
+    background-color: transparent;
+    border: 0px;
+    padding: 0px;
+    font-size: 14px;
+    font-weight: 400;
+    height: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: rgb(197, 197, 211);
+}
+.organization-setting-popover-right-box-edit-name-input[placeholder] {
+    text-align: unset;
+    color: rgb(197, 197, 211);
+}
+.organization-setting-popover-right-box-edit-name-alert {
+    font-weight: 400;
+    text-overflow: ellipsis;
+    white-space: normal;
+    font-size: 12px;
+    animation: 0.2s cubic-bezier(0.68, 1, 0.265, 2) 0s 1 normal forwards running hfKuO;
+    overflow: visible;
+    color: rgb(199, 69, 70);
+}
+.organization-setting-popover-right-box-theme {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 5px;
+    -webkit-box-align: center;
+    align-items: center;
+}
+.organization-setting-popover-right-box-theme-change-button {
+    text-overflow: ellipsis;
+    white-space: normal;
+    overflow: hidden;
+    cursor: pointer;
+    align-self: unset;
+    text-decoration: underline;
+    font-size: 14px;
+    justify-self: flex-end;
+    text-transform: capitalize;
+    color: rgb(197, 197, 211);
+}
+.organization-setting-popover-right-box-theme > span,
+.organization-setting-popover-right-box-Delete > span {
+    font-weight: 400;
+    text-overflow: ellipsis;
+    white-space: normal;
+    overflow: hidden;
+    font-size: 14px;
+    color: rgb(197, 197, 211);
+}
+.organization-setting-popover-right-box-theme > span > div:nth-child(1) {
+    display: flex;
+    gap: 10px;
+    -webkit-box-align: center;
+    align-items: center;
+}
+.organization-setting-popover-right-box-theme > span > div:nth-child(1) > span {
+    font-weight: 400;
+    text-overflow: ellipsis;
+    white-space: normal;
+    overflow: hidden;
+    color: rgb(197, 197, 211);
+    text-transform: capitalize;
+    font-size: 14px;
+}
+.organization-setting-popover-right-box-theme > span > div:nth-child(1) > div {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 1px solid rgb(214, 73, 107);
+}
+.organization-setting-popover-right-box-theme > span > div:nth-child(1) > div:after {
+    content: " ";
+    width: inherit;
+    height: inherit;
+    background: linear-gradient(to right, rgb(255, 255, 255) 50%, 50%, rgb(214, 73, 107) 100%);
+    display: block;
+    position: relative;
+}
+.organization-setting-popover-right-box-Delete {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 5px;
+    -webkit-box-align: center;
+    align-items: center;
+}
+.organization-setting-popover-right-box-Delete-button {
+    font-family: Ubuntu, Arial, sans-serif;
+    text-overflow: ellipsis;
+    white-space: normal;
+    overflow: hidden;
+    cursor: pointer;
+    align-self: unset;
+    text-decoration: underline;
+    font-size: 14px;
+    justify-self: flex-end;
+    text-transform: capitalize;
+    color: rgb(199, 69, 70);
+}
+.organization-setting-popover-right-box-close-button {
+    color: rgb(214, 73, 107);
+    border-radius: 5px;
+    display: flex;
+    flex-direction: row;
+    -webkit-box-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    align-items: center;
+    white-space: nowrap;
+    gap: 10px;
+    position: relative;
+    font-weight: 500;
+    text-transform: uppercase;
+    text-align: center;
+    width: min-content;
+    height: 32px;
+    font-size: 14px;
+    padding: 5px 20px;
+    align-self: center;
+    margin-top: auto;
+}
+.organization-setting-popover-right-box-close-button:hover {
+    color: rgb(170, 63, 91);
+    background: rgb(56, 56, 73);
+}
+.organization-setting-popover-right-box-close-button > span {
+    color: rgb(214, 73, 107);
+}
+.organization-delete-popover-box {
+    position: fixed;
+    top: 10%;
+    left: 50%;
+    color: rgb(94, 93, 102);
+    font-size: 14px;
+    z-index: 9000;
+    transform: translate(-50%, -150%);
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    box-shadow: rgb(91 76 76 / 13%) 0px 2px 25px;
+    animation: 0.7s cubic-bezier(0.68, -0.55, 0.265, 1.3) 0s 1 normal forwards running dOnrbB;
+    width: 35rem;
+    background: rgb(73, 73, 92);
+    padding: 1.25rem 2rem;
+    border-radius: 5px;
+    transition: transform 0.3s ease-in-out 0.2s;
+}
+
+.organization-delete-popover-box > div:nth-child(2) {
+    height: 100%;
+    color: rgb(183, 183, 206);
+}
+.organization-delete-popover-container {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    padding: 0.5rem;
+    -webkit-box-align: center;
+    align-items: center;
+}
+.organization-delete-popover-container > h3 {
+    font-family: Ubuntu, Arial, sans-serif;
+    text-overflow: ellipsis;
+    white-space: normal;
+    overflow: hidden;
+    font-size: 18px;
+    text-align: center;
+    color: rgb(214, 73, 107);
+}
+.organization-delete-popover-container > div:nth-child(2) {
+    width: 100%;
+    padding: 1rem;
+    background-color: rgba(248, 213, 58, 0.33);
+    text-align: center;
+}
+.organization-delete-popover-container > div:nth-child(2) > span {
+    font-weight: 400;
+    text-overflow: ellipsis;
+    white-space: normal;
+    overflow: hidden;
+    font-size: 14px;
+    color: rgb(236, 236, 244);
+}
+.organization-delete-popover-container > span:nth-child(3) {
+    font-weight: 400;
+    text-overflow: ellipsis;
+    white-space: normal;
+    overflow: hidden;
+    font-size: 14px;
+    margin-top: 1rem;
+    text-align: center;
+    color: rgb(236, 236, 244);
+}
+.organization-delete-popover-container > div:nth-child(4) {
+    width: 80%;
+}
+.organization-delete-popover-container > div:nth-child(4) > div:nth-child(1) {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    position: relative;
+    gap: 10px;
+    width: 100%;
+}
+.organization-delete-popover-container > div:nth-child(4) > div:nth-child(1) > div:nth-child(1) {
+    position: relative;
+    width: 100%;
+}
+.organization-delete-name-double-check-input {
+    border-width: 0px 0px 1px;
+    border-top-style: initial;
+    border-right-style: initial;
+    border-left-style: initial;
+    border-top-color: initial;
+    border-right-color: initial;
+    border-left-color: initial;
+    border-image: initial;
+    font-size: 14px;
+    outline: none;
+    width: 100%;
+    transition: border-bottom 0.3s cubic-bezier(0.68, -0.55, 0.265, 1) 0s;
+    background-color: transparent;
+    color: rgb(174, 174, 217);
+    border-bottom-style: solid;
+    border-bottom-color: rgb(197, 197, 211);
+    padding-bottom: 5px;
+}
+.organization-delete-confirm-button {
+    display: flex;
+    flex-direction: row;
+    -webkit-box-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    align-items: center;
+    white-space: nowrap;
+    gap: 10px;
+    position: relative;
+    font-weight: 500;
+    text-transform: uppercase;
+    text-align: center;
+    width: min-content;
+    height: 32px;
+    font-size: 14px;
+    padding: 5px 20px;
+    opacity: 0.6;
+    border-radius: 5px;
+    pointer-events: none;
+    color: rgb(197, 197, 211);
+    border: 1px solid rgb(245, 245, 250);
+    background: rgb(71, 71, 89) !important;
+}
+.organization-delete-confirm-button-check {
+    background: rgb(214, 73, 107);
+    color: rgb(255, 255, 255);
+    border-radius: 5px;
+    display: flex;
+    flex-direction: row;
+    -webkit-box-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    align-items: center;
+    white-space: nowrap;
+    gap: 10px;
+    position: relative;
+    font-weight: 500;
+    text-transform: uppercase;
+    text-align: center;
+    width: min-content;
+    height: 32px;
+    font-size: 14px;
+    padding: 5px 20px;
+}
+.organization-delete-confirm-text {
+    color: rgb(197, 197, 211);
+}
+.organization-delete-popover-box-cancel-button {
+    color: rgb(214, 73, 107);
+    border-radius: 5px;
+    display: flex;
+    flex-direction: row;
+    -webkit-box-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    align-items: center;
+    white-space: nowrap;
+    gap: 10px;
+    position: relative;
+    font-weight: 500;
+    text-transform: uppercase;
+    text-align: center;
+    width: min-content;
+    height: 32px;
+    font-size: 14px;
+    padding: 5px 20px;
+}
+.organization-delete-popover-box-cancel-button:hover {
+    color: rgb(170, 63, 91);
+    background: rgb(56, 56, 73);
+}
+.organization-delete-name {
+    font-weight: bolder;
+}
+.space-create-popover-box {
+    position: fixed;
+    top: 10%;
+    left: 50%;
+    color: rgb(94, 93, 102);
+    font-size: 14px;
+    z-index: 9000;
+    transform: translate(-50%, -150%);
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    box-shadow: rgb(91 76 76 / 13%) 0px 2px 25px;
+    animation: 0.7s cubic-bezier(0.68, -0.55, 0.265, 1.3) 0s 1 normal forwards running dOnrbB;
+    width: 35rem;
+    background: rgb(73, 73, 92);
+    padding: 1.25rem 2rem;
+    border-radius: 5px;
+    transition: transform 0.3s ease-in-out 0.2s;
+}
+.space-create-popover-box > div:nth-child(2) {
+    height: 100%;
+    color: rgb(183, 183, 206);
+}
+.space-create-popover-container {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+}
+.space-create-popover-container > h3 {
+    text-overflow: ellipsis;
+    white-space: normal;
+    overflow: hidden;
+    font-size: 18px;
+    color: rgb(218, 219, 232);
+}
+.space-create-popover-container > div:nth-child(2) {
+    display: flex;
+    gap: 10px;
+    flex-direction: column;
+}
+.space-create-popover-container > div:nth-child(2) > h5 {
+    text-overflow: ellipsis;
+    white-space: normal;
+    overflow: hidden;
+    font-size: 14px;
+    color: rgb(197, 197, 211);
+}
+.space-create-name-input {
+    font-size: 14px;
+    outline: none;
+    width: 100%;
+    background-color: transparent;
+    color: rgb(174, 174, 217);
+    border: 1px solid rgb(112, 112, 140);
+    border-radius: 5px;
+    padding: 8px;
+}
+.space-create-name-input:hover {
+    border: 1px solid rgb(174, 174, 217);
+}
+.organization-success-delete-popover-box {
+    position: fixed;
+    top: 10%;
+    left: 50%;
+    color: rgb(94, 93, 102);
+    font-size: 14px;
+    z-index: 9000;
+    transform: translate(-50%, -180%);
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    box-shadow: rgb(91 76 76 / 13%) 0px 2px 25px;
+    animation: 0.7s cubic-bezier(0.68, -0.55, 0.265, 1.3) 0s 1 normal forwards running dOnrbB;
+    width: 26rem;
+    background: rgb(73, 73, 92);
+    padding: 1.25rem 2rem;
+    border-radius: 5px;
+    text-align: center;
+    -webkit-box-align: center;
+    align-items: center;
+    transition: transform 0.3s ease-in-out 0.2s;
+}
+.organization-success-delete-popover-box > h4 {
+    text-align: center;
+    color: rgb(248, 249, 251);
+    font-size: 18px;
+    font-weight: 500;
+}
+.organization-success-delete-popover-box > div:nth-child(3) {
+    display: flex;
+    flex-direction: column-reverse;
+    -webkit-box-align: center;
+    align-items: center;
+    gap: 10px;
+}
+.organization-success-delete-popover-box-close-button {
+    color: rgb(214, 73, 107);
+    border-radius: 5px;
+    display: flex;
+    flex-direction: row;
+    -webkit-box-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    align-items: center;
+    white-space: nowrap;
+    gap: 10px;
+    position: relative;
+    font-weight: 500;
+    text-transform: uppercase;
+    text-align: center;
+    width: min-content;
+    height: 32px;
+    font-size: 14px;
+    padding: 5px 20px;
+}
+.organization-success-delete-popover-box-close-button:hover {
+    color: rgb(170, 63, 91);
+    background: rgb(56, 56, 73);
 }
 .rightSection {
     display: flex;

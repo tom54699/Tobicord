@@ -430,12 +430,15 @@ class MainPageBuild {
 class LeftSectionBuild {
     constructor() {
         this.categoryName
+        this.organizationData
+        this.newOrganizationName
     }
+    /* AddCategoryPopover */
     leftSectionNavPlusButtonAddEvent() {
         const leftSectionNavPlusButton = document.getElementsByClassName("add-svg")
         const mask = document.getElementsByClassName("mask")
         const middleSectionAddCategoryPopoverContainer = document.getElementsByClassName(
-            "middleSection-add-category-popover-container"
+            "middleSection-popover-container"
         )
         const middleSectionAddCategoryPopoverBox = document.getElementsByClassName(
             "middleSection-add-category-popover-box"
@@ -458,7 +461,7 @@ class LeftSectionBuild {
         )
         const mask = document.getElementsByClassName("mask")
         const middleSectionAddCategoryPopoverContainer = document.getElementsByClassName(
-            "middleSection-add-category-popover-container"
+            "middleSection-popover-container"
         )
         const middleSectionAddCategoryPopoverBox = document.getElementsByClassName(
             "middleSection-add-category-popover-box"
@@ -493,7 +496,7 @@ class LeftSectionBuild {
             "middleSection-add-category-popover-box-form-name-input"
         )
         const middleSectionAddCategoryPopoverContainer = document.getElementsByClassName(
-            "middleSection-add-category-popover-container"
+            "middleSection-popover-container"
         )
         const middleSectionAddCategoryPopoverBox = document.getElementsByClassName(
             "middleSection-add-category-popover-box"
@@ -504,29 +507,29 @@ class LeftSectionBuild {
         const addCategoryPopoverFormNameInputAlert = document.getElementsByClassName(
             "middleSection-add-category-popover-box-form-name-input-alert"
         )
-        addCategoryPopoverFormCreateButton[0].addEventListener("click", () => {
+        addCategoryPopoverFormCreateButton[0].addEventListener("click", async () => {
             const inputValue = this.categoryName
             if (!inputValue || !inputValue.trim()) {
                 addCategoryPopoverFormNameInputAlert[0].style.display = "block"
             } else {
-                organizationApi.uploadOrganizationData(this.categoryName)
-                this.generateCategory(this.categoryName)
-                middleSectionAddCategoryPopoverContainer[0].style.zIndex = "-1000"
-                middleSectionAddCategoryPopoverBox[0].style.transform = "translate(-50%,-150%)"
-                mask[0].style.display = "none"
-                addCategoryPopoverFormNameInputAlert[0].style.display = "none"
-                this.categoryName = ""
-                addCategoryPopoverFormNameInput[0].value = ""
+                const response = await organizationApi.uploadOrganizationData(this.categoryName)
+                if (response.data.message === "ok") {
+                    location.href = "/main"
+                } else {
+                    addCategoryPopoverFormNameInputAlert[0].style.display = "block"
+                }
             }
         })
     }
     async createCategoryButton() {
-        const categoryNames = await organizationApi.getUserOrganizationData()
-        for (let i of categoryNames) {
-            this.generateCategory(i.organizationName)
+        this.organizationData = await organizationApi.getUserOrganizationData()
+        if (this.organizationData.length > 0) {
+            for (let i of this.organizationData) {
+                this.generateCategoryButton(i.organizationName)
+            }
         }
     }
-    generateCategory(categoryName) {
+    generateCategoryButton(categoryName) {
         const leftSectionNavTop = document.getElementsByClassName("leftSection-nav-top")
         const leftSectionNavTopCategoryContainer = document.createElement("div")
         let showCategoryName = categoryName.slice(0, 2)
@@ -537,6 +540,255 @@ class LeftSectionBuild {
         </div>
         </button>`
         leftSectionNavTop[0].appendChild(leftSectionNavTopCategoryContainer)
+    }
+    /* OrganizationSwitch */
+    switchToDifferentOrganization() {
+        const organizationSettingPopoverRightBoxTitle = document.getElementsByClassName(
+            "organization-setting-popover-right-box-title"
+        )
+        const organizationSettingNameInput = document.getElementsByClassName(
+            "organization-setting-popover-right-box-edit-name-input"
+        )
+        const organizationDeleteName = document.getElementsByClassName("organization-delete-name")
+        const leftSectionSpacesTopTitle = document.getElementsByClassName("leftSection-spaces-top-title")
+        const leftSectionNavTopCategoryButton = document.getElementsByClassName("leftSection-nav-top-category-button")
+        let num = Array.from(leftSectionNavTopCategoryButton).length
+        for (let i = 0; i < num; i++) {
+            leftSectionNavTopCategoryButton[i].addEventListener("click", () => {
+                leftSectionSpacesTopTitle[0].textContent = this.organizationData[i].organizationName
+                organizationSettingPopoverRightBoxTitle[0].textContent = `${this.organizationData[i].organizationName} Preferences`
+                organizationSettingNameInput[0].value = this.organizationData[i].organizationName
+                organizationDeleteName[0].textContent = `"${this.organizationData[i].organizationName}"`
+                organizationDeleteName[1].textContent = `"${this.organizationData[i].organizationName}"`
+            })
+        }
+    }
+    /* Organization Edit Delete Popover */
+    openOrganizationEditPopoverButtonAddEvent() {
+        const openOrganizationEditPopoverButton = document.getElementsByClassName(
+            "leftSection-spaces-top-subtitle-gear-container"
+        )
+        const middleSectionAddCategoryPopoverContainer = document.getElementsByClassName(
+            "middleSection-popover-container"
+        )
+        const organizationSettingPopoverBox = document.getElementsByClassName("organization-setting-popover-box")
+        const mask = document.getElementsByClassName("mask")
+        openOrganizationEditPopoverButton[0].addEventListener("click", () => {
+            middleSectionAddCategoryPopoverContainer[0].style.zIndex = "9999"
+            mask[0].style.display = "block"
+            organizationSettingPopoverBox[0].style.transform = "translate(-50%)"
+        })
+    }
+    closeOrganizationEditPopoverButtonAddEvent() {
+        const middleSectionAddCategoryPopoverContainer = document.getElementsByClassName(
+            "middleSection-popover-container"
+        )
+        const organizationSettingPopoverBox = document.getElementsByClassName("organization-setting-popover-box")
+        const mask = document.getElementsByClassName("mask")
+        const organizationSettingPopoverCloseSvg = document.getElementsByClassName(
+            "organization-setting-popover-box-close-svg"
+        )
+        const organizationSettingPopoverCloseButton = document.getElementsByClassName(
+            "organization-setting-popover-right-box-close-button"
+        )
+        const organizationSettingEditNameAlert = document.getElementsByClassName(
+            "organization-setting-popover-right-box-edit-name-alert"
+        )
+        organizationSettingPopoverCloseButton[0].addEventListener("click", () => {
+            middleSectionAddCategoryPopoverContainer[0].style.zIndex = "-1000"
+            organizationSettingPopoverBox[0].style.transform = "translate(-50%,-150%)"
+            mask[0].style.display = "none"
+            organizationSettingEditNameAlert[0].style.display = "none"
+        })
+        organizationSettingPopoverCloseSvg[0].addEventListener("click", () => {
+            middleSectionAddCategoryPopoverContainer[0].style.zIndex = "-1000"
+            organizationSettingPopoverBox[0].style.transform = "translate(-50%,-150%)"
+            mask[0].style.display = "none"
+            organizationSettingEditNameAlert[0].style.display = "none"
+        })
+    }
+    getOrganizationNameEditInputValue() {
+        const organizationSettingNameInput = document.getElementsByClassName(
+            "organization-setting-popover-right-box-edit-name-input"
+        )
+        organizationSettingNameInput[0].addEventListener("input", (e) => {
+            this.newOrganizationName = e.target.value
+        })
+    }
+    saveOrganizationNameEditButtonAddEvent() {
+        const organizationSaveEditNameButton = document.getElementsByClassName(
+            "organization-setting-popover-right-box-save-button"
+        )
+        const organizationSettingEditNameAlert = document.getElementsByClassName(
+            "organization-setting-popover-right-box-edit-name-alert"
+        )
+        const leftSectionSpacesTopTitle = document.getElementsByClassName("leftSection-spaces-top-title")
+        organizationSaveEditNameButton[0].addEventListener("click", async () => {
+            const inputValue = this.newOrganizationName
+            const organizationName = leftSectionSpacesTopTitle[0].textContent
+            console.log(organizationName, inputValue)
+            if (!inputValue || !inputValue.trim()) {
+                organizationSettingEditNameAlert[0].style.display = "block"
+            } else {
+                const response = await organizationApi.updateOrganizationData(organizationName, inputValue)
+                if (response.data.message === "ok") {
+                    location.href = "/main"
+                } else {
+                    organizationSettingEditNameAlert[0].style.display = "block"
+                }
+            }
+        })
+    }
+    organizationEditNameButtonAddEvent() {
+        const organizationSettingEditNameAlert = document.getElementsByClassName(
+            "organization-setting-popover-right-box-edit-name-alert"
+        )
+        const organizationEditNameButton = document.getElementsByClassName(
+            "organization-setting-popover-right-box-edit-button"
+        )
+        const organizationSaveNameButtons = document.getElementsByClassName(
+            "organization-setting-popover-right-box-save-button-box"
+        )
+        const organizationSaveCancelButton = document.getElementsByClassName(
+            "organization-setting-popover-right-box-save-cancel-button"
+        )
+        const organizationSettingNameForm = document.getElementsByClassName(
+            "organization-setting-popover-right-box-edit-name-form"
+        )
+        const organizationSettingNameInput = document.getElementsByClassName(
+            "organization-setting-popover-right-box-edit-name-input"
+        )
+        organizationEditNameButton[0].addEventListener("click", () => {
+            organizationSaveNameButtons[0].classList.remove("none")
+            organizationEditNameButton[0].classList.add("none")
+            organizationSettingNameForm[0].style.border = "1px solid rgb(197, 197, 211)"
+            organizationSettingNameForm[0].style.padding = "8px"
+            organizationSettingNameInput[0].removeAttribute("disabled")
+            organizationSettingEditNameAlert[0].style.display = "none"
+        })
+        organizationSaveCancelButton[0].addEventListener("click", () => {
+            organizationSaveNameButtons[0].classList.add("none")
+            organizationEditNameButton[0].classList.remove("none")
+            organizationSettingNameForm[0].style.border = "0"
+            organizationSettingNameForm[0].style.padding = "0"
+            organizationSettingNameInput[0].setAttribute("disabled", "disabled")
+            organizationSettingEditNameAlert[0].style.display = "none"
+        })
+    }
+    organizationDeleteButtonAddEvent() {
+        const organizationSettingDeleteButton = document.getElementsByClassName(
+            "organization-setting-popover-right-box-Delete-button"
+        )
+        const organizationDeletePopoverBox = document.getElementsByClassName("organization-delete-popover-box")
+        const mask = document.getElementsByClassName("mask")
+        const middleSectionAddCategoryPopoverContainer = document.getElementsByClassName(
+            "middleSection-popover-container"
+        )
+        const organizationSettingPopoverBox = document.getElementsByClassName("organization-setting-popover-box")
+        organizationSettingDeleteButton[0].addEventListener("click", () => {
+            middleSectionAddCategoryPopoverContainer[0].style.zIndex = "9999"
+            mask[0].style.display = "block"
+            organizationDeletePopoverBox[0].style.transform = "translate(-50%)"
+            organizationSettingPopoverBox[0].style.transform = "translate(-50%,-150%)"
+        })
+    }
+    closeOrganizationDeleteBox() {
+        const organizationDeletePopoverBoxCloseSvg = document.getElementsByClassName(
+            "organization-delete-popover-box-close-svg"
+        )
+        const organizationDeletePopoverBoxCloseButton = document.getElementsByClassName(
+            "organization-delete-popover-box-cancel-button"
+        )
+        const organizationDeletePopoverBox = document.getElementsByClassName("organization-delete-popover-box")
+        const mask = document.getElementsByClassName("mask")
+        const middleSectionAddCategoryPopoverContainer = document.getElementsByClassName(
+            "middleSection-popover-container"
+        )
+        organizationDeletePopoverBoxCloseSvg[0].addEventListener("click", () => {
+            middleSectionAddCategoryPopoverContainer[0].style.zIndex = "-1000"
+            organizationDeletePopoverBox[0].style.transform = "translate(-50%,-150%)"
+            mask[0].style.display = "none"
+        })
+        organizationDeletePopoverBoxCloseButton[0].addEventListener("click", () => {
+            middleSectionAddCategoryPopoverContainer[0].style.zIndex = "-1000"
+            organizationDeletePopoverBox[0].style.transform = "translate(-50%,-150%)"
+            mask[0].style.display = "none"
+        })
+    }
+    organizationDeleteDoubleCheckInput() {
+        const organizationDeleteNameDoubleCheckInput = document.getElementsByClassName(
+            "organization-delete-name-double-check-input"
+        )
+        const organizationDeleteConfirmButton = document.getElementById("organization-delete-confirm-button")
+        const organizationDeleteConfirmText = document.getElementsByClassName("organization-delete-confirm-text")
+        const leftSectionSpacesTopTitle = document.getElementsByClassName("leftSection-spaces-top-title")
+        organizationDeleteNameDoubleCheckInput[0].addEventListener("input", (e) => {
+            const organizationName = leftSectionSpacesTopTitle[0].textContent
+            if (organizationName === e.target.value) {
+                organizationDeleteConfirmButton.removeAttribute("disabled")
+                organizationDeleteConfirmButton.classList.replace(
+                    "organization-delete-confirm-button",
+                    "organization-delete-confirm-button-check"
+                )
+                organizationDeleteConfirmText[0].style.color = "rgb(255, 255, 255)"
+            } else {
+                organizationDeleteConfirmButton.setAttribute("disabled", "disabled")
+                organizationDeleteConfirmButton.classList.replace(
+                    "organization-delete-confirm-button-check",
+                    "organization-delete-confirm-button"
+                )
+                organizationDeleteConfirmText[0].style.color = "rgb(197, 197, 211)"
+            }
+        })
+    }
+    organizationDeleteDoubleCheckButton() {
+        const organizationDeleteConfirmButton = document.getElementById("organization-delete-confirm-button")
+        const organizationDeletePopoverBox = document.getElementsByClassName("organization-delete-popover-box")
+        const organizationSuccessDeletePopoverBox = document.getElementsByClassName(
+            "organization-success-delete-popover-box"
+        )
+        const leftSectionSpacesTopTitle = document.getElementsByClassName("leftSection-spaces-top-title")
+        const organizationSuccessDeleteText = document.getElementsByClassName("organization-success-delete-text")
+        organizationDeleteConfirmButton.addEventListener("click", async () => {
+            const leftSectionSpacesTopTitle = document.getElementsByClassName("leftSection-spaces-top-title")
+            const organizationName = leftSectionSpacesTopTitle[0].textContent
+            const response = await organizationApi.deleteOrganizationData(organizationName)
+            if (response.data.message === "ok") {
+                const organizationName = leftSectionSpacesTopTitle[0].textContent
+                organizationDeletePopoverBox[0].style.transform = "translate(-50%,-150%)"
+                organizationSuccessDeletePopoverBox[0].style.transform = "translate(-50%)"
+                organizationSuccessDeleteText[0].textContent = `"${organizationName}"Deleted`
+            } else {
+            }
+        })
+    }
+    closeOrganizationSuccessDeletePopoverBox() {
+        const organizationSuccessDeleteBoxCloseSvg = document.getElementsByClassName(
+            "organization-success-delete-popover-box-close-svg-container"
+        )
+        const organizationSuccessDeleteBoxCloseButton = document.getElementsByClassName(
+            "organization-success-delete-popover-box-close-button"
+        )
+        organizationSuccessDeleteBoxCloseSvg[0].addEventListener("click", () => {
+            location.href = "/main"
+        })
+        organizationSuccessDeleteBoxCloseButton[0].addEventListener("click", () => {
+            location.href = "/main"
+        })
+    }
+    /* SpaceCreate */
+    spaceCreatePopoverBoxButtonAddEvent() {
+        const spacesAddButton = document.getElementsByClassName("leftSection-spaces-container-top-add-svg")
+        const spaceCreatePopoverBox = document.getElementsByClassName("space-create-popover-box")
+        const middleSectionAddCategoryPopoverContainer = document.getElementsByClassName(
+            "middleSection-popover-container"
+        )
+        const mask = document.getElementsByClassName("mask")
+        spacesAddButton[0].addEventListener("click", () => {
+            middleSectionAddCategoryPopoverContainer[0].style.zIndex = "9999"
+            mask[0].style.display = "block"
+            spaceCreatePopoverBox[0].style.transform = "translate(-50%)"
+        })
     }
 }
 const rightSectionBuild = new RightSectionBuild()
