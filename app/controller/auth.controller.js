@@ -38,6 +38,7 @@ class AuthController {
             const { access, refresh } = await authService.refresh({
                 email: req.email,
                 name: req.name,
+                userId: req.userId,
                 token: req.cookies.refreshToken,
             })
             await res.cookie("refreshToken", `${refresh}`, { httpOnly: true })

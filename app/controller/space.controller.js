@@ -1,9 +1,8 @@
-const Organization = require("../service/OrganizationTable")
-const Space = require("../service/SpaceTable")
 const { validationResult } = require("express-validator")
+const Space = require("../service/SpaceTable")
 
-class OrganizationController {
-    async uploadOrganizationData(req, res, next) {
+class SpaceController {
+    async uploadSpaceData(req, res, next) {
         try {
             const errors = validationResult(req)
             if (!errors.isEmpty()) {
@@ -12,22 +11,23 @@ class OrganizationController {
                     errorMessages: errors.array(),
                 })
             }
-            const organizationName = req.body.organizationName
-            const organizationData = await Organization.AddOrganizationData(organizationName, req.userId)
-            await Space.CreateSpaceData(organizationData.OrganizationId, req.userId, "Starred Collections")
+            const organizationId = req.body.organizationId
+            const spaceName = req.body.spaceName
+            await Space.CreateSpaceData(organizationId, req.userId, spaceName)
             return res.status(200).json({
                 message: "ok",
             })
         } catch (err) {
-            next(err)
+            return err
         }
     }
-    async getUserOrganizationData(req, res, next) {
+    async getUserSpaceData(req, res, next) {
         try {
-            const organizationData = await Organization.GetUserOrganizationData(req.userId)
+            const organizationId = req.query.organizationId
+            const spaceData = await Space.GetUserSpaceData(organizationId, req.userId)
             return res.status(200).json({
                 message: "ok",
-                organizationData: organizationData,
+                spaceData: spaceData,
             })
         } catch (err) {
             next(err)
@@ -42,11 +42,11 @@ class OrganizationController {
                     errorMessages: errors.array(),
                 })
             }
-            const response = await Organization.UpdateOrganizationData(
-                req.userId,
+            /*const response = await Organization.UpdateOrganizationData(
+                req.email,
                 req.body.organizationName,
                 req.body.newOrganizationName
-            )
+            )*/
             return res.status(200).json({
                 message: "ok",
             })
@@ -56,7 +56,7 @@ class OrganizationController {
     }
     async deleteOrganizationData(req, res, next) {
         try {
-            const response = await Organization.DeleteOrganizationData(req.body.organizationName)
+            //const response = await Organization.DeleteOrganizationData(req.email, req.body.organizationName)
             return res.status(200).json({
                 message: "ok",
             })
@@ -66,4 +66,4 @@ class OrganizationController {
     }
 }
 
-module.exports = new OrganizationController()
+module.exports = new SpaceController()

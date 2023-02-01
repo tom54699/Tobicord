@@ -29,18 +29,18 @@
                             <div class="leftSection-nav-top"></div>
                             <button class="add-svg svg-gray svg-hover"></button>
                             <div class="leftSection-nav-bottom">
-                                <div class="leftSection-nav-bottom-question-container" tabindex="4">
+                                <div class="leftSection-nav-bottom-question-container" tabindex="-1">
                                     <div class="leftSection-nav-bottom-button">
                                         <div class="leftSection-nav-bottom-question-svg"></div>
                                     </div>
                                 </div>
 
-                                <div class="leftSection-nav-bottom-notice-container" tabindex="4">
+                                <div class="leftSection-nav-bottom-notice-container" tabindex="-1">
                                     <div class="leftSection-nav-bottom-button">
                                         <div class="leftSection-nav-bottom-notice-svg"></div>
                                     </div>
                                 </div>
-                                <div class="leftSection-nav-bottom-user-container" tabindex="4">
+                                <div class="leftSection-nav-bottom-user-container" tabindex="-1">
                                     <div class="leftSection-nav-bottom-button">
                                         <div class="leftSection-nav-bottom-user-svg"></div>
                                     </div>
@@ -108,34 +108,7 @@
                                     </div>
                                 </div>
                                 <div class="leftSection-spaces-container-main">
-                                    <div class="leftSection-spaces-container-main-card-container">
-                                        <div class="leftSection-spaces-container-main-card" tabindex="0">
-                                            <button class="leftSection-spaces-container-main-card-button">
-                                                <div
-                                                    class="leftSection-spaces-container-main-card-star-svg svg-focus"
-                                                ></div>
-                                            </button>
-                                            <div class="leftSection-spaces-container-main-card-title">
-                                                Starred Collections
-                                            </div>
-                                        </div>
-                                        <div class="leftSection-spaces-container-main-card" tabindex="1">
-                                            <button class="leftSection-spaces-container-main-card-button">
-                                                <div
-                                                    class="leftSection-spaces-container-main-card-lock-svg svg-focus"
-                                                ></div>
-                                            </button>
-                                            <div class="leftSection-spaces-container-main-card-title">漫畫</div>
-                                        </div>
-                                        <div class="leftSection-spaces-container-main-card" tabindex="2">
-                                            <button class="leftSection-spaces-container-main-card-button">
-                                                <div
-                                                    class="leftSection-spaces-container-main-card-folder-svg svg-focus"
-                                                ></div>
-                                            </button>
-                                            <div class="leftSection-spaces-container-main-card-title">動畫</div>
-                                        </div>
-                                    </div>
+                                    <div class="leftSection-spaces-container-main-card-container"></div>
                                 </div>
                             </div>
                         </section>
@@ -406,16 +379,87 @@
                                     <div>
                                         <h5>Name your space</h5>
                                         <input class="space-create-name-input" placeholder="Space name" />
+                                        <span class="space-create-name-input-alert none"
+                                            >Space name must be greater than 1 character</span
+                                        >
                                     </div>
                                     <div class="space-create-popover-box-form-button-container">
-                                        <button class="space-create-popover-box-form-cancel-button">
+                                        <button type="button" class="space-create-popover-box-form-cancel-button">
                                             <span>Cancel</span>
                                         </button>
-                                        <button class="space-create-popover-box-form-create-button">
+                                        <button type="button" class="space-create-popover-box-form-create-button">
                                             <span>Create</span>
                                         </button>
                                     </div>
                                 </form>
+                            </div>
+                        </div>
+                        <div class="space-setting-popover-box">
+                            <button class="space-setting-popover-box-close-svg-container">
+                                <div class="space-setting-popover-box-close-svg"></div>
+                            </button>
+                            <div>
+                                <div>
+                                    <h3>Add team members to<b class="space-setting-name"> 99</b></h3>
+                                    <div>
+                                        <span class="space-setting-popover-box-preference-button">Preferences</span>
+                                        <span class="space-setting-popover-box-member-button">Members</span>
+                                    </div>
+                                    <div>
+                                        <div class="space-setting-popover-container">
+                                            <div>
+                                                <h4>Space Name</h4>
+                                                <form class="space-setting-popover-container-edit-name-form">
+                                                    <div>
+                                                        <div>
+                                                            <input
+                                                                class="space-setting-popover-container-edit-name-input"
+                                                                placeholder="Type Name"
+                                                                disabled
+                                                                value=""
+                                                            />
+                                                        </div>
+                                                        <span
+                                                            class="space-setting-popover-container-edit-name-alert none"
+                                                            >Organization name must be greater than 1 character</span
+                                                        >
+                                                    </div>
+                                                    <a class="space-setting-popover-container-edit-button">Edit</a>
+                                                    <div class="space-setting-popover-container-save-button-box none">
+                                                        <button
+                                                            class="space-setting-popover-container-save-cancel-button"
+                                                            type="button"
+                                                        >
+                                                            <span>Cancel</span>
+                                                        </button>
+                                                        <button
+                                                            class="space-setting-popover-container-save-button"
+                                                            type="button"
+                                                        >
+                                                            <span>Save</span>
+                                                        </button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                            <div>
+                                                <h4>Leave Space</h4>
+                                                <a>Leave Space</a>
+                                                <span
+                                                    >Once you leave the space, you will need to be invited back to join
+                                                    again.</span
+                                                >
+                                            </div>
+                                            <div>
+                                                <h4>Delete Space</h4>
+                                                <a>Delete Space</a>
+                                                <span>Once you delete the space, there is no going back.</span>
+                                            </div>
+                                        </div>
+                                        <button class="space-setting-popover-box-close-button">
+                                            <span>CLOSE</span>
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>

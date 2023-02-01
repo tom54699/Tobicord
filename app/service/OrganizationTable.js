@@ -2,28 +2,23 @@ const sequelize = require("../config/database.config")
 const Organization = require("../models/Organization.model")
 const Member = require("../models/Member.model")
 
-const AddOrganizationData = async (organizationName, email) => {
-    const member = await Member.findOne({
-        where: { email: email },
-    })
+const AddOrganizationData = async (organizationName, userId) => {
+    const member = await Member.findByPk(userId)
     const organization = await Organization.create({ organizationName: organizationName })
     const response = await member.addOrganization(organization)
-    return response
+    const organizationData = response[0].dataValues
+    return organizationData
 }
 
-const GetUserOrganizationData = async (email) => {
-    const member = await Member.findOne({
-        where: { email: email },
-    })
+const GetUserOrganizationData = async (userId) => {
+    const member = await Member.findByPk(userId)
     const organization = await member.getOrganizations({ attributes: ["organizationName"] })
     return organization
 }
 
-const UpdateOrganizationData = async (email, organizationName, newOrganizationName) => {
+const UpdateOrganizationData = async (userId, organizationName, newOrganizationName) => {
     try {
-        const member = await Member.findOne({
-            where: { email: email },
-        })
+        const member = await Member.findByPk(userId)
         const organization = await member.getOrganizations({
             where: {
                 organizationName: organizationName,
@@ -37,11 +32,8 @@ const UpdateOrganizationData = async (email, organizationName, newOrganizationNa
         console.log(err)
     }
 }
-const DeleteOrganizationData = async (email, organizationName) => {
+const DeleteOrganizationData = async (organizationName) => {
     try {
-        const member = await Member.findOne({
-            where: { email: email },
-        })
         const response = await Organization.destroy({
             where: {
                 organizationName: organizationName,

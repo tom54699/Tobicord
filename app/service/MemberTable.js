@@ -11,9 +11,9 @@ const CheckEmailRepeat = async (email) => {
     return response
 }
 
-const CheckLoginData = async (email, password) => {
+const CheckLoginData = async (email) => {
     const response = await Member.findOne({
-        attributes: ["email", "password"],
+        attributes: ["id", "email", "password"],
         where: { email: email },
     })
     return response

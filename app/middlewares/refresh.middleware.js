@@ -20,6 +20,7 @@ module.exports = async (req, res, next) => {
             }
             req.email = decoded.sub
             req.name = decoded.name
+            req.userId = decoded.userId
             return next()
         } catch (err) {
             console.log(err)

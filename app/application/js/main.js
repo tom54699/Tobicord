@@ -32,8 +32,13 @@ window.addEventListener("DOMContentLoaded", async () => {
         leftSectionBuild.organizationDeleteDoubleCheckButton()
         leftSectionBuild.closeOrganizationSuccessDeletePopoverBox()
         leftSectionBuild.spaceCreatePopoverBoxButtonAddEvent()
+        leftSectionBuild.closeSpaceCreatePopoverBox()
+        leftSectionBuild.getCreateSpacePopoverInputValue()
+        leftSectionBuild.createSpaceButtonAddEvent()
         const defaultButton = document.getElementsByClassName("leftSection-nav-top-category-button")[0]
         defaultButton.click()
+        leftSectionBuild.openSpaceEditPopoverBox()
+        leftSectionBuild.closeSpaceEditPopoverBox()
     }
     mainPageBuild.rightSectionFold()
     mainPageBuild.leftSectionFold()

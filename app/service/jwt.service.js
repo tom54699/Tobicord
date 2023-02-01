@@ -1,11 +1,12 @@
 const jwt = require("jsonwebtoken")
 class JwtService {
-    async generate(email, name) {
+    async generate(email, name, userId) {
         const message = "ok"
         const access = jwt.sign(
             {
                 name: name,
                 type: process.env.JWT_ACCESS,
+                userId: userId,
             },
             process.env.JWT_KEY,
             {
@@ -19,6 +20,7 @@ class JwtService {
             {
                 name: name,
                 type: process.env.JWT_REFRESH,
+                userId: userId,
             },
             process.env.JWT_KEY,
             {

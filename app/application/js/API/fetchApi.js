@@ -84,7 +84,7 @@ class OrganizationApi {
             return response
         } catch (err) {
             console.log(err)
-            return err
+            return err.response
         }
     }
     async getUserOrganizationData() {
@@ -98,11 +98,11 @@ class OrganizationApi {
                 headers: headers,
             }
             const response = await axios.get("/organization", config)
-            const organizationNames = response.data.organizationData
-            return organizationNames
+            const organizationData = response.data.organizationData
+            return organizationData
         } catch (err) {
             console.log(err)
-            return err
+            return err.response
         }
     }
     async updateOrganizationData(organizationName, newOrganizationName) {
@@ -123,7 +123,7 @@ class OrganizationApi {
             return response
         } catch (err) {
             console.log(err)
-            return err
+            return err.response
         }
     }
     async deleteOrganizationData(organizationName) {
@@ -143,13 +143,58 @@ class OrganizationApi {
             return response
         } catch (err) {
             console.log(err)
-            return err
+            return err.response
         }
     }
 }
 
+class SpaceApi {
+    async uploadSpaceData(organizationId, spaceName) {
+        try {
+            const headers = {
+                "Content-Type": "application/json",
+                Accept: "application/json",
+                Authorization: `Bearer ${window.localStorage.getItem("accessToken")}`,
+            }
+            const config = {
+                headers: headers,
+            }
+            const content = {
+                organizationId: organizationId,
+                spaceName: spaceName,
+            }
+            const response = await axios.post("/space", content, config)
+            return response
+        } catch (err) {
+            console.log(err)
+            return err.response
+        }
+    }
+    async getUserSpaceData(organizationId) {
+        try {
+            const headers = {
+                "Content-Type": "application/json",
+                Accept: "application/json",
+                Authorization: `Bearer ${window.localStorage.getItem("accessToken")}`,
+            }
+            const config = {
+                headers: headers,
+                params: {
+                    organizationId: organizationId,
+                },
+            }
+            const response = await axios.get("/space", config)
+            const spaceData = response.data.spaceData
+            return spaceData
+        } catch (err) {
+            console.log(err)
+            return err.response
+        }
+    }
+}
 const authApi = new AuthApi()
 const windowApi = new WindowApi()
 const organizationApi = new OrganizationApi()
+const spaceApi = new SpaceApi()
 
-export { authApi, windowApi, organizationApi }
+export { authApi, windowApi, organizationApi, spaceApi }

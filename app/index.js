@@ -33,10 +33,10 @@ app.use(
 )
 
 const associations = require("./models/associations")
-/*
+
 sequelize.sync({ force: true }).then(() => {
     console.log("Tables created")
-})*/
+})
 sequelize
     .authenticate()
     .then(() => {
@@ -51,6 +51,7 @@ const usersRoutes = require("./router/users.routes")
 const mainRoutes = require("./router/main.routes")
 const windowRoutes = require("./router/window.routes")
 const organizationRoutes = require("./router/organization.routes")
+const spaceRoutes = require("./router/space.routes")
 const errorMiddleware = require("./middlewares/error.middleware")
 
 app.get("/", (req, res) => {
@@ -62,6 +63,7 @@ app.use("/users", usersRoutes)
 app.use("/main", mainRoutes)
 app.use("/window", windowRoutes)
 app.use("/organization", organizationRoutes)
+app.use("/space", spaceRoutes)
 app.use(errorMiddleware)
 
 app.listen(portNum, () => {
