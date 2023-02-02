@@ -39,31 +39,25 @@ const GetUserSpaceData = async (organizationId, userId) => {
         return err
     }
 }
-/*
-const UpdateSpaceData = async (userId, organizationName, newOrganizationName) => {
+
+const UpdateSpaceData = async (spaceId, newSpaceName) => {
     try {
-        const member = await Member.findByPk(userId)
-        const organization = await member.getOrganizations({
-            where: {
-                organizationName: organizationName,
-            },
-        })
-        const response = await organization[0].update({
-            organizationName: newOrganizationName,
+        const space = await Space.findByPk(spaceId)
+        console.log("space", space)
+
+        const response = await space.update({
+            spaceName: newSpaceName,
         })
         return response
     } catch (err) {
         console.log(err)
     }
 }
-const DeleteOrganizationData = async (email, organizationName) => {
+const DeleteSpaceData = async (spaceId) => {
     try {
-        const member = await Member.findOne({
-            where: { email: email },
-        })
-        const response = await Organization.destroy({
+        const response = await Space.destroy({
             where: {
-                organizationName: organizationName,
+                id: spaceId,
             },
         })
         return response
@@ -71,8 +65,10 @@ const DeleteOrganizationData = async (email, organizationName) => {
         console.log(err)
     }
 }
-*/
+
 module.exports = {
     CreateSpaceData,
     GetUserSpaceData,
+    UpdateSpaceData,
+    DeleteSpaceData,
 }

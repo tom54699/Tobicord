@@ -33,10 +33,10 @@ app.use(
 )
 
 const associations = require("./models/associations")
-
+/*
 sequelize.sync({ force: true }).then(() => {
     console.log("Tables created")
-})
+})*/
 sequelize
     .authenticate()
     .then(() => {

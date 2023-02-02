@@ -7,6 +7,6 @@ const authMiddleware = require("../middlewares/auth.middleware")
 
 router.get("/", authMiddleware, spaceController.getUserSpaceData)
 router.post("/", authMiddleware, check("spaceName").trim().isLength({ min: 1 }), spaceController.uploadSpaceData)
-router.put("/", authMiddleware, check("organizationName").trim().isLength({ min: 1 }))
-router.delete("/", authMiddleware)
+router.put("/", authMiddleware, check("spaceName").trim().isLength({ min: 1 }), spaceController.updateSpaceData)
+router.delete("/", authMiddleware, spaceController.deleteSpaceData)
 module.exports = router

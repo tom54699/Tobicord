@@ -32,6 +32,7 @@ registerButton.addEventListener("click", async () => {
             registerUsernameInput.value
         )
         const result = await response.data
+        console.log(result)
         let num
         if (result.message === "ok") {
             location.href = "/auth"
@@ -80,6 +81,7 @@ loginButton.addEventListener("click", async () => {
         }
     } catch (error) {
         console.log(error)
+        loginInvalidFormatMessage(result.errorMessages[0].msg)
     }
 })
 

@@ -2,29 +2,39 @@ import { authAxios } from "./axios-interceptors.js"
 
 class AuthApi {
     async register(registerEmail, registerPassword, registerUsername) {
-        const headers = {
-            "Content-Type": "application/json",
-            Accept: "application/json",
+        try {
+            const headers = {
+                "Content-Type": "application/json",
+                Accept: "application/json",
+            }
+            const content = {
+                email: registerEmail,
+                password: registerPassword,
+                username: registerUsername,
+            }
+            const response = await axios.post("/auth/register", content, headers)
+            return response
+        } catch (err) {
+            console.log(err)
+            return err.response
         }
-        const content = {
-            email: registerEmail,
-            password: registerPassword,
-            username: registerUsername,
-        }
-        const response = await axios.post("/auth/register", content, headers)
-        return response
     }
     async login(loginEmail, loginPassword) {
-        const headers = {
-            "Content-Type": "application/json",
-            Accept: "application/json",
+        try {
+            const headers = {
+                "Content-Type": "application/json",
+                Accept: "application/json",
+            }
+            const content = {
+                email: loginEmail,
+                password: loginPassword,
+            }
+            const response = await axios.put("/auth/login", content, headers)
+            return response
+        } catch (err) {
+            console.log(err)
+            return err.response
         }
-        const content = {
-            email: loginEmail,
-            password: loginPassword,
-        }
-        const response = await axios.put("/auth/login", content, headers)
-        return response
     }
     async logout() {
         const headers = {
@@ -38,16 +48,21 @@ class AuthApi {
         return response
     }
     async checkAuth() {
-        const headers = {
-            "Content-Type": "application/json",
-            Accept: "application/json",
-            Authorization: `Bearer ${window.localStorage.getItem("accessToken")}`,
+        try {
+            const headers = {
+                "Content-Type": "application/json",
+                Accept: "application/json",
+                Authorization: `Bearer ${window.localStorage.getItem("accessToken")}`,
+            }
+            const config = {
+                headers: headers,
+            }
+            const response = await axios.get("/users", config)
+            return response
+        } catch (err) {
+            console.log(err)
+            return err.response
         }
-        const config = {
-            headers: headers,
-        }
-        const response = await axios.get("/users", config)
-        return response
     }
 }
 
@@ -186,6 +201,48 @@ class SpaceApi {
             const response = await axios.get("/space", config)
             const spaceData = response.data.spaceData
             return spaceData
+        } catch (err) {
+            console.log(err)
+            return err.response
+        }
+    }
+    async updateSpaceData(spaceId, spaceName, newSpaceName) {
+        try {
+            const headers = {
+                "Content-Type": "application/json",
+                Accept: "application/json",
+                Authorization: `Bearer ${window.localStorage.getItem("accessToken")}`,
+            }
+            const config = {
+                headers: headers,
+            }
+            const content = {
+                spaceId: spaceId,
+                spaceName: spaceName,
+                newSpaceName: newSpaceName,
+            }
+            const response = await axios.put("/space", content, config)
+            return response
+        } catch (err) {
+            console.log(err)
+            return err.response
+        }
+    }
+    async deleteSpaceData(spaceId) {
+        try {
+            const headers = {
+                "Content-Type": "application/json",
+                Accept: "application/json",
+                Authorization: `Bearer ${window.localStorage.getItem("accessToken")}`,
+            }
+            const config = {
+                headers: headers,
+                data: {
+                    spaceId: spaceId,
+                },
+            }
+            const response = await axios.delete("/space", config)
+            return response
         } catch (err) {
             console.log(err)
             return err.response

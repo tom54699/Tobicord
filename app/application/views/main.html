@@ -400,7 +400,7 @@
                             </button>
                             <div>
                                 <div>
-                                    <h3>Add team members to<b class="space-setting-name"> 99</b></h3>
+                                    <h3>Add team members to<b class="space-setting-name"></b></h3>
                                     <div>
                                         <span class="space-setting-popover-box-preference-button">Preferences</span>
                                         <span class="space-setting-popover-box-member-button">Members</span>
@@ -451,7 +451,7 @@
                                             </div>
                                             <div>
                                                 <h4>Delete Space</h4>
-                                                <a>Delete Space</a>
+                                                <a class="space-setting-popover-box-delete-button">Delete Space</a>
                                                 <span>Once you delete the space, there is no going back.</span>
                                             </div>
                                         </div>
@@ -460,6 +460,56 @@
                                         </button>
                                     </div>
                                 </div>
+                            </div>
+                        </div>
+                        <div class="space-delete-popover-box">
+                            <button class="space-delete-popover-box-close-svg-container">
+                                <div class="space-delete-popover-box-close-svg"></div>
+                            </button>
+                            <div>
+                                <div class="space-delete-popover-container">
+                                    <h3>Are you sure you want to delete<b class="space-delete-name"></b>?</h3>
+                                    <div>
+                                        <span
+                                            >When you delete a space all members may lose access to collections shared
+                                            with this space</span
+                                        >
+                                    </div>
+                                    <span>Please type<b class="space-delete-name"></b> to confirm deletion</span>
+                                    <div>
+                                        <div>
+                                            <div>
+                                                <input
+                                                    class="space-delete-name-double-check-input"
+                                                    placeholder="Type Name"
+                                                />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <button
+                                        id="space-delete-confirm-button"
+                                        class="space-delete-confirm-button"
+                                        disabled
+                                    >
+                                        <span class="space-delete-confirm-text"
+                                            >I understand and want to delete space</span
+                                        >
+                                    </button>
+                                    <button class="space-delete-popover-box-cancel-button">
+                                        <span>No, thanks</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="space-success-delete-popover-box">
+                            <button class="space-success-delete-popover-box-close-svg-container">
+                                <div class="space-success-delete-popover-box-close-svg"></div>
+                            </button>
+                            <h4 class="space-success-delete-text">"999" Deleted</h4>
+                            <div>
+                                <button class="space-success-delete-popover-box-close-button">
+                                    <span>Done</span>
+                                </button>
                             </div>
                         </div>
                     </div>

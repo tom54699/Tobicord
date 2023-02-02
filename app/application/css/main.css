@@ -1295,7 +1295,9 @@ input[placeholder] {
 .organization-delete-popover-box-close-svg-container,
 .space-create-popover-box-close-svg-container,
 .organization-success-delete-popover-box-close-svg-container,
-.space-setting-popover-box-close-svg-container {
+.space-setting-popover-box-close-svg-container,
+.space-delete-popover-box-close-svg-container,
+.space-success-delete-popover-box-close-svg-container {
     padding: 0px;
     width: 20px;
     height: 20px;
@@ -1308,7 +1310,9 @@ input[placeholder] {
 .organization-delete-popover-box-close-svg,
 .space-create-popover-box-close-svg,
 .organization-success-delete-popover-box-close-svg,
-.space-setting-popover-box-close-svg {
+.space-setting-popover-box-close-svg,
+.space-delete-popover-box-close-svg,
+.space-success-delete-popover-box-close-svg {
     width: 1.25rem;
     height: 1.25rem;
     mask: url("../images/close.svg") no-repeat 50% 50%;
@@ -1638,7 +1642,8 @@ input[placeholder] {
 .organization-setting-popover-right-box-close-button > span {
     color: rgb(214, 73, 107);
 }
-.organization-delete-popover-box {
+.organization-delete-popover-box,
+.space-delete-popover-box {
     position: fixed;
     top: 10%;
     left: 50%;
@@ -1658,11 +1663,13 @@ input[placeholder] {
     transition: transform 0.3s ease-in-out 0.2s;
 }
 
-.organization-delete-popover-box > div:nth-child(2) {
+.organization-delete-popover-box > div:nth-child(2),
+.space-delete-popover-container > div:nth-child(2) {
     height: 100%;
     color: rgb(183, 183, 206);
 }
-.organization-delete-popover-container {
+.organization-delete-popover-container,
+.space-delete-popover-container {
     display: flex;
     flex-direction: column;
     gap: 2rem;
@@ -1670,8 +1677,8 @@ input[placeholder] {
     -webkit-box-align: center;
     align-items: center;
 }
-.organization-delete-popover-container > h3 {
-    font-family: Ubuntu, Arial, sans-serif;
+.organization-delete-popover-container > h3,
+.space-delete-popover-container > h3 {
     text-overflow: ellipsis;
     white-space: normal;
     overflow: hidden;
@@ -1679,13 +1686,15 @@ input[placeholder] {
     text-align: center;
     color: rgb(214, 73, 107);
 }
-.organization-delete-popover-container > div:nth-child(2) {
+.organization-delete-popover-container > div:nth-child(2),
+.space-delete-popover-container > div:nth-child(2) {
     width: 100%;
     padding: 1rem;
     background-color: rgba(248, 213, 58, 0.33);
     text-align: center;
 }
-.organization-delete-popover-container > div:nth-child(2) > span {
+.organization-delete-popover-container > div:nth-child(2) > span,
+.space-delete-popover-container > div:nth-child(2) > span {
     font-weight: 400;
     text-overflow: ellipsis;
     white-space: normal;
@@ -1693,7 +1702,8 @@ input[placeholder] {
     font-size: 14px;
     color: rgb(236, 236, 244);
 }
-.organization-delete-popover-container > span:nth-child(3) {
+.organization-delete-popover-container > span:nth-child(3),
+.space-delete-popover-container > span:nth-child(3) {
     font-weight: 400;
     text-overflow: ellipsis;
     white-space: normal;
@@ -1703,10 +1713,12 @@ input[placeholder] {
     text-align: center;
     color: rgb(236, 236, 244);
 }
-.organization-delete-popover-container > div:nth-child(4) {
+.organization-delete-popover-container > div:nth-child(4),
+.space-delete-popover-container > div:nth-child(4) {
     width: 80%;
 }
-.organization-delete-popover-container > div:nth-child(4) > div:nth-child(1) {
+.organization-delete-popover-container > div:nth-child(4) > div:nth-child(1),
+.space-delete-popover-container > div:nth-child(4) > div:nth-child(1) {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -1714,11 +1726,13 @@ input[placeholder] {
     gap: 10px;
     width: 100%;
 }
-.organization-delete-popover-container > div:nth-child(4) > div:nth-child(1) > div:nth-child(1) {
+.organization-delete-popover-container > div:nth-child(4) > div:nth-child(1) > div:nth-child(1),
+.space-delete-popover-container > div:nth-child(4) > div:nth-child(1) > div:nth-child(1) {
     position: relative;
     width: 100%;
 }
-.organization-delete-name-double-check-input {
+.organization-delete-name-double-check-input,
+.space-delete-name-double-check-input {
     border-width: 0px 0px 1px;
     border-top-style: initial;
     border-right-style: initial;
@@ -1737,7 +1751,8 @@ input[placeholder] {
     border-bottom-color: rgb(197, 197, 211);
     padding-bottom: 5px;
 }
-.organization-delete-confirm-button {
+.organization-delete-confirm-button,
+.space-delete-confirm-button {
     display: flex;
     flex-direction: row;
     -webkit-box-pack: center;
@@ -1761,7 +1776,8 @@ input[placeholder] {
     border: 1px solid rgb(245, 245, 250);
     background: rgb(71, 71, 89) !important;
 }
-.organization-delete-confirm-button-check {
+.organization-delete-confirm-button-check,
+.space-delete-confirm-button-check {
     background: rgb(214, 73, 107);
     color: rgb(255, 255, 255);
     border-radius: 5px;
@@ -1782,10 +1798,12 @@ input[placeholder] {
     font-size: 14px;
     padding: 5px 20px;
 }
-.organization-delete-confirm-text {
+.organization-delete-confirm-text,
+.space-delete-confirm-text {
     color: rgb(197, 197, 211);
 }
-.organization-delete-popover-box-cancel-button {
+.organization-delete-popover-box-cancel-button,
+.space-delete-popover-box-cancel-button {
     color: rgb(214, 73, 107);
     border-radius: 5px;
     display: flex;
@@ -1805,13 +1823,12 @@ input[placeholder] {
     font-size: 14px;
     padding: 5px 20px;
 }
-.organization-delete-popover-box-cancel-button:hover {
+.organization-delete-popover-box-cancel-button:hover,
+.space-delete-popover-box-cancel-button:hover {
     color: rgb(170, 63, 91);
     background: rgb(56, 56, 73);
 }
-.organization-delete-name {
-    font-weight: bolder;
-}
+
 .space-create-popover-box {
     position: fixed;
     top: 10%;
@@ -1887,7 +1904,8 @@ input[placeholder] {
     overflow: visible;
     color: rgb(199, 69, 70);
 }
-.organization-success-delete-popover-box {
+.organization-success-delete-popover-box,
+.space-success-delete-popover-box {
     position: fixed;
     top: 10%;
     left: 50%;
@@ -1909,20 +1927,23 @@ input[placeholder] {
     align-items: center;
     transition: transform 0.3s ease-in-out 0.2s;
 }
-.organization-success-delete-popover-box > h4 {
+.organization-success-delete-popover-box > h4,
+.space-success-delete-text {
     text-align: center;
     color: rgb(248, 249, 251);
     font-size: 18px;
     font-weight: 500;
 }
-.organization-success-delete-popover-box > div:nth-child(3) {
+.organization-success-delete-popover-box > div:nth-child(3),
+.space-success-delete-popover-box > div:nth-child(3) {
     display: flex;
     flex-direction: column-reverse;
     -webkit-box-align: center;
     align-items: center;
     gap: 10px;
 }
-.organization-success-delete-popover-box-close-button {
+.organization-success-delete-popover-box-close-button,
+.space-success-delete-popover-box-close-button {
     color: rgb(214, 73, 107);
     border-radius: 5px;
     display: flex;
@@ -1942,7 +1963,8 @@ input[placeholder] {
     font-size: 14px;
     padding: 5px 20px;
 }
-.organization-success-delete-popover-box-close-button:hover {
+.organization-success-delete-popover-box-close-button:hover,
+.space-success-delete-popover-box-close-button:hover {
     color: rgb(170, 63, 91);
     background: rgb(56, 56, 73);
 }

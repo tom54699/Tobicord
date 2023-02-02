@@ -33,7 +33,7 @@ class SpaceController {
             next(err)
         }
     }
-    async updateOrganizationData(req, res, next) {
+    async updateSpaceData(req, res, next) {
         try {
             const errors = validationResult(req)
             if (!errors.isEmpty()) {
@@ -42,11 +42,7 @@ class SpaceController {
                     errorMessages: errors.array(),
                 })
             }
-            /*const response = await Organization.UpdateOrganizationData(
-                req.email,
-                req.body.organizationName,
-                req.body.newOrganizationName
-            )*/
+            const response = await Space.UpdateSpaceData(req.body.spaceId, req.body.newSpaceName)
             return res.status(200).json({
                 message: "ok",
             })
@@ -54,9 +50,9 @@ class SpaceController {
             next(err)
         }
     }
-    async deleteOrganizationData(req, res, next) {
+    async deleteSpaceData(req, res, next) {
         try {
-            //const response = await Organization.DeleteOrganizationData(req.email, req.body.organizationName)
+            const response = await Space.DeleteSpaceData(req.body.spaceId)
             return res.status(200).json({
                 message: "ok",
             })

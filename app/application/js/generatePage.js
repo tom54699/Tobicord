@@ -436,6 +436,9 @@ class LeftSectionBuild {
         this.newOrganizationName
         this.createSpaceName
         this.spaceData
+        this.newSpaceName
+        this.nowSpaceName
+        this.nowSpaceId
     }
     /* UserCenter */
 
@@ -538,7 +541,7 @@ class LeftSectionBuild {
         leftSectionNavTop[0].appendChild(leftSectionNavTopCategoryContainer)
     }
     /* OrganizationSwitch */
-    switchToDifferentOrganization() {
+    async switchToDifferentOrganization() {
         const organizationSettingPopoverRightBoxTitle = document.getElementsByClassName(
             "organization-setting-popover-right-box-title"
         )
@@ -570,6 +573,8 @@ class LeftSectionBuild {
                 this.initSpaceCards()
                 await this.createSpaceCards()
                 this.switchToDifferentSpace()
+                const defaultSpaceButton = document.getElementsByClassName("leftSection-spaces-container-main-card")[0]
+                await defaultSpaceButton.click()
             })
         }
     }
@@ -908,23 +913,34 @@ class LeftSectionBuild {
     /* SpaceSwitch */
     switchToDifferentSpace() {
         const middleSectionTopSpaceTitle = document.getElementsByClassName("middleSection-top-title")
-        const organizationSettingNameInput = document.getElementsByClassName(
-            "organization-setting-popover-right-box-edit-name-input"
-        )
-        const leftSectionNavTopCategory = document.getElementsByClassName("leftSection-nav-top-category")
-        const organizationDeleteName = document.getElementsByClassName("organization-delete-name")
-        const leftSectionSpacesTopTitle = document.getElementsByClassName("leftSection-spaces-top-title")
+        const spaceSettingNameInput = document.getElementsByClassName("space-setting-popover-container-edit-name-input")
+        const spaceSettingName = document.getElementsByClassName("space-setting-name")
         const leftSectionSpacesContainerMainCard = document.getElementsByClassName(
             "leftSection-spaces-container-main-card"
         )
+        const svgFocus = document.getElementsByClassName("svg-focus")
+        const leftSectionSpacesContainerCardTitle = document.getElementsByClassName(
+            "leftSection-spaces-container-main-card-title"
+        )
+        const spaceDeleteName = document.getElementsByClassName("space-delete-name")
         let num = Array.from(leftSectionSpacesContainerMainCard).length
         for (let i = 0; i < num; i++) {
             leftSectionSpacesContainerMainCard[i].addEventListener("click", () => {
                 for (let j = 0; j < num; j++) {
                     if (j !== i) {
+                        leftSectionSpacesContainerCardTitle[j].style.color = "rgb(197, 197, 211)"
+                        svgFocus[j].style.color = "rgb(197, 197, 211)"
                     }
                 }
+                leftSectionSpacesContainerCardTitle[i].style.color = "rgb(214, 73, 107)"
+                svgFocus[i].style.color = "rgb(214, 73, 107)"
+                this.nowSpaceId = this.spaceData[i].id
+                this.nowSpaceName = this.spaceData[i].spaceName
+                spaceDeleteName[0].textContent = `"${this.spaceData[i].spaceName}"`
+                spaceDeleteName[1].textContent = `"${this.spaceData[i].spaceName}"`
                 middleSectionTopSpaceTitle[0].textContent = this.spaceData[i].spaceName
+                spaceSettingNameInput[0].value = this.spaceData[i].spaceName
+                spaceSettingName[0].textContent = ` ${this.spaceData[i].spaceName}`
             })
         }
     }
@@ -953,22 +969,162 @@ class LeftSectionBuild {
         const middleSectionAddCategoryPopoverContainer = document.getElementsByClassName(
             "middleSection-popover-container"
         )
+        const spaceSettingEditNameAlert = document.getElementsByClassName(
+            "space-setting-popover-container-edit-name-alert"
+        )
+        const spaceSettingNameInput = document.getElementsByClassName("space-setting-popover-container-edit-name-input")
         const mask = document.getElementsByClassName("mask")
         spaceSettingPopoverBoxCloseSvg[0].addEventListener("click", () => {
             middleSectionAddCategoryPopoverContainer[0].style.zIndex = "-1000"
             spaceSettingPopoverBox[0].style.transform = "translate(-50%,-150%)"
             mask[0].style.display = "none"
-            //organizationSettingEditNameAlert[0].style.display = "none"
-            //organizationSettingNameInput[0].value = this.nowOrganizationName
-            //this.newOrganizationName = ""
+            spaceSettingEditNameAlert[0].style.display = "none"
+            spaceSettingNameInput[0].value = this.nowSpaceName
+            this.newSpaceName = ""
         })
         spaceSettingPopoverBoxCloseButton[0].addEventListener("click", () => {
             middleSectionAddCategoryPopoverContainer[0].style.zIndex = "-1000"
             spaceSettingPopoverBox[0].style.transform = "translate(-50%,-150%)"
             mask[0].style.display = "none"
-            //organizationSettingEditNameAlert[0].style.display = "none"
-            //organizationSettingNameInput[0].value = this.nowOrganizationName
-            //this.newOrganizationName = ""
+            spaceSettingEditNameAlert[0].style.display = "none"
+            spaceSettingNameInput[0].value = this.nowSpaceName
+            this.newSpaceName = ""
+        })
+    }
+    spaceEditNameInputValue() {
+        const spaceSettingNameInput = document.getElementsByClassName("space-setting-popover-container-edit-name-input")
+        spaceSettingNameInput[0].addEventListener("input", (e) => {
+            this.newSpaceName = e.target.value
+        })
+    }
+    spaceEditNameSaveButton() {
+        const spaceSaveEditNameButton = document.getElementsByClassName("space-setting-popover-container-save-button")
+        const spaceSettingEditNameAlert = document.getElementsByClassName(
+            "space-setting-popover-container-edit-name-alert"
+        )
+        spaceSaveEditNameButton[0].addEventListener("click", async () => {
+            const inputValue = this.newSpaceName
+            if (!inputValue || !inputValue.trim()) {
+                spaceSettingEditNameAlert[0].style.display = "block"
+            } else {
+                const response = await spaceApi.updateSpaceData(this.nowSpaceId, this.nowSpaceName, inputValue)
+                if (response.data.message === "ok") {
+                    location.href = "/main"
+                } else {
+                    spaceSettingEditNameAlert[0].style.display = "block"
+                }
+            }
+        })
+    }
+    spaceEditNameButtonAddEvent() {
+        const spaceSettingEditNameAlert = document.getElementsByClassName(
+            "space-setting-popover-container-edit-name-alert"
+        )
+        const spaceEditNameButton = document.getElementsByClassName("space-setting-popover-container-edit-button")
+        const spaceSaveNameButtons = document.getElementsByClassName("space-setting-popover-container-save-button-box")
+        const spaceSaveCancelButton = document.getElementsByClassName(
+            "space-setting-popover-container-save-cancel-button"
+        )
+        const spaceSettingNameForm = document.getElementsByClassName("space-setting-popover-container-edit-name-form")
+        const spaceSettingNameInput = document.getElementsByClassName("space-setting-popover-container-edit-name-input")
+        spaceEditNameButton[0].addEventListener("click", () => {
+            spaceSaveNameButtons[0].classList.remove("none")
+            spaceEditNameButton[0].classList.add("none")
+            spaceSettingNameForm[0].style.border = "1px solid rgb(197, 197, 211)"
+            spaceSettingNameForm[0].style.padding = "8px"
+            spaceSettingNameInput[0].removeAttribute("disabled")
+            spaceSettingEditNameAlert[0].style.display = "none"
+        })
+        spaceSaveCancelButton[0].addEventListener("click", () => {
+            spaceSaveNameButtons[0].classList.add("none")
+            spaceEditNameButton[0].classList.remove("none")
+            spaceSettingNameForm[0].style.border = "0"
+            spaceSettingNameForm[0].style.padding = "0"
+            spaceSettingNameInput[0].setAttribute("disabled", "disabled")
+            spaceSettingEditNameAlert[0].style.display = "none"
+        })
+    }
+    spaceDeleteButtonAddEvent() {
+        const spaceSettingPopoverBoxDeleteButton = document.getElementsByClassName(
+            "space-setting-popover-box-delete-button"
+        )
+        const spaceDeletePopoverBox = document.getElementsByClassName("space-delete-popover-box")
+        const spaceSettingPopoverBox = document.getElementsByClassName("space-setting-popover-box")
+        spaceSettingPopoverBoxDeleteButton[0].addEventListener("click", () => {
+            spaceSettingPopoverBox[0].style.transform = "translate(-50%,-150%)"
+            spaceDeletePopoverBox[0].style.transform = "translate(-50%)"
+        })
+    }
+    closeSpaceDeleteBox() {
+        const spaceDeletePopoverBoxCloseSvg = document.getElementsByClassName("space-delete-popover-box-close-svg")
+        const spaceDeletePopoverBoxCloseButton = document.getElementsByClassName(
+            "space-delete-popover-box-cancel-button"
+        )
+        const spaceDeletePopoverBox = document.getElementsByClassName("space-delete-popover-box")
+        const mask = document.getElementsByClassName("mask")
+        const middleSectionAddCategoryPopoverContainer = document.getElementsByClassName(
+            "middleSection-popover-container"
+        )
+        spaceDeletePopoverBoxCloseSvg[0].addEventListener("click", () => {
+            middleSectionAddCategoryPopoverContainer[0].style.zIndex = "-1000"
+            spaceDeletePopoverBox[0].style.transform = "translate(-50%,-150%)"
+            mask[0].style.display = "none"
+        })
+        spaceDeletePopoverBoxCloseButton[0].addEventListener("click", () => {
+            middleSectionAddCategoryPopoverContainer[0].style.zIndex = "-1000"
+            spaceDeletePopoverBox[0].style.transform = "translate(-50%,-150%)"
+            mask[0].style.display = "none"
+        })
+    }
+    spaceDeleteDoubleCheckInput() {
+        const spaceDeleteNameDoubleCheckInput = document.getElementsByClassName("space-delete-name-double-check-input")
+        const spaceDeleteConfirmButton = document.getElementById("space-delete-confirm-button")
+        const spaceDeleteConfirmText = document.getElementsByClassName("space-delete-confirm-text")
+        spaceDeleteNameDoubleCheckInput[0].addEventListener("input", (e) => {
+            if (this.nowSpaceName === e.target.value) {
+                spaceDeleteConfirmButton.removeAttribute("disabled")
+                spaceDeleteConfirmButton.classList.replace(
+                    "space-delete-confirm-button",
+                    "space-delete-confirm-button-check"
+                )
+                spaceDeleteConfirmText[0].style.color = "rgb(255, 255, 255)"
+            } else {
+                spaceDeleteConfirmButton.setAttribute("disabled", "disabled")
+                spaceDeleteConfirmButton.classList.replace(
+                    "space-delete-confirm-button-check",
+                    "space-delete-confirm-button"
+                )
+                spaceDeleteConfirmText[0].style.color = "rgb(197, 197, 211)"
+            }
+        })
+    }
+    spaceDeleteDoubleCheckButton() {
+        const spaceDeleteConfirmButton = document.getElementById("space-delete-confirm-button")
+        const spaceDeletePopoverBox = document.getElementsByClassName("space-delete-popover-box")
+        const spaceSuccessDeletePopoverBox = document.getElementsByClassName("space-success-delete-popover-box")
+        const spaceSuccessDeleteText = document.getElementsByClassName("space-success-delete-text")
+        spaceDeleteConfirmButton.addEventListener("click", async () => {
+            const response = await spaceApi.deleteSpaceData(this.nowSpaceId)
+            if (response.data.message === "ok") {
+                spaceDeletePopoverBox[0].style.transform = "translate(-50%,-150%)"
+                spaceSuccessDeletePopoverBox[0].style.transform = "translate(-50%)"
+                spaceSuccessDeleteText[0].textContent = `"${this.nowSpaceName}"Deleted`
+            } else {
+            }
+        })
+    }
+    closeSpaceSuccessDeletePopoverBox() {
+        const spaceSuccessDeleteBoxCloseSvg = document.getElementsByClassName(
+            "space-success-delete-popover-box-close-svg-container"
+        )
+        const spaceSuccessDeleteBoxCloseButton = document.getElementsByClassName(
+            "space-success-delete-popover-box-close-button"
+        )
+        spaceSuccessDeleteBoxCloseSvg[0].addEventListener("click", () => {
+            location.href = "/main"
+        })
+        spaceSuccessDeleteBoxCloseButton[0].addEventListener("click", () => {
+            location.href = "/main"
         })
     }
 }
