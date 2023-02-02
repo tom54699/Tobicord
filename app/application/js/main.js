@@ -1,5 +1,5 @@
 import { authApi, windowApi, organizationApi } from "./API/fetchApi.js"
-import { rightSectionBuild, mainPageBuild, leftSectionBuild } from "./generatePage.js"
+import { rightSectionBuild, mainPageBuild, leftSectionBuild, middleSectionBuild } from "./generatePage.js"
 const logoutButton = document.getElementsByClassName("user-popover-logout-button")
 const preloadBackGround = document.getElementsByClassName("preload-back-ground")
 let isCheck = false
@@ -47,6 +47,8 @@ window.addEventListener("DOMContentLoaded", async () => {
         leftSectionBuild.spaceDeleteDoubleCheckInput()
         leftSectionBuild.spaceDeleteDoubleCheckButton()
         leftSectionBuild.closeSpaceSuccessDeletePopoverBox()
+        middleSectionBuild.createFirstCollectionBoxButtonAddEvent()
+        middleSectionBuild.closeFirstCollectionBoxButtonAddEvent()
     }
     mainPageBuild.rightSectionFold()
     mainPageBuild.leftSectionFold()

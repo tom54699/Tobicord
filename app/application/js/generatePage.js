@@ -1128,7 +1128,40 @@ class LeftSectionBuild {
         })
     }
 }
+class MiddleSectionBuild {
+    createFirstCollectionBoxButtonAddEvent() {
+        const middleSectionContainerAddFirstCollectionButton = document.getElementsByClassName(
+            "middleSection-container-add-first-collection-button"
+        )
+        const middleSectionContainerWithoutCollectionBox = document.getElementsByClassName(
+            "middleSection-container-without-collection-box"
+        )
+        const middleSectionContainerAddCollectionBox = document.getElementsByClassName(
+            "middleSection-container-add-collection-box"
+        )
+        middleSectionContainerAddFirstCollectionButton[0].addEventListener("click", () => {
+            middleSectionContainerWithoutCollectionBox[0].classList.add("none")
+            middleSectionContainerAddCollectionBox[0].classList.remove("none")
+        })
+    }
+    closeFirstCollectionBoxButtonAddEvent() {
+        const middleSectionContainerAddCollectionBoxSaveCancelButton = document.getElementsByClassName(
+            "middleSection-container-add-collection-box-save-cancel-button"
+        )
+        const middleSectionContainerWithoutCollectionBox = document.getElementsByClassName(
+            "middleSection-container-without-collection-box"
+        )
+        const middleSectionContainerAddCollectionBox = document.getElementsByClassName(
+            "middleSection-container-add-collection-box"
+        )
+        middleSectionContainerAddCollectionBoxSaveCancelButton[0].addEventListener("click", () => {
+            middleSectionContainerAddCollectionBox[0].classList.add("none")
+            middleSectionContainerWithoutCollectionBox[0].classList.remove("none")
+        })
+    }
+}
 const rightSectionBuild = new RightSectionBuild()
 const mainPageBuild = new MainPageBuild()
 const leftSectionBuild = new LeftSectionBuild()
-export { rightSectionBuild, mainPageBuild, leftSectionBuild }
+const middleSectionBuild = new MiddleSectionBuild()
+export { rightSectionBuild, mainPageBuild, leftSectionBuild, middleSectionBuild }
