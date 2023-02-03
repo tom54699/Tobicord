@@ -120,7 +120,7 @@ class OrganizationApi {
             return err.response
         }
     }
-    async updateOrganizationData(organizationName, newOrganizationName) {
+    async updateOrganizationData(organizationId, newOrganizationName) {
         try {
             const headers = {
                 "Content-Type": "application/json",
@@ -131,7 +131,7 @@ class OrganizationApi {
                 headers: headers,
             }
             const content = {
-                organizationName: organizationName,
+                organizationId: organizationId,
                 newOrganizationName: newOrganizationName,
             }
             const response = await axios.put("/organization", content, config)
@@ -141,7 +141,7 @@ class OrganizationApi {
             return err.response
         }
     }
-    async deleteOrganizationData(organizationName) {
+    async deleteOrganizationData(organizationId) {
         try {
             const headers = {
                 "Content-Type": "application/json",
@@ -151,7 +151,7 @@ class OrganizationApi {
             const config = {
                 headers: headers,
                 data: {
-                    organizationName: organizationName,
+                    organizationId: organizationId,
                 },
             }
             const response = await axios.delete("/organization", config)
@@ -249,9 +249,95 @@ class SpaceApi {
         }
     }
 }
+class CollectionApi {
+    async uploadCollectionData(spaceId, collectionName) {
+        try {
+            const headers = {
+                "Content-Type": "application/json",
+                Accept: "application/json",
+                Authorization: `Bearer ${window.localStorage.getItem("accessToken")}`,
+            }
+            const config = {
+                headers: headers,
+            }
+            const content = {
+                spaceId: spaceId,
+                collectionName: collectionName,
+            }
+            const response = await axios.post("/collection", content, config)
+            return response
+        } catch (err) {
+            console.log(err)
+            return err.response
+        }
+    }
+    async getUserCollectionData(spaceId) {
+        try {
+            const headers = {
+                "Content-Type": "application/json",
+                Accept: "application/json",
+                Authorization: `Bearer ${window.localStorage.getItem("accessToken")}`,
+            }
+            const config = {
+                headers: headers,
+                params: {
+                    spaceId: spaceId,
+                },
+            }
+            const response = await axios.get("/collection", config)
+            const collectionData = response.data.collectionData
+            return collectionData
+        } catch (err) {
+            console.log(err)
+            return err.response
+        }
+    }
+    async updateCollectionData(collectionId, newCollectionName) {
+        try {
+            const headers = {
+                "Content-Type": "application/json",
+                Accept: "application/json",
+                Authorization: `Bearer ${window.localStorage.getItem("accessToken")}`,
+            }
+            const config = {
+                headers: headers,
+            }
+            const content = {
+                collectionId: collectionId,
+                newCollectionName: newCollectionName,
+            }
+            const response = await axios.put("/collection", content, config)
+            return response
+        } catch (err) {
+            console.log(err)
+            return err.response
+        }
+    }
+    async deleteCollectionData(collectionId) {
+        try {
+            const headers = {
+                "Content-Type": "application/json",
+                Accept: "application/json",
+                Authorization: `Bearer ${window.localStorage.getItem("accessToken")}`,
+            }
+            const config = {
+                headers: headers,
+                data: {
+                    collectionId: collectionId,
+                },
+            }
+            const response = await axios.delete("/collection", config)
+            return response
+        } catch (err) {
+            console.log(err)
+            return err.response
+        }
+    }
+}
 const authApi = new AuthApi()
 const windowApi = new WindowApi()
 const organizationApi = new OrganizationApi()
 const spaceApi = new SpaceApi()
+const collectionApi = new CollectionApi()
 
-export { authApi, windowApi, organizationApi, spaceApi }
+export { authApi, windowApi, organizationApi, spaceApi, collectionApi }

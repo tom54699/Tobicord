@@ -1,9 +1,8 @@
-const Organization = require("../service/OrganizationTable")
-const Space = require("../service/SpaceTable")
 const { validationResult } = require("express-validator")
+const Collection = require("../service/CollectionTable")
 
-class OrganizationController {
-    async uploadOrganizationData(req, res, next) {
+class CollectionController {
+    async uploadCollectionData(req, res, next) {
         try {
             const errors = validationResult(req)
             if (!errors.isEmpty()) {
@@ -12,28 +11,29 @@ class OrganizationController {
                     errorMessages: errors.array(),
                 })
             }
-            const organizationName = req.body.organizationName
-            const organizationData = await Organization.AddOrganizationData(organizationName, req.userId)
-            await Space.CreateSpaceData(organizationData.OrganizationId, req.userId, "Starred Collections")
+            const spaceId = req.body.spaceId
+            const collectionName = req.body.collectionName
+            await Collection.CreateCollectionData(spaceId, collectionName)
             return res.status(200).json({
                 message: "ok",
             })
         } catch (err) {
-            next(err)
+            return err
         }
     }
-    async getUserOrganizationData(req, res, next) {
+    async getUserCollectionData(req, res, next) {
         try {
-            const organizationData = await Organization.GetUserOrganizationData(req.userId)
+            const spaceId = req.query.spaceId
+            const collectionData = await Collection.GetUserCollectionData(spaceId)
             return res.status(200).json({
                 message: "ok",
-                organizationData: organizationData,
+                collectionData: collectionData,
             })
         } catch (err) {
-            next(err)
+            return err
         }
     }
-    async updateOrganizationData(req, res, next) {
+    async updateCollectionData(req, res, next) {
         try {
             const errors = validationResult(req)
             if (!errors.isEmpty()) {
@@ -42,21 +42,17 @@ class OrganizationController {
                     errorMessages: errors.array(),
                 })
             }
-            const response = await Organization.UpdateOrganizationData(
-                req.userId,
-                req.body.organizationId,
-                req.body.newOrganizationName
-            )
+            const response = await Collection.UpdateCollectionData(req.body.collectionId, req.body.newCollectionName)
             return res.status(200).json({
                 message: "ok",
             })
         } catch (err) {
-            next(err)
+            return err
         }
     }
-    async deleteOrganizationData(req, res, next) {
+    async deleteCollectionData(req, res, next) {
         try {
-            const response = await Organization.DeleteOrganizationData(req.body.organizationId)
+            const response = await Collection.DeleteCollectionData(req.body.collectionId)
             return res.status(200).json({
                 message: "ok",
             })
@@ -66,4 +62,4 @@ class OrganizationController {
     }
 }
 
-module.exports = new OrganizationController()
+module.exports = new CollectionController()

@@ -16,12 +16,12 @@ const GetUserOrganizationData = async (userId) => {
     return organization
 }
 
-const UpdateOrganizationData = async (userId, organizationName, newOrganizationName) => {
+const UpdateOrganizationData = async (userId, organizationId, newOrganizationName) => {
     try {
         const member = await Member.findByPk(userId)
         const organization = await member.getOrganizations({
             where: {
-                organizationName: organizationName,
+                id: organizationId,
             },
         })
         const response = await organization[0].update({
@@ -32,11 +32,11 @@ const UpdateOrganizationData = async (userId, organizationName, newOrganizationN
         console.log(err)
     }
 }
-const DeleteOrganizationData = async (organizationName) => {
+const DeleteOrganizationData = async (organizationId) => {
     try {
         const response = await Organization.destroy({
             where: {
-                organizationName: organizationName,
+                id: organizationId,
             },
         })
         return response

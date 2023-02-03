@@ -659,6 +659,9 @@ input[placeholder] {
 .leftSection-spaces-container-main-card:focus .svg-focus {
     background-color: rgb(214, 73, 107);
 }
+.space-svg-color {
+    background-color: rgb(197, 197, 211);
+}
 .leftSection-spaces-container-main-card-button {
     padding: 0px;
     width: 16px;
@@ -2304,9 +2307,6 @@ input[placeholder] {
     width: 100%;
 }
 .middleSection-container-collection-card-box {
-    left: 0px;
-    position: absolute;
-    top: 0px;
     width: 100%;
 }
 .middleSection-container-collection-card-box-hover {
@@ -2362,6 +2362,83 @@ input[placeholder] {
     flex-wrap: wrap;
     gap: 20px;
 }
+.middleSection-container-collection-cards-delete-box {
+    position: absolute;
+    inset: 0px;
+    background-image: linear-gradient(rgb(214, 73, 107) 0%, rgba(214, 73, 107, 0.5) 100%);
+    z-index: 1;
+}
+.middleSection-container-collection-cards-delete-box > div:nth-child(1) {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 20px;
+    -webkit-box-pack: end;
+    justify-content: flex-end;
+    -webkit-box-align: center;
+    align-items: center;
+    gap: 20px;
+}
+.middleSection-container-collection-cards-delete-box > div:nth-child(1) > span {
+    font-weight: 400;
+    text-overflow: ellipsis;
+    white-space: normal;
+    overflow: hidden;
+    font-size: 12px;
+    color: rgb(255, 255, 255);
+}
+.middleSection-container-collection-cards-delete-buttons-box {
+    display: flex;
+    gap: 10px;
+}
+.middleSection-container-collection-cards-cancel-buttons {
+    border-radius: 5px;
+    padding: 5px 10px;
+    display: flex;
+    flex-direction: row;
+    -webkit-box-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    align-items: center;
+    white-space: nowrap;
+    gap: 10px;
+    position: relative;
+    font-weight: 500;
+    text-transform: uppercase;
+    text-align: center;
+    color: rgb(183, 183, 206);
+    background-color: rgb(94, 93, 102);
+    width: min-content;
+    height: 24px;
+    font-size: 12px;
+}
+.middleSection-container-collection-cards-cancel-buttons:hover {
+    color: rgb(248, 249, 251);
+}
+.middleSection-container-collection-cards-delete-buttons {
+    background: rgb(214, 73, 107);
+    color: rgb(255, 255, 255);
+    border-radius: 5px;
+    padding: 5px 10px;
+    display: flex;
+    flex-direction: row;
+    -webkit-box-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    align-items: center;
+    white-space: nowrap;
+    gap: 10px;
+    position: relative;
+    font-weight: 500;
+    text-transform: uppercase;
+    text-align: center;
+    width: min-content;
+    height: 24px;
+    font-size: 12px;
+}
+.middleSection-container-collection-cards-delete-buttons:hover {
+    background: rgb(170, 63, 91);
+}
+
 .middleSection-container-collection-card-container-nav-title {
     display: grid;
     -webkit-box-align: center;
@@ -2419,6 +2496,9 @@ input[placeholder] {
     position: relative;
     gap: 5px;
     opacity: 0;
+}
+.show-opacity {
+    opacity: 1;
 }
 .middleSection-container-collection-card-container-nav-buttons-box > div {
     position: relative;
@@ -2518,6 +2598,120 @@ input[placeholder] {
     -webkit-mask: url("../images/more.svg") no-repeat 50% 50%;
     -webkit-mask-size: cover;
     background-color: rgb(214, 73, 107);
+}
+
+.middleSection-card-container-nav-more-list {
+    visibility: hidden;
+    width: 10rem;
+    padding: 0.25 0.5rem;
+    color: #3e3e3e;
+    border-radius: 0.5rem;
+    z-index: 1000;
+    position: absolute;
+    top: calc(100% + 0.25rem);
+    right: 0.2rem;
+    background: #2f323c;
+    border: 1px solid #292c35;
+    -webkit-box-shadow: 1px 2px 4px 0px rgba(0, 0, 0, 0.27);
+    box-shadow: 1px 2px 4px 0px rgba(0, 0, 0, 0.27);
+    transition: visibility 0.1s ease-in-out 0.1s;
+}
+.middleSection-card-container-nav-more-list > hr {
+    border-bottom: 1px solid #292c35;
+    border: 0;
+    margin: 0;
+    padding: 0;
+}
+.middleSection-card-container-nav-more-button-focus:focus .middleSection-card-container-nav-more-list {
+    visibility: visible;
+}
+.middleSection-card-container-nav-more-button-focus:focus .middleSection-card-container-nav-more-list::before {
+    position: absolute;
+    top: -0.3rem;
+    right: 0.6rem;
+    display: block;
+    width: 0.5rem;
+    height: 0.5rem;
+    -webkit-transform: rotate(45deg);
+    transform: rotate(45deg);
+    content: "";
+    background: #2f323c;
+    border-left: 1px solid #292c35;
+    border-top: 1px solid #292c35;
+}
+
+.card-container-nav-more-list-share-button,
+.card-container-nav-more-list-edit-title-button,
+.card-container-nav-more-list-star-button,
+.card-container-nav-more-list-export-button,
+.card-container-nav-more-list-delete-button {
+    display: flex;
+    gap: 10px;
+    -webkit-box-align: center;
+    align-items: center;
+    padding: 0.6rem 0.5rem;
+    color: rgb(183, 183, 206);
+    width: 100%;
+}
+.card-container-nav-more-list-share-button:hover,
+.card-container-nav-more-list-edit-title-button:hover,
+.card-container-nav-more-list-star-button:hover,
+.card-container-nav-more-list-export-button:hover,
+.card-container-nav-more-list-delete-button:hover {
+    background-color: rgb(170, 63, 91);
+}
+.card-container-nav-more-list-share-button > span,
+.card-container-nav-more-list-edit-title-button > span,
+.card-container-nav-more-list-star-button > span,
+.card-container-nav-more-list-export-button > span,
+.card-container-nav-more-list-delete-button > span {
+    font-size: 12px;
+    color: rgb(183, 183, 206);
+}
+.card-container-nav-more-list-share-svg {
+    width: 0.875rem;
+    height: 0.875rem;
+    mask: url("../images/share.svg") no-repeat 50% 50%;
+    mask-size: cover;
+    -webkit-mask: url("../images/share.svg") no-repeat 50% 50%;
+    -webkit-mask-size: cover;
+    background-color: rgb(183, 183, 206);
+}
+.card-container-nav-more-list-edit-title-svg {
+    width: 0.875rem;
+    height: 0.875rem;
+    mask: url("../images/pen1.svg") no-repeat 50% 50%;
+    mask-size: cover;
+    -webkit-mask: url("../images/pen1.svg") no-repeat 50% 50%;
+    -webkit-mask-size: cover;
+    background-color: rgb(183, 183, 206);
+}
+.card-container-nav-more-list-star-svg {
+    width: 0.875rem;
+    height: 0.875rem;
+    mask: url("../images/star.svg") no-repeat 50% 50%;
+    mask-size: cover;
+    -webkit-mask: url("../images/star.svg") no-repeat 50% 50%;
+    -webkit-mask-size: cover;
+    background-color: rgb(183, 183, 206);
+}
+.card-container-nav-more-list-export-svg {
+    width: 0.875rem;
+    height: 0.875rem;
+    mask: url("../images/exposrt.svg") no-repeat 50% 50%;
+    mask-size: cover;
+    -webkit-mask: url("../images/exposrt.svg") no-repeat 50% 50%;
+    -webkit-mask-size: cover;
+    background-color: rgb(183, 183, 206);
+}
+.card-container-nav-more-list-delete-svg {
+    width: 0.875rem;
+    height: 0.875rem;
+    mask: url("../images/trashcan.svg") no-repeat 50% 50%;
+    mask-size: cover;
+    -webkit-mask: url("../images/trashcan.svg") no-repeat 50% 50%;
+    -webkit-mask-size: cover;
+    background-color: rgb(183, 183, 206);
 }
 .middleSection-container-collection-card-container-cards-space {
     position: relative;

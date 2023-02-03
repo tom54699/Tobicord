@@ -37,6 +37,7 @@ window.addEventListener("DOMContentLoaded", async () => {
         leftSectionBuild.createSpaceButtonAddEvent()
         const defaultOrganizationButton = document.getElementsByClassName("leftSection-nav-top-category-button")[0]
         await defaultOrganizationButton.click()
+        await defaultOrganizationButton.focus()
         leftSectionBuild.openSpaceEditPopoverBox()
         leftSectionBuild.closeSpaceEditPopoverBox()
         leftSectionBuild.spaceEditNameInputValue()
@@ -48,7 +49,6 @@ window.addEventListener("DOMContentLoaded", async () => {
         leftSectionBuild.spaceDeleteDoubleCheckButton()
         leftSectionBuild.closeSpaceSuccessDeletePopoverBox()
         middleSectionBuild.createFirstCollectionBoxButtonAddEvent()
-        middleSectionBuild.closeFirstCollectionBoxButtonAddEvent()
     }
     mainPageBuild.rightSectionFold()
     mainPageBuild.leftSectionFold()
@@ -62,6 +62,8 @@ async function checkMainPageAuth() {
         console.log(result)
         if (response.status === 200) {
             isCheck = true
+        } else {
+            location.href = "/auth"
         }
     } catch (error) {
         isCheck = false

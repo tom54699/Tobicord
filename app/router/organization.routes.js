@@ -18,7 +18,7 @@ router.post(
 router.put(
     "/",
     authMiddleware,
-    check("organizationName").trim().isLength({ min: 1 }),
+    check("newOrganizationName").trim().isLength({ min: 1 }),
     organizationController.updateOrganizationData
 )
 router.delete("/", authMiddleware, organizationController.deleteOrganizationData)
