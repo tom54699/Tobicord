@@ -1,4 +1,4 @@
-import { authApi, windowApi, organizationApi, spaceApi, collectionApi } from "./API/fetchApi.js"
+import { windowApi, organizationApi, spaceApi, collectionApi } from "./API/fetchApi.js"
 class RightSectionBuild {
     constructor() {
         this.isWindowTabsCheck = {}
@@ -12,7 +12,6 @@ class RightSectionBuild {
             this.isWindowTabsCheck = {}
             console.log("拿使用者tab資料")
             const response = await windowApi.getWindow()
-            console.log(response)
             for (let i of response.data.data) {
                 this.windowData[i.windowId] = {}
                 this.generateUserWindowFrame(windowNum, i.windowId)
@@ -38,6 +37,7 @@ class RightSectionBuild {
                 windowNum++
                 this.removeWindowCheckId(i.windowId)
                 this.windowTabContainerAddEvent(i.windowId)
+                mainPageBuild.dragTabCardsAddEvent(i.windowId)
             }
             this.deleteWindowTabCardPopoverButton()
             this.openSelectedWindowTab()
@@ -123,9 +123,7 @@ class RightSectionBuild {
         userWindowContainer[0].appendChild(userWindows)
     }
     generateUserWindowCards(windowNum, favIconUrl, tabName, tabUrl, tabId) {
-        const userWindowCardsContainer = document.getElementsByClassName(
-            "rightSection-spaces-window-tabs-cards-container"
-        )
+        const userWindowCardsContainer = document.getElementsByClassName("rightSection-spaces-window-tabs-cards-container")
         const userWindowCards = document.createElement("div")
         userWindowCards.classList.add("rightSection-spaces-window-tabs-card-frame")
         userWindowCards.setAttribute("id", `userWindowCards-${tabId}`)
@@ -201,22 +199,14 @@ class RightSectionBuild {
                 isWindowTabsCheck = false
                 this.isWindowTabsCheck[tabId] = true
                 windowTabsCheckBoxContainer.classList.add("rightSection-spaces-window-tabs-check-box-container-click")
-                checkBox.classList.replace(
-                    "rightSection-spaces-window-tabs-check-box",
-                    "rightSection-spaces-window-tabs-check-box-click"
-                )
+                checkBox.classList.replace("rightSection-spaces-window-tabs-check-box", "rightSection-spaces-window-tabs-check-box-click")
                 middleTabPopoverContainer[0].style.transform = "translate(-50%, 0px)"
                 this.countCheckAmount()
             } else {
                 isWindowTabsCheck = true
                 this.isWindowTabsCheck[tabId] = false
-                checkBox.classList.replace(
-                    "rightSection-spaces-window-tabs-check-box-click",
-                    "rightSection-spaces-window-tabs-check-box"
-                )
-                windowTabsCheckBoxContainer.classList.remove(
-                    "rightSection-spaces-window-tabs-check-box-container-click"
-                )
+                checkBox.classList.replace("rightSection-spaces-window-tabs-check-box-click", "rightSection-spaces-window-tabs-check-box")
+                windowTabsCheckBoxContainer.classList.remove("rightSection-spaces-window-tabs-check-box-container-click")
                 this.countCheckAmount()
             }
             let isWindowTabsAllCheck = Object.values(this.isWindowTabsCheck).every((check) => check === false)
@@ -228,10 +218,7 @@ class RightSectionBuild {
         middleTabPopoverCloseButton[0].addEventListener("click", () => {
             this.isWindowTabsCheck[tabId] = false
             isWindowTabsCheck = true
-            checkBox.classList.replace(
-                "rightSection-spaces-window-tabs-check-box-click",
-                "rightSection-spaces-window-tabs-check-box"
-            )
+            checkBox.classList.replace("rightSection-spaces-window-tabs-check-box-click", "rightSection-spaces-window-tabs-check-box")
             middleTabPopoverContainer[0].style.transform = "translate(-50%, 300px)"
             windowTabsCheckBoxContainer.classList.remove("rightSection-spaces-window-tabs-check-box-container-click")
         })
@@ -276,9 +263,7 @@ class RightSectionBuild {
         })
     }
     deleteWindowTabCardPopoverButton() {
-        const middleSectionTabPopoverDeleteButton = document.getElementsByClassName(
-            "middleSection-tab-popover-delete-button"
-        )
+        const middleSectionTabPopoverDeleteButton = document.getElementsByClassName("middleSection-tab-popover-delete-button")
         middleSectionTabPopoverDeleteButton[0].addEventListener("click", () => {
             console.log(this.isWindowTabsCheck)
             let isisWindowTabsCheckTrue = []
@@ -297,9 +282,7 @@ class RightSectionBuild {
         })
     }
     openSelectedWindowTab() {
-        const middleSectionTabPopoverOpenButton = document.getElementsByClassName(
-            "middleSection-tab-popover-open-button"
-        )
+        const middleSectionTabPopoverOpenButton = document.getElementsByClassName("middleSection-tab-popover-open-button")
         middleSectionTabPopoverOpenButton[0].addEventListener("click", () => {
             let isisWindowTabsCheckTrue = []
             Object.keys(this.isWindowTabsCheck).forEach((key) => {
@@ -314,8 +297,7 @@ class RightSectionBuild {
                         let hnd = window.open(`${j[i].tabUrl}`, "_blank")
                         if (!hnd) {
                             let div = document.createElement("div")
-                            div.style =
-                                "position:absolute;top:3px;right:3px;opacity:1;background-color:purple;color:white;padding:6px;"
+                            div.style = "position:absolute;top:3px;right:3px;opacity:1;background-color:purple;color:white;padding:6px;"
                             div.innerText = "開啟新視窗時遭快顯封鎖"
                             document.body.appendChild(div)
                         }
@@ -425,6 +407,75 @@ class MainPageBuild {
             }
         })
     }
+    /* 拖移 */
+    dragTabCardsAddEvent(windowId) {
+        const rightSectionSpacesWindowTabsCardsContainer = document.getElementById(`window_${windowId}`)
+        new Sortable(rightSectionSpacesWindowTabsCardsContainer, {
+            group: {
+                name: "shared",
+                put: false, // 不允许拖拽进这个列表
+            },
+            animation: 150,
+            onEnd(evt) {
+                console.log("onEnd: 列表单元拖放结束后的回调函数！")
+                const windowId = evt.from.id.slice(7)
+                const tabId = evt.item.id.slice(16)
+                const tabData = rightSectionBuild.windowData[`${windowId}`][`${tabId}`]
+                const tabName = tabData.tabName
+                const favIconUrl = tabData.favIconUrl
+                const tabUrl = tabData.tabUrl
+            },
+        })
+    }
+    dragCollectionAddEvent(collectionId) {
+        const middleSectionContainerRemindAddCollectionBox = document.getElementById(
+            `middleSection-container-remind-add-collection-box-${collectionId}`
+        )
+        new Sortable(middleSectionContainerRemindAddCollectionBox, {
+            group: "shared",
+            animation: 150,
+            onAdd(evt) {
+                console.log("onAdd: 其他列表单元添加到本列表容器的回调函数", evt.item)
+                middleSectionContainerRemindAddCollectionBox.classList.replace(
+                    "middleSection-container-remind-add-collection-box-created",
+                    "middleSection-container-collection-card-container-cards-space"
+                )
+                const fromBlock = evt.from.id.slice(0, 6)
+                if (fromBlock === "window") {
+                    const windowId = evt.from.id.slice(7)
+                    const tabId = evt.item.id.slice(16)
+                    const tabData = rightSectionBuild.windowData[`${windowId}`][`${tabId}`]
+                    const tabName = tabData.tabName
+                    const favIconUrl = tabData.favIconUrl
+                    const tabUrl = tabData.tabUrl
+                    mainPageBuild.transferTabCardsFormat(tabId, tabName, tabUrl, favIconUrl)
+                }
+                //const collectionId = evt.to.id.slice(50)
+            },
+        })
+    }
+    transferTabCardsFormat(tabId, tabName, tabUrl, favIconUrl) {
+        const userWindowCards = document.getElementById(`userWindowCards-${tabId}`)
+        userWindowCards.classList.replace("rightSection-spaces-window-tabs-card-frame", "middleSection-container-collection-tab-card-box")
+        userWindowCards.innerHTML = ` <div class="middleSection-container-collection-tab-card-container">
+        <div class="middleSection-container-collection-tab-card">
+            <div class="middleSection-container-collection-tab-card-title">
+                    <div class="middleSection-container-collection-tab-card-check-box">
+                        <span></span>
+                    </div>
+                    <img src="${favIconUrl}" class="middleSection-container-collection-tab-card-image">
+                    <a href="${tabUrl}" target="_blank" class="middleSection-container-collection-tab-card-text">${tabName}</a>
+                </div>
+                <div class="middleSection-container-collection-tab-card-cancel-description">
+                    <span class="middleSection-container-collection-tab-card-cancel-description-text"
+                        >${tabName}</span
+                    >
+                </div>
+                <button class="middleSection-container-collection-tab-card-cancel-button"></button>
+                <button class="middleSection-container-collection-tab-card-edit-button"></button>
+            </div>
+        </div>`
+    }
 }
 
 class LeftSectionBuild {
@@ -446,12 +497,8 @@ class LeftSectionBuild {
     leftSectionNavPlusButtonAddEvent() {
         const leftSectionNavPlusButton = document.getElementsByClassName("add-svg")
         const mask = document.getElementsByClassName("mask")
-        const middleSectionAddCategoryPopoverContainer = document.getElementsByClassName(
-            "middleSection-popover-container"
-        )
-        const middleSectionAddCategoryPopoverBox = document.getElementsByClassName(
-            "middleSection-add-category-popover-box"
-        )
+        const middleSectionAddCategoryPopoverContainer = document.getElementsByClassName("middleSection-popover-container")
+        const middleSectionAddCategoryPopoverBox = document.getElementsByClassName("middleSection-add-category-popover-box")
         leftSectionNavPlusButton[0].addEventListener("click", () => {
             middleSectionAddCategoryPopoverContainer[0].style.zIndex = "9999"
             middleSectionAddCategoryPopoverBox[0].style.transform = "translate(-50%)"
@@ -462,19 +509,13 @@ class LeftSectionBuild {
         const addCategoryPopoverFormNameInputAlert = document.getElementsByClassName(
             "middleSection-add-category-popover-box-form-name-input-alert"
         )
-        const addCategoryPopoverBoxCloseSvg = document.getElementsByClassName(
-            "middleSection-add-category-popover-box-close-svg-container"
-        )
+        const addCategoryPopoverBoxCloseSvg = document.getElementsByClassName("middleSection-add-category-popover-box-close-svg-container")
         const addCategoryPopoverBoxCloseButton = document.getElementsByClassName(
             "middleSection-add-category-popover-box-form-cancel-button"
         )
         const mask = document.getElementsByClassName("mask")
-        const middleSectionAddCategoryPopoverContainer = document.getElementsByClassName(
-            "middleSection-popover-container"
-        )
-        const middleSectionAddCategoryPopoverBox = document.getElementsByClassName(
-            "middleSection-add-category-popover-box"
-        )
+        const middleSectionAddCategoryPopoverContainer = document.getElementsByClassName("middleSection-popover-container")
+        const middleSectionAddCategoryPopoverBox = document.getElementsByClassName("middleSection-add-category-popover-box")
         addCategoryPopoverBoxCloseButton[0].addEventListener("click", () => {
             middleSectionAddCategoryPopoverContainer[0].style.zIndex = "-1000"
             middleSectionAddCategoryPopoverBox[0].style.transform = "translate(-50%,-150%)"
@@ -489,9 +530,7 @@ class LeftSectionBuild {
         })
     }
     getAddCategoryPopoverInputValue() {
-        const addCategoryPopoverFormNameInput = document.getElementsByClassName(
-            "middleSection-add-category-popover-box-form-name-input"
-        )
+        const addCategoryPopoverFormNameInput = document.getElementsByClassName("middleSection-add-category-popover-box-form-name-input")
         const addCategoryPopoverFormInviteInput = document.getElementsByClassName(
             "middleSection-add-category-popover-box-form-invite-input"
         )
@@ -542,12 +581,8 @@ class LeftSectionBuild {
     }
     /* OrganizationSwitch */
     async switchToDifferentOrganization() {
-        const organizationSettingPopoverRightBoxTitle = document.getElementsByClassName(
-            "organization-setting-popover-right-box-title"
-        )
-        const organizationSettingNameInput = document.getElementsByClassName(
-            "organization-setting-popover-right-box-edit-name-input"
-        )
+        const organizationSettingPopoverRightBoxTitle = document.getElementsByClassName("organization-setting-popover-right-box-title")
+        const organizationSettingNameInput = document.getElementsByClassName("organization-setting-popover-right-box-edit-name-input")
         const leftSectionNavTopCategory = document.getElementsByClassName("leftSection-nav-top-category")
         const organizationDeleteName = document.getElementsByClassName("organization-delete-name")
         const leftSectionSpacesTopTitle = document.getElementsByClassName("leftSection-spaces-top-title")
@@ -587,12 +622,8 @@ class LeftSectionBuild {
     }
     /* Organization Edit Delete Popover */
     openOrganizationEditPopoverButtonAddEvent() {
-        const openOrganizationEditPopoverButton = document.getElementsByClassName(
-            "leftSection-spaces-top-subtitle-gear-container"
-        )
-        const middleSectionAddCategoryPopoverContainer = document.getElementsByClassName(
-            "middleSection-popover-container"
-        )
+        const openOrganizationEditPopoverButton = document.getElementsByClassName("leftSection-spaces-top-subtitle-gear-container")
+        const middleSectionAddCategoryPopoverContainer = document.getElementsByClassName("middleSection-popover-container")
         const organizationSettingPopoverBox = document.getElementsByClassName("organization-setting-popover-box")
         const mask = document.getElementsByClassName("mask")
         openOrganizationEditPopoverButton[0].addEventListener("click", () => {
@@ -602,23 +633,13 @@ class LeftSectionBuild {
         })
     }
     closeOrganizationEditPopoverButtonAddEvent() {
-        const middleSectionAddCategoryPopoverContainer = document.getElementsByClassName(
-            "middleSection-popover-container"
-        )
+        const middleSectionAddCategoryPopoverContainer = document.getElementsByClassName("middleSection-popover-container")
         const organizationSettingPopoverBox = document.getElementsByClassName("organization-setting-popover-box")
         const mask = document.getElementsByClassName("mask")
-        const organizationSettingPopoverCloseSvg = document.getElementsByClassName(
-            "organization-setting-popover-box-close-svg"
-        )
-        const organizationSettingPopoverCloseButton = document.getElementsByClassName(
-            "organization-setting-popover-right-box-close-button"
-        )
-        const organizationSettingEditNameAlert = document.getElementsByClassName(
-            "organization-setting-popover-right-box-edit-name-alert"
-        )
-        const organizationSettingNameInput = document.getElementsByClassName(
-            "organization-setting-popover-right-box-edit-name-input"
-        )
+        const organizationSettingPopoverCloseSvg = document.getElementsByClassName("organization-setting-popover-box-close-svg")
+        const organizationSettingPopoverCloseButton = document.getElementsByClassName("organization-setting-popover-right-box-close-button")
+        const organizationSettingEditNameAlert = document.getElementsByClassName("organization-setting-popover-right-box-edit-name-alert")
+        const organizationSettingNameInput = document.getElementsByClassName("organization-setting-popover-right-box-edit-name-input")
         organizationSettingPopoverCloseButton[0].addEventListener("click", () => {
             middleSectionAddCategoryPopoverContainer[0].style.zIndex = "-1000"
             organizationSettingPopoverBox[0].style.transform = "translate(-50%,-150%)"
@@ -637,20 +658,14 @@ class LeftSectionBuild {
         })
     }
     getOrganizationNameEditInputValue() {
-        const organizationSettingNameInput = document.getElementsByClassName(
-            "organization-setting-popover-right-box-edit-name-input"
-        )
+        const organizationSettingNameInput = document.getElementsByClassName("organization-setting-popover-right-box-edit-name-input")
         organizationSettingNameInput[0].addEventListener("input", (e) => {
             this.newOrganizationName = e.target.value
         })
     }
     saveOrganizationNameEditButtonAddEvent() {
-        const organizationSaveEditNameButton = document.getElementsByClassName(
-            "organization-setting-popover-right-box-save-button"
-        )
-        const organizationSettingEditNameAlert = document.getElementsByClassName(
-            "organization-setting-popover-right-box-edit-name-alert"
-        )
+        const organizationSaveEditNameButton = document.getElementsByClassName("organization-setting-popover-right-box-save-button")
+        const organizationSettingEditNameAlert = document.getElementsByClassName("organization-setting-popover-right-box-edit-name-alert")
         organizationSaveEditNameButton[0].addEventListener("click", async () => {
             const inputValue = this.newOrganizationName
             if (!inputValue || !inputValue.trim()) {
@@ -666,24 +681,12 @@ class LeftSectionBuild {
         })
     }
     organizationEditNameButtonAddEvent() {
-        const organizationSettingEditNameAlert = document.getElementsByClassName(
-            "organization-setting-popover-right-box-edit-name-alert"
-        )
-        const organizationEditNameButton = document.getElementsByClassName(
-            "organization-setting-popover-right-box-edit-button"
-        )
-        const organizationSaveNameButtons = document.getElementsByClassName(
-            "organization-setting-popover-right-box-save-button-box"
-        )
-        const organizationSaveCancelButton = document.getElementsByClassName(
-            "organization-setting-popover-right-box-save-cancel-button"
-        )
-        const organizationSettingNameForm = document.getElementsByClassName(
-            "organization-setting-popover-right-box-edit-name-form"
-        )
-        const organizationSettingNameInput = document.getElementsByClassName(
-            "organization-setting-popover-right-box-edit-name-input"
-        )
+        const organizationSettingEditNameAlert = document.getElementsByClassName("organization-setting-popover-right-box-edit-name-alert")
+        const organizationEditNameButton = document.getElementsByClassName("organization-setting-popover-right-box-edit-button")
+        const organizationSaveNameButtons = document.getElementsByClassName("organization-setting-popover-right-box-save-button-box")
+        const organizationSaveCancelButton = document.getElementsByClassName("organization-setting-popover-right-box-save-cancel-button")
+        const organizationSettingNameForm = document.getElementsByClassName("organization-setting-popover-right-box-edit-name-form")
+        const organizationSettingNameInput = document.getElementsByClassName("organization-setting-popover-right-box-edit-name-input")
         organizationEditNameButton[0].addEventListener("click", () => {
             organizationSaveNameButtons[0].classList.remove("none")
             organizationEditNameButton[0].classList.add("none")
@@ -702,14 +705,10 @@ class LeftSectionBuild {
         })
     }
     organizationDeleteButtonAddEvent() {
-        const organizationSettingDeleteButton = document.getElementsByClassName(
-            "organization-setting-popover-right-box-Delete-button"
-        )
+        const organizationSettingDeleteButton = document.getElementsByClassName("organization-setting-popover-right-box-Delete-button")
         const organizationDeletePopoverBox = document.getElementsByClassName("organization-delete-popover-box")
         const mask = document.getElementsByClassName("mask")
-        const middleSectionAddCategoryPopoverContainer = document.getElementsByClassName(
-            "middleSection-popover-container"
-        )
+        const middleSectionAddCategoryPopoverContainer = document.getElementsByClassName("middleSection-popover-container")
         const organizationSettingPopoverBox = document.getElementsByClassName("organization-setting-popover-box")
         organizationSettingDeleteButton[0].addEventListener("click", () => {
             middleSectionAddCategoryPopoverContainer[0].style.zIndex = "9999"
@@ -719,17 +718,11 @@ class LeftSectionBuild {
         })
     }
     closeOrganizationDeleteBox() {
-        const organizationDeletePopoverBoxCloseSvg = document.getElementsByClassName(
-            "organization-delete-popover-box-close-svg"
-        )
-        const organizationDeletePopoverBoxCloseButton = document.getElementsByClassName(
-            "organization-delete-popover-box-cancel-button"
-        )
+        const organizationDeletePopoverBoxCloseSvg = document.getElementsByClassName("organization-delete-popover-box-close-svg")
+        const organizationDeletePopoverBoxCloseButton = document.getElementsByClassName("organization-delete-popover-box-cancel-button")
         const organizationDeletePopoverBox = document.getElementsByClassName("organization-delete-popover-box")
         const mask = document.getElementsByClassName("mask")
-        const middleSectionAddCategoryPopoverContainer = document.getElementsByClassName(
-            "middleSection-popover-container"
-        )
+        const middleSectionAddCategoryPopoverContainer = document.getElementsByClassName("middleSection-popover-container")
         organizationDeletePopoverBoxCloseSvg[0].addEventListener("click", () => {
             middleSectionAddCategoryPopoverContainer[0].style.zIndex = "-1000"
             organizationDeletePopoverBox[0].style.transform = "translate(-50%,-150%)"
@@ -742,9 +735,7 @@ class LeftSectionBuild {
         })
     }
     organizationDeleteDoubleCheckInput() {
-        const organizationDeleteNameDoubleCheckInput = document.getElementsByClassName(
-            "organization-delete-name-double-check-input"
-        )
+        const organizationDeleteNameDoubleCheckInput = document.getElementsByClassName("organization-delete-name-double-check-input")
         const organizationDeleteConfirmButton = document.getElementById("organization-delete-confirm-button")
         const organizationDeleteConfirmText = document.getElementsByClassName("organization-delete-confirm-text")
         organizationDeleteNameDoubleCheckInput[0].addEventListener("input", (e) => {
@@ -768,9 +759,7 @@ class LeftSectionBuild {
     organizationDeleteDoubleCheckButton() {
         const organizationDeleteConfirmButton = document.getElementById("organization-delete-confirm-button")
         const organizationDeletePopoverBox = document.getElementsByClassName("organization-delete-popover-box")
-        const organizationSuccessDeletePopoverBox = document.getElementsByClassName(
-            "organization-success-delete-popover-box"
-        )
+        const organizationSuccessDeletePopoverBox = document.getElementsByClassName("organization-success-delete-popover-box")
         const organizationSuccessDeleteText = document.getElementsByClassName("organization-success-delete-text")
         organizationDeleteConfirmButton.addEventListener("click", async () => {
             const response = await organizationApi.deleteOrganizationData(this.nowOrganizationId)
@@ -800,9 +789,7 @@ class LeftSectionBuild {
     spaceCreatePopoverBoxButtonAddEvent() {
         const spacesAddButton = document.getElementsByClassName("leftSection-spaces-container-top-add-svg")
         const spaceCreatePopoverBox = document.getElementsByClassName("space-create-popover-box")
-        const middleSectionAddCategoryPopoverContainer = document.getElementsByClassName(
-            "middleSection-popover-container"
-        )
+        const middleSectionAddCategoryPopoverContainer = document.getElementsByClassName("middleSection-popover-container")
         const mask = document.getElementsByClassName("mask")
         spacesAddButton[0].addEventListener("click", () => {
             middleSectionAddCategoryPopoverContainer[0].style.zIndex = "9999"
@@ -812,17 +799,11 @@ class LeftSectionBuild {
     }
     closeSpaceCreatePopoverBox() {
         const spaceCreatePopoverBox = document.getElementsByClassName("space-create-popover-box")
-        const middleSectionAddCategoryPopoverContainer = document.getElementsByClassName(
-            "middleSection-popover-container"
-        )
+        const middleSectionAddCategoryPopoverContainer = document.getElementsByClassName("middleSection-popover-container")
         const spaceCreateNameInputAlert = document.getElementsByClassName("space-create-name-input-alert")
         const mask = document.getElementsByClassName("mask")
-        const spaceCreatePopoverBoxCloseSvg = document.getElementsByClassName(
-            "space-create-popover-box-close-svg-container"
-        )
-        const spaceCreatePopoverBoxCloseButton = document.getElementsByClassName(
-            "space-create-popover-box-form-cancel-button"
-        )
+        const spaceCreatePopoverBoxCloseSvg = document.getElementsByClassName("space-create-popover-box-close-svg-container")
+        const spaceCreatePopoverBoxCloseButton = document.getElementsByClassName("space-create-popover-box-form-cancel-button")
         const spaceCreateNameInput = document.getElementsByClassName("space-create-name-input")
         spaceCreatePopoverBoxCloseSvg[0].addEventListener("click", () => {
             middleSectionAddCategoryPopoverContainer[0].style.zIndex = "-1000"
@@ -848,9 +829,7 @@ class LeftSectionBuild {
         })
     }
     createSpaceButtonAddEvent() {
-        const spaceCreatePopoverBoxCreateButton = document.getElementsByClassName(
-            "space-create-popover-box-form-create-button"
-        )
+        const spaceCreatePopoverBoxCreateButton = document.getElementsByClassName("space-create-popover-box-form-create-button")
         const spaceCreateNameInputAlert = document.getElementsByClassName("space-create-name-input-alert")
         spaceCreatePopoverBoxCreateButton[0].addEventListener("click", async () => {
             const inputValue = this.createSpaceName
@@ -915,13 +894,9 @@ class LeftSectionBuild {
         const middleSectionTopSpaceTitle = document.getElementsByClassName("middleSection-top-title")
         const spaceSettingNameInput = document.getElementsByClassName("space-setting-popover-container-edit-name-input")
         const spaceSettingName = document.getElementsByClassName("space-setting-name")
-        const leftSectionSpacesContainerMainCard = document.getElementsByClassName(
-            "leftSection-spaces-container-main-card"
-        )
+        const leftSectionSpacesContainerMainCard = document.getElementsByClassName("leftSection-spaces-container-main-card")
         const spaceSvgColor = document.getElementsByClassName("space-svg-color")
-        const leftSectionSpacesContainerCardTitle = document.getElementsByClassName(
-            "leftSection-spaces-container-main-card-title"
-        )
+        const leftSectionSpacesContainerCardTitle = document.getElementsByClassName("leftSection-spaces-container-main-card-title")
         const spaceDeleteName = document.getElementsByClassName("space-delete-name")
         let num = Array.from(leftSectionSpacesContainerMainCard).length
         for (let i = 0; i < num; i++) {
@@ -949,9 +924,7 @@ class LeftSectionBuild {
     openSpaceEditPopoverBox() {
         const openSpaceEditPopoverBoxButton = document.getElementsByClassName("middleSection-top-config-button")
         const spaceSettingPopoverBox = document.getElementsByClassName("space-setting-popover-box")
-        const middleSectionAddCategoryPopoverContainer = document.getElementsByClassName(
-            "middleSection-popover-container"
-        )
+        const middleSectionAddCategoryPopoverContainer = document.getElementsByClassName("middleSection-popover-container")
         const mask = document.getElementsByClassName("mask")
         openSpaceEditPopoverBoxButton[0].addEventListener("click", () => {
             middleSectionAddCategoryPopoverContainer[0].style.zIndex = "9999"
@@ -960,19 +933,11 @@ class LeftSectionBuild {
         })
     }
     closeSpaceEditPopoverBox() {
-        const spaceSettingPopoverBoxCloseSvg = document.getElementsByClassName(
-            "space-setting-popover-box-close-svg-container"
-        )
-        const spaceSettingPopoverBoxCloseButton = document.getElementsByClassName(
-            "space-setting-popover-box-close-button"
-        )
+        const spaceSettingPopoverBoxCloseSvg = document.getElementsByClassName("space-setting-popover-box-close-svg-container")
+        const spaceSettingPopoverBoxCloseButton = document.getElementsByClassName("space-setting-popover-box-close-button")
         const spaceSettingPopoverBox = document.getElementsByClassName("space-setting-popover-box")
-        const middleSectionAddCategoryPopoverContainer = document.getElementsByClassName(
-            "middleSection-popover-container"
-        )
-        const spaceSettingEditNameAlert = document.getElementsByClassName(
-            "space-setting-popover-container-edit-name-alert"
-        )
+        const middleSectionAddCategoryPopoverContainer = document.getElementsByClassName("middleSection-popover-container")
+        const spaceSettingEditNameAlert = document.getElementsByClassName("space-setting-popover-container-edit-name-alert")
         const spaceSettingNameInput = document.getElementsByClassName("space-setting-popover-container-edit-name-input")
         const mask = document.getElementsByClassName("mask")
         spaceSettingPopoverBoxCloseSvg[0].addEventListener("click", () => {
@@ -1000,9 +965,7 @@ class LeftSectionBuild {
     }
     spaceEditNameSaveButton() {
         const spaceSaveEditNameButton = document.getElementsByClassName("space-setting-popover-container-save-button")
-        const spaceSettingEditNameAlert = document.getElementsByClassName(
-            "space-setting-popover-container-edit-name-alert"
-        )
+        const spaceSettingEditNameAlert = document.getElementsByClassName("space-setting-popover-container-edit-name-alert")
         spaceSaveEditNameButton[0].addEventListener("click", async () => {
             const inputValue = this.newSpaceName
             if (!inputValue || !inputValue.trim()) {
@@ -1018,14 +981,10 @@ class LeftSectionBuild {
         })
     }
     spaceEditNameButtonAddEvent() {
-        const spaceSettingEditNameAlert = document.getElementsByClassName(
-            "space-setting-popover-container-edit-name-alert"
-        )
+        const spaceSettingEditNameAlert = document.getElementsByClassName("space-setting-popover-container-edit-name-alert")
         const spaceEditNameButton = document.getElementsByClassName("space-setting-popover-container-edit-button")
         const spaceSaveNameButtons = document.getElementsByClassName("space-setting-popover-container-save-button-box")
-        const spaceSaveCancelButton = document.getElementsByClassName(
-            "space-setting-popover-container-save-cancel-button"
-        )
+        const spaceSaveCancelButton = document.getElementsByClassName("space-setting-popover-container-save-cancel-button")
         const spaceSettingNameForm = document.getElementsByClassName("space-setting-popover-container-edit-name-form")
         const spaceSettingNameInput = document.getElementsByClassName("space-setting-popover-container-edit-name-input")
         spaceEditNameButton[0].addEventListener("click", () => {
@@ -1046,9 +1005,7 @@ class LeftSectionBuild {
         })
     }
     spaceDeleteButtonAddEvent() {
-        const spaceSettingPopoverBoxDeleteButton = document.getElementsByClassName(
-            "space-setting-popover-box-delete-button"
-        )
+        const spaceSettingPopoverBoxDeleteButton = document.getElementsByClassName("space-setting-popover-box-delete-button")
         const spaceDeletePopoverBox = document.getElementsByClassName("space-delete-popover-box")
         const spaceSettingPopoverBox = document.getElementsByClassName("space-setting-popover-box")
         spaceSettingPopoverBoxDeleteButton[0].addEventListener("click", () => {
@@ -1058,14 +1015,10 @@ class LeftSectionBuild {
     }
     closeSpaceDeleteBox() {
         const spaceDeletePopoverBoxCloseSvg = document.getElementsByClassName("space-delete-popover-box-close-svg")
-        const spaceDeletePopoverBoxCloseButton = document.getElementsByClassName(
-            "space-delete-popover-box-cancel-button"
-        )
+        const spaceDeletePopoverBoxCloseButton = document.getElementsByClassName("space-delete-popover-box-cancel-button")
         const spaceDeletePopoverBox = document.getElementsByClassName("space-delete-popover-box")
         const mask = document.getElementsByClassName("mask")
-        const middleSectionAddCategoryPopoverContainer = document.getElementsByClassName(
-            "middleSection-popover-container"
-        )
+        const middleSectionAddCategoryPopoverContainer = document.getElementsByClassName("middleSection-popover-container")
         spaceDeletePopoverBoxCloseSvg[0].addEventListener("click", () => {
             middleSectionAddCategoryPopoverContainer[0].style.zIndex = "-1000"
             spaceDeletePopoverBox[0].style.transform = "translate(-50%,-150%)"
@@ -1084,17 +1037,11 @@ class LeftSectionBuild {
         spaceDeleteNameDoubleCheckInput[0].addEventListener("input", (e) => {
             if (this.nowSpaceName === e.target.value) {
                 spaceDeleteConfirmButton.removeAttribute("disabled")
-                spaceDeleteConfirmButton.classList.replace(
-                    "space-delete-confirm-button",
-                    "space-delete-confirm-button-check"
-                )
+                spaceDeleteConfirmButton.classList.replace("space-delete-confirm-button", "space-delete-confirm-button-check")
                 spaceDeleteConfirmText[0].style.color = "rgb(255, 255, 255)"
             } else {
                 spaceDeleteConfirmButton.setAttribute("disabled", "disabled")
-                spaceDeleteConfirmButton.classList.replace(
-                    "space-delete-confirm-button-check",
-                    "space-delete-confirm-button"
-                )
+                spaceDeleteConfirmButton.classList.replace("space-delete-confirm-button-check", "space-delete-confirm-button")
                 spaceDeleteConfirmText[0].style.color = "rgb(197, 197, 211)"
             }
         })
@@ -1115,12 +1062,8 @@ class LeftSectionBuild {
         })
     }
     closeSpaceSuccessDeletePopoverBox() {
-        const spaceSuccessDeleteBoxCloseSvg = document.getElementsByClassName(
-            "space-success-delete-popover-box-close-svg-container"
-        )
-        const spaceSuccessDeleteBoxCloseButton = document.getElementsByClassName(
-            "space-success-delete-popover-box-close-button"
-        )
+        const spaceSuccessDeleteBoxCloseSvg = document.getElementsByClassName("space-success-delete-popover-box-close-svg-container")
+        const spaceSuccessDeleteBoxCloseButton = document.getElementsByClassName("space-success-delete-popover-box-close-button")
         spaceSuccessDeleteBoxCloseSvg[0].addEventListener("click", () => {
             location.href = "/main"
         })
@@ -1134,6 +1077,7 @@ class MiddleSectionBuild {
         this.collectionData
         this.nowCollectionName
         this.nowCollectionId
+        this.isCollectionsCheck = {}
     }
     /* switch Collection */
     async switchToDifferentCollection() {}
@@ -1146,12 +1090,8 @@ class MiddleSectionBuild {
         }
     }
     async getCollectionDataToCreateCollections() {
-        const middleSectionContainerWithoutCollectionBox = document.getElementsByClassName(
-            "middleSection-container-without-collection-box"
-        )
-        const middleSectionContainerCollectionBox = document.getElementsByClassName(
-            "middleSection-container-collection-box"
-        )
+        const middleSectionContainerWithoutCollectionBox = document.getElementsByClassName("middleSection-container-without-collection-box")
+        const middleSectionContainerCollectionBox = document.getElementsByClassName("middleSection-container-collection-box")
         this.collectionData = await collectionApi.getUserCollectionData(leftSectionBuild.nowSpaceId)
         await this.initCollectionCard()
         const num = this.collectionData.length
@@ -1159,13 +1099,15 @@ class MiddleSectionBuild {
             for (let i = 0; i < num; i++) {
                 middleSectionContainerCollectionBox[0].classList.remove("none")
                 middleSectionContainerWithoutCollectionBox[0].classList.add("none")
-                this.generateInitCollectionCard(this.collectionData[i].collectionName)
+                this.generateInitCollectionCard(this.collectionData[i].collectionName, this.collectionData[i].id)
                 this.editCollectionNameButtonAddEvent(i)
                 this.closeCollectionBoxButtonAddEvent(i)
                 this.maintainFocusStatusForMoreButton(i)
                 await this.updateCollectionNameSaveButtonAddEvent(i)
                 this.openDeleteCollectionCardBoxButtonAddEvent(i)
                 this.deleteCollectionCardButtonAddEvent(i)
+                this.collectionCardCheckBoxPopover(i, this.collectionData[i].id)
+                mainPageBuild.dragCollectionAddEvent(this.collectionData[i].id)
             }
         } else {
             middleSectionContainerCollectionBox[0].classList.add("none")
@@ -1179,24 +1121,34 @@ class MiddleSectionBuild {
         const middleSectionContainerCollectionCardContainerNavButtonsBox = document.getElementsByClassName(
             "middleSection-container-collection-card-container-nav-buttons-box"
         )
+        const middleSectionCardContainerNavMoreList = document.getElementsByClassName("middleSection-card-container-nav-more-list")
+        let isClicked = false
         middleSectionCardContainerNavMoreButton[i].addEventListener("focus", () => {
             middleSectionContainerCollectionCardContainerNavButtonsBox[i].classList.add("show-opacity")
         })
 
         middleSectionCardContainerNavMoreButton[i].addEventListener("blur", () => {
             middleSectionContainerCollectionCardContainerNavButtonsBox[i].classList.remove("show-opacity")
+            isClicked = false
+        })
+        middleSectionCardContainerNavMoreButton[i].addEventListener("click", () => {
+            if (!isClicked) {
+                middleSectionCardContainerNavMoreButton[i].focus()
+                isClicked = true
+            } else {
+                middleSectionCardContainerNavMoreButton[i].blur()
+                isClicked = false
+            }
         })
     }
-    generateInitCollectionCard(collectionName) {
-        const middleSectionContainerCollectionCardsBox = document.getElementsByClassName(
-            "middleSection-container-collection-cards-box"
-        )
+    generateInitCollectionCard(collectionName, collectionId) {
+        const middleSectionContainerCollectionCardsBox = document.getElementsByClassName("middleSection-container-collection-cards-box")
         const middleSectionContainerCollectionCardBox = document.createElement("div")
         middleSectionContainerCollectionCardBox.classList.add("middleSection-container-collection-card-box")
         middleSectionContainerCollectionCardBox.innerHTML = ` <div class="middleSection-container-collection-card-box-hover">
             <div>
                 <div class="middleSection-container-collection-card-box-check-box">
-                    <span></span>
+                    <span class="collection-card-box-check-box" id="collection-check-box-${collectionId}"></span>
                 </div>
                 <div class="middleSection-container-collection-card-container">
                     <div
@@ -1329,7 +1281,7 @@ class MiddleSectionBuild {
                     </div>
                     <!-- Remind -->
                     <div
-                        id="middleSection-container-remind-add-collection-box"
+                        id="middleSection-container-remind-add-collection-box-${collectionId}"
                         class="middleSection-container-remind-add-collection-box-created"
                     ></div>
                 </div>
@@ -1338,9 +1290,7 @@ class MiddleSectionBuild {
         middleSectionContainerCollectionCardsBox[0].append(middleSectionContainerCollectionCardBox)
     }
     generateFirstCollectionCard() {
-        const middleSectionContainerCollectionCardsBox = document.getElementsByClassName(
-            "middleSection-container-collection-cards-box"
-        )
+        const middleSectionContainerCollectionCardsBox = document.getElementsByClassName("middleSection-container-collection-cards-box")
         const middleSectionContainerCollectionCardBox = document.createElement("div")
         middleSectionContainerCollectionCardBox.classList.add("middleSection-container-collection-card-box")
         middleSectionContainerCollectionCardBox.innerHTML = ` <div class="middleSection-container-collection-card-box-hover">
@@ -1485,25 +1435,34 @@ class MiddleSectionBuild {
                 </div>
             </div>
         </div>`
-        middleSectionContainerCollectionCardsBox[0].append(middleSectionContainerCollectionCardBox)
+        middleSectionContainerCollectionCardsBox[0].insertBefore(
+            middleSectionContainerCollectionCardBox,
+            middleSectionContainerCollectionCardsBox[0].firstChild
+        )
     }
     createFirstCollectionBoxButtonAddEvent() {
         const middleSectionContainerAddFirstCollectionButton = document.getElementsByClassName(
             "middleSection-container-add-first-collection-button"
         )
-        const middleSectionContainerWithoutCollectionBox = document.getElementsByClassName(
-            "middleSection-container-without-collection-box"
-        )
-        const middleSectionContainerCollectionBox = document.getElementsByClassName(
-            "middleSection-container-collection-box"
-        )
+        const middleSectionContainerWithoutCollectionBox = document.getElementsByClassName("middleSection-container-without-collection-box")
+        const middleSectionContainerCollectionBox = document.getElementsByClassName("middleSection-container-collection-box")
         const middleSectionContainerCollectionCardBoxCheckBox = document.getElementsByClassName(
             "middleSection-container-collection-card-box-check-box"
         )
+        const middleSectionNavAddButton = document.getElementsByClassName("middleSection-nav-add-button")
         middleSectionContainerAddFirstCollectionButton[0].addEventListener("click", () => {
             middleSectionContainerCollectionBox[0].classList.remove("none")
             middleSectionContainerWithoutCollectionBox[0].classList.add("none")
             this.initCollectionCard()
+            this.generateFirstCollectionCard()
+            middleSectionContainerCollectionCardBoxCheckBox[0].style.visibility = "hidden"
+            this.closeFirstCollectionBoxButtonAddEvent()
+            this.createCollectionSaveButtonAddEvent(0)
+        })
+        middleSectionNavAddButton[0].addEventListener("click", () => {
+            middleSectionContainerCollectionBox[0].classList.remove("none")
+            middleSectionContainerWithoutCollectionBox[0].classList.add("none")
+            //this.initCollectionCard()
             this.generateFirstCollectionCard()
             middleSectionContainerCollectionCardBoxCheckBox[0].style.visibility = "hidden"
             this.closeFirstCollectionBoxButtonAddEvent()
@@ -1514,12 +1473,8 @@ class MiddleSectionBuild {
         const middleSectionContainerAddCollectionBoxSaveCancelButton = document.getElementsByClassName(
             "middleSection-container-add-collection-box-save-cancel-button"
         )
-        const middleSectionContainerWithoutCollectionBox = document.getElementsByClassName(
-            "middleSection-container-without-collection-box"
-        )
-        const middleSectionContainerCollectionBox = document.getElementsByClassName(
-            "middleSection-container-collection-box"
-        )
+        const middleSectionContainerWithoutCollectionBox = document.getElementsByClassName("middleSection-container-without-collection-box")
+        const middleSectionContainerCollectionBox = document.getElementsByClassName("middleSection-container-collection-box")
         const addCollectionNameInput = document.getElementsByClassName("middleSection-container-add-Name-input")
         console.log(middleSectionContainerAddCollectionBoxSaveCancelButton)
         middleSectionContainerAddCollectionBoxSaveCancelButton[0].addEventListener("click", () => {
@@ -1554,9 +1509,7 @@ class MiddleSectionBuild {
         })
     }
     createCollectionSaveButtonAddEvent(i) {
-        const addCollectionBoxSaveButton = document.getElementsByClassName(
-            "middleSection-container-add-collection-box-save-button"
-        )
+        const addCollectionBoxSaveButton = document.getElementsByClassName("middleSection-container-add-collection-box-save-button")
         let createCollectionName
         const addCollectionNameInput = document.getElementsByClassName("middleSection-container-add-Name-input")
         addCollectionNameInput[i].addEventListener("input", (e) => {
@@ -1567,10 +1520,7 @@ class MiddleSectionBuild {
             if (!inputValue || !inputValue.trim()) {
                 createCollectionName = "Untitled collection"
             } else {
-                const response = await collectionApi.uploadCollectionData(
-                    leftSectionBuild.nowSpaceId,
-                    createCollectionName
-                )
+                const response = await collectionApi.uploadCollectionData(leftSectionBuild.nowSpaceId, createCollectionName)
                 if (response.data.message === "ok") {
                     location.href = "/main"
                 } else {
@@ -1580,9 +1530,7 @@ class MiddleSectionBuild {
         })
     }
     async updateCollectionNameSaveButtonAddEvent(i) {
-        const addCollectionBoxSaveButton = document.getElementsByClassName(
-            "middleSection-container-add-collection-box-save-button"
-        )
+        const addCollectionBoxSaveButton = document.getElementsByClassName("middleSection-container-add-collection-box-save-button")
         let newCollectionName
         const addCollectionNameInput = document.getElementsByClassName("middleSection-container-add-Name-input")
         addCollectionNameInput[i].addEventListener("input", (e) => {
@@ -1603,9 +1551,7 @@ class MiddleSectionBuild {
         })
     }
     editCollectionNameButtonAddEvent(i) {
-        const cardContainerNavMoreListEditTitleButton = document.getElementsByClassName(
-            "card-container-nav-more-list-edit-title-button"
-        )
+        const cardContainerNavMoreListEditTitleButton = document.getElementsByClassName("card-container-nav-more-list-edit-title-button")
         const middleSectionContainerCollectionCardContainerNavTitle = document.getElementsByClassName(
             "middleSection-container-collection-card-container-nav-title"
         )
@@ -1628,9 +1574,7 @@ class MiddleSectionBuild {
         })
     }
     openDeleteCollectionCardBoxButtonAddEvent(i) {
-        const cardContainerNavMoreListDeleteButton = document.getElementsByClassName(
-            "card-container-nav-more-list-delete-button"
-        )
+        const cardContainerNavMoreListDeleteButton = document.getElementsByClassName("card-container-nav-more-list-delete-button")
         const middleSectionContainerCollectionCardsDeleteBox = document.getElementsByClassName(
             "middleSection-container-collection-cards-delete-box"
         )
@@ -1662,6 +1606,94 @@ class MiddleSectionBuild {
             } else {
                 console.log(response)
             }
+        })
+    }
+    async deleCollectionCardsButton() {
+        const collectionDeletePopoverBoxDeleteButton = document.getElementsByClassName("collection-delete-popover-box-delete-button")
+        let deleteId = []
+        collectionDeletePopoverBoxDeleteButton[0].addEventListener("click", async () => {
+            for (let id in this.isCollectionsCheck) {
+                console.log(id, this.isCollectionsCheck)
+                if (this.isCollectionsCheck[id] === true) {
+                    deleteId.push(id)
+                }
+            }
+            const response = await collectionApi.deleteCollectionData(deleteId)
+            if (response.data.message === "ok") {
+                location.href = "/main"
+            } else {
+                console.log(response)
+            }
+        })
+    }
+    collectionCardCheckBoxPopover(i, tabId) {
+        const middleSectionContainerCollectionCardBoxCheckBox = document.getElementsByClassName(
+            "middleSection-container-collection-card-box-check-box"
+        )
+        const middleSectionCollectionMenuPopoverContainer = document.getElementsByClassName(
+            "middleSection-collection-menu-popover-container"
+        )
+        const collectionCheckBox = document.getElementById(`collection-check-box-${tabId}`)
+        let isChecked = false
+        middleSectionContainerCollectionCardBoxCheckBox[i].addEventListener("click", () => {
+            if (!isChecked) {
+                this.isCollectionsCheck[tabId] = true
+                middleSectionContainerCollectionCardBoxCheckBox[i].classList.add("show-opacity")
+                collectionCheckBox.classList.replace("collection-card-box-check-box", "collection-card-box-check-box-checked")
+                middleSectionCollectionMenuPopoverContainer[0].style.transform = "translate(-50%, 0px)"
+                isChecked = true
+                this.countCollectionCheckAmount()
+            } else {
+                this.isCollectionsCheck[tabId] = false
+                middleSectionContainerCollectionCardBoxCheckBox[i].classList.remove("show-opacity")
+                collectionCheckBox.classList.replace("collection-card-box-check-box-checked", "collection-card-box-check-box")
+                isChecked = false
+                this.countCollectionCheckAmount()
+            }
+            let isCollectionsAllCheck = Object.values(this.isCollectionsCheck).every((check) => check === false)
+            if (isCollectionsAllCheck) {
+                middleSectionCollectionMenuPopoverContainer[0].style.transform = "translate(-50%, 300px)"
+            }
+            const middleSectionCollectionMenuPopoverCloseButton = document.getElementsByClassName(
+                "middleSection-collection-menu-popover-close-button"
+            )
+            middleSectionCollectionMenuPopoverCloseButton[0].addEventListener("click", () => {
+                this.isCollectionsCheck[tabId] = false
+                isChecked = false
+                collectionCheckBox.classList.replace("collection-card-box-check-box-checked", "collection-card-box-check-box")
+                middleSectionCollectionMenuPopoverContainer[0].style.transform = "translate(-50%, 300px)"
+                middleSectionContainerCollectionCardBoxCheckBox[i].classList.remove("show-opacity")
+            })
+        })
+    }
+    countCollectionCheckAmount() {
+        const checkSelectedAmount = document.getElementsByClassName("middleSection-collection-menu-popover-container-title")
+        const selectedAmount = Object.values(this.isCollectionsCheck).filter((val) => val === true).length
+        checkSelectedAmount[0].textContent = `(${selectedAmount} tabs selected)`
+    }
+    openCloseDeleteCollectionCardPopover() {
+        const middleSectionCollectionMenuPopoverDeleteButton = document.getElementsByClassName(
+            "middleSection-collection-menu-popover-delete-button"
+        )
+        const middleSectionAddCategoryPopoverContainer = document.getElementsByClassName("middleSection-popover-container")
+        const collectionDeletePopoverBoxCloseSvg = document.getElementsByClassName("collection-delete-popover-box-close-svg")
+        const collectionDeletePopoverBoxCloseButton = document.getElementsByClassName("collection-delete-popover-box-cancel-button")
+        const mask = document.getElementsByClassName("mask")
+        const collectionDeletePopoverBox = document.getElementsByClassName("collection-delete-popover-box")
+        middleSectionCollectionMenuPopoverDeleteButton[0].addEventListener("click", () => {
+            middleSectionAddCategoryPopoverContainer[0].style.zIndex = "9999"
+            mask[0].style.display = "block"
+            collectionDeletePopoverBox[0].style.transform = "translate(-50%)"
+        })
+        collectionDeletePopoverBoxCloseSvg[0].addEventListener("click", () => {
+            middleSectionAddCategoryPopoverContainer[0].style.zIndex = "-1000"
+            collectionDeletePopoverBox[0].style.transform = "translate(-50%,-150%)"
+            mask[0].style.display = "none"
+        })
+        collectionDeletePopoverBoxCloseButton[0].addEventListener("click", () => {
+            middleSectionAddCategoryPopoverContainer[0].style.zIndex = "-1000"
+            collectionDeletePopoverBox[0].style.transform = "translate(-50%,-150%)"
+            mask[0].style.display = "none"
         })
     }
 }

@@ -1435,7 +1435,8 @@ input[placeholder] {
 .organization-success-delete-popover-box-close-svg-container,
 .space-setting-popover-box-close-svg-container,
 .space-delete-popover-box-close-svg-container,
-.space-success-delete-popover-box-close-svg-container {
+.space-success-delete-popover-box-close-svg-container,
+.collection-delete-popover-box-close-svg-container {
     padding: 0px;
     width: 20px;
     height: 20px;
@@ -1450,7 +1451,8 @@ input[placeholder] {
 .organization-success-delete-popover-box-close-svg,
 .space-setting-popover-box-close-svg,
 .space-delete-popover-box-close-svg,
-.space-success-delete-popover-box-close-svg {
+.space-success-delete-popover-box-close-svg,
+.collection-delete-popover-box-close-svg {
     width: 1.25rem;
     height: 1.25rem;
     mask: url("../images/close.svg") no-repeat 50% 50%;
@@ -1464,7 +1466,8 @@ input[placeholder] {
 .organization-delete-popover-box-close-svg:hover,
 .space-create-popover-box-close-svg:hover,
 .organization-success-delete-popover-box-close-svg:hover,
-.space-setting-popover-box-close-svg:hover {
+.space-setting-popover-box-close-svg:hover,
+.collection-delete-popover-box-close-svg:hover {
     background-color: rgb(214, 73, 107);
 }
 .organization-setting-popover-box > div:nth-child(2) {
@@ -2313,8 +2316,7 @@ input[placeholder] {
     cursor: grab;
     opacity: 1;
 }
-.middleSection-container-collection-card-box-hover:hover
-    .middleSection-container-collection-card-container-nav-buttons-box {
+.middleSection-container-collection-card-box-hover:hover .middleSection-container-collection-card-container-nav-buttons-box {
     opacity: 1;
 }
 .middleSection-container-collection-card-box-hover:hover .middleSection-container-collection-card-box-check-box {
@@ -2338,7 +2340,7 @@ input[placeholder] {
     height: 28px;
     visibility: visible;
 }
-.middleSection-container-collection-card-box-check-box > span {
+.collection-card-box-check-box {
     width: 15px;
     height: 15px;
     border: 1px solid rgb(124, 124, 154);
@@ -2346,6 +2348,21 @@ input[placeholder] {
     display: inline-block;
     flex-shrink: 0;
     cursor: pointer;
+}
+.collection-card-box-check-box-checked {
+    width: 16px;
+    height: 16px;
+    border: 1px solid rgb(214, 73, 107);
+    border-radius: 5px;
+    display: inline-block;
+    flex-shrink: 0;
+    cursor: pointer;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: 9.62px 7.62px;
+    background-image: url(../images/check.svg);
+    transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1) 0s;
+    background-color: rgb(214, 73, 107);
 }
 .middleSection-container-collection-card-container {
     display: flex;
@@ -2736,8 +2753,7 @@ input[placeholder] {
     flex-grow: 0;
     background-color: rgb(73, 73, 92);
 }
-.middleSection-container-collection-tab-card-container:hover
-    .middleSection-container-collection-tab-card-cancel-button {
+.middleSection-container-collection-tab-card-container:hover .middleSection-container-collection-tab-card-cancel-button {
     background-size: 1.4rem 1.4rem;
 }
 .middleSection-container-collection-tab-card-container:hover .middleSection-container-collection-tab-card-edit-button {
@@ -2856,6 +2872,237 @@ input[placeholder] {
     height: 1.5rem;
     background-size: 0px 0px;
     background-image: url("../images/pen.svg");
+}
+.middleSection-collection-menu-popover-container {
+    display: flex;
+    bottom: 30px;
+    position: absolute;
+    -webkit-box-align: center;
+    align-items: center;
+    padding: 28px;
+    height: 78px;
+    -webkit-box-pack: justify;
+    justify-content: space-between;
+    background: rgb(73, 73, 92);
+    box-shadow: rgba(0, 0, 0, 0.2) 0px 0px 10px;
+    border-radius: 11px;
+    left: 50%;
+    z-index: 3000;
+    transition: transform 0.3s ease-in-out 0s;
+    transform: translate(-50%, 300px);
+}
+.middleSection-collection-menu-popover-container-title {
+    font-weight: 400;
+    text-overflow: ellipsis;
+    font-size: 12px;
+    color: rgb(124, 124, 154);
+    white-space: nowrap;
+    overflow: visible;
+}
+.middleSection-collection-menu-popover-move-button,
+.middleSection-collection-menu-popover-export-button,
+.middleSection-collection-menu-popover-delete-button,
+.middleSection-collection-menu-popover-merge-check-button {
+    color: rgb(214, 73, 107);
+    border-radius: 5px;
+    padding: 5px 10px;
+    display: flex;
+    flex-direction: row;
+    -webkit-box-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    align-items: center;
+    white-space: nowrap;
+    gap: 10px;
+    position: relative;
+    font-weight: 500;
+    text-transform: uppercase;
+    text-align: center;
+    width: 100%;
+    font-size: 14px;
+    height: 32px;
+}
+.middleSection-collection-menu-popover-move-button:hover,
+.middleSection-collection-menu-popover-export-button:hover,
+.middleSection-collection-menu-popover-delete-button:hover,
+.middleSection-collection-menu-popover-merge-check-button:hover {
+    color: rgb(170, 63, 91);
+    background: rgb(56, 56, 73);
+}
+.middleSection-collection-menu-popover-merge-button {
+    padding: 5px 10px;
+    display: flex;
+    flex-direction: row;
+    -webkit-box-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    align-items: center;
+    white-space: nowrap;
+    gap: 10px;
+    position: relative;
+    font-weight: 500;
+    text-transform: uppercase;
+    text-align: center;
+    width: 100%;
+    font-size: 14px;
+    height: 32px;
+    opacity: 0.6;
+    border-radius: 5px;
+    pointer-events: none;
+    color: rgb(197, 197, 211);
+}
+.middleSection-collection-menu-popover-close-button {
+    padding: 0px;
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+}
+.middleSection-collection-menu-popover-move-button > div {
+    width: 1.25rem;
+    height: 1.25rem;
+    mask: url("../images/moveFolder.svg") no-repeat 50% 50%;
+    mask-size: cover;
+    -webkit-mask: url("../images/moveFolder.svg") no-repeat 50% 50%;
+    -webkit-mask-size: cover;
+    background-color: rgb(214, 73, 107);
+}
+.middleSection-collection-menu-popover-merge-button > div {
+    width: 1.25rem;
+    height: 1.25rem;
+    mask: url("../images/merge.svg") no-repeat 50% 50%;
+    mask-size: cover;
+    -webkit-mask: url("../images/merge.svg") no-repeat 50% 50%;
+    -webkit-mask-size: cover;
+    background-color: rgb(197, 197, 211);
+}
+.middleSection-collection-menu-popover-export-button > div {
+    width: 1.25rem;
+    height: 1.25rem;
+    mask: url("../images/exposrt.svg") no-repeat 50% 50%;
+    mask-size: cover;
+    -webkit-mask: url("../images/exposrt.svg") no-repeat 50% 50%;
+    -webkit-mask-size: cover;
+    background-color: rgb(214, 73, 107);
+}
+.middleSection-collection-menu-popover-delete-button > div {
+    width: 1.25rem;
+    height: 1.25rem;
+    mask: url("../images/trashcan.svg") no-repeat 50% 50%;
+    mask-size: cover;
+    -webkit-mask: url("../images/trashcan.svg") no-repeat 50% 50%;
+    -webkit-mask-size: cover;
+    background-color: rgb(214, 73, 107);
+}
+.middleSection-collection-menu-popover-close-button > div {
+    width: 1.25rem;
+    height: 1.25rem;
+    mask: url("../images/close.svg") no-repeat 50% 50%;
+    mask-size: cover;
+    -webkit-mask: url("../images/close.svg") no-repeat 50% 50%;
+    -webkit-mask-size: cover;
+    background-color: rgb(124, 124, 154);
+    transition: background-color 0.3s ease-in-out;
+}
+.middleSection-collection-menu-popover-close-button > div:hover {
+    background-color: rgb(170, 63, 91);
+}
+.collection-delete-popover-box {
+    position: fixed;
+    top: 10%;
+    left: 50%;
+    color: rgb(94, 93, 102);
+    font-size: 14px;
+    z-index: 9000;
+    transform: translate(-50%, -150%);
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    box-shadow: rgba(91, 76, 76, 0.125) 0px 2px 25px;
+    animation: 0.7s cubic-bezier(0.68, -0.55, 0.265, 1.3) 0s 1 normal forwards running dOnrbB;
+    width: 30rem;
+    background: rgb(73, 73, 92);
+    padding: 1.25rem 2rem;
+    border-radius: 5px;
+    text-align: center;
+    -webkit-box-align: center;
+    align-items: center;
+    transition: transform 0.3s ease-in-out 0.2s;
+}
+.collection-delete-popover-box-title {
+    text-overflow: ellipsis;
+    white-space: normal;
+    overflow: hidden;
+    font-size: 16px;
+    text-align: center;
+    color: rgb(248, 249, 251);
+}
+.collection-delete-popover-box > div:nth-child(3) {
+    height: 100%;
+    color: rgb(183, 183, 206);
+}
+.collection-delete-popover-box-text {
+    text-overflow: ellipsis;
+    white-space: normal;
+    overflow: hidden;
+    text-align: center;
+    color: rgb(197, 197, 211);
+    font-size: 13px;
+    font-weight: 400;
+}
+.collection-delete-popover-box > div:nth-child(4) {
+    display: flex;
+    flex-direction: column-reverse;
+    -webkit-box-align: center;
+    align-items: center;
+    gap: 10px;
+}
+.collection-delete-popover-box-cancel-button {
+    color: rgb(214, 73, 107);
+    border-radius: 5px;
+    display: flex;
+    flex-direction: row;
+    -webkit-box-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    align-items: center;
+    white-space: nowrap;
+    gap: 10px;
+    position: relative;
+    font-weight: 500;
+    text-transform: uppercase;
+    text-align: center;
+    width: min-content;
+    height: 32px;
+    font-size: 14px;
+    padding: 5px 20px;
+}
+.collection-delete-popover-box-cancel-button:hover {
+    color: rgb(170, 63, 91);
+    background: rgb(56, 56, 73);
+}
+.collection-delete-popover-box-delete-button {
+    background: rgb(214, 73, 107);
+    color: rgb(255, 255, 255);
+    border-radius: 5px;
+    display: flex;
+    flex-direction: row;
+    -webkit-box-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    align-items: center;
+    white-space: nowrap;
+    gap: 10px;
+    position: relative;
+    font-weight: 500;
+    text-transform: uppercase;
+    text-align: center;
+    width: min-content;
+    height: 32px;
+    font-size: 14px;
+    padding: 5px 20px;
+}
+.collection-delete-popover-box-delete-button:hover {
+    background: rgb(170, 63, 91);
 }
 .rightSection {
     display: flex;

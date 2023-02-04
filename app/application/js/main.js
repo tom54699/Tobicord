@@ -49,6 +49,8 @@ window.addEventListener("DOMContentLoaded", async () => {
         leftSectionBuild.spaceDeleteDoubleCheckButton()
         leftSectionBuild.closeSpaceSuccessDeletePopoverBox()
         middleSectionBuild.createFirstCollectionBoxButtonAddEvent()
+        middleSectionBuild.openCloseDeleteCollectionCardPopover()
+        await middleSectionBuild.deleCollectionCardsButton()
     }
     mainPageBuild.rightSectionFold()
     mainPageBuild.leftSectionFold()
