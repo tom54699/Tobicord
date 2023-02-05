@@ -1,4 +1,5 @@
-import { windowApi, organizationApi, spaceApi, collectionApi } from "./API/fetchApi.js"
+import { windowApi, organizationApi, spaceApi, collectionApi, tabApi } from "./API/fetchApi.js"
+import { windowFrame, windowCardsFrame, firstCollectionCardFrame, initCollectionCardFrame } from "./component.js"
 class RightSectionBuild {
     constructor() {
         this.isWindowTabsCheck = {}
@@ -50,76 +51,8 @@ class RightSectionBuild {
         const userWindows = document.createElement("div")
         userWindows.classList.add("rightSection-spaces-window-tabs-container")
         userWindows.setAttribute("id", `windowTabContainer-${windowId}`)
-        userWindows.innerHTML = `                                
-        <div class="rightSection-spaces-window-tabs-box">
-            <div class="rightSection-spaces-window-tabs-container-close-container" id="windowTabsCloseContainer-${windowId}">
-                <span class="rightSection-spaces-window-tabs-container-close-title"
-                    >Are you sure you want to close this window?</span
-                >
-                <div
-                    class="rightSection-spaces-window-tabs-container-close-button-container"
-                >
-                    <button class="rightSection-spaces-window-tabs-container-return-button"  id="windowTabsReturnContainerButton-${windowId}">
-                        <span class="rightSection-spaces-window-tabs-container-return-text"
-                            >Cancel</span
-                        >
-                    </button>
-                    <button class="rightSection-spaces-window-tabs-container-close-button" id="windowTabsCloseContainerButton-${windowId}">
-                        <span class="rightSection-spaces-window-tabs-container-close-text"
-                            >Yes, Close</span
-                        >
-                    </button>
-                </div>
-            </div>
-            <div class="rightSection-spaces-window-tabs-line">
-                <div class="rightSection-spaces-window-tabs-left-block">
-                    <span class="rightSection-spaces-window-title">Window ${windowNum + 1}</span>
-                    <button
-                        class="rightSection-spaces-window-fold-button"
-                        tabindex="-1"
-                        data-bs-toggle="collapse"
-                        data-bs-target="#window_${windowId}"
-                        aria-expanded="false"
-                        aria-controls="window_${windowId}"
-                    >
-                        <div class="arrow-right-svg"></div>
-                        <div class="rightSection-spaces-window-arrow-down-svg"></div>
-                    </button>
-                </div>
-                <div class="rightSection-spaces-window-tabs-right-block">
-                    <div>
-                        <span class="rightSection-spaces-window-tabs-download-container">
-                            <button class="rightSection-spaces-window-tabs-download-button">
-                                <div
-                                    class="rightSection-spaces-window-tabs-download-svg"
-                                ></div>
-                                <div
-                                    class="rightSection-spaces-window-tabs-download-tool-tips"
-                                >
-                                    Save Session
-                                </div>
-                            </button>
-                        </span>
-                    </div>
-                    <span class="rightSection-spaces-window-tabs-close-container">
-                        <button class="rightSection-spaces-window-tabs-close-button" id="windowTabsCloseButton-${windowId}">
-                            <div class="rightSection-spaces-window-tabs-close-svg"></div>
-                            <div class="rightSection-spaces-window-tabs-close-tool-tips">
-                                Close
-                            </div>
-                        </button>
-                    </span>
-                </div>
-            </div>
-            <div
-                class="rightSection-spaces-window-tabs-cards-container collapse"
-                id= "window_${windowId}"
-            >
-                <div class="rightSection-spaces-window-no-tab-container none">
-                    <div class="rightSection-spaces-window-no-tab">No tabs</div>
-                </div>
-            </div>
-        </div>`
+        const windowFrameHtml = windowFrame(windowId, windowNum)
+        userWindows.innerHTML = windowFrameHtml
         userWindowContainer[0].appendChild(userWindows)
     }
     generateUserWindowCards(windowNum, favIconUrl, tabName, tabUrl, tabId) {
@@ -127,30 +60,8 @@ class RightSectionBuild {
         const userWindowCards = document.createElement("div")
         userWindowCards.classList.add("rightSection-spaces-window-tabs-card-frame")
         userWindowCards.setAttribute("id", `userWindowCards-${tabId}`)
-        userWindowCards.innerHTML = `
-        <div class="rightSection-spaces-window-tabs-card">
-            <div class="rightSection-spaces-window-tabs-url-image-container">
-                <img
-                    class="rightSection-spaces-window-tabs-url-image"
-                    src="${favIconUrl}"
-                />
-                <div
-                    class="rightSection-spaces-window-tabs-check-box-container"
-                    tabindex="-1"
-                    id="check-box-container-${tabId}"
-                >
-                    <span
-                        class="rightSection-spaces-window-tabs-check-box check-box " id="check-box-${tabId}"
-                    ></span>
-                </div>
-            </div>
-            <a href=${tabUrl} target="_blank" class="rightSection-spaces-window-tabs-card-title"
-                >${tabName}</a
-            >
-            <button
-                class="rightSection-spaces-window-tabs-card-close-button" id="windowTabsCardCloseButton-${tabId}"
-            ></button>
-        </div>`
+        const windowCardsFrameHtml = windowCardsFrame(tabId, tabName, tabUrl, favIconUrl)
+        userWindowCards.innerHTML = windowCardsFrameHtml
         userWindowCardsContainer[windowNum].appendChild(userWindowCards)
     }
     rightSectionFoldButtonBlur(windowNum) {
@@ -408,6 +319,16 @@ class MainPageBuild {
         })
     }
     /* 拖移 */
+    dragCollectionCardAddEvent() {
+        const middleSectionContainerCollectionCardsBox = document.getElementsByClassName("middleSection-container-collection-cards-box")
+        new Sortable(middleSectionContainerCollectionCardsBox[0], {
+            group: {
+                name: "collectionCard",
+                put: false, // 不允许拖拽进这个列表
+            },
+            animation: 150,
+        })
+    }
     dragTabCardsAddEvent(windowId) {
         const rightSectionSpacesWindowTabsCardsContainer = document.getElementById(`window_${windowId}`)
         new Sortable(rightSectionSpacesWindowTabsCardsContainer, {
@@ -418,12 +339,6 @@ class MainPageBuild {
             animation: 150,
             onEnd(evt) {
                 console.log("onEnd: 列表单元拖放结束后的回调函数！")
-                const windowId = evt.from.id.slice(7)
-                const tabId = evt.item.id.slice(16)
-                const tabData = rightSectionBuild.windowData[`${windowId}`][`${tabId}`]
-                const tabName = tabData.tabName
-                const favIconUrl = tabData.favIconUrl
-                const tabUrl = tabData.tabUrl
             },
         })
     }
@@ -434,14 +349,15 @@ class MainPageBuild {
         new Sortable(middleSectionContainerRemindAddCollectionBox, {
             group: "shared",
             animation: 150,
-            onAdd(evt) {
-                console.log("onAdd: 其他列表单元添加到本列表容器的回调函数", evt.item)
+            async onAdd(evt) {
+                console.log("onAdd: 其他列表单元添加到本列表容器的回调函数")
                 middleSectionContainerRemindAddCollectionBox.classList.replace(
                     "middleSection-container-remind-add-collection-box-created",
                     "middleSection-container-collection-card-container-cards-space"
                 )
                 const fromBlock = evt.from.id.slice(0, 6)
                 if (fromBlock === "window") {
+                    const collectionId = evt.to.id.slice(50)
                     const windowId = evt.from.id.slice(7)
                     const tabId = evt.item.id.slice(16)
                     const tabData = rightSectionBuild.windowData[`${windowId}`][`${tabId}`]
@@ -449,8 +365,8 @@ class MainPageBuild {
                     const favIconUrl = tabData.favIconUrl
                     const tabUrl = tabData.tabUrl
                     mainPageBuild.transferTabCardsFormat(tabId, tabName, tabUrl, favIconUrl)
+                    await middleSectionBuild.uploadTabCardsData(collectionId, tabId, tabName, tabUrl, favIconUrl, tabName)
                 }
-                //const collectionId = evt.to.id.slice(50)
             },
         })
     }
@@ -1078,9 +994,10 @@ class MiddleSectionBuild {
         this.nowCollectionName
         this.nowCollectionId
         this.isCollectionsCheck = {}
+        this.isCreatedEdit = false
+        this.isCreatedFirst = false
     }
     /* switch Collection */
-    async switchToDifferentCollection() {}
     async initCollectionCard() {
         const parentNode = document.getElementsByClassName("middleSection-container-collection-cards-box")
         const childNodes = parentNode[0].children
@@ -1094,19 +1011,20 @@ class MiddleSectionBuild {
         const middleSectionContainerCollectionBox = document.getElementsByClassName("middleSection-container-collection-box")
         this.collectionData = await collectionApi.getUserCollectionData(leftSectionBuild.nowSpaceId)
         await this.initCollectionCard()
+        mainPageBuild.dragCollectionCardAddEvent()
         const num = this.collectionData.length
         if (this.collectionData.length > 0) {
             for (let i = 0; i < num; i++) {
                 middleSectionContainerCollectionBox[0].classList.remove("none")
                 middleSectionContainerWithoutCollectionBox[0].classList.add("none")
                 this.generateInitCollectionCard(this.collectionData[i].collectionName, this.collectionData[i].id)
-                this.editCollectionNameButtonAddEvent(i)
-                this.closeCollectionBoxButtonAddEvent(i)
-                this.maintainFocusStatusForMoreButton(i)
-                await this.updateCollectionNameSaveButtonAddEvent(i)
-                this.openDeleteCollectionCardBoxButtonAddEvent(i)
-                this.deleteCollectionCardButtonAddEvent(i)
-                this.collectionCardCheckBoxPopover(i, this.collectionData[i].id)
+                this.editCollectionNameButtonAddEvent(i, this.collectionData[i].id)
+                this.closeCollectionBoxButtonAddEvent(this.collectionData[i].id)
+                this.maintainFocusStatusForMoreButton(this.collectionData[i].id)
+                await this.updateCollectionNameSaveButtonAddEvent(this.collectionData[i].id)
+                this.openDeleteCollectionCardBoxButtonAddEvent(this.collectionData[i].id)
+                this.deleteCollectionCardButtonAddEvent(i, this.collectionData[i].id)
+                this.collectionCardCheckBoxPopover(this.collectionData[i].id)
                 mainPageBuild.dragCollectionAddEvent(this.collectionData[i].id)
             }
         } else {
@@ -1114,29 +1032,28 @@ class MiddleSectionBuild {
             middleSectionContainerWithoutCollectionBox[0].classList.remove("none")
         }
     }
-    maintainFocusStatusForMoreButton(i) {
-        const middleSectionCardContainerNavMoreButton = document.getElementsByClassName(
-            "middleSection-card-container-nav-more-button-focus"
+    maintainFocusStatusForMoreButton(collectionId) {
+        const middleSectionCardContainerNavMoreButton = document.getElementById(
+            `middleSection-card-container-nav-more-button-focus-${collectionId}`
         )
-        const middleSectionContainerCollectionCardContainerNavButtonsBox = document.getElementsByClassName(
-            "middleSection-container-collection-card-container-nav-buttons-box"
+        const middleSectionContainerCollectionCardContainerNavButtonsBox = document.getElementById(
+            `middleSection-container-collection-card-container-nav-buttons-box-${collectionId}`
         )
-        const middleSectionCardContainerNavMoreList = document.getElementsByClassName("middleSection-card-container-nav-more-list")
         let isClicked = false
-        middleSectionCardContainerNavMoreButton[i].addEventListener("focus", () => {
-            middleSectionContainerCollectionCardContainerNavButtonsBox[i].classList.add("show-opacity")
+        middleSectionCardContainerNavMoreButton.addEventListener("focus", () => {
+            middleSectionContainerCollectionCardContainerNavButtonsBox.classList.add("show-opacity")
         })
 
-        middleSectionCardContainerNavMoreButton[i].addEventListener("blur", () => {
-            middleSectionContainerCollectionCardContainerNavButtonsBox[i].classList.remove("show-opacity")
+        middleSectionCardContainerNavMoreButton.addEventListener("blur", () => {
+            middleSectionContainerCollectionCardContainerNavButtonsBox.classList.remove("show-opacity")
             isClicked = false
         })
-        middleSectionCardContainerNavMoreButton[i].addEventListener("click", () => {
+        middleSectionCardContainerNavMoreButton.addEventListener("click", () => {
             if (!isClicked) {
-                middleSectionCardContainerNavMoreButton[i].focus()
+                middleSectionCardContainerNavMoreButton.focus()
                 isClicked = true
             } else {
-                middleSectionCardContainerNavMoreButton[i].blur()
+                middleSectionCardContainerNavMoreButton.blur()
                 isClicked = false
             }
         })
@@ -1145,296 +1062,28 @@ class MiddleSectionBuild {
         const middleSectionContainerCollectionCardsBox = document.getElementsByClassName("middleSection-container-collection-cards-box")
         const middleSectionContainerCollectionCardBox = document.createElement("div")
         middleSectionContainerCollectionCardBox.classList.add("middleSection-container-collection-card-box")
-        middleSectionContainerCollectionCardBox.innerHTML = ` <div class="middleSection-container-collection-card-box-hover">
-            <div>
-                <div class="middleSection-container-collection-card-box-check-box">
-                    <span class="collection-card-box-check-box" id="collection-check-box-${collectionId}"></span>
-                </div>
-                <div class="middleSection-container-collection-card-container">
-                    <div
-                        class="middleSection-container-collection-card-container-nav"
-                    >   
-                        <!--Delete-->
-                        <div class="middleSection-container-collection-cards-delete-box none">
-                        <div>
-                            <span>Remove this collection? It will be removed for all shared members.</span>
-                            <div class="middleSection-container-collection-cards-delete-buttons-box">
-                                <button class="middleSection-container-collection-cards-cancel-buttons">
-                                    <span>Cancel</span>
-                                </button>
-                                <button class="middleSection-container-collection-cards-delete-buttons">
-                                    <span>Delete</span>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                        <!--Collection Title-->
-                        <div
-                            class="middleSection-container-collection-card-container-nav-title"
-                        >
-                            <h3
-                                class="middleSection-container-collection-card-container-nav-title-text"
-                            >
-                                ${collectionName}
-                            </h3>
-                            <div
-                                class="middleSection-container-collection-card-container-nav-arrow-svg-container none"
-                            >
-                                <button
-                                    class="middleSection-container-collection-card-container-nav-arrow-svg-button"
-                                >
-                                    <div
-                                        class="middleSection-container-collection-card-container-nav-arrow-down-svg"
-                                    ></div>
-                                    <div
-                                        class="middleSection-container-collection-card-container-nav-arrow-up-svg"
-                                    ></div>
-                                </button>
-                            </div>
-                        </div>
-                        <!-- Edit Name -->
-                        <div
-                            class="middleSection-container-add-collection-container none"
-                        >
-                            <input
-                                class="middleSection-container-add-Name-input"
-                                type="text"
-                                placeholder="Type the collection title"
-                            />
-                            <div
-                                class="middleSection-container-add-collection-box-save-button-box"
-                            >
-                                <button
-                                    class="middleSection-container-add-collection-box-save-cancel-button"
-                                    type="button"
-                                >
-                                    <span>Cancel</span>
-                                </button>
-                                <button
-                                    class="middleSection-container-add-collection-box-save-button"
-                                    type="button"
-                                >
-                                    <span>Save</span>
-                                </button>
-                            </div>
-                        </div>
-                        <!-- buttons -->
-                        <div
-                            class="middleSection-container-collection-card-container-nav-buttons-box"
-                        >
-                            <div>
-                                <span
-                                    class="middleSection-card-container-nav-opentab-button"
-                                >
-                                    <div
-                                        class="middleSection-card-container-nav-opentab-tooltips"
-                                    >
-                                        Open tabs
-                                    </div>
-                                    <div>
-                                        <div></div>
-                                    </div>
-                                </span>
-                            </div>
-                            <div class="middleSection-card-container-nav-more-button-focus" tabindex="-1">
-                                <span
-                                    class="middleSection-card-container-nav-more-button"
-                                >
-                                    <div
-                                        class="middleSection-card-container-nav-more-tooltips"
-                                    >
-                                        More
-                                    </div>
-                                    <div>
-                                        <div></div>
-                                    </div>
-                                </span>
-                                <div class="middleSection-card-container-nav-more-list">
-                                <button class="card-container-nav-more-list-share-button">
-                                    <div class="card-container-nav-more-list-share-svg"></div>
-                                    <span>Share</span>
-                                </button>
-                                <hr />
-                                <button class="card-container-nav-more-list-edit-title-button">
-                                    <div class="card-container-nav-more-list-edit-title-svg"></div>
-                                    <span>Edit title</span>
-                                </button>
-                                <hr />
-                                <button class="card-container-nav-more-list-star-button">
-                                    <div class="card-container-nav-more-list-star-svg"></div>
-                                    <span>Star</span>
-                                </button>
-                                <hr />
-                                <button class="card-container-nav-more-list-export-button">
-                                    <div class="card-container-nav-more-list-export-svg"></div>
-                                    <span>Export</span>
-                                </button>
-                                <hr />
-                                <button class="card-container-nav-more-list-delete-button">
-                                    <div class="card-container-nav-more-list-delete-svg"></div>
-                                    <span>Delete</span>
-                                </button>
-                                <hr />
-                            </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Remind -->
-                    <div
-                        id="middleSection-container-remind-add-collection-box-${collectionId}"
-                        class="middleSection-container-remind-add-collection-box-created"
-                    ></div>
-                </div>
-            </div>
-        </div>`
+        const initCollectionCardFrameHtml = initCollectionCardFrame(collectionId, collectionName)
+        middleSectionContainerCollectionCardBox.innerHTML = initCollectionCardFrameHtml
         middleSectionContainerCollectionCardsBox[0].append(middleSectionContainerCollectionCardBox)
     }
     generateFirstCollectionCard() {
         const middleSectionContainerCollectionCardsBox = document.getElementsByClassName("middleSection-container-collection-cards-box")
         const middleSectionContainerCollectionCardBox = document.createElement("div")
         middleSectionContainerCollectionCardBox.classList.add("middleSection-container-collection-card-box")
-        middleSectionContainerCollectionCardBox.innerHTML = ` <div class="middleSection-container-collection-card-box-hover">
-            <div>
-                <div class="middleSection-container-collection-card-box-check-box">
-                    <span></span>
-                </div>
-                <div class="middleSection-container-collection-card-container">
-                    <div
-                        class="middleSection-container-collection-card-container-nav"
-                    >
-                        <!--Delete-->
-                        <div class="middleSection-container-collection-cards-delete-box none">
-                        <div>
-                            <span>Remove this collection? It will be removed for all shared members.</span>
-                            <div class="middleSection-container-collection-cards-delete-buttons-box">
-                                <button class="middleSection-container-collection-cards-cancel-buttons">
-                                    <span>Cancel</span>
-                                </button>
-                                <button class="middleSection-container-collection-cards-delete-buttons">
-                                    <span>Delete</span>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                        <!--Collection Title-->
-                        <div
-                            class="middleSection-container-collection-card-container-nav-title none"
-                        >
-                            <h3
-                                class="middleSection-container-collection-card-container-nav-title-text"
-                            >
-                                Untitled collection
-                            </h3>
-                            <div
-                                class="middleSection-container-collection-card-container-nav-arrow-svg-container none"
-                            >
-                                <button
-                                    class="middleSection-container-collection-card-container-nav-arrow-svg-button"
-                                >
-                                    <div
-                                        class="middleSection-container-collection-card-container-nav-arrow-down-svg"
-                                    ></div>
-                                    <div
-                                        class="middleSection-container-collection-card-container-nav-arrow-up-svg"
-                                    ></div>
-                                </button>
-                            </div>
-                        </div>
-                        <!-- Edit Name -->
-                        <div
-                            class="middleSection-container-add-collection-container"
-                        >
-                            <input
-                                class="middleSection-container-add-Name-input"
-                                type="text"
-                                placeholder="Type the collection title"
-                            />
-                            <div
-                                class="middleSection-container-add-collection-box-save-button-box"
-                            >
-                                <button
-                                    class="middleSection-container-add-collection-box-save-cancel-button"
-                                    type="button"
-                                >
-                                    <span>Cancel</span>
-                                </button>
-                                <button
-                                    class="middleSection-container-add-collection-box-save-button"
-                                    type="button"
-                                >
-                                    <span>Save</span>
-                                </button>
-                            </div>
-                        </div>
-                        <!-- buttons -->
-                        <div
-                            class="middleSection-container-collection-card-container-nav-buttons-box none"
-                        >
-                            <div>
-                                <span
-                                    class="middleSection-card-container-nav-opentab-button"
-                                >
-                                    <div
-                                        class="middleSection-card-container-nav-opentab-tooltips"
-                                    >
-                                        Open tabs
-                                    </div>
-                                    <div>
-                                        <div></div>
-                                    </div>
-                                </span>
-                            </div>
-                            <div class="middleSection-card-container-nav-more-button-focus" tabindex="-1">
-                                <span
-                                    class="middleSection-card-container-nav-more-button"
-                                >
-                                    <div
-                                        class="middleSection-card-container-nav-more-tooltips"
-                                    >
-                                        More
-                                    </div>
-                                    <div>
-                                        <div></div>
-                                    </div>
-                                </span>
-                                <div class="middleSection-card-container-nav-more-list">
-                                    <button class="card-container-nav-more-list-share-button">
-                                        <div class="card-container-nav-more-list-share-svg"></div>
-                                        <span>Share</span>
-                                    </button>
-                                    <hr />
-                                    <button class="card-container-nav-more-list-edit-title-button">
-                                        <div class="card-container-nav-more-list-edit-title-svg"></div>
-                                        <span>Edit title</span>
-                                    </button>
-                                    <hr />
-                                    <button class="card-container-nav-more-list-star-button">
-                                        <div class="card-container-nav-more-list-star-svg"></div>
-                                        <span>Star</span>
-                                    </button>
-                                    <hr />
-                                    <button class="card-container-nav-more-list-export-button">
-                                        <div class="card-container-nav-more-list-export-svg"></div>
-                                        <span>Export</span>
-                                    </button>
-                                    <hr />
-                                    <button class="card-container-nav-more-list-delete-button">
-                                        <div class="card-container-nav-more-list-delete-svg"></div>
-                                        <span>Delete</span>
-                                    </button>
-                                    <hr />
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Remind -->
-                    <div
-                        id="middleSection-container-remind-add-collection-box"
-                        class="middleSection-container-remind-add-collection-box"
-                    ></div>
-                </div>
-            </div>
-        </div>`
+        const firstCollectionCardFrameHtml = firstCollectionCardFrame("first")
+        middleSectionContainerCollectionCardBox.innerHTML = firstCollectionCardFrameHtml
+        middleSectionContainerCollectionCardsBox[0].insertBefore(
+            middleSectionContainerCollectionCardBox,
+            middleSectionContainerCollectionCardsBox[0].firstChild
+        )
+    }
+    generateEditCollectionCard() {
+        const middleSectionContainerCollectionCardsBox = document.getElementsByClassName("middleSection-container-collection-cards-box")
+        const middleSectionContainerCollectionCardBox = document.createElement("div")
+        middleSectionContainerCollectionCardBox.classList.add("middleSection-container-collection-card-box")
+        middleSectionContainerCollectionCardBox.setAttribute("id", "middleSection-container-collection-card-box-edit")
+        const firstCollectionCardFrameHtml = firstCollectionCardFrame("edit")
+        middleSectionContainerCollectionCardBox.innerHTML = firstCollectionCardFrameHtml
         middleSectionContainerCollectionCardsBox[0].insertBefore(
             middleSectionContainerCollectionCardBox,
             middleSectionContainerCollectionCardsBox[0].firstChild
@@ -1449,63 +1098,86 @@ class MiddleSectionBuild {
         const middleSectionContainerCollectionCardBoxCheckBox = document.getElementsByClassName(
             "middleSection-container-collection-card-box-check-box"
         )
+        const middleSectionContainerCollectionCardsBox = document.getElementsByClassName("middleSection-container-collection-cards-box")
         const middleSectionNavAddButton = document.getElementsByClassName("middleSection-nav-add-button")
         middleSectionContainerAddFirstCollectionButton[0].addEventListener("click", () => {
             middleSectionContainerCollectionBox[0].classList.remove("none")
             middleSectionContainerWithoutCollectionBox[0].classList.add("none")
-            this.initCollectionCard()
             this.generateFirstCollectionCard()
             middleSectionContainerCollectionCardBoxCheckBox[0].style.visibility = "hidden"
             this.closeFirstCollectionBoxButtonAddEvent()
             this.createCollectionSaveButtonAddEvent(0)
+            this.isCreatedFirst = true
         })
         middleSectionNavAddButton[0].addEventListener("click", () => {
+            const num = middleSectionContainerCollectionCardsBox[0].children.length
+            if (num === 0) {
+                this.generateFirstCollectionCard()
+                this.closeFirstCollectionBoxButtonAddEvent()
+                this.isCreatedFirst = true
+            } else {
+                if (!this.isCreatedEdit && !this.isCreatedFirst) {
+                    this.generateEditCollectionCard()
+                    this.closeCreateCollectionBoxButtonAddEvent()
+                    this.isCreatedEdit = true
+                }
+            }
             middleSectionContainerCollectionBox[0].classList.remove("none")
             middleSectionContainerWithoutCollectionBox[0].classList.add("none")
-            //this.initCollectionCard()
-            this.generateFirstCollectionCard()
             middleSectionContainerCollectionCardBoxCheckBox[0].style.visibility = "hidden"
-            this.closeFirstCollectionBoxButtonAddEvent()
             this.createCollectionSaveButtonAddEvent(0)
         })
     }
     closeFirstCollectionBoxButtonAddEvent() {
-        const middleSectionContainerAddCollectionBoxSaveCancelButton = document.getElementsByClassName(
-            "middleSection-container-add-collection-box-save-cancel-button"
+        const middleSectionContainerAddCollectionBoxSaveCancelButton = document.getElementById(
+            "middleSection-container-add-collection-box-save-cancel-button-first"
         )
         const middleSectionContainerWithoutCollectionBox = document.getElementsByClassName("middleSection-container-without-collection-box")
         const middleSectionContainerCollectionBox = document.getElementsByClassName("middleSection-container-collection-box")
-        const addCollectionNameInput = document.getElementsByClassName("middleSection-container-add-Name-input")
-        console.log(middleSectionContainerAddCollectionBoxSaveCancelButton)
-        middleSectionContainerAddCollectionBoxSaveCancelButton[0].addEventListener("click", () => {
+        const addCollectionNameInput = document.getElementById("middleSection-container-add-Name-input-first")
+        middleSectionContainerAddCollectionBoxSaveCancelButton.addEventListener("click", () => {
             middleSectionContainerCollectionBox[0].classList.add("none")
             middleSectionContainerWithoutCollectionBox[0].classList.remove("none")
-            addCollectionNameInput[0].value = ""
+            addCollectionNameInput.value = ""
+            this.initCollectionCard()
+            this.isCreatedFirst = false
         })
     }
-    closeCollectionBoxButtonAddEvent(i) {
-        const middleSectionContainerAddCollectionBoxSaveCancelButton = document.getElementsByClassName(
-            "middleSection-container-add-collection-box-save-cancel-button"
+    closeCreateCollectionBoxButtonAddEvent() {
+        const middleSectionContainerAddCollectionBoxSaveCancelButton = document.getElementById(
+            "middleSection-container-add-collection-box-save-cancel-button-edit"
         )
-        const middleSectionContainerCollectionCardContainerNavTitle = document.getElementsByClassName(
-            "middleSection-container-collection-card-container-nav-title"
+        const middleSectionContainerCollectionCardBox = document.getElementById("middleSection-container-collection-card-box-edit")
+        const addCollectionNameInput = document.getElementById("middleSection-container-add-Name-input-edit")
+        middleSectionContainerAddCollectionBoxSaveCancelButton.addEventListener("click", () => {
+            middleSectionContainerCollectionCardBox.parentNode.removeChild(middleSectionContainerCollectionCardBox)
+            addCollectionNameInput.value = ""
+            this.isCreatedEdit = false
+        })
+    }
+    closeCollectionBoxButtonAddEvent(collectionId) {
+        const middleSectionContainerAddCollectionBoxSaveCancelButton = document.getElementById(
+            `middleSection-container-add-collection-box-save-cancel-button-${collectionId}`
         )
-        const middleSectionContainerAddCollectionContainer = document.getElementsByClassName(
-            "middleSection-container-add-collection-container"
+        const middleSectionContainerCollectionCardContainerNavTitle = document.getElementById(
+            `middleSection-container-collection-card-container-nav-title-${collectionId}`
         )
-        const middleSectionContainerCollectionCardBoxCheckBox = document.getElementsByClassName(
-            "middleSection-container-collection-card-box-check-box"
+        const middleSectionContainerAddCollectionContainer = document.getElementById(
+            `middleSection-container-add-collection-container-${collectionId}`
         )
-        const middleSectionContainerCollectionCardContainerNavButtonsBox = document.getElementsByClassName(
-            "middleSection-container-collection-card-container-nav-buttons-box"
+        const middleSectionContainerCollectionCardBoxCheckBox = document.getElementById(
+            `middleSection-container-collection-card-box-check-box-${collectionId}`
         )
-        const addCollectionNameInput = document.getElementsByClassName("middleSection-container-add-Name-input")
-        middleSectionContainerAddCollectionBoxSaveCancelButton[i].addEventListener("click", () => {
-            middleSectionContainerCollectionCardContainerNavTitle[i].classList.remove("none")
-            middleSectionContainerCollectionCardContainerNavButtonsBox[i].classList.remove("none")
-            middleSectionContainerCollectionCardBoxCheckBox[i].style.visibility = "visible"
-            middleSectionContainerAddCollectionContainer[i].classList.add("none")
-            addCollectionNameInput[i].value = ""
+        const middleSectionContainerCollectionCardContainerNavButtonsBox = document.getElementById(
+            `middleSection-container-collection-card-container-nav-buttons-box-${collectionId}`
+        )
+        const addCollectionNameInput = document.getElementById(`middleSection-container-add-Name-input-${collectionId}`)
+        middleSectionContainerAddCollectionBoxSaveCancelButton.addEventListener("click", () => {
+            middleSectionContainerCollectionCardContainerNavTitle.classList.remove("none")
+            middleSectionContainerCollectionCardContainerNavButtonsBox.classList.remove("none")
+            middleSectionContainerCollectionCardBoxCheckBox.style.visibility = "visible"
+            middleSectionContainerAddCollectionContainer.classList.add("none")
+            addCollectionNameInput.value = ""
         })
     }
     createCollectionSaveButtonAddEvent(i) {
@@ -1519,24 +1191,23 @@ class MiddleSectionBuild {
             const inputValue = createCollectionName
             if (!inputValue || !inputValue.trim()) {
                 createCollectionName = "Untitled collection"
+            }
+            const response = await collectionApi.uploadCollectionData(leftSectionBuild.nowSpaceId, createCollectionName)
+            if (response.data.message === "ok") {
+                location.href = "/main"
             } else {
-                const response = await collectionApi.uploadCollectionData(leftSectionBuild.nowSpaceId, createCollectionName)
-                if (response.data.message === "ok") {
-                    location.href = "/main"
-                } else {
-                    console.log(response)
-                }
+                console.log(response)
             }
         })
     }
-    async updateCollectionNameSaveButtonAddEvent(i) {
-        const addCollectionBoxSaveButton = document.getElementsByClassName("middleSection-container-add-collection-box-save-button")
+    async updateCollectionNameSaveButtonAddEvent(collectionId) {
+        const addCollectionBoxSaveButton = document.getElementById(`middleSection-container-add-collection-box-save-button-${collectionId}`)
         let newCollectionName
-        const addCollectionNameInput = document.getElementsByClassName("middleSection-container-add-Name-input")
-        addCollectionNameInput[i].addEventListener("input", (e) => {
+        const addCollectionNameInput = document.getElementById(`middleSection-container-add-Name-input-${collectionId}`)
+        addCollectionNameInput.addEventListener("input", (e) => {
             newCollectionName = e.target.value
         })
-        addCollectionBoxSaveButton[i].addEventListener("click", async () => {
+        addCollectionBoxSaveButton.addEventListener("click", async () => {
             const inputValue = newCollectionName
             if (!inputValue || !inputValue.trim()) {
                 newCollectionName = this.nowCollectionName
@@ -1550,54 +1221,59 @@ class MiddleSectionBuild {
             }
         })
     }
-    editCollectionNameButtonAddEvent(i) {
-        const cardContainerNavMoreListEditTitleButton = document.getElementsByClassName("card-container-nav-more-list-edit-title-button")
-        const middleSectionContainerCollectionCardContainerNavTitle = document.getElementsByClassName(
-            "middleSection-container-collection-card-container-nav-title"
+    editCollectionNameButtonAddEvent(i, collectionId) {
+        const cardContainerNavMoreListEditTitleButton = document.getElementById(
+            `card-container-nav-more-list-edit-title-button-${collectionId}`
         )
-        const middleSectionContainerAddCollectionContainer = document.getElementsByClassName(
-            "middleSection-container-add-collection-container"
+        const middleSectionContainerCollectionCardContainerNavTitle = document.getElementById(
+            `middleSection-container-collection-card-container-nav-title-${collectionId}`
         )
-        const middleSectionContainerCollectionCardBoxCheckBox = document.getElementsByClassName(
-            "middleSection-container-collection-card-box-check-box"
+        const middleSectionContainerAddCollectionContainer = document.getElementById(
+            `middleSection-container-add-collection-container-${collectionId}`
         )
-        const middleSectionContainerCollectionCardContainerNavButtonsBox = document.getElementsByClassName(
-            "middleSection-container-collection-card-container-nav-buttons-box"
+        const middleSectionContainerCollectionCardBoxCheckBox = document.getElementById(
+            `middleSection-container-collection-card-box-check-box-${collectionId}`
         )
-        cardContainerNavMoreListEditTitleButton[i].addEventListener("click", () => {
+        const middleSectionContainerCollectionCardContainerNavButtonsBox = document.getElementById(
+            `middleSection-container-collection-card-container-nav-buttons-box-${collectionId}`
+        )
+        cardContainerNavMoreListEditTitleButton.addEventListener("click", () => {
             this.nowCollectionName = this.collectionData[i].collectionName
             this.nowCollectionId = this.collectionData[i].id
-            middleSectionContainerCollectionCardContainerNavTitle[i].classList.add("none")
-            middleSectionContainerCollectionCardContainerNavButtonsBox[i].classList.add("none")
-            middleSectionContainerCollectionCardBoxCheckBox[i].style.visibility = "hidden"
-            middleSectionContainerAddCollectionContainer[i].classList.remove("none")
+            middleSectionContainerCollectionCardContainerNavTitle.classList.add("none")
+            middleSectionContainerCollectionCardContainerNavButtonsBox.classList.add("none")
+            middleSectionContainerCollectionCardBoxCheckBox.style.visibility = "hidden"
+            middleSectionContainerAddCollectionContainer.classList.remove("none")
         })
     }
-    openDeleteCollectionCardBoxButtonAddEvent(i) {
-        const cardContainerNavMoreListDeleteButton = document.getElementsByClassName("card-container-nav-more-list-delete-button")
-        const middleSectionContainerCollectionCardsDeleteBox = document.getElementsByClassName(
-            "middleSection-container-collection-cards-delete-box"
+    openDeleteCollectionCardBoxButtonAddEvent(collectionId) {
+        const cardContainerNavMoreListDeleteButton = document.getElementById(`card-container-nav-more-list-delete-button-${collectionId}`)
+        const middleSectionContainerCollectionCardsDeleteBox = document.getElementById(
+            `middleSection-container-collection-cards-delete-box-${collectionId}`
         )
-        const middleSectionContainerCollectionCardContainerNavTitle = document.getElementsByClassName(
-            "middleSection-container-collection-card-container-nav-title"
+        const middleSectionContainerCollectionCardContainerNavTitle = document.getElementById(
+            `middleSection-container-collection-card-container-nav-title-${collectionId}`
         )
-        const middleSectionContainerCollectionCardsCancelButtons = document.getElementsByClassName(
-            "middleSection-container-collection-cards-cancel-buttons"
+        const middleSectionContainerCollectionCardsCancelButtons = document.getElementById(
+            `middleSection-container-collection-cards-cancel-buttons-${collectionId}`
         )
-        cardContainerNavMoreListDeleteButton[i].addEventListener("click", () => {
-            middleSectionContainerCollectionCardsDeleteBox[i].classList.remove("none")
-            middleSectionContainerCollectionCardContainerNavTitle[i].classList.add("none")
+        const middleSectionCardContainerNavMoreList = document.getElementById(`middleSection-card-container-nav-more-list-${collectionId}`)
+        cardContainerNavMoreListDeleteButton.addEventListener("click", () => {
+            middleSectionContainerCollectionCardsDeleteBox.classList.remove("none")
+            middleSectionContainerCollectionCardContainerNavTitle.classList.add("none")
+            middleSectionCardContainerNavMoreList.classList.add("none")
         })
-        middleSectionContainerCollectionCardsCancelButtons[i].addEventListener("click", () => {
-            middleSectionContainerCollectionCardContainerNavTitle[i].classList.remove("none")
-            middleSectionContainerCollectionCardsDeleteBox[i].classList.add("none")
+        middleSectionContainerCollectionCardsCancelButtons.addEventListener("click", () => {
+            middleSectionContainerCollectionCardContainerNavTitle.classList.remove("none")
+            middleSectionContainerCollectionCardsDeleteBox.classList.add("none")
+            middleSectionCardContainerNavMoreList.classList.remove("none")
         })
     }
-    deleteCollectionCardButtonAddEvent(i) {
-        const middleSectionContainerCollectionCardsDeleteButtons = document.getElementsByClassName(
-            "middleSection-container-collection-cards-delete-buttons"
+    deleteCollectionCardButtonAddEvent(i, collectionId) {
+        const middleSectionContainerCollectionCardsDeleteButtons = document.getElementById(
+            `middleSection-container-collection-cards-delete-buttons-${collectionId}`
         )
-        middleSectionContainerCollectionCardsDeleteButtons[i].addEventListener("click", async () => {
+        middleSectionContainerCollectionCardsDeleteButtons.addEventListener("click", async () => {
             this.nowCollectionName = this.collectionData[i].collectionName
             this.nowCollectionId = this.collectionData[i].id
             const response = await collectionApi.deleteCollectionData(this.nowCollectionId)
@@ -1626,26 +1302,26 @@ class MiddleSectionBuild {
             }
         })
     }
-    collectionCardCheckBoxPopover(i, tabId) {
-        const middleSectionContainerCollectionCardBoxCheckBox = document.getElementsByClassName(
-            "middleSection-container-collection-card-box-check-box"
+    collectionCardCheckBoxPopover(collectionId) {
+        const middleSectionContainerCollectionCardBoxCheckBox = document.getElementById(
+            `middleSection-container-collection-card-box-check-box-${collectionId}`
         )
         const middleSectionCollectionMenuPopoverContainer = document.getElementsByClassName(
             "middleSection-collection-menu-popover-container"
         )
-        const collectionCheckBox = document.getElementById(`collection-check-box-${tabId}`)
+        const collectionCheckBox = document.getElementById(`collection-check-box-${collectionId}`)
         let isChecked = false
-        middleSectionContainerCollectionCardBoxCheckBox[i].addEventListener("click", () => {
+        middleSectionContainerCollectionCardBoxCheckBox.addEventListener("click", () => {
             if (!isChecked) {
-                this.isCollectionsCheck[tabId] = true
-                middleSectionContainerCollectionCardBoxCheckBox[i].classList.add("show-opacity")
+                this.isCollectionsCheck[collectionId] = true
+                middleSectionContainerCollectionCardBoxCheckBox.classList.add("show-opacity")
                 collectionCheckBox.classList.replace("collection-card-box-check-box", "collection-card-box-check-box-checked")
                 middleSectionCollectionMenuPopoverContainer[0].style.transform = "translate(-50%, 0px)"
                 isChecked = true
                 this.countCollectionCheckAmount()
             } else {
-                this.isCollectionsCheck[tabId] = false
-                middleSectionContainerCollectionCardBoxCheckBox[i].classList.remove("show-opacity")
+                this.isCollectionsCheck[collectionId] = false
+                middleSectionContainerCollectionCardBoxCheckBox.classList.remove("show-opacity")
                 collectionCheckBox.classList.replace("collection-card-box-check-box-checked", "collection-card-box-check-box")
                 isChecked = false
                 this.countCollectionCheckAmount()
@@ -1658,11 +1334,11 @@ class MiddleSectionBuild {
                 "middleSection-collection-menu-popover-close-button"
             )
             middleSectionCollectionMenuPopoverCloseButton[0].addEventListener("click", () => {
-                this.isCollectionsCheck[tabId] = false
+                this.isCollectionsCheck[collectionId] = false
                 isChecked = false
                 collectionCheckBox.classList.replace("collection-card-box-check-box-checked", "collection-card-box-check-box")
                 middleSectionCollectionMenuPopoverContainer[0].style.transform = "translate(-50%, 300px)"
-                middleSectionContainerCollectionCardBoxCheckBox[i].classList.remove("show-opacity")
+                middleSectionContainerCollectionCardBoxCheckBox.classList.remove("show-opacity")
             })
         })
     }
@@ -1695,6 +1371,19 @@ class MiddleSectionBuild {
             collectionDeletePopoverBox[0].style.transform = "translate(-50%,-150%)"
             mask[0].style.display = "none"
         })
+    }
+    /* tab cards crud */
+    async uploadTabCardsData(collectionId, tabId, tabName, tabUrl, favIconUrl, tabDescription) {
+        /*if (!inputValue || !inputValue.trim()) {
+            createCollectionName = "Untitled collection"
+        }*/
+        const response = await tabApi.uploadTabData(collectionId, tabId, tabName, tabUrl, favIconUrl, tabDescription)
+        if (response.data.message === "ok") {
+            console.log(response)
+            //location.href = "/main"
+        } else {
+            console.log(response)
+        }
     }
 }
 const rightSectionBuild = new RightSectionBuild()

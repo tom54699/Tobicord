@@ -5,7 +5,6 @@ const Tab = sequelize.define(
     {
         id: {
             type: Sequelize.INTEGER,
-            autoIncrement: true,
             primaryKey: true,
         },
         tabName: {
@@ -16,7 +15,7 @@ const Tab = sequelize.define(
             type: Sequelize.STRING(500),
             allowNull: false,
         },
-        tabPicUrl: {
+        favIconUrl: {
             type: Sequelize.STRING(500),
             allowNull: false,
         },
