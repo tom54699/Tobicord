@@ -12,31 +12,42 @@ class TabController {
                 })
             }
             const collectionId = req.body.collectionId
+            const newTabId = req.body.newTabId
             const tabId = req.body.tabId
             const tabName = req.body.tabName
             const tabUrl = req.body.tabUrl
             const favIconUrl = req.body.favIconUrl
             const tabDescription = req.body.tabDescription
-            await Tab.CreateTabData(collectionId, tabId, tabName, tabUrl, favIconUrl, tabDescription)
+            await Tab.CreateTabData(collectionId, newTabId, tabId, tabName, tabUrl, favIconUrl, tabDescription)
             return res.status(200).json({
                 message: "ok",
             })
         } catch (err) {
             return err
         }
-    } /*
-    async getUserSpaceData(req, res, next) {
+    }
+    async getUserTabData(req, res, next) {
         try {
-            const organizationId = req.query.organizationId
-            const spaceData = await Space.GetUserSpaceData(organizationId, req.userId)
+            const collectionId = req.query.collectionId
+            const tabData = await Tab.GetUserTabData(collectionId)
             return res.status(200).json({
                 message: "ok",
-                spaceData: spaceData,
+                tabData: tabData,
             })
         } catch (err) {
             next(err)
         }
     }
+    async switchTabCollection(req, res, next) {
+        try {
+            const response = await Tab.SwitchTabCollection(req.body.collectionId, req.body.tabId)
+            return res.status(200).json({
+                message: "ok",
+            })
+        } catch (err) {
+            next(err)
+        }
+    } /*
     async updateSpaceData(req, res, next) {
         try {
             const errors = validationResult(req)
@@ -53,17 +64,17 @@ class TabController {
         } catch (err) {
             next(err)
         }
-    }
-    async deleteSpaceData(req, res, next) {
+    }*/
+    async deleteTabData(req, res, next) {
         try {
-            const response = await Space.DeleteSpaceData(req.body.spaceId)
+            const response = await Tab.DeleteTabData(req.body.tabId)
             return res.status(200).json({
                 message: "ok",
             })
         } catch (err) {
             next(err)
         }
-    }*/
+    }
 }
 
 module.exports = new TabController()

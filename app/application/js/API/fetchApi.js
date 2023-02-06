@@ -335,7 +335,7 @@ class CollectionApi {
     }
 }
 class TabApi {
-    async uploadTabData(collectionId, tabId, tabName, tabUrl, favIconUrl, tabDescription) {
+    async uploadTabData(collectionId, newTabId, tabId, tabName, tabUrl, favIconUrl, tabDescription) {
         try {
             const headers = {
                 "Content-Type": "application/json",
@@ -347,6 +347,7 @@ class TabApi {
             }
             const content = {
                 collectionId: collectionId,
+                newTabId: newTabId,
                 tabId: tabId,
                 tabName: tabName,
                 tabUrl: tabUrl,
@@ -359,8 +360,8 @@ class TabApi {
             console.log(err)
             return err.response
         }
-    } /*
-    async getUserCollectionData(spaceId) {
+    }
+    async getUserTabData(collectionId) {
         try {
             const headers = {
                 "Content-Type": "application/json",
@@ -370,17 +371,38 @@ class TabApi {
             const config = {
                 headers: headers,
                 params: {
-                    spaceId: spaceId,
+                    collectionId: collectionId,
                 },
             }
-            const response = await axios.get("/collection", config)
-            const collectionData = response.data.collectionData
-            return collectionData
+            const response = await axios.get("/tab", config)
+            const tabData = response.data.tabData
+            return tabData
         } catch (err) {
             console.log(err)
             return err.response
         }
     }
+    async switchTabCollection(collectionId, tabId) {
+        try {
+            const headers = {
+                "Content-Type": "application/json",
+                Accept: "application/json",
+                Authorization: `Bearer ${window.localStorage.getItem("accessToken")}`,
+            }
+            const config = {
+                headers: headers,
+            }
+            const content = {
+                collectionId: collectionId,
+                tabId: tabId,
+            }
+            const response = await axios.put("/tab/collection", content, config)
+            return response
+        } catch (err) {
+            console.log(err)
+            return err.response
+        }
+    } /*
     async updateCollectionData(collectionId, newCollectionName) {
         try {
             const headers = {
@@ -395,14 +417,14 @@ class TabApi {
                 collectionId: collectionId,
                 newCollectionName: newCollectionName,
             }
-            const response = await axios.put("/collection", content, config)
+            const response = await axios.put("/tab", content, config)
             return response
         } catch (err) {
             console.log(err)
             return err.response
         }
-    }
-    async deleteCollectionData(collectionId) {
+    }*/
+    async deleteTabData(tabId) {
         try {
             const headers = {
                 "Content-Type": "application/json",
@@ -412,16 +434,16 @@ class TabApi {
             const config = {
                 headers: headers,
                 data: {
-                    collectionId: collectionId,
+                    tabId: tabId,
                 },
             }
-            const response = await axios.delete("/collection", config)
+            const response = await axios.delete("/tab", config)
             return response
         } catch (err) {
             console.log(err)
             return err.response
         }
-    }*/
+    }
 }
 const authApi = new AuthApi()
 const windowApi = new WindowApi()

@@ -2753,7 +2753,7 @@ input[placeholder] {
     flex-grow: 0;
     background-color: rgb(73, 73, 92);
 }
-.middleSection-container-collection-tab-card-container:hover .middleSection-container-collection-tab-card-cancel-button {
+.middleSection-container-collection-tab-card-container:hover .middleSection-container-collection-tab-card-delete-button {
     background-size: 1.4rem 1.4rem;
 }
 .middleSection-container-collection-tab-card-container:hover .middleSection-container-collection-tab-card-edit-button {
@@ -2840,7 +2840,7 @@ input[placeholder] {
     white-space: nowrap;
     color: rgb(197, 197, 211);
 }
-.middleSection-container-collection-tab-card-cancel-button {
+.middleSection-container-collection-tab-card-delete-button {
     position: absolute;
     display: block;
     top: 0rem;
@@ -2854,7 +2854,7 @@ input[placeholder] {
     background-size: 0px 0px;
     background-image: url("../images/close1.svg");
 }
-.middleSection-container-collection-tab-card-cancel-button:hover,
+.middleSection-container-collection-tab-card-delete-button:hover,
 .middleSection-container-collection-tab-card-edit-button:hover {
     opacity: 1;
     filter: grayscale(0%);
@@ -3104,6 +3104,132 @@ input[placeholder] {
 .collection-delete-popover-box-delete-button:hover {
     background: rgb(170, 63, 91);
 }
+.tab-card-edit-popover-box {
+    position: fixed;
+    left: 50%;
+    top: 40%;
+    width: 400px;
+    transform: translate(-50%, -200%);
+    border-radius: 5px;
+    z-index: 3000;
+    background-color: #36373f;
+    -webkit-filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.09));
+    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.09));
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    transition: transform 0.3s ease-in-out 0.2s;
+}
+.tab-card-edit-popover-box > div:nth-child(1),
+.tab-card-edit-popover-box > div:nth-child(2),
+.tab-card-edit-popover-box > div:nth-child(3) {
+    padding: 0rem 1rem;
+    font-size: 0.75rem;
+}
+.tab-card-edit-popover-box > div:nth-child(4) {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    padding: 1rem;
+    grid-gap: 0.1rem;
+}
+.tab-card-edit-popover-box > div:nth-child(1) > h4,
+.tab-card-edit-popover-box > div:nth-child(2) > h4,
+.tab-card-edit-popover-box > div:nth-child(3) > h4 {
+    color: #f0f0f6;
+    padding: 0.5rem 0.25rem;
+    font-weight: bold;
+    font-size: 0.75rem;
+}
+.tab-card-edit-popover-box > div:nth-child(1) > div:nth-child(2),
+.tab-card-edit-popover-box > div:nth-child(2) > div:nth-child(2) {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    position: relative;
+    gap: 10px;
+    width: 100%;
+}
+.tab-card-edit-popover-box > div:nth-child(1) > div:nth-child(2) > div,
+.tab-card-edit-popover-box > div:nth-child(2) > div:nth-child(2) > div {
+    position: relative;
+    width: 100%;
+}
+.tab-card-edit-popover-box > div:nth-child(1) > div:nth-child(2) > div > input,
+.tab-card-edit-popover-box > div:nth-child(2) > div:nth-child(2) > div > input {
+    background-color: #515151;
+    color: #fff;
+    border: 1px solid #b7b8cc;
+    height: 33px;
+    width: 100%;
+    font-size: 0.875rem;
+    font-weight: normal;
+    border-radius: 6px;
+    resize: none;
+    padding: 0.625rem;
+    transition: border-bottom 0.3s cubic-bezier(0.68, -0.55, 0.265, 1) 0s;
+}
+.tab-card-edit-popover-box > div:nth-child(1) > div:nth-child(2) > div > input[placeholder],
+.tab-card-edit-popover-box > div:nth-child(2) > div:nth-child(2) > div > input[placeholder],
+.tab-card-edit-popover-box > div:nth-child(3) > textarea[placeholder] {
+    text-align: unset;
+}
+.tab-card-edit-popover-box > div:nth-child(1) > div:nth-child(2) > div > input::-webkit-input-placeholder,
+.tab-card-edit-popover-box > div:nth-child(2) > div:nth-child(2) > div > input::-webkit-input-placeholder,
+.tab-card-edit-popover-box > div:nth-child(3) > textarea::-webkit-input-placeholder {
+    text-align: unset;
+}
+.tab-card-edit-popover-box > div:nth-child(3) > textarea {
+    height: 100px;
+    width: 100%;
+    font-size: 0.875rem;
+    font-weight: normal;
+    border-radius: 6px;
+    resize: none;
+    padding: 0.625rem;
+    background-color: #515151;
+    color: #fff;
+    border: 1px solid #b7b8cc;
+}
+.tab-card-edit-popover-box-delete-button {
+    width: 80%;
+    color: #fa507b;
+    background-color: #515151;
+    padding: 0.5rem;
+    border: none;
+    border-radius: 1.6px;
+    box-shadow: 1px 1px 3px rgb(77 0 113 / 12%);
+    height: 28px;
+    font-size: 12px;
+    line-height: 12px;
+    transition: background-color 0.1s cubic-bezier(0.68, -0.55, 0.265, 1) 0s;
+}
+
+.tab-card-edit-popover-box-cancel-button {
+    background-color: #515151;
+    box-shadow: 1px 1px 3px rgb(77 0 113 / 12%);
+    width: 90%;
+    justify-self: flex-end;
+    color: #9795ac;
+    padding: 0.5rem;
+    border: none;
+    border-radius: 1.6px;
+    height: 28px;
+    font-size: 12px;
+    line-height: 12px;
+}
+.tab-card-edit-popover-box-save-button {
+    padding: 0.5rem;
+    border: none;
+    box-shadow: 1px 1px 3px 0 rgba(58, 58, 82, 0.25);
+    border-radius: 1.6px;
+    width: 90%;
+    background-color: #fa507b;
+    justify-self: flex-end;
+    color: #fff;
+    height: 28px;
+    font-size: 12px;
+    line-height: 12px;
+}
+
 .rightSection {
     display: flex;
     flex-direction: column;

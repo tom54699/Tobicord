@@ -96,7 +96,7 @@ class RightSectionBuild {
             if (isWindowTabsAllCheck) {
                 middleTabPopoverContainer[0].style.transform = "translate(-50%, 300px)"
             }
-            windowTabContainer.parentNode.removeChild(windowTabContainer)
+            windowTabContainer.remove()
         })
     }
     rightSectionSpacesWindowTabsCheckBoxContainer(tabId) {
@@ -170,7 +170,7 @@ class RightSectionBuild {
         windowTabsCardCloseButton.addEventListener("click", () => {
             this.removeTabCheckId(tabId)
             this.countCheckAmount()
-            userWindowCards.parentNode.removeChild(userWindowCards)
+            userWindowCards.remove()
         })
     }
     deleteWindowTabCardPopoverButton() {
@@ -187,7 +187,7 @@ class RightSectionBuild {
                 const userWindowCards = document.getElementById(`userWindowCards-${i}`)
                 this.removeTabCheckId(i)
                 this.countCheckAmount()
-                userWindowCards.parentNode.removeChild(userWindowCards)
+                userWindowCards.remove()
             }
             isisWindowTabsCheckTrue = []
         })
@@ -356,23 +356,48 @@ class MainPageBuild {
                     "middleSection-container-collection-card-container-cards-space"
                 )
                 const fromBlock = evt.from.id.slice(0, 6)
+                const windowId = evt.from.id.slice(7)
+                const collectionId = evt.to.id.slice(50)
                 if (fromBlock === "window") {
-                    const collectionId = evt.to.id.slice(50)
-                    const windowId = evt.from.id.slice(7)
                     const tabId = evt.item.id.slice(16)
+                    const newTabId = tabId + Math.random().toString(36).substr(2, 5)
                     const tabData = rightSectionBuild.windowData[`${windowId}`][`${tabId}`]
                     const tabName = tabData.tabName
                     const favIconUrl = tabData.favIconUrl
                     const tabUrl = tabData.tabUrl
-                    mainPageBuild.transferTabCardsFormat(tabId, tabName, tabUrl, favIconUrl)
-                    await middleSectionBuild.uploadTabCardsData(collectionId, tabId, tabName, tabUrl, favIconUrl, tabName)
+                    mainPageBuild.transferTabCardsFormat(tabId, newTabId, tabName, tabUrl, favIconUrl)
+                    await middleSectionBuild.tabCardDeleteButton(newTabId)
+                    await middleSectionBuild.uploadTabCardsData(collectionId, newTabId, tabId, tabName, tabUrl, favIconUrl, tabName)
+                    middleSectionBuild.tabCardEditButton(newTabId)
+                } else {
+                    const tabId = evt.item.id.slice(48)
+                    const tabData = middleSectionBuild.tabsData[evt.from.id.slice(50)]
+                    for (let i of tabData) {
+                        if (i.id == tabId) {
+                            const tabName = i.tabName
+                            const favIconUrl = i.favIconUrl
+                            const tabUrl = i.tabUrl
+                            await middleSectionBuild.switchTabCardsCollection(collectionId, tabId)
+                            break
+                        }
+                    }
+                }
+            },
+            async onEnd(evt) {
+                console.log("onEnd: 列表单元拖放结束后的回调函数！")
+                if (evt.to.id.slice(50) != collectionId) {
+                    const tabId = evt.item.id.slice(48)
+                    console.log(tabId)
+                    //await tabApi.deleteTabData(tabId)
+                    //await middleSectionBuild.tabCardDeleteButton(collectionId, tabId)
                 }
             },
         })
     }
-    transferTabCardsFormat(tabId, tabName, tabUrl, favIconUrl) {
+    transferTabCardsFormat(tabId, newTabId, tabName, tabUrl, favIconUrl) {
         const userWindowCards = document.getElementById(`userWindowCards-${tabId}`)
         userWindowCards.classList.replace("rightSection-spaces-window-tabs-card-frame", "middleSection-container-collection-tab-card-box")
+        userWindowCards.setAttribute("id", `middleSection-container-collection-tab-card-box-${newTabId}`)
         userWindowCards.innerHTML = ` <div class="middleSection-container-collection-tab-card-container">
         <div class="middleSection-container-collection-tab-card">
             <div class="middleSection-container-collection-tab-card-title">
@@ -387,8 +412,8 @@ class MainPageBuild {
                         >${tabName}</span
                     >
                 </div>
-                <button class="middleSection-container-collection-tab-card-cancel-button"></button>
-                <button class="middleSection-container-collection-tab-card-edit-button"></button>
+                <button id="middleSection-container-collection-tab-card-delete-button-${newTabId}" class="middleSection-container-collection-tab-card-delete-button"></button>
+                <button id="middleSection-container-collection-tab-card-edit-button-${newTabId}" class="middleSection-container-collection-tab-card-edit-button"></button>
             </div>
         </div>`
     }
@@ -461,6 +486,9 @@ class LeftSectionBuild {
         const addCategoryPopoverFormNameInputAlert = document.getElementsByClassName(
             "middleSection-add-category-popover-box-form-name-input-alert"
         )
+        const mask = document.getElementsByClassName("mask")
+        const middleSectionAddCategoryPopoverContainer = document.getElementsByClassName("middleSection-popover-container")
+        const middleSectionAddCategoryPopoverBox = document.getElementsByClassName("middleSection-add-category-popover-box")
         addCategoryPopoverFormCreateButton[0].addEventListener("click", async () => {
             const inputValue = this.createOrganizationName
             if (!inputValue || !inputValue.trim()) {
@@ -468,12 +496,28 @@ class LeftSectionBuild {
             } else {
                 const response = await organizationApi.uploadOrganizationData(this.createOrganizationName)
                 if (response.data.message === "ok") {
+                    /*
+                    this.initCategoryButton()
+                    middleSectionAddCategoryPopoverContainer[0].style.zIndex = "-1000"
+                    middleSectionAddCategoryPopoverBox[0].style.transform = "translate(-50%,-150%)"
+                    mask[0].style.display = "none"
+                    addCategoryPopoverFormNameInputAlert[0].style.display = "none"
+                    await this.createCategoryButton()
+                    this.switchToDifferentOrganization()*/
                     location.href = "/main"
                 } else {
                     addCategoryPopoverFormNameInputAlert[0].style.display = "block"
                 }
             }
         })
+    }
+    initCategoryButton() {
+        const parentNode = document.getElementsByClassName("leftSection-nav-top")
+        const childNodes = parentNode[0].children
+        const number = childNodes.length
+        for (let i = number - 1; i >= 0; i--) {
+            parentNode[0].removeChild(childNodes[i])
+        }
     }
     async createCategoryButton() {
         this.organizationData = await organizationApi.getUserOrganizationData()
@@ -817,6 +861,8 @@ class LeftSectionBuild {
         let num = Array.from(leftSectionSpacesContainerMainCard).length
         for (let i = 0; i < num; i++) {
             leftSectionSpacesContainerMainCard[i].addEventListener("click", async () => {
+                middleSectionBuild.isCreatedEdit = false
+                middleSectionBuild.isCreatedFirst = false
                 for (let j = 0; j < num; j++) {
                     if (j !== i) {
                         leftSectionSpacesContainerCardTitle[j].style.color = "rgb(197, 197, 211)"
@@ -996,6 +1042,8 @@ class MiddleSectionBuild {
         this.isCollectionsCheck = {}
         this.isCreatedEdit = false
         this.isCreatedFirst = false
+        this.tabsData = {}
+        this.nowTabId
     }
     /* switch Collection */
     async initCollectionCard() {
@@ -1026,6 +1074,8 @@ class MiddleSectionBuild {
                 this.deleteCollectionCardButtonAddEvent(i, this.collectionData[i].id)
                 this.collectionCardCheckBoxPopover(this.collectionData[i].id)
                 mainPageBuild.dragCollectionAddEvent(this.collectionData[i].id)
+                /* tab cards*/
+                this.getTabCardsData(this.collectionData[i].id)
             }
         } else {
             middleSectionContainerCollectionBox[0].classList.add("none")
@@ -1111,6 +1161,7 @@ class MiddleSectionBuild {
         })
         middleSectionNavAddButton[0].addEventListener("click", () => {
             const num = middleSectionContainerCollectionCardsBox[0].children.length
+            console.log(this.isCreatedFirst, this.isCreatedEdit)
             if (num === 0) {
                 this.generateFirstCollectionCard()
                 this.closeFirstCollectionBoxButtonAddEvent()
@@ -1150,7 +1201,7 @@ class MiddleSectionBuild {
         const middleSectionContainerCollectionCardBox = document.getElementById("middleSection-container-collection-card-box-edit")
         const addCollectionNameInput = document.getElementById("middleSection-container-add-Name-input-edit")
         middleSectionContainerAddCollectionBoxSaveCancelButton.addEventListener("click", () => {
-            middleSectionContainerCollectionCardBox.parentNode.removeChild(middleSectionContainerCollectionCardBox)
+            middleSectionContainerCollectionCardBox.remove()
             addCollectionNameInput.value = ""
             this.isCreatedEdit = false
         })
@@ -1373,17 +1424,135 @@ class MiddleSectionBuild {
         })
     }
     /* tab cards crud */
-    async uploadTabCardsData(collectionId, tabId, tabName, tabUrl, favIconUrl, tabDescription) {
+    async uploadTabCardsData(collectionId, newTabId, tabId, tabName, tabUrl, favIconUrl, tabDescription) {
         /*if (!inputValue || !inputValue.trim()) {
             createCollectionName = "Untitled collection"
         }*/
-        const response = await tabApi.uploadTabData(collectionId, tabId, tabName, tabUrl, favIconUrl, tabDescription)
+        const response = await tabApi.uploadTabData(collectionId, newTabId, tabId, tabName, tabUrl, favIconUrl, tabDescription)
         if (response.data.message === "ok") {
             console.log(response)
             //location.href = "/main"
         } else {
             console.log(response)
         }
+    }
+    async switchTabCardsCollection(collectionId, tabId) {
+        const response = await tabApi.switchTabCollection(collectionId, tabId)
+        if (response.data.message === "ok") {
+            console.log(response)
+            //location.href = "/main"
+        } else {
+            console.log(response)
+        }
+    }
+    async getTabCardsData(collectionId) {
+        const tabData = await tabApi.getUserTabData(collectionId)
+        this.tabsData[`${collectionId}`] = tabData
+        if (tabData.length > 0) {
+            for (let i of tabData) {
+                const tabId = i.id
+                const tabName = i.tabName
+                const tabUrl = i.tabUrl
+                const favIconUrl = i.favIconUrl
+                const tabDescription = i.tabDescription
+                this.generateTabCards(collectionId, tabId, tabName, tabUrl, favIconUrl, tabDescription)
+                await this.tabCardDeleteButton(tabId)
+                this.tabCardEditButton(tabId)
+            }
+        }
+    }
+    generateTabCards(collectionId, tabId, tabName, tabUrl, favIconUrl, tabDescription) {
+        const middleSectionContainerRemindAddCollectionBox = document.getElementById(
+            `middleSection-container-remind-add-collection-box-${collectionId}`
+        )
+        middleSectionContainerRemindAddCollectionBox.classList.replace(
+            "middleSection-container-remind-add-collection-box-created",
+            "middleSection-container-collection-card-container-cards-space"
+        )
+        const tabCard = document.createElement("div")
+        tabCard.classList.add("middleSection-container-collection-tab-card-box")
+        tabCard.setAttribute("id", `middleSection-container-collection-tab-card-box-${tabId}`)
+        tabCard.innerHTML = ` <div class="middleSection-container-collection-tab-card-container">
+        <div class="middleSection-container-collection-tab-card">
+            <div class="middleSection-container-collection-tab-card-title">
+                    <div class="middleSection-container-collection-tab-card-check-box">
+                        <span></span>
+                    </div>
+                    <img src="${favIconUrl}" class="middleSection-container-collection-tab-card-image">
+                    <a href="${tabUrl}" target="_blank" class="middleSection-container-collection-tab-card-text">${tabName}</a>
+                </div>
+                <div class="middleSection-container-collection-tab-card-cancel-description">
+                    <span class="middleSection-container-collection-tab-card-cancel-description-text"
+                        >${tabDescription}</span
+                    >
+                </div>
+                <button id="middleSection-container-collection-tab-card-delete-button-${tabId}" class="middleSection-container-collection-tab-card-delete-button"></button>
+                <button id="middleSection-container-collection-tab-card-edit-button-${tabId}" class="middleSection-container-collection-tab-card-edit-button"></button>
+            </div>
+        </div>`
+        middleSectionContainerRemindAddCollectionBox.appendChild(tabCard)
+    }
+    async tabCardDeleteButton(tabId) {
+        const middleSectionContainerCollectionTabCardDeleteButton = document.getElementById(
+            `middleSection-container-collection-tab-card-delete-button-${tabId}`
+        )
+        const middleSectionContainerCollectionTabCardBox = document.getElementById(
+            `middleSection-container-collection-tab-card-box-${tabId}`
+        )
+        middleSectionContainerCollectionTabCardDeleteButton.addEventListener("click", async () => {
+            const response = await tabApi.deleteTabData(tabId)
+            if (response.data.message === "ok") {
+                middleSectionContainerCollectionTabCardBox.remove()
+                //location.href = "/main"
+            } else {
+                console.log(response)
+            }
+        })
+    }
+    tabCardEditButton(tabId) {
+        const middleSectionContainerCollectionTabCardEditButton = document.getElementById(
+            `middleSection-container-collection-tab-card-edit-button-${tabId}`
+        )
+        const tabCardEditPopoverBoxCancelButton = document.getElementsByClassName("tab-card-edit-popover-box-cancel-button")
+        const middleSectionAddCategoryPopoverContainer = document.getElementsByClassName("middleSection-popover-container")
+        const mask = document.getElementsByClassName("mask")
+        const tabCardEditPopoverBox = document.getElementsByClassName("tab-card-edit-popover-box")
+        middleSectionContainerCollectionTabCardEditButton.addEventListener("click", async () => {
+            this.nowTabId = tabId
+            middleSectionAddCategoryPopoverContainer[0].style.zIndex = "9999"
+            mask[0].style.display = "block"
+            tabCardEditPopoverBox[0].style.transform = "translate(-50%,-55%)"
+            await this.tabCardEditBoxDeleteButton()
+        })
+        tabCardEditPopoverBoxCancelButton[0].addEventListener("click", () => {
+            middleSectionAddCategoryPopoverContainer[0].style.zIndex = "-1000"
+            tabCardEditPopoverBox[0].style.transform = "translate(-50%,-200%)"
+            mask[0].style.display = "none"
+            //organizationSettingNameInput[0].value = this.nowOrganizationName
+        })
+    }
+    async tabCardEditBoxDeleteButton() {
+        const tabId = this.nowTabId
+        const mask = document.getElementsByClassName("mask")
+        const middleSectionAddCategoryPopoverContainer = document.getElementsByClassName("middleSection-popover-container")
+        const tabCardEditPopoverBox = document.getElementsByClassName("tab-card-edit-popover-box")
+        const middleSectionContainerCollectionTabCardBox = document.getElementById(
+            `middleSection-container-collection-tab-card-box-${tabId}`
+        )
+        const tabCardEditPopoverBoxDeleteButton = document.getElementsByClassName("tab-card-edit-popover-box-delete-button")
+        let deleteTabDataHandler = async () => {
+            const response = await tabApi.deleteTabData(tabId)
+            if (response.data.message === "ok") {
+                middleSectionContainerCollectionTabCardBox.remove()
+                middleSectionAddCategoryPopoverContainer[0].style.zIndex = "-1000"
+                tabCardEditPopoverBox[0].style.transform = "translate(-50%,-200%)"
+                mask[0].style.display = "none"
+                tabCardEditPopoverBoxDeleteButton[0].removeEventListener("click", deleteTabDataHandler)
+            } else {
+                console.log(response)
+            }
+        }
+        tabCardEditPopoverBoxDeleteButton[0].addEventListener("click", deleteTabDataHandler)
     }
 }
 const rightSectionBuild = new RightSectionBuild()
