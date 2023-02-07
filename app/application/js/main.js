@@ -51,6 +51,8 @@ window.addEventListener("DOMContentLoaded", async () => {
         middleSectionBuild.createFirstCollectionBoxButtonAddEvent()
         middleSectionBuild.openCloseDeleteCollectionCardPopover()
         await middleSectionBuild.deleCollectionCardsButton()
+        middleSectionBuild.getTabCardEditBoxInput()
+        await middleSectionBuild.tabCardEditBoxDeleteButton()
     }
     mainPageBuild.rightSectionFold()
     mainPageBuild.leftSectionFold()

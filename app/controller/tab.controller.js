@@ -47,8 +47,8 @@ class TabController {
         } catch (err) {
             next(err)
         }
-    } /*
-    async updateSpaceData(req, res, next) {
+    }
+    async updateTabData(req, res, next) {
         try {
             const errors = validationResult(req)
             if (!errors.isEmpty()) {
@@ -57,14 +57,14 @@ class TabController {
                     errorMessages: errors.array(),
                 })
             }
-            const response = await Space.UpdateSpaceData(req.body.spaceId, req.body.newSpaceName)
+            const response = await Tab.UpdateTabData(req.body.tabId, req.body.newTabName, req.body.newTabUrl, req.body.newTabDescription)
             return res.status(200).json({
                 message: "ok",
             })
         } catch (err) {
             next(err)
         }
-    }*/
+    }
     async deleteTabData(req, res, next) {
         try {
             const response = await Tab.DeleteTabData(req.body.tabId)

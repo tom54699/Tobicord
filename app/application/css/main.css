@@ -1056,7 +1056,8 @@ input[placeholder] {
     -webkit-box-flex: 1;
     flex: 1;
 }
-.middleSection-tab-popover-container {
+.middleSection-tab-popover-container,
+.middleSection-tab-card-menu-popover-container {
     display: flex;
     bottom: 30px;
     position: absolute;
@@ -1074,7 +1075,8 @@ input[placeholder] {
     transition: transform 0.3s ease-in-out 0s;
     transform: translate(-50%, 300px);
 }
-.middleSection-tab-popover-title {
+.middleSection-tab-popover-title,
+.middleSection-tab-card-popover-title {
     font-weight: 400;
     text-overflow: ellipsis;
     font-size: 12px;
@@ -1104,7 +1106,8 @@ input[placeholder] {
     pointer-events: none;
     color: rgb(197, 197, 211);
 }
-.middleSection-tab-popover-move-svg {
+.middleSection-tab-popover-move-svg,
+.middleSection-tab-card-popover-move-svg {
     width: 1.25rem;
     height: 1.25rem;
     mask: url("../images/moveFolder.svg") no-repeat 50% 50%;
@@ -1113,12 +1116,19 @@ input[placeholder] {
     -webkit-mask-size: cover;
     background-color: rgb(197, 197, 211);
 }
+.middleSection-tab-card-popover-move-svg {
+    background-color: rgb(214, 73, 107);
+}
 .middleSection-tab-popover-move-text {
     color: rgb(197, 197, 211);
 }
 .middleSection-tab-popover-create-button,
 .middleSection-tab-popover-delete-button,
-.middleSection-tab-popover-open-button {
+.middleSection-tab-popover-open-button,
+.middleSection-tab-card-popover-move-button,
+.middleSection-tab-card-popover-create-button,
+.middleSection-tab-card-popover-delete-button,
+.middleSection-tab-card-popover-open-button {
     color: rgb(214, 73, 107);
     border-radius: 5px;
     padding: 5px 10px;
@@ -1140,11 +1150,16 @@ input[placeholder] {
 }
 .middleSection-tab-popover-create-button:hover,
 .middleSection-tab-popover-delete-button:hover,
-.middleSection-tab-popover-open-button:hover {
+.middleSection-tab-popover-open-button:hover,
+.middleSection-tab-card-popover-move-button:hover,
+.middleSection-tab-card-popover-create-button:hover,
+.middleSection-tab-card-popover-delete-button:hover,
+.middleSection-tab-card-popover-open-button:hover {
     color: rgb(170, 63, 91);
     background: rgb(56, 56, 73);
 }
-.middleSection-tab-popover-create-svg {
+.middleSection-tab-popover-create-svg,
+.middleSection-tab-card-popover-create-svg {
     width: 1.25rem;
     height: 1.25rem;
     mask: url("../images/create.svg") no-repeat 50% 50%;
@@ -1153,11 +1168,8 @@ input[placeholder] {
     -webkit-mask-size: cover;
     background-color: rgb(214, 73, 107);
 }
-.middleSection-tab-popover-create-text,
-.middleSection-tab-popover-delete-text,
-.middleSection-tab-popover-open-text {
-}
-.middleSection-tab-popover-delete-svg {
+.middleSection-tab-popover-delete-svg,
+.middleSection-tab-card-popover-delete-svg {
     width: 1.25rem;
     height: 1.25rem;
     mask: url("../images/trashcan.svg") no-repeat 50% 50%;
@@ -1166,13 +1178,15 @@ input[placeholder] {
     -webkit-mask-size: cover;
     background-color: rgb(214, 73, 107);
 }
-.middleSection-tab-popover-close-button {
+.middleSection-tab-popover-close-button,
+.middleSection-tab-card-popover-close-button {
     padding: 0px;
     width: 20px;
     height: 20px;
     flex-shrink: 0;
 }
-.middleSection-tab-popover-close-svg {
+.middleSection-tab-popover-close-svg,
+.middleSection-tab-card-popover-close-svg {
     width: 1.25rem;
     height: 1.25rem;
     mask: url("../images/close.svg") no-repeat 50% 50%;
@@ -1182,10 +1196,12 @@ input[placeholder] {
     background-color: rgb(124, 124, 154);
     transition: background-color 0.3s ease-in-out;
 }
-.middleSection-tab-popover-close-svg:hover {
+.middleSection-tab-popover-close-svg:hover,
+.middleSection-tab-card-popover-close-svg:hover {
     background-color: rgb(214, 73, 107);
 }
-.middleSection-tab-popover-open-svg {
+.middleSection-tab-popover-open-svg,
+.middleSection-tab-card-popover-open-svg {
     width: 1.25rem;
     height: 1.25rem;
     mask: url("../images/openTab.svg") no-repeat 50% 50%;
@@ -2515,7 +2531,7 @@ input[placeholder] {
     opacity: 0;
 }
 .show-opacity {
-    opacity: 1;
+    opacity: 1 !important;
 }
 .middleSection-container-collection-card-container-nav-buttons-box > div {
     position: relative;
@@ -2763,7 +2779,7 @@ input[placeholder] {
     transition: opacity 0.3s cubic-bezier(0.68, -0.55, 0.265, 1) 0s;
     opacity: 1;
 }
-.middleSection-container-collection-tab-card-container:hover .middleSection-container-collection-tab-card-image {
+.middleSection-container-collection-tab-card-container:hover .tab-card-image-show-opacity {
     transition: opacity 0.3s cubic-bezier(0.68, -0.55, 0.265, 1) 0s;
     opacity: 0;
 }
@@ -2811,9 +2827,12 @@ input[placeholder] {
     flex: 0 0 1.5rem;
     width: 1.5rem;
     height: 1.5rem;
+    opacity: 0;
     background-size: 1.5rem 1.5rem;
-    opacity: 1;
     background-image: url("https://wehelp.tw/images/logo-16.png");
+}
+.tab-card-image-show-opacity {
+    opacity: 1;
 }
 .middleSection-container-collection-tab-card-text {
     text-overflow: ellipsis;

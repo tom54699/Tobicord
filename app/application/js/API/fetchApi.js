@@ -402,8 +402,8 @@ class TabApi {
             console.log(err)
             return err.response
         }
-    } /*
-    async updateCollectionData(collectionId, newCollectionName) {
+    }
+    async updateTabData(tabId, newTabName, newTabUrl, newTabDescription) {
         try {
             const headers = {
                 "Content-Type": "application/json",
@@ -414,8 +414,10 @@ class TabApi {
                 headers: headers,
             }
             const content = {
-                collectionId: collectionId,
-                newCollectionName: newCollectionName,
+                tabId: tabId,
+                newTabName: newTabName,
+                newTabUrl: newTabUrl,
+                newTabDescription: newTabDescription,
             }
             const response = await axios.put("/tab", content, config)
             return response
@@ -423,7 +425,7 @@ class TabApi {
             console.log(err)
             return err.response
         }
-    }*/
+    }
     async deleteTabData(tabId) {
         try {
             const headers = {

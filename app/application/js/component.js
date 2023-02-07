@@ -392,4 +392,44 @@ const initCollectionCardFrame = (collectionId, collectionName) => {
     </div>
 </div>`
 }
-export { windowFrame, windowCardsFrame, firstCollectionCardFrame, initCollectionCardFrame }
+const tabCardFrame = (tabId, tabName, tabUrl, favIconUrl, tabDescription) => {
+    return ` <div class="middleSection-container-collection-tab-card-container">
+    <div class="middleSection-container-collection-tab-card">
+        <div class="middleSection-container-collection-tab-card-title">
+                <div class="middleSection-container-collection-tab-card-check-box" id="middleSection-tab-card-box-check-box-${tabId}">
+                    <span class="collection-card-box-check-box" id="tab-card-check-box-${tabId}"></span>
+                </div>
+                <img src="${favIconUrl}" class="middleSection-container-collection-tab-card-image tab-card-image-show-opacity" id="middleSection-container-collection-tab-card-image-${tabId}">
+                <a href="${tabUrl}" target="_blank" id="middleSection-container-collection-tab-card-text-${tabId}" class="middleSection-container-collection-tab-card-text">${tabName}</a>
+            </div>
+            <div class="middleSection-container-collection-tab-card-cancel-description">
+                <span class="middleSection-container-collection-tab-card-cancel-description-text" id="middleSection-container-collection-tab-card-description-text-${tabId}"
+                    >${tabDescription}</span
+                >
+            </div>
+            <button id="middleSection-container-collection-tab-card-delete-button-${tabId}" class="middleSection-container-collection-tab-card-delete-button"></button>
+            <button id="middleSection-container-collection-tab-card-edit-button-${tabId}" class="middleSection-container-collection-tab-card-edit-button"></button>
+        </div>
+    </div>`
+}
+const tabCardTransferFrame = (newTabId, tabName, tabUrl, favIconUrl) => {
+    return ` <div class="middleSection-container-collection-tab-card-container">
+    <div class="middleSection-container-collection-tab-card">
+        <div class="middleSection-container-collection-tab-card-title">
+                <div class="middleSection-container-collection-tab-card-check-box" id="middleSection-tab-card-box-check-box-${newTabId}">
+                    <span class="collection-card-box-check-box" id="tab-card-check-box-${newTabId}"></span>
+                </div>
+                <img src="${favIconUrl}" class="middleSection-container-collection-tab-card-image tab-card-image-show-opacity" id="middleSection-container-collection-tab-card-image-${newTabId}">
+                <a href="${tabUrl}" target="_blank" class="middleSection-container-collection-tab-card-text" target="_blank" id="middleSection-container-collection-tab-card-text-${newTabId}">${tabName}</a>
+            </div>
+            <div class="middleSection-container-collection-tab-card-cancel-description">
+                <span class="middleSection-container-collection-tab-card-cancel-description-text" id="middleSection-container-collection-tab-card-description-text-${newTabId}"
+                    >${tabName}</span
+                >
+            </div>
+            <button id="middleSection-container-collection-tab-card-delete-button-${newTabId}" class="middleSection-container-collection-tab-card-delete-button"></button>
+            <button id="middleSection-container-collection-tab-card-edit-button-${newTabId}" class="middleSection-container-collection-tab-card-edit-button"></button>
+        </div>
+    </div>`
+}
+export { windowFrame, windowCardsFrame, firstCollectionCardFrame, initCollectionCardFrame, tabCardFrame, tabCardTransferFrame }

@@ -42,12 +42,15 @@ const SwitchTabCollection = async (collectionId, tabId) => {
     }
 }
 
-const UpdateTabData = async (tabId, newTabName) => {
+const UpdateTabData = async (tabId, newTabName, newTabUrl, newTabDescription) => {
     try {
-        const collection = await Collection.findByPk(collectionId)
-        const response = await collection.update({
-            collectionName: newCollectionName,
+        const tab = await Tab.findByPk(tabId)
+        const response = await tab.update({
+            tabName: newTabName,
+            tabUrl: newTabUrl,
+            tabDescription: newTabDescription,
         })
+        console.log(response)
         return response
     } catch (err) {
         console.log(err)
@@ -72,4 +75,5 @@ module.exports = {
     GetUserTabData,
     DeleteTabData,
     SwitchTabCollection,
+    UpdateTabData,
 }
