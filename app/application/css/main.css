@@ -2518,7 +2518,6 @@ input[placeholder] {
     -webkit-mask: url("../images/arrowUp.svg") no-repeat 50% 50%;
     -webkit-mask-size: cover;
     background-color: rgb(214, 73, 107);
-    display: none;
 }
 .middleSection-container-collection-card-container-nav-buttons-box {
     transition: opacity 300ms cubic-bezier(0.68, -0.55, 0.265, 1) 0s;

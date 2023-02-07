@@ -353,6 +353,9 @@ class MainPageBuild {
         const middleSectionContainerRemindAddCollectionBox = document.getElementById(
             `middleSection-container-remind-add-collection-box-${collectionId}`
         )
+        const middleSectionContainerCollectionCardContainerNavArrowSvgButton = document.getElementById(
+            `middleSection-container-collection-card-container-nav-arrow-svg-button-${collectionId}`
+        )
         new Sortable(middleSectionContainerRemindAddCollectionBox, {
             group: "shared",
             animation: 150,
@@ -362,6 +365,9 @@ class MainPageBuild {
                     "middleSection-container-remind-add-collection-box-created",
                     "middleSection-container-collection-card-container-cards-space"
                 )
+                middleSectionContainerRemindAddCollectionBox.classList.add("collapse")
+                middleSectionContainerRemindAddCollectionBox.classList.add("show")
+                middleSectionContainerCollectionCardContainerNavArrowSvgButton.classList.remove("none")
                 const fromBlock = evt.from.id.slice(0, 6)
                 const windowId = evt.from.id.slice(7)
                 const collectionId = evt.to.id.slice(50)
@@ -377,6 +383,7 @@ class MainPageBuild {
                     await middleSectionBuild.uploadTabCardsData(collectionId, newTabId, tabId, tabName, tabUrl, favIconUrl, tabName)
                     middleSectionBuild.tabCardEditButton(collectionId, newTabId)
                     middleSectionBuild.tabCardCheckBoxPopover(newTabId)
+                    middleSectionBuild.collectionCardArrowControl(collectionId)
                 } else {
                     const tabId = evt.item.id.slice(48)
                     const tabData = middleSectionBuild.tabsData[evt.from.id.slice(50)]
@@ -1073,6 +1080,7 @@ class MiddleSectionBuild {
                 this.deleteCollectionCardButtonAddEvent(i, this.collectionData[i].id)
                 this.collectionCardCheckBoxPopover(this.collectionData[i].id)
                 mainPageBuild.dragCollectionAddEvent(this.collectionData[i].id)
+                this.collectionCardArrowControl(this.collectionData[i].id)
                 /* tab cards*/
                 this.getTabCardsData(this.collectionData[i].id)
             }
@@ -1458,14 +1466,43 @@ class MiddleSectionBuild {
             }
         }
     }
+    collectionCardArrowControl(collectionId) {
+        const middleSectionContainerCollectionCardContainerNavArrowSvgButton = document.getElementById(
+            `middleSection-container-collection-card-container-nav-arrow-svg-button-${collectionId}`
+        )
+        const middleSectionContainerCollectionCardContainerNavArrowDownSvg = document.getElementById(
+            `middleSection-container-collection-card-container-nav-arrow-down-svg-${collectionId}`
+        )
+        const middleSectionContainerCollectionCardContainerNavArrowUpSvg = document.getElementById(
+            `middleSection-container-collection-card-container-nav-arrow-up-svg-${collectionId}`
+        )
+        let isClicked = false
+        middleSectionContainerCollectionCardContainerNavArrowSvgButton.addEventListener("click", () => {
+            if (!isClicked) {
+                middleSectionContainerCollectionCardContainerNavArrowDownSvg.classList.remove("none")
+                middleSectionContainerCollectionCardContainerNavArrowUpSvg.classList.add("none")
+                isClicked = true
+            } else {
+                middleSectionContainerCollectionCardContainerNavArrowDownSvg.classList.add("none")
+                middleSectionContainerCollectionCardContainerNavArrowUpSvg.classList.remove("none")
+                isClicked = false
+            }
+        })
+    }
     generateTabCards(collectionId, tabId, tabName, tabUrl, favIconUrl, tabDescription) {
+        const middleSectionContainerCollectionCardContainerNavArrowSvgButton = document.getElementById(
+            `middleSection-container-collection-card-container-nav-arrow-svg-button-${collectionId}`
+        )
         const middleSectionContainerRemindAddCollectionBox = document.getElementById(
             `middleSection-container-remind-add-collection-box-${collectionId}`
         )
+        middleSectionContainerCollectionCardContainerNavArrowSvgButton.classList.remove("none")
         middleSectionContainerRemindAddCollectionBox.classList.replace(
             "middleSection-container-remind-add-collection-box-created",
             "middleSection-container-collection-card-container-cards-space"
         )
+        middleSectionContainerRemindAddCollectionBox.classList.add("collapse")
+        middleSectionContainerRemindAddCollectionBox.classList.add("show")
         const tabCard = document.createElement("div")
         tabCard.classList.add("middleSection-container-collection-tab-card-box")
         tabCard.setAttribute("id", `middleSection-container-collection-tab-card-box-${tabId}`)

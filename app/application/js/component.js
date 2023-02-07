@@ -135,13 +135,13 @@ const firstCollectionCardFrame = (status = "") => {
                         class="middleSection-container-collection-card-container-nav-arrow-svg-container none"
                     >
                         <button
-                            class="middleSection-container-collection-card-container-nav-arrow-svg-button"
+                            class="middleSection-container-collection-card-container-nav-arrow-svg-button" tabindex="-1"
                         >
                             <div
                                 class="middleSection-container-collection-card-container-nav-arrow-down-svg"
                             ></div>
                             <div
-                                class="middleSection-container-collection-card-container-nav-arrow-up-svg"
+                                class="middleSection-container-collection-card-container-nav-arrow-up-svg none"
                             ></div>
                         </button>
                     </div>
@@ -279,15 +279,22 @@ const initCollectionCardFrame = (collectionId, collectionName) => {
                         ${collectionName}
                     </h3>
                     <div
-                        class="middleSection-container-collection-card-container-nav-arrow-svg-container none"
+                        class="middleSection-container-collection-card-container-nav-arrow-svg-container"
                     >
                         <button
-                            class="middleSection-container-collection-card-container-nav-arrow-svg-button"
+                            id="middleSection-container-collection-card-container-nav-arrow-svg-button-${collectionId}"
+                            class="middleSection-container-collection-card-container-nav-arrow-svg-button none" tabindex="-1"
+                            data-bs-toggle="collapse"
+                            data-bs-target="#middleSection-container-remind-add-collection-box-${collectionId}"
+                            aria-expanded="false"
+                            aria-controls="#middleSection-container-remind-add-collection-box-${collectionId}"
                         >
                             <div
-                                class="middleSection-container-collection-card-container-nav-arrow-down-svg"
+                                id="middleSection-container-collection-card-container-nav-arrow-down-svg-${collectionId}"
+                                class="middleSection-container-collection-card-container-nav-arrow-down-svg  none"
                             ></div>
                             <div
+                                id="middleSection-container-collection-card-container-nav-arrow-up-svg-${collectionId}"
                                 class="middleSection-container-collection-card-container-nav-arrow-up-svg"
                             ></div>
                         </button>
