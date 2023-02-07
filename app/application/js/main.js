@@ -52,7 +52,7 @@ window.addEventListener("DOMContentLoaded", async () => {
         middleSectionBuild.openCloseDeleteCollectionCardPopover()
         await middleSectionBuild.deleCollectionCardsButton()
         middleSectionBuild.getTabCardEditBoxInput()
-        await middleSectionBuild.tabCardEditBoxDeleteButton()
+        await middleSectionBuild.tabCardEditBoxPopoverDeleteButton()
     }
     mainPageBuild.rightSectionFold()
     mainPageBuild.leftSectionFold()
