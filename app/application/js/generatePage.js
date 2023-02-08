@@ -356,11 +356,13 @@ class MainPageBuild {
         const middleSectionContainerCollectionCardContainerNavArrowSvgButton = document.getElementById(
             `middleSection-container-collection-card-container-nav-arrow-svg-button-${collectionId}`
         )
-        new Sortable(middleSectionContainerRemindAddCollectionBox, {
+        const collectionSortable = new Sortable(middleSectionContainerRemindAddCollectionBox, {
             group: "shared",
             animation: 150,
+            sort: true,
             async onAdd(evt) {
-                console.log("onAdd: 其他列表单元添加到本列表容器的回调函数")
+                const order = collectionSortable.toArray()
+                console.log("onAdd: 其他列表单元添加到本列表容器的回调函数", evt.oldIndex, evt.newIndex, order)
                 middleSectionContainerRemindAddCollectionBox.classList.replace(
                     "middleSection-container-remind-add-collection-box-created",
                     "middleSection-container-collection-card-container-cards-space"
@@ -400,7 +402,8 @@ class MainPageBuild {
                 }
             },
             async onEnd(evt) {
-                console.log("onEnd: 列表单元拖放结束后的回调函数！")
+                const order = collectionSortable.toArray()
+                console.log("onEnd: 列表单元拖放结束后的回调函数！", evt, evt.oldIndex, evt.newIndex, order)
                 if (evt.to.id.slice(50) != collectionId) {
                     const tabId = evt.item.id.slice(48)
                     console.log(tabId)

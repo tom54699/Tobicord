@@ -26,11 +26,7 @@ loginSwitchButton.addEventListener("click", () => {
 
 registerButton.addEventListener("click", async () => {
     try {
-        const response = await authApi.register(
-            registerEmailInput.value,
-            registerPasswordInput.value,
-            registerUsernameInput.value
-        )
+        const response = await authApi.register(registerEmailInput.value, registerPasswordInput.value, registerUsernameInput.value)
         const result = await response.data
         console.log(result)
         let num

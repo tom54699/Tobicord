@@ -5,7 +5,7 @@ const Member = require("../models/Member.model")
 const AddOrganizationData = async (organizationName, userId) => {
     const member = await Member.findByPk(userId)
     const organization = await Organization.create({ organizationName: organizationName })
-    const response = await member.addOrganization(organization)
+    const response = await member.addOrganization(organization, { through: { roleId: 1 } })
     const organizationData = response[0].dataValues
     return organizationData
 }

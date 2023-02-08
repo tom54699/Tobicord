@@ -33,8 +33,41 @@ app.use(
 )
 
 const associations = require("./models/associations")
+const Permission = require("./models/Permission.model")
+const Role = require("./models/Role.model")
 /*
 sequelize.sync({ force: true }).then(() => {
+    Permission.bulkCreate([
+        {
+            permissionName: "read",
+        },
+        {
+            permissionName: "write",
+        },
+        {
+            permissionName: "invite",
+        },
+        {
+            permissionName: "kick",
+        },
+        {
+            permissionName: "invite_approve",
+        },
+        {
+            permissionName: "control_role",
+        },
+    ]),
+        Role.bulkCreate([
+            {
+                roleName: "owner",
+            },
+            {
+                roleName: "member",
+            },
+            {
+                roleName: "visitor",
+            },
+        ])
     console.log("Tables created")
 })*/
 sequelize

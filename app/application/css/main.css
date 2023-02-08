@@ -782,7 +782,9 @@ input[placeholder] {
     display: flex;
     position: relative;
 }
-.middleSection-nav-button {
+.middleSection-nav-button,
+.middleSection-nav-expand-button,
+.middleSection-nav-collapse-button {
     color: rgb(214, 73, 107);
     border-radius: 5px;
     padding: 5px 10px;
@@ -805,7 +807,9 @@ input[placeholder] {
     line-height: 24px;
 }
 .middleSection-nav-button:hover,
-.middleSection-nav-button:focus {
+.middleSection-nav-button:focus,
+.middleSection-nav-expand-button:hover,
+.middleSection-nav-collapse-button:hover {
     background-color: rgb(56, 56, 73);
 }
 .middleSection-nav-button:focus .arrow-down-svg {
@@ -1452,7 +1456,8 @@ input[placeholder] {
 .space-setting-popover-box-close-svg-container,
 .space-delete-popover-box-close-svg-container,
 .space-success-delete-popover-box-close-svg-container,
-.collection-delete-popover-box-close-svg-container {
+.collection-delete-popover-box-close-svg-container,
+.collection-export-popover-box-close-svg-container {
     padding: 0px;
     width: 20px;
     height: 20px;
@@ -1468,7 +1473,8 @@ input[placeholder] {
 .space-setting-popover-box-close-svg,
 .space-delete-popover-box-close-svg,
 .space-success-delete-popover-box-close-svg,
-.collection-delete-popover-box-close-svg {
+.collection-delete-popover-box-close-svg,
+.collection-export-popover-box-close-svg {
     width: 1.25rem;
     height: 1.25rem;
     mask: url("../images/close.svg") no-repeat 50% 50%;
@@ -1483,7 +1489,8 @@ input[placeholder] {
 .space-create-popover-box-close-svg:hover,
 .organization-success-delete-popover-box-close-svg:hover,
 .space-setting-popover-box-close-svg:hover,
-.collection-delete-popover-box-close-svg:hover {
+.collection-delete-popover-box-close-svg:hover,
+.collection-export-popover-box-close-svg:hover {
     background-color: rgb(214, 73, 107);
 }
 .organization-setting-popover-box > div:nth-child(2) {
@@ -2315,7 +2322,7 @@ input[placeholder] {
 }
 .middleSection-container-collection-box > div:nth-child(1) {
     position: relative;
-    height: 680px;
+    height: 820px;
     width: 100%;
     overflow: hidden auto;
     will-change: transform;
@@ -3247,7 +3254,105 @@ input[placeholder] {
     font-size: 12px;
     line-height: 12px;
 }
-
+.collection-export-popover-box {
+    position: fixed;
+    top: 10%;
+    left: 50%;
+    color: rgb(94, 93, 102);
+    font-size: 14px;
+    z-index: 9000;
+    transform: translate(-50%, 0%);
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    box-shadow: rgba(91, 76, 76, 0.125) 0px 2px 25px;
+    animation: 0.7s cubic-bezier(0.68, -0.55, 0.265, 1.3) 0s 1 normal forwards running dOnrbB;
+    width: 30rem;
+    background: rgb(73, 73, 92);
+    padding: 1.25rem 2rem;
+    border-radius: 5px;
+    transition: transform 0.3s ease-in-out 0.2s;
+}
+.collection-export-popover-box > h4 {
+    text-align: center;
+    color: rgb(248, 249, 251);
+    text-overflow: ellipsis;
+    white-space: normal;
+    overflow: hidden;
+    font-size: 16px;
+}
+.collection-export-popover-box > div:nth-child(3) {
+    height: 100%;
+    color: rgb(183, 183, 206);
+}
+.collection-export-popover-box > div:nth-child(3) > div:nth-child(1) {
+    padding: 0 3rem;
+}
+.collection-export-popover-box-container > div:nth-child(1) {
+    text-align: center;
+    margin-bottom: 1rem;
+    color: #b7b7ce;
+}
+.collection-export-popover-box-container > div:nth-child(2) {
+    margin-bottom: 2rem;
+    color: #d9d9e9;
+    text-align: center;
+}
+.collection-export-popover-box-container > button {
+    margin: 0 auto 1rem auto;
+    padding: 0.5rem 1rem;
+    color: #474759;
+    width: 100%;
+    font-size: 0.875rem;
+    background-color: rgba(245, 245, 251, 0.8);
+    text-align: center;
+    line-height: 1.2rem;
+    font-weight: 500;
+    border-radius: 3px;
+    box-shadow: 1px 1px 3px rgb(0 0 0 / 22%);
+    cursor: pointer;
+}
+.collection-export-popover-box-container > button > span {
+    color: #70708c;
+    font-weight: normal;
+}
+.collection-export-popover-box-container > button:hover {
+    background-color: #f0f0f7;
+}
+.collection-export-popover-box-cancel-button-box {
+    margin: 1rem auto;
+    text-align: center;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+}
+.collection-export-popover-box-cancel-button {
+    color: rgb(214, 73, 107);
+    border-radius: 5px;
+    display: flex;
+    flex-direction: row;
+    -webkit-box-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    align-items: center;
+    white-space: nowrap;
+    gap: 10px;
+    position: relative;
+    font-weight: 500;
+    text-transform: uppercase;
+    text-align: center;
+    width: min-content;
+    height: 32px;
+    font-size: 14px;
+    padding: 5px 20px;
+}
+.collection-export-popover-box-cancel-button:hover {
+    color: rgb(170, 63, 91);
+    background: rgb(56, 56, 73);
+}
 .rightSection {
     display: flex;
     flex-direction: column;

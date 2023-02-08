@@ -1,5 +1,7 @@
 const authService = require("../service/auth.service.js")
 const MemberTable = require("../service/MemberTable")
+const Space = require("../service/SpaceTable")
+const Organization = require("../service/OrganizationTable")
 const { validationResult } = require("express-validator")
 const RedisService = require("../service/redis.service.js")
 const bcrypt = require("bcrypt")
@@ -21,7 +23,11 @@ class AuthController {
                 })
             }
         } catch (err) {
-            next(err)
+            console.log(err)
+            return res.status(422).json({
+                message: "Invalid credentials",
+                errorMessages: [{ msg: "- invalid email or password" }],
+            })
         }
     }
     async logout(req, res, next) {
@@ -63,7 +69,11 @@ class AuthController {
             const response = await MemberTable.CheckEmailRepeat(email)
             if (response === null) {
                 const hash = bcrypt.hashSync(password, process.env["SALTROUNDS"])
-                await MemberTable.AddMembersBasicData(username, email, hash)
+                const memberData = await MemberTable.AddMembersBasicData(username, email, hash)
+                const userId = memberData.dataValues.id
+                const spaceData = await Organization.AddOrganizationData("My Favorite", userId)
+                const spaceId = spaceData.id
+                await Space.CreateSpaceData(spaceId, userId, "Starred Collections")
                 res.json({ message: "ok" })
             } else {
                 return (

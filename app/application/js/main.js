@@ -92,8 +92,6 @@ logoutButton[0].addEventListener("click", async () => {
     }
 })
 
-/* 拖曳功能 */
-
 /* 畫面 */
 let isTagFilter = false
 const tagFilterButton = document.getElementsByClassName("middleSection-nav-button")
@@ -103,5 +101,23 @@ tagFilterButton[0].addEventListener("click", () => {
         tagFilterButton[0].blur()
     } else {
         isTagFilter = true
+    }
+})
+
+/* Expand 按鈕*/
+const middleSectionNavExpandButton = document.getElementsByClassName("middleSection-nav-expand-button")
+const middleSectionNavCollapseButton = document.getElementsByClassName("middleSection-nav-collapse-button")
+const middleSectionContainerCollectionCardContainerCardsSpace = document.getElementsByClassName(
+    "middleSection-container-collection-card-container-cards-space"
+)
+middleSectionNavExpandButton[0].addEventListener("click", () => {
+    for (let i of Array.from(middleSectionContainerCollectionCardContainerCardsSpace)) {
+        i.classList.add("show")
+    }
+})
+
+middleSectionNavCollapseButton[0].addEventListener("click", () => {
+    for (let i of Array.from(middleSectionContainerCollectionCardContainerCardsSpace)) {
+        i.classList.remove("show")
     }
 })
