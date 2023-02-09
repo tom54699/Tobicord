@@ -206,7 +206,7 @@ class SpaceApi {
             return err.response
         }
     }
-    async updateSpaceData(spaceId, spaceName, newSpaceName) {
+    async updateSpaceData(organizationId, spaceId, spaceName, newSpaceName) {
         try {
             const headers = {
                 "Content-Type": "application/json",
@@ -217,6 +217,7 @@ class SpaceApi {
                 headers: headers,
             }
             const content = {
+                organizationId: organizationId,
                 spaceId: spaceId,
                 spaceName: spaceName,
                 newSpaceName: newSpaceName,
@@ -228,7 +229,7 @@ class SpaceApi {
             return err.response
         }
     }
-    async deleteSpaceData(spaceId) {
+    async deleteSpaceData(organizationId, spaceId) {
         try {
             const headers = {
                 "Content-Type": "application/json",
@@ -238,6 +239,7 @@ class SpaceApi {
             const config = {
                 headers: headers,
                 data: {
+                    organizationId: organizationId,
                     spaceId: spaceId,
                 },
             }
@@ -250,7 +252,7 @@ class SpaceApi {
     }
 }
 class CollectionApi {
-    async uploadCollectionData(spaceId, collectionName) {
+    async uploadCollectionData(organizationId, spaceId, collectionName) {
         try {
             const headers = {
                 "Content-Type": "application/json",
@@ -261,6 +263,7 @@ class CollectionApi {
                 headers: headers,
             }
             const content = {
+                organizationId: organizationId,
                 spaceId: spaceId,
                 collectionName: collectionName,
             }
@@ -271,7 +274,7 @@ class CollectionApi {
             return err.response
         }
     }
-    async getUserCollectionData(spaceId) {
+    async getUserCollectionData(organizationId, spaceId) {
         try {
             const headers = {
                 "Content-Type": "application/json",
@@ -281,6 +284,7 @@ class CollectionApi {
             const config = {
                 headers: headers,
                 params: {
+                    organizationId: organizationId,
                     spaceId: spaceId,
                 },
             }
@@ -292,7 +296,7 @@ class CollectionApi {
             return err.response
         }
     }
-    async updateCollectionData(collectionId, newCollectionName) {
+    async updateCollectionData(organizationId, collectionId, newCollectionName) {
         try {
             const headers = {
                 "Content-Type": "application/json",
@@ -303,6 +307,7 @@ class CollectionApi {
                 headers: headers,
             }
             const content = {
+                organizationId: organizationId,
                 collectionId: collectionId,
                 newCollectionName: newCollectionName,
             }
@@ -313,7 +318,7 @@ class CollectionApi {
             return err.response
         }
     }
-    async deleteCollectionData(collectionId) {
+    async deleteCollectionData(organizationId, collectionId) {
         try {
             const headers = {
                 "Content-Type": "application/json",
@@ -323,6 +328,7 @@ class CollectionApi {
             const config = {
                 headers: headers,
                 data: {
+                    organizationId: organizationId,
                     collectionId: collectionId,
                 },
             }

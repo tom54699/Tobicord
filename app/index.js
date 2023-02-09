@@ -36,8 +36,8 @@ const associations = require("./models/associations")
 const Permission = require("./models/Permission.model")
 const Role = require("./models/Role.model")
 /*
-sequelize.sync({ force: true }).then(() => {
-    Permission.bulkCreate([
+sequelize.sync({ force: true }).then(async () => {
+    const permission = await Permission.bulkCreate([
         {
             permissionName: "read",
         },
@@ -54,20 +54,33 @@ sequelize.sync({ force: true }).then(() => {
             permissionName: "invite_approve",
         },
         {
+            permissionName: "space_access",
+        },
+        {
+            permissionName: "organization_access",
+        },
+        {
             permissionName: "control_role",
         },
-    ]),
-        Role.bulkCreate([
-            {
-                roleName: "owner",
-            },
-            {
-                roleName: "member",
-            },
-            {
-                roleName: "visitor",
-            },
-        ])
+    ])
+    const role = await Role.bulkCreate([
+        {
+            roleName: "owner",
+        },
+        {
+            roleName: "manager",
+        },
+        {
+            roleName: "member",
+        },
+        {
+            roleName: "visitor",
+        },
+    ])
+    await role[0].addPermission(permission.slice(0, 8))
+    await role[1].addPermission(permission.slice(0, 6))
+    await role[2].addPermission(permission.slice(0, 3))
+    await role[3].addPermission(permission.slice(0, 1))
     console.log("Tables created")
 })*/
 sequelize

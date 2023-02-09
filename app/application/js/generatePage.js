@@ -653,12 +653,17 @@ class LeftSectionBuild {
             const inputValue = this.newOrganizationName
             if (!inputValue || !inputValue.trim()) {
                 organizationSettingEditNameAlert[0].style.display = "block"
+                organizationSettingEditNameAlert[0].textContent = "Organization name must be greater than 1 character"
             } else {
                 const response = await organizationApi.updateOrganizationData(this.nowOrganizationId, inputValue)
                 if (response.data.message === "ok") {
                     location.href = "/main"
+                } else if (response.data.message === "Unauthorized Role") {
+                    organizationSettingEditNameAlert[0].style.display = "block"
+                    organizationSettingEditNameAlert[0].textContent = "Unauthorized Role"
                 } else {
                     organizationSettingEditNameAlert[0].style.display = "block"
+                    organizationSettingEditNameAlert[0].textContent = "Organization name must be greater than 1 character"
                 }
             }
         })
@@ -705,16 +710,19 @@ class LeftSectionBuild {
         const organizationDeletePopoverBoxCloseButton = document.getElementsByClassName("organization-delete-popover-box-cancel-button")
         const organizationDeletePopoverBox = document.getElementsByClassName("organization-delete-popover-box")
         const mask = document.getElementsByClassName("mask")
+        const organizationDeleteNameDoubleCheckAlert = document.getElementsByClassName("organization-delete-name-double-check-alert")
         const middleSectionAddCategoryPopoverContainer = document.getElementsByClassName("middleSection-popover-container")
         organizationDeletePopoverBoxCloseSvg[0].addEventListener("click", () => {
             middleSectionAddCategoryPopoverContainer[0].style.zIndex = "-1000"
             organizationDeletePopoverBox[0].style.transform = "translate(-50%,-150%)"
             mask[0].style.display = "none"
+            organizationDeleteNameDoubleCheckAlert[0].style.display = "none"
         })
         organizationDeletePopoverBoxCloseButton[0].addEventListener("click", () => {
             middleSectionAddCategoryPopoverContainer[0].style.zIndex = "-1000"
             organizationDeletePopoverBox[0].style.transform = "translate(-50%,-150%)"
             mask[0].style.display = "none"
+            organizationDeleteNameDoubleCheckAlert[0].style.display = "none"
         })
     }
     organizationDeleteDoubleCheckInput() {
@@ -744,13 +752,16 @@ class LeftSectionBuild {
         const organizationDeletePopoverBox = document.getElementsByClassName("organization-delete-popover-box")
         const organizationSuccessDeletePopoverBox = document.getElementsByClassName("organization-success-delete-popover-box")
         const organizationSuccessDeleteText = document.getElementsByClassName("organization-success-delete-text")
+        const organizationDeleteNameDoubleCheckAlert = document.getElementsByClassName("organization-delete-name-double-check-alert")
         organizationDeleteConfirmButton.addEventListener("click", async () => {
             const response = await organizationApi.deleteOrganizationData(this.nowOrganizationId)
             if (response.data.message === "ok") {
                 organizationDeletePopoverBox[0].style.transform = "translate(-50%,-150%)"
                 organizationSuccessDeletePopoverBox[0].style.transform = "translate(-50%)"
                 organizationSuccessDeleteText[0].textContent = `"${this.nowOrganizationName}"Deleted`
+                organizationDeleteNameDoubleCheckAlert[0].style.display = "none"
             } else {
+                organizationDeleteNameDoubleCheckAlert[0].style.display = "block"
             }
         })
     }
@@ -822,6 +833,7 @@ class LeftSectionBuild {
             const inputValue = this.createSpaceName
             if (!inputValue || !inputValue.trim()) {
                 spaceCreateNameInputAlert[0].style.display = "block"
+                spaceCreateNameInputAlert[0].textContent = "Space name must be greater than 1 character"
             } else {
                 const response = await spaceApi.uploadSpaceData(this.nowOrganizationId, this.createSpaceName)
                 console.log(response)
@@ -834,8 +846,12 @@ class LeftSectionBuild {
                     await this.createSpaceCards()
                     await this.switchToDifferentSpace()
                     //location.href = "/main"
+                } else if (response.data.message === "Unauthorized Role") {
+                    spaceCreateNameInputAlert[0].style.display = "block"
+                    spaceCreateNameInputAlert[0].textContent = "Unauthorized Role"
                 } else {
                     spaceCreateNameInputAlert[0].style.display = "block"
+                    spaceCreateNameInputAlert[0].textContent = "Space name must be greater than 1 character"
                 }
             }
         })
@@ -966,12 +982,22 @@ class LeftSectionBuild {
             const inputValue = this.newSpaceName
             if (!inputValue || !inputValue.trim()) {
                 spaceSettingEditNameAlert[0].style.display = "block"
+                spaceSettingEditNameAlert[0].textContent = "Organization name must be greater than 1 character"
             } else {
-                const response = await spaceApi.updateSpaceData(this.nowSpaceId, this.nowSpaceName, inputValue)
+                const response = await spaceApi.updateSpaceData(
+                    leftSectionBuild.nowOrganizationId,
+                    this.nowSpaceId,
+                    this.nowSpaceName,
+                    inputValue
+                )
                 if (response.data.message === "ok") {
                     location.href = "/main"
+                } else if (response.data.message === "Unauthorized Role") {
+                    spaceSettingEditNameAlert[0].style.display = "block"
+                    spaceSettingEditNameAlert[0].textContent = "Unauthorized Role"
                 } else {
                     spaceSettingEditNameAlert[0].style.display = "block"
+                    spaceSettingEditNameAlert[0].textContent = "Organization name must be greater than 1 character"
                 }
             }
         })
@@ -1015,15 +1041,18 @@ class LeftSectionBuild {
         const spaceDeletePopoverBox = document.getElementsByClassName("space-delete-popover-box")
         const mask = document.getElementsByClassName("mask")
         const middleSectionAddCategoryPopoverContainer = document.getElementsByClassName("middleSection-popover-container")
+        const spaceDeleteNameDoubleCheckInputAlert = document.getElementsByClassName("space-delete-name-double-check-input-alert")
         spaceDeletePopoverBoxCloseSvg[0].addEventListener("click", () => {
             middleSectionAddCategoryPopoverContainer[0].style.zIndex = "-1000"
             spaceDeletePopoverBox[0].style.transform = "translate(-50%,-150%)"
             mask[0].style.display = "none"
+            spaceDeleteNameDoubleCheckInputAlert[0].style.display = "none"
         })
         spaceDeletePopoverBoxCloseButton[0].addEventListener("click", () => {
             middleSectionAddCategoryPopoverContainer[0].style.zIndex = "-1000"
             spaceDeletePopoverBox[0].style.transform = "translate(-50%,-150%)"
             mask[0].style.display = "none"
+            spaceDeleteNameDoubleCheckInputAlert[0].style.display = "none"
         })
     }
     spaceDeleteDoubleCheckInput() {
@@ -1047,13 +1076,15 @@ class LeftSectionBuild {
         const spaceDeletePopoverBox = document.getElementsByClassName("space-delete-popover-box")
         const spaceSuccessDeletePopoverBox = document.getElementsByClassName("space-success-delete-popover-box")
         const spaceSuccessDeleteText = document.getElementsByClassName("space-success-delete-text")
+        const spaceDeleteNameDoubleCheckInputAlert = document.getElementsByClassName("space-delete-name-double-check-input-alert")
         spaceDeleteConfirmButton.addEventListener("click", async () => {
-            const response = await spaceApi.deleteSpaceData(this.nowSpaceId)
+            const response = await spaceApi.deleteSpaceData(leftSectionBuild.nowOrganizationId, this.nowSpaceId)
             if (response.data.message === "ok") {
                 spaceDeletePopoverBox[0].style.transform = "translate(-50%,-150%)"
                 spaceSuccessDeletePopoverBox[0].style.transform = "translate(-50%)"
                 spaceSuccessDeleteText[0].textContent = `"${this.nowSpaceName}"Deleted`
             } else {
+                spaceDeleteNameDoubleCheckInputAlert[0].style.display = "block"
             }
         })
     }
@@ -1099,7 +1130,7 @@ class MiddleSectionBuild {
     async getCollectionDataToCreateCollections() {
         const middleSectionContainerWithoutCollectionBox = document.getElementsByClassName("middleSection-container-without-collection-box")
         const middleSectionContainerCollectionBox = document.getElementsByClassName("middleSection-container-collection-box")
-        this.collectionData = await collectionApi.getUserCollectionData(leftSectionBuild.nowSpaceId)
+        this.collectionData = await collectionApi.getUserCollectionData(leftSectionBuild.nowOrganizationId, leftSectionBuild.nowSpaceId)
         await this.initCollectionCard()
         mainPageBuild.dragCollectionCardAddEvent()
         const num = this.collectionData.length
@@ -1278,6 +1309,9 @@ class MiddleSectionBuild {
     }
     createCollectionSaveButtonAddEvent(i) {
         const addCollectionBoxSaveButton = document.getElementsByClassName("middleSection-container-add-collection-box-save-button")
+        const noPermissionPopoverBox = document.getElementsByClassName("no-permission-popover-box")
+        const mask = document.getElementsByClassName("mask")
+        const middleSectionAddCategoryPopoverContainer = document.getElementsByClassName("middleSection-popover-container")
         let createCollectionName
         const addCollectionNameInput = document.getElementsByClassName("middleSection-container-add-Name-input")
         addCollectionNameInput[i].addEventListener("input", (e) => {
@@ -1288,13 +1322,21 @@ class MiddleSectionBuild {
             if (!inputValue || !inputValue.trim()) {
                 createCollectionName = "Untitled collection"
             }
-            const response = await collectionApi.uploadCollectionData(leftSectionBuild.nowSpaceId, createCollectionName)
+            const response = await collectionApi.uploadCollectionData(
+                leftSectionBuild.nowOrganizationId,
+                leftSectionBuild.nowSpaceId,
+                createCollectionName
+            )
+            console.log(response)
             if (response.data.message === "ok") {
                 await this.getCollectionDataToCreateCollections()
                 this.isCreatedEdit = false
                 this.isCreatedFirst = false
                 //location.href = "/main"
             } else {
+                noPermissionPopoverBox[0].style.transform = "translate(-50%)"
+                middleSectionAddCategoryPopoverContainer[0].style.zIndex = "9999"
+                mask[0].style.display = "block"
                 console.log(response)
             }
         })
@@ -1311,7 +1353,11 @@ class MiddleSectionBuild {
             if (!inputValue || !inputValue.trim()) {
                 newCollectionName = this.nowCollectionName
             } else {
-                const response = await collectionApi.updateCollectionData(this.nowCollectionId, newCollectionName)
+                const response = await collectionApi.updateCollectionData(
+                    leftSectionBuild.nowOrganizationId,
+                    this.nowCollectionId,
+                    newCollectionName
+                )
                 if (response.data.message === "ok") {
                     location.href = "/main"
                 } else {
@@ -1466,7 +1512,7 @@ class MiddleSectionBuild {
         middleSectionContainerCollectionCardsDeleteButtons.addEventListener("click", async () => {
             this.nowCollectionName = this.collectionData[i].collectionName
             this.nowCollectionId = this.collectionData[i].id
-            const response = await collectionApi.deleteCollectionData(this.nowCollectionId)
+            const response = await collectionApi.deleteCollectionData(leftSectionBuild.nowOrganizationId, this.nowCollectionId)
             if (response.data.message === "ok") {
                 middleSectionContainerCollectionCardBox.remove()
                 //location.href = "/main"
@@ -1490,7 +1536,7 @@ class MiddleSectionBuild {
                     deleteId.push(id)
                 }
             }
-            const response = await collectionApi.deleteCollectionData(deleteId)
+            const response = await collectionApi.deleteCollectionData(leftSectionBuild.nowOrganizationId, deleteId)
             if (response.data.message === "ok") {
                 location.href = "/main"
             } else {

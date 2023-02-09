@@ -50,6 +50,7 @@ axios.interceptors.response.use(
                             // 重送 request (with new access_token)
                             return await axios(originalRequest).catch((err) => {
                                 // [更新 access_token 失敗] ( e.g. refresh_token 過期無效)
+                                console.log("error", err)
                                 localStorage.removeItem("accessToken")
                                 window.location.href = "/auth"
                                 return Promise.reject(error)

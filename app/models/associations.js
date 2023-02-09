@@ -40,3 +40,5 @@ Collection.belongsTo(Space)
 
 Collection.hasMany(Tab, { onDelete: "cascade" })
 Tab.belongsTo(Collection)
+
+module.exports = MemberOrganization

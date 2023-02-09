@@ -43,8 +43,6 @@ const GetUserSpaceData = async (organizationId, userId) => {
 const UpdateSpaceData = async (spaceId, newSpaceName) => {
     try {
         const space = await Space.findByPk(spaceId)
-        console.log("space", space)
-
         const response = await space.update({
             spaceName: newSpaceName,
         })

@@ -1457,7 +1457,8 @@ input[placeholder] {
 .space-delete-popover-box-close-svg-container,
 .space-success-delete-popover-box-close-svg-container,
 .collection-delete-popover-box-close-svg-container,
-.collection-export-popover-box-close-svg-container {
+.collection-export-popover-box-close-svg-container,
+.no-permission-popover-box-close-svg-container {
     padding: 0px;
     width: 20px;
     height: 20px;
@@ -1474,7 +1475,8 @@ input[placeholder] {
 .space-delete-popover-box-close-svg,
 .space-success-delete-popover-box-close-svg,
 .collection-delete-popover-box-close-svg,
-.collection-export-popover-box-close-svg {
+.collection-export-popover-box-close-svg,
+.no-permission-popover-box-close-svg {
     width: 1.25rem;
     height: 1.25rem;
     mask: url("../images/close.svg") no-repeat 50% 50%;
@@ -1490,7 +1492,8 @@ input[placeholder] {
 .organization-success-delete-popover-box-close-svg:hover,
 .space-setting-popover-box-close-svg:hover,
 .collection-delete-popover-box-close-svg:hover,
-.collection-export-popover-box-close-svg:hover {
+.collection-export-popover-box-close-svg:hover,
+.no-permission-popover-box-close-svg:hover {
     background-color: rgb(214, 73, 107);
 }
 .organization-setting-popover-box > div:nth-child(2) {
@@ -1920,6 +1923,14 @@ input[placeholder] {
     border-bottom-color: rgb(197, 197, 211);
     padding-bottom: 5px;
 }
+.organization-delete-name-double-check-alert,
+.space-delete-name-double-check-input-alert {
+    display: none;
+    width: 100%;
+    text-align: center;
+    margin-top: 10px;
+    color: rgb(214, 73, 107);
+}
 .organization-delete-confirm-button,
 .space-delete-confirm-button {
     display: flex;
@@ -2074,7 +2085,8 @@ input[placeholder] {
     color: rgb(199, 69, 70);
 }
 .organization-success-delete-popover-box,
-.space-success-delete-popover-box {
+.space-success-delete-popover-box,
+.no-permission-popover-box {
     position: fixed;
     top: 10%;
     left: 50%;
@@ -2097,7 +2109,8 @@ input[placeholder] {
     transition: transform 0.3s ease-in-out 0.2s;
 }
 .organization-success-delete-popover-box > h4,
-.space-success-delete-text {
+.space-success-delete-text,
+.no-permission-popover-box-text {
     text-align: center;
     color: rgb(248, 249, 251);
     font-size: 18px;
@@ -2112,7 +2125,8 @@ input[placeholder] {
     gap: 10px;
 }
 .organization-success-delete-popover-box-close-button,
-.space-success-delete-popover-box-close-button {
+.space-success-delete-popover-box-close-button,
+.no-permission-popover-box-close-button {
     color: rgb(214, 73, 107);
     border-radius: 5px;
     display: flex;
@@ -2133,7 +2147,8 @@ input[placeholder] {
     padding: 5px 20px;
 }
 .organization-success-delete-popover-box-close-button:hover,
-.space-success-delete-popover-box-close-button:hover {
+.space-success-delete-popover-box-close-button:hover,
+.no-permission-popover-box-close-button:hover {
     color: rgb(170, 63, 91);
     background: rgb(56, 56, 73);
 }
