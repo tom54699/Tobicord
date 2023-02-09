@@ -6,6 +6,7 @@ import {
     initCollectionCardFrame,
     tabCardFrame,
     tabCardTransferFrame,
+    htmlExportForm,
 } from "./component.js"
 class RightSectionBuild {
     constructor() {
@@ -380,6 +381,15 @@ class MainPageBuild {
                     const tabName = tabData.tabName
                     const favIconUrl = tabData.favIconUrl
                     const tabUrl = tabData.tabUrl
+                    /*const tabDataJson = {
+                        id: newTabId,
+                        tabId:tabId,
+                        tabName:tabName,
+                        tabUrl:tabUrl,
+                        favIconUrl:favIconUrl,
+                        tabDescription:tabName
+                    }
+                    middleSectionBuild.tabsData[collectionId].push(tabDataJson)*/
                     mainPageBuild.transferTabCardsFormat(tabId, newTabId, tabName, tabUrl, favIconUrl)
                     await middleSectionBuild.tabCardDeleteButton(newTabId)
                     await middleSectionBuild.uploadTabCardsData(collectionId, newTabId, tabId, tabName, tabUrl, favIconUrl, tabName)
@@ -392,10 +402,21 @@ class MainPageBuild {
                     const tabData = middleSectionBuild.tabsData[evt.from.id.slice(50)]
                     for (let i of tabData) {
                         if (i.id == tabId) {
+                            const oldTabId = i.tabId
                             const tabName = i.tabName
                             const favIconUrl = i.favIconUrl
                             const tabUrl = i.tabUrl
                             await middleSectionBuild.switchTabCardsCollection(collectionId, tabId)
+                            /*
+                            const tabDataJson = {
+                                id: tabId,
+                                tabId:oldTabId,
+                                tabName:tabName,
+                                tabUrl:tabUrl,
+                                favIconUrl:favIconUrl,
+                                tabDescription:tabName
+                            }
+                            middleSectionBuild.tabsData[collectionId].push(tabDataJson)*/
                             break
                         }
                     }
@@ -1056,6 +1077,7 @@ class MiddleSectionBuild {
         this.isCreatedEdit = false
         this.isCreatedFirst = false
         this.tabsData = {}
+        this.exportCollectionData
         this.nowTabId
         this.nowTabName
         this.nowTabUrl
@@ -1095,6 +1117,7 @@ class MiddleSectionBuild {
                 this.collectionCardCheckBoxPopover(this.collectionData[i].id)
                 mainPageBuild.dragCollectionAddEvent(this.collectionData[i].id)
                 this.collectionCardArrowControl(this.collectionData[i].id)
+                this.openExportCollectionButtonAddEvent(this.collectionData[i].id)
                 /* tab cards*/
                 this.getTabCardsData(this.collectionData[i].id)
             }
@@ -1320,6 +1343,94 @@ class MiddleSectionBuild {
             middleSectionContainerCollectionCardContainerNavButtonsBox.classList.add("none")
             middleSectionContainerCollectionCardBoxCheckBox.style.visibility = "hidden"
             middleSectionContainerAddCollectionContainer.classList.remove("none")
+        })
+    }
+    async openExportCollectionButtonAddEvent(collectionId) {
+        const cardContainerNavMoreListExportButton = document.getElementById(`card-container-nav-more-list-export-button-${collectionId}`)
+        const collectionExportPopoverBox = document.getElementsByClassName("collection-export-popover-box")
+        const middleSectionAddCategoryPopoverContainer = document.getElementsByClassName("middleSection-popover-container")
+        const mask = document.getElementsByClassName("mask")
+        cardContainerNavMoreListExportButton.addEventListener("click", async () => {
+            collectionExportPopoverBox[0].style.transform = "translate(-50%)"
+            middleSectionAddCategoryPopoverContainer[0].style.zIndex = "9999"
+            mask[0].style.display = "block"
+            const tabData = await tabApi.getUserTabData(collectionId)
+            const collectionName = this.collectionData[collectionId - 1].collectionName
+            for (let i of tabData) {
+                delete i.id
+                delete i.tabId
+                delete i.createdAt
+                delete i.updatedAt
+                delete i.CollectionId
+            }
+            const collectionData = {
+                Collection: collectionName,
+                Cards: tabData,
+            }
+            this.exportCollectionData = collectionData
+        })
+    }
+    exportCollectionButtonAddEvent() {
+        const collectionExportPopoverBoxJsonButton = document.getElementsByClassName("collection-export-popover-box-json-button")
+        const collectionExportPopoverBoxHtmlButton = document.getElementsByClassName("collection-export-popover-box-html-button")
+        const collectionExportPopoverBoxTxtButton = document.getElementsByClassName("collection-export-popover-box-txt-button")
+        collectionExportPopoverBoxJsonButton[0].addEventListener("click", () => {
+            const collectionData = JSON.stringify(this.exportCollectionData)
+            const collectionDataBlob = new Blob([collectionData], { type: "application/json" })
+            const url = window.URL.createObjectURL(collectionDataBlob)
+            const downloadLink = document.createElement("a")
+            downloadLink.href = url
+            downloadLink.download = `Tobicord-${this.exportCollectionData.Collection}.json`
+            document.body.appendChild(downloadLink)
+            downloadLink.click()
+            document.body.removeChild(downloadLink)
+        })
+        collectionExportPopoverBoxHtmlButton[0].addEventListener("click", () => {
+            let htmlContent = ""
+            console.log(this.exportCollectionData)
+            for (let i of this.exportCollectionData.Cards) {
+                htmlContent = htmlContent + htmlExportForm(i.tabUrl, i.tabName)
+            }
+            const dataStr = `<html><head><title>Bookmarks</title></head><body><h1>Bookmarks</h1><h3>${this.exportCollectionData.Collection}</h3><div>${htmlContent}</div></body></html>`
+            const dataBlob = new Blob([dataStr], { type: "text/html" })
+            const url = window.URL.createObjectURL(dataBlob)
+            const downloadLink = document.createElement("a")
+            downloadLink.href = url
+            downloadLink.download = `Tobicord-${this.exportCollectionData.Collection}.html`
+            document.body.appendChild(downloadLink)
+            downloadLink.click()
+            document.body.removeChild(downloadLink)
+        })
+        collectionExportPopoverBoxTxtButton[0].addEventListener("click", () => {
+            const urlList = this.exportCollectionData.Cards.map((item) => item.tabUrl)
+            const collectionData = urlList.join("\n")
+            const collectionDataBlob = new Blob([collectionData], { type: "application/txt" })
+            const url = window.URL.createObjectURL(collectionDataBlob)
+            const downloadLink = document.createElement("a")
+            downloadLink.href = url
+            downloadLink.download = `Tobicord-${this.exportCollectionData.Collection}.txt`
+            document.body.appendChild(downloadLink)
+            downloadLink.click()
+            document.body.removeChild(downloadLink)
+        })
+    }
+    closeExportCollectionButtonAddEvent() {
+        const collectionExportPopoverBoxCloseSvgContainer = document.getElementsByClassName(
+            "collection-export-popover-box-close-svg-container"
+        )
+        const collectionExportPopoverBoxCancelButton = document.getElementsByClassName("collection-export-popover-box-cancel-button")
+        const collectionExportPopoverBox = document.getElementsByClassName("collection-export-popover-box")
+        const middleSectionAddCategoryPopoverContainer = document.getElementsByClassName("middleSection-popover-container")
+        const mask = document.getElementsByClassName("mask")
+        collectionExportPopoverBoxCloseSvgContainer[0].addEventListener("click", () => {
+            middleSectionAddCategoryPopoverContainer[0].style.zIndex = "-1000"
+            collectionExportPopoverBox[0].style.transform = "translate(-50%,-200%)"
+            mask[0].style.display = "none"
+        })
+        collectionExportPopoverBoxCancelButton[0].addEventListener("click", () => {
+            middleSectionAddCategoryPopoverContainer[0].style.zIndex = "-1000"
+            collectionExportPopoverBox[0].style.transform = "translate(-50%,-200%)"
+            mask[0].style.display = "none"
         })
     }
     openDeleteCollectionCardBoxButtonAddEvent(collectionId) {
@@ -1566,7 +1677,16 @@ class MiddleSectionBuild {
         const mask = document.getElementsByClassName("mask")
         const tabCardEditPopoverBox = document.getElementsByClassName("tab-card-edit-popover-box")
         middleSectionContainerCollectionTabCardEditButton.addEventListener("click", async () => {
+            /*
             this.nowTabId = tabId
+            for(let i of this.tabsData[`${collectionId}`]){
+                if (i.id == tabId) {
+                    this.nowTabName = i.tabName
+                    this.nowTabUrl = i.tabUrl
+                    this.nowTabDescription = i.tabDescription
+                }
+            }*/
+
             const tabData = await tabApi.getUserTabData(collectionId)
             this.tabsData[`${collectionId}`] = tabData
             for (let i of this.tabsData[collectionId]) {
@@ -1587,7 +1707,7 @@ class MiddleSectionBuild {
         })
         tabCardEditPopoverBoxCancelButton[0].addEventListener("click", () => {
             middleSectionAddCategoryPopoverContainer[0].style.zIndex = "-1000"
-            tabCardEditPopoverBox[0].style.transform = "translate(-50%,-200%)"
+            tabCardEditPopoverBox[0].style.transform = "translate(-50%,-220%)"
             mask[0].style.display = "none"
             tabCardEditPopoverBoxTitleInput[0].value = this.nowTabName
             tabCardEditPopoverBoxUrlInput[0].value = this.nowTabUrl
@@ -1608,7 +1728,7 @@ class MiddleSectionBuild {
             if (response.data.message === "ok") {
                 middleSectionContainerCollectionTabCardBox.remove()
                 middleSectionAddCategoryPopoverContainer[0].style.zIndex = "-1000"
-                tabCardEditPopoverBox[0].style.transform = "translate(-50%,-200%)"
+                tabCardEditPopoverBox[0].style.transform = "translate(-50%,-220%)"
                 mask[0].style.display = "none"
             } else {
                 console.log(response)
@@ -1658,7 +1778,7 @@ class MiddleSectionBuild {
                 middleSectionContainerCollectionTabCardText.href = this.newTabUrl
                 middleSectionContainerCollectionTabCardDescription.textContent = this.newTabDescription
                 middleSectionAddCategoryPopoverContainer[0].style.zIndex = "-1000"
-                tabCardEditPopoverBox[0].style.transform = "translate(-50%,-200%)"
+                tabCardEditPopoverBox[0].style.transform = "translate(-50%,-220%)"
                 mask[0].style.display = "none"
             }
             tabCardEditPopoverBoxSaveButton[0].removeEventListener("click", saveTabDataHandler)

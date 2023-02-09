@@ -376,7 +376,7 @@ const initCollectionCardFrame = (collectionId, collectionName) => {
                             <span>Star</span>
                         </button>
                         <hr />
-                        <button class="card-container-nav-more-list-export-button">
+                        <button id="card-container-nav-more-list-export-button-${collectionId}" class="card-container-nav-more-list-export-button">
                             <div class="card-container-nav-more-list-export-svg"></div>
                             <span>Export</span>
                         </button>
@@ -439,4 +439,16 @@ const tabCardTransferFrame = (newTabId, tabName, tabUrl, favIconUrl) => {
         </div>
     </div>`
 }
-export { windowFrame, windowCardsFrame, firstCollectionCardFrame, initCollectionCardFrame, tabCardFrame, tabCardTransferFrame }
+const htmlExportForm = (tabUrl, tabName) => {
+    const content = `<a href="${tabUrl}">${tabName}</a><br>`
+    return content
+}
+export {
+    windowFrame,
+    windowCardsFrame,
+    firstCollectionCardFrame,
+    initCollectionCardFrame,
+    tabCardFrame,
+    tabCardTransferFrame,
+    htmlExportForm,
+}
