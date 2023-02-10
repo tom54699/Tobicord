@@ -1261,16 +1261,19 @@ input[placeholder] {
 .middleSection-add-category-popover-box-close-svg:hover {
     background-color: rgb(214, 73, 107);
 }
-.middleSection-add-category-popover-box-form-container {
+.middleSection-add-category-popover-box-form-container,
+.invite-member-popover-box-form-container {
     height: 100%;
     color: rgb(183, 183, 206);
 }
-.middleSection-add-category-popover-box-form {
+.middleSection-add-category-popover-box-form,
+.invite-member-popover-box-form {
     display: grid;
     grid-template-columns: 1fr;
     gap: 20px;
 }
-.middleSection-add-category-popover-box-form-title {
+.middleSection-add-category-popover-box-form-title,
+.invite-member-popover-box-form-title {
     text-overflow: ellipsis;
     white-space: normal;
     overflow: hidden;
@@ -1278,13 +1281,15 @@ input[placeholder] {
     color: rgb(218, 219, 232);
 }
 .middleSection-add-category-popover-box-form-name-input-container,
-.middleSection-add-category-popover-box-form-invite-input-container {
+.middleSection-add-category-popover-box-form-invite-input-container,
+.invite-member-popover-box-form-invite-input-container {
     display: flex;
     gap: 10px;
     flex-direction: column;
 }
 .middleSection-add-category-popover-box-form-name-input-title,
-.middleSection-add-category-popover-box-form-invite-input-title {
+.middleSection-add-category-popover-box-form-invite-input-title,
+.invite-member-popover-box-form-invite-input-title {
     text-overflow: ellipsis;
     white-space: normal;
     overflow: hidden;
@@ -1304,7 +1309,9 @@ input[placeholder] {
 .middleSection-add-category-popover-box-form-name-input[placeholder],
 .middleSection-add-category-popover-box-form-name-input::-webkit-input-placeholder,
 .middleSection-add-category-popover-box-form-invite-input[placeholder],
-.middleSection-add-category-popover-box-form-invite-input::-webkit-input-placeholder {
+.middleSection-add-category-popover-box-form-invite-input::-webkit-input-placeholder,
+.invite-member-popover-box-form-invite-input[placeholder],
+.invite-member-popover-box-form-invite-input::-webkit-input-placeholder {
     text-align: unset;
 }
 .middleSection-add-category-popover-box-form-name-input-alert {
@@ -1316,7 +1323,8 @@ input[placeholder] {
     overflow: visible;
     color: rgb(199, 69, 70);
 }
-.middleSection-add-category-popover-box-form-invite-input-box {
+.middleSection-add-category-popover-box-form-invite-input-box,
+.invite-member-popover-box-form-invite-input-box {
     display: flex;
     position: relative;
     padding: 8px;
@@ -1325,7 +1333,8 @@ input[placeholder] {
     border-radius: 5px;
     border: 1px solid rgb(112, 112, 140);
 }
-.middleSection-add-category-popover-box-form-invite-svg {
+.middleSection-add-category-popover-box-form-invite-svg,
+.invite-member-popover-box-form-invite-svg {
     width: 1.125rem;
     height: 1.125rem;
     mask: url("../images/addFriend.svg") no-repeat 50% 50%;
@@ -1334,7 +1343,8 @@ input[placeholder] {
     -webkit-mask-size: cover;
     background-color: rgb(197, 197, 211);
 }
-.middleSection-add-category-popover-box-form-invite-input-box > :nth-child(2) {
+.middleSection-add-category-popover-box-form-invite-input-box > :nth-child(2),
+.invite-member-popover-box-form-invite-input-box > :nth-child(2) {
     display: flex;
     gap: 10px;
     position: relative;
@@ -1343,7 +1353,8 @@ input[placeholder] {
     flex-wrap: wrap;
     width: 100%;
 }
-.middleSection-add-category-popover-box-form-invite-input-box > :nth-child(2) > :nth-child(1) {
+.middleSection-add-category-popover-box-form-invite-input-box > :nth-child(2) > :nth-child(1),
+.invite-member-popover-box-form-invite-input-box > :nth-child(2) > :nth-child(1) {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -1351,11 +1362,13 @@ input[placeholder] {
     gap: 10px;
     width: 100%;
 }
-.middleSection-add-category-popover-box-form-invite-input-box > :nth-child(2) > :nth-child(1) > :nth-child(1) {
+.middleSection-add-category-popover-box-form-invite-input-box > :nth-child(2) > :nth-child(1) > :nth-child(1),
+.invite-member-popover-box-form-invite-input-box > :nth-child(2) > :nth-child(1) > :nth-child(1) {
     position: relative;
     width: 100%;
 }
-.middleSection-add-category-popover-box-form-invite-input {
+.middleSection-add-category-popover-box-form-invite-input,
+.invite-member-popover-box-form-invite-input {
     border: 0px;
     font-size: 14px;
     outline: none;
@@ -1366,7 +1379,8 @@ input[placeholder] {
 }
 
 .middleSection-add-category-popover-box-form-button-container,
-.space-create-popover-box-form-button-container {
+.space-create-popover-box-form-button-container,
+.invite-member-popover-box-form-button-container {
     display: flex;
     gap: 10px;
     position: relative;
@@ -1374,7 +1388,8 @@ input[placeholder] {
     justify-content: space-between;
 }
 .middleSection-add-category-popover-box-form-cancel-button,
-.space-create-popover-box-form-cancel-button {
+.space-create-popover-box-form-cancel-button,
+.invite-member-popover-box-form-cancel-button {
     color: rgb(214, 73, 107);
     border-radius: 5px;
     display: flex;
@@ -1398,7 +1413,8 @@ input[placeholder] {
 }
 
 .middleSection-add-category-popover-box-form-create-button,
-.space-create-popover-box-form-create-button {
+.space-create-popover-box-form-create-button,
+.invite-member-popover-box-form-add-button {
     background: rgb(214, 73, 107);
     color: rgb(255, 255, 255);
     border-radius: 5px;
@@ -1421,12 +1437,14 @@ input[placeholder] {
     transition: background 300ms ease-in-out 0s;
 }
 .middleSection-add-category-popover-box-form-cancel-button:hover,
-.space-create-popover-box-form-cancel-button:hover {
+.space-create-popover-box-form-cancel-button:hover,
+.invite-member-popover-box-form-cancel-button:hover {
     color: rgb(170, 63, 91);
     background: rgb(56, 56, 73);
 }
 .middleSection-add-category-popover-box-form-create-button:hover,
-.space-create-popover-box-form-create-button:hover {
+.space-create-popover-box-form-create-button:hover,
+.invite-member-popover-box-form-add-button:hover {
     background: rgb(170, 63, 91);
 }
 .organization-setting-popover-box {
@@ -1458,7 +1476,8 @@ input[placeholder] {
 .space-success-delete-popover-box-close-svg-container,
 .collection-delete-popover-box-close-svg-container,
 .collection-export-popover-box-close-svg-container,
-.no-permission-popover-box-close-svg-container {
+.no-permission-popover-box-close-svg-container,
+.invite-member-popover-box-close-svg-container {
     padding: 0px;
     width: 20px;
     height: 20px;
@@ -1476,7 +1495,8 @@ input[placeholder] {
 .space-success-delete-popover-box-close-svg,
 .collection-delete-popover-box-close-svg,
 .collection-export-popover-box-close-svg,
-.no-permission-popover-box-close-svg {
+.no-permission-popover-box-close-svg,
+.invite-member-popover-box-close-svg {
     width: 1.25rem;
     height: 1.25rem;
     mask: url("../images/close.svg") no-repeat 50% 50%;
@@ -1493,7 +1513,8 @@ input[placeholder] {
 .space-setting-popover-box-close-svg:hover,
 .collection-delete-popover-box-close-svg:hover,
 .collection-export-popover-box-close-svg:hover,
-.no-permission-popover-box-close-svg:hover {
+.no-permission-popover-box-close-svg:hover,
+.invite-member-popover-box-close-svg:hover {
     background-color: rgb(214, 73, 107);
 }
 .organization-setting-popover-box > div:nth-child(2) {
@@ -1931,6 +1952,12 @@ input[placeholder] {
     margin-top: 10px;
     color: rgb(214, 73, 107);
 }
+.invite-member-popover-box-form-invite-input-alert {
+    display: none;
+    width: 100%;
+    text-align: start;
+    color: rgb(214, 73, 107);
+}
 .organization-delete-confirm-button,
 .space-delete-confirm-button {
     display: flex;
@@ -2107,6 +2134,9 @@ input[placeholder] {
     -webkit-box-align: center;
     align-items: center;
     transition: transform 0.3s ease-in-out 0.2s;
+}
+.no-permission-popover-box {
+    transform: translate(-50%, -220%);
 }
 .organization-success-delete-popover-box > h4,
 .space-success-delete-text,
@@ -3368,6 +3398,25 @@ input[placeholder] {
     color: rgb(170, 63, 91);
     background: rgb(56, 56, 73);
 }
+.invite-member-popover-box {
+    position: fixed;
+    top: 10%;
+    left: 50%;
+    color: rgb(94, 93, 102);
+    font-size: 14px;
+    z-index: 9000;
+    transform: translate(-50%, -150%);
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    box-shadow: rgb(91 76 76 / 13%) 0px 2px 25px;
+    width: 35rem;
+    background: rgb(73, 73, 92);
+    padding: 1.25rem 2rem;
+    border-radius: 5px;
+    transition: transform 0.3s ease-in-out 0.2s;
+}
+
 .rightSection {
     display: flex;
     flex-direction: column;

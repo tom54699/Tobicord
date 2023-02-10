@@ -1,29 +1,29 @@
 const Sequelize = require("sequelize")
 const sequelize = require("../config/database.config")
 
-const Member = sequelize.define(
-    "Member",
+const Invitation = sequelize.define(
+    "Invitation",
     {
         id: {
             type: Sequelize.INTEGER,
             autoIncrement: true,
             primaryKey: true,
         },
-        username: {
+        inviterId: {
             type: Sequelize.STRING(500),
             allowNull: false,
         },
-        email: {
-            type: Sequelize.STRING(500),
-            allowNull: false,
-            unique: true,
-        },
-        password: {
+        inviteeEmail: {
             type: Sequelize.STRING(500),
             allowNull: false,
         },
-        verifyCode: {
-            type: Sequelize.STRING,
+        organizationId: {
+            type: Sequelize.STRING(500),
+            allowNull: false,
+        },
+        status: {
+            type: Sequelize.STRING(500),
+            allowNull: false,
         },
     },
     {
@@ -31,4 +31,4 @@ const Member = sequelize.define(
     }
 )
 
-module.exports = Member
+module.exports = Invitation

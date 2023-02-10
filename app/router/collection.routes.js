@@ -5,8 +5,9 @@ const { check } = require("express-validator")
 const collectionController = require("../controller/collection.controller")
 const authMiddleware = require("../middlewares/auth.middleware")
 const memberMiddleware = require("../middlewares/member.middleware")
+const visitorMiddleware = require("../middlewares/visitor.middleware")
 
-router.get("/", authMiddleware, collectionController.getUserCollectionData)
+router.get("/", authMiddleware, visitorMiddleware, collectionController.getUserCollectionData)
 router.post(
     "/",
     authMiddleware,

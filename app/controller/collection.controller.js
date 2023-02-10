@@ -23,11 +23,16 @@ class CollectionController {
     }
     async getUserCollectionData(req, res, next) {
         try {
+            let role
             const spaceId = req.query.spaceId
+            if (req.role) {
+                role = req.role
+            }
             const collectionData = await Collection.GetUserCollectionData(spaceId)
             return res.status(200).json({
                 message: "ok",
                 collectionData: collectionData,
+                role: role,
             })
         } catch (err) {
             return err

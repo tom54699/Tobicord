@@ -8,6 +8,7 @@ module.exports = async (req, res, next) => {
     } else {
         organizationId = req.query.organizationId
     }
+    console.log("---------------------", organizationId)
     const role = await MemberOrganization.findOne({
         where: {
             MemberId: userId,
@@ -19,15 +20,11 @@ module.exports = async (req, res, next) => {
             message: "Unauthorized Role",
         })
     }
-    if (role.roleId == "1") {
-        req.role = "owner"
+    if (role.roleId == "4") {
+        req.role = "visitor"
         return next()
     }
-    if (role.roleId == "2") {
-        req.role = "manager"
-        return next()
-    }
-    if (role.roleId !== "1" && role.roleId !== "2" && role.roleId !== "3") {
+    if (role.roleId !== "1" && role.roleId !== "2" && role.roleId !== "3" && role.roleId !== "4") {
         return res.json({
             message: "Unauthorized Role",
         })

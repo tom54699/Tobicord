@@ -333,6 +333,7 @@ class MainPageBuild {
             group: {
                 name: "collectionCard",
                 put: false, // 不允许拖拽进这个列表
+                pull: false,
             },
             animation: 150,
         })
@@ -350,7 +351,7 @@ class MainPageBuild {
             },
         })
     }
-    dragCollectionAddEvent(collectionId) {
+    dragCollectionAddEvent(collectionId, putAllow) {
         const middleSectionContainerRemindAddCollectionBox = document.getElementById(
             `middleSection-container-remind-add-collection-box-${collectionId}`
         )
@@ -358,7 +359,10 @@ class MainPageBuild {
             `middleSection-container-collection-card-container-nav-arrow-svg-button-${collectionId}`
         )
         const collectionSortable = new Sortable(middleSectionContainerRemindAddCollectionBox, {
-            group: "shared",
+            group: {
+                name: "shared",
+                put: Boolean(putAllow), // 不允许拖拽进这个列表
+            },
             animation: 150,
             sort: true,
             async onAdd(evt) {
@@ -390,12 +394,12 @@ class MainPageBuild {
                         tabDescription:tabName
                     }
                     middleSectionBuild.tabsData[collectionId].push(tabDataJson)*/
+                    middleSectionBuild.collectionCardArrowControl(collectionId)
                     mainPageBuild.transferTabCardsFormat(tabId, newTabId, tabName, tabUrl, favIconUrl)
-                    await middleSectionBuild.tabCardDeleteButton(newTabId)
                     await middleSectionBuild.uploadTabCardsData(collectionId, newTabId, tabId, tabName, tabUrl, favIconUrl, tabName)
+                    await middleSectionBuild.tabCardDeleteButton(newTabId)
                     middleSectionBuild.tabCardEditButton(collectionId, newTabId)
                     middleSectionBuild.tabCardCheckBoxPopover(newTabId)
-                    middleSectionBuild.collectionCardArrowControl(collectionId)
                     await middleSectionBuild.tabCardEditBoxPopoverDeleteButton()
                 } else {
                     const tabId = evt.item.id.slice(48)
@@ -544,6 +548,7 @@ class LeftSectionBuild {
     }
     async createCategoryButton() {
         this.organizationData = await organizationApi.getUserOrganizationData()
+        console.log(this.organizationData)
         if (this.organizationData.length > 0) {
             for (let i of this.organizationData) {
                 this.generateCategoryButton(i.organizationName)
@@ -857,8 +862,15 @@ class LeftSectionBuild {
         })
     }
     async createSpaceCards() {
+        const noPermissionPopoverBox = document.getElementsByClassName("no-permission-popover-box")
+        const mask = document.getElementsByClassName("mask")
+        const middleSectionAddCategoryPopoverContainer = document.getElementsByClassName("middleSection-popover-container")
         this.spaceData = await spaceApi.getUserSpaceData(this.nowOrganizationId)
-        if (this.spaceData.length > 0) {
+        if (this.spaceData === "Unauthorized Role") {
+            middleSectionAddCategoryPopoverContainer[0].style.zIndex = "9999"
+            mask[0].style.display = "block"
+            noPermissionPopoverBox[0].style.transform = "translate(-50%)"
+        } else if (this.spaceData.length > 0) {
             await this.initSpaceCards()
             this.generateInitSpaceCards(this.spaceData[0].spaceName)
             for (let i = 1; i < this.spaceData.length; i++) {
@@ -1098,6 +1110,41 @@ class LeftSectionBuild {
             location.href = "/main"
         })
     }
+    openInviteMemberPopoverButtonAddEvent() {
+        const leftSectionSpacesTopSubtitleAddFriendContainer = document.getElementsByClassName(
+            "leftSection-spaces-top-subtitle-addFriend-container"
+        )
+        const inviteMemberPopoverBox = document.getElementsByClassName("invite-member-popover-box")
+        const mask = document.getElementsByClassName("mask")
+        const middleSectionAddCategoryPopoverContainer = document.getElementsByClassName("middleSection-popover-container")
+        leftSectionSpacesTopSubtitleAddFriendContainer[0].addEventListener("click", () => {
+            middleSectionAddCategoryPopoverContainer[0].style.zIndex = "9999"
+            mask[0].style.display = "block"
+            inviteMemberPopoverBox[0].style.transform = "translate(-50%)"
+        })
+    }
+    closeInviteMemberPopoverButtonAddEvent() {
+        const inviteMemberPopoverBox = document.getElementsByClassName("invite-member-popover-box")
+        const mask = document.getElementsByClassName("mask")
+        const middleSectionAddCategoryPopoverContainer = document.getElementsByClassName("middleSection-popover-container")
+        const inviteMemberPopoverBoxCloseSvg = document.getElementsByClassName("invite-member-popover-box-close-svg-container")
+        const inviteMemberPopoverBoxCloseButton = document.getElementsByClassName("invite-member-popover-box-form-cancel-button")
+        const inviteMemberPopoverBoxFormInviteInputAlert = document.getElementsByClassName(
+            "invite-member-popover-box-form-invite-input-alert"
+        )
+        inviteMemberPopoverBoxCloseSvg[0].addEventListener("click", () => {
+            middleSectionAddCategoryPopoverContainer[0].style.zIndex = "-1000"
+            inviteMemberPopoverBox[0].style.transform = "translate(-50%,-150%)"
+            mask[0].style.display = "none"
+            inviteMemberPopoverBoxFormInviteInputAlert[0].style.display = "none"
+        })
+        inviteMemberPopoverBoxCloseButton[0].addEventListener("click", () => {
+            middleSectionAddCategoryPopoverContainer[0].style.zIndex = "-1000"
+            inviteMemberPopoverBox[0].style.transform = "translate(-50%,-150%)"
+            mask[0].style.display = "none"
+            inviteMemberPopoverBoxFormInviteInputAlert[0].style.display = "none"
+        })
+    }
 }
 class MiddleSectionBuild {
     constructor() {
@@ -1128,9 +1175,19 @@ class MiddleSectionBuild {
         }
     }
     async getCollectionDataToCreateCollections() {
+        const noPermissionPopoverBox = document.getElementsByClassName("no-permission-popover-box")
+        const mask = document.getElementsByClassName("mask")
+        const middleSectionAddCategoryPopoverContainer = document.getElementsByClassName("middleSection-popover-container")
         const middleSectionContainerWithoutCollectionBox = document.getElementsByClassName("middleSection-container-without-collection-box")
         const middleSectionContainerCollectionBox = document.getElementsByClassName("middleSection-container-collection-box")
         this.collectionData = await collectionApi.getUserCollectionData(leftSectionBuild.nowOrganizationId, leftSectionBuild.nowSpaceId)
+        console.log(this.collectionData)
+        if (this.collectionData === "Unauthorized Role") {
+            middleSectionAddCategoryPopoverContainer[0].style.zIndex = "9999"
+            mask[0].style.display = "block"
+            noPermissionPopoverBox[0].style.transform = "translate(-50%)"
+            return
+        }
         await this.initCollectionCard()
         mainPageBuild.dragCollectionCardAddEvent()
         const num = this.collectionData.length
@@ -1146,7 +1203,11 @@ class MiddleSectionBuild {
                 this.openDeleteCollectionCardBoxButtonAddEvent(this.collectionData[i].id)
                 await this.deleteCollectionCardButtonAddEvent(i, this.collectionData[i].id)
                 this.collectionCardCheckBoxPopover(this.collectionData[i].id)
-                mainPageBuild.dragCollectionAddEvent(this.collectionData[i].id)
+                if (this.collectionData[0].role == "visitor") {
+                    mainPageBuild.dragCollectionAddEvent(this.collectionData[i].id, false)
+                } else {
+                    mainPageBuild.dragCollectionAddEvent(this.collectionData[i].id, true)
+                }
                 this.collectionCardArrowControl(this.collectionData[i].id)
                 this.openExportCollectionButtonAddEvent(this.collectionData[i].id)
                 /* tab cards*/
@@ -1333,15 +1394,36 @@ class MiddleSectionBuild {
                 this.isCreatedEdit = false
                 this.isCreatedFirst = false
                 //location.href = "/main"
-            } else {
-                noPermissionPopoverBox[0].style.transform = "translate(-50%)"
+            } else if (response.data.message === "Unauthorized Role") {
                 middleSectionAddCategoryPopoverContainer[0].style.zIndex = "9999"
                 mask[0].style.display = "block"
+                noPermissionPopoverBox[0].style.transform = "translate(-50%)"
                 console.log(response)
+            } else {
             }
         })
     }
+    invalidAuthRolePopoverBox() {
+        const noPermissionPopoverBox = document.getElementsByClassName("no-permission-popover-box")
+        const mask = document.getElementsByClassName("mask")
+        const middleSectionAddCategoryPopoverContainer = document.getElementsByClassName("middleSection-popover-container")
+        const noPermissionPopoverBoxCloseSvg = document.getElementsByClassName("no-permission-popover-box-close-svg-container")
+        const noPermissionPopoverBoxCloseButton = document.getElementsByClassName("no-permission-popover-box-close-button")
+        noPermissionPopoverBoxCloseSvg[0].addEventListener("click", () => {
+            middleSectionAddCategoryPopoverContainer[0].style.zIndex = "-1000"
+            mask[0].style.display = "none"
+            noPermissionPopoverBox[0].style.transform = "translate(-50%,-200%)"
+        })
+        noPermissionPopoverBoxCloseButton[0].addEventListener("click", () => {
+            middleSectionAddCategoryPopoverContainer[0].style.zIndex = "-1000"
+            mask[0].style.display = "none"
+            noPermissionPopoverBox[0].style.transform = "translate(-50%,-200%)"
+        })
+    }
     async updateCollectionNameSaveButtonAddEvent(collectionId) {
+        const noPermissionPopoverBox = document.getElementsByClassName("no-permission-popover-box")
+        const mask = document.getElementsByClassName("mask")
+        const middleSectionAddCategoryPopoverContainer = document.getElementsByClassName("middleSection-popover-container")
         const addCollectionBoxSaveButton = document.getElementById(`middleSection-container-add-collection-box-save-button-${collectionId}`)
         let newCollectionName
         const addCollectionNameInput = document.getElementById(`middleSection-container-add-Name-input-${collectionId}`)
@@ -1360,6 +1442,10 @@ class MiddleSectionBuild {
                 )
                 if (response.data.message === "ok") {
                     location.href = "/main"
+                } else if (response.data.message === "Unauthorized Role") {
+                    middleSectionAddCategoryPopoverContainer[0].style.zIndex = "9999"
+                    mask[0].style.display = "block"
+                    noPermissionPopoverBox[0].style.transform = "translate(-50%)"
                 } else {
                     console.log(response)
                 }
@@ -1396,12 +1482,17 @@ class MiddleSectionBuild {
         const collectionExportPopoverBox = document.getElementsByClassName("collection-export-popover-box")
         const middleSectionAddCategoryPopoverContainer = document.getElementsByClassName("middleSection-popover-container")
         const mask = document.getElementsByClassName("mask")
+        let collectionName
         cardContainerNavMoreListExportButton.addEventListener("click", async () => {
             collectionExportPopoverBox[0].style.transform = "translate(-50%)"
             middleSectionAddCategoryPopoverContainer[0].style.zIndex = "9999"
             mask[0].style.display = "block"
-            const tabData = await tabApi.getUserTabData(collectionId)
-            const collectionName = this.collectionData[collectionId - 1].collectionName
+            const tabData = await tabApi.getUserTabData(leftSectionBuild.nowOrganizationId, collectionId)
+            for (let i of this.collectionData) {
+                if (i.id === collectionId) {
+                    collectionName = i.collectionName
+                }
+            }
             for (let i of tabData) {
                 delete i.id
                 delete i.tabId
@@ -1509,6 +1600,9 @@ class MiddleSectionBuild {
         const middleSectionContainerCollectionCardBox = document.getElementById(
             `middleSection-container-collection-card-box-${collectionId}`
         )
+        const noPermissionPopoverBox = document.getElementsByClassName("no-permission-popover-box")
+        const mask = document.getElementsByClassName("mask")
+        const middleSectionAddCategoryPopoverContainer = document.getElementsByClassName("middleSection-popover-container")
         middleSectionContainerCollectionCardsDeleteButtons.addEventListener("click", async () => {
             this.nowCollectionName = this.collectionData[i].collectionName
             this.nowCollectionId = this.collectionData[i].id
@@ -1516,6 +1610,10 @@ class MiddleSectionBuild {
             if (response.data.message === "ok") {
                 middleSectionContainerCollectionCardBox.remove()
                 //location.href = "/main"
+            } else if (response.data.message === "Unauthorized Role") {
+                middleSectionAddCategoryPopoverContainer[0].style.zIndex = "9999"
+                mask[0].style.display = "block"
+                noPermissionPopoverBox[0].style.transform = "translate(-50%)"
             } else {
                 console.log(response)
             }
@@ -1539,6 +1637,10 @@ class MiddleSectionBuild {
             const response = await collectionApi.deleteCollectionData(leftSectionBuild.nowOrganizationId, deleteId)
             if (response.data.message === "ok") {
                 location.href = "/main"
+            } else if (response.data.message === "Unauthorized Role") {
+                middleSectionAddCategoryPopoverContainer[0].style.zIndex = "9999"
+                mask[0].style.display = "block"
+                noPermissionPopoverBox[0].style.transform = "translate(-50%)"
             } else {
                 console.log(response)
             }
@@ -1616,25 +1718,50 @@ class MiddleSectionBuild {
     }
     /* tab cards crud */
     async uploadTabCardsData(collectionId, newTabId, tabId, tabName, tabUrl, favIconUrl, tabDescription) {
-        const response = await tabApi.uploadTabData(collectionId, newTabId, tabId, tabName, tabUrl, favIconUrl, tabDescription)
+        const noPermissionPopoverBox = document.getElementsByClassName("no-permission-popover-box")
+        const mask = document.getElementsByClassName("mask")
+        const middleSectionAddCategoryPopoverContainer = document.getElementsByClassName("middleSection-popover-container")
+        const response = await tabApi.uploadTabData(
+            leftSectionBuild.nowOrganizationId,
+            collectionId,
+            newTabId,
+            tabId,
+            tabName,
+            tabUrl,
+            favIconUrl,
+            tabDescription
+        )
         if (response.data.message === "ok") {
-            console.log(response)
+            return "ok"
             //location.href = "/main"
+        } else if (response.data.message === "Unauthorized Role") {
+            middleSectionAddCategoryPopoverContainer[0].style.zIndex = "9999"
+            mask[0].style.display = "block"
+            noPermissionPopoverBox[0].style.transform = "translate(-50%)"
+            return "no"
         } else {
             console.log(response)
+            return "no"
         }
     }
     async switchTabCardsCollection(collectionId, tabId) {
-        const response = await tabApi.switchTabCollection(collectionId, tabId)
+        const noPermissionPopoverBox = document.getElementsByClassName("no-permission-popover-box")
+        const mask = document.getElementsByClassName("mask")
+        const middleSectionAddCategoryPopoverContainer = document.getElementsByClassName("middleSection-popover-container")
+        const response = await tabApi.switchTabCollection(leftSectionBuild.nowOrganizationId, collectionId, tabId)
         if (response.data.message === "ok") {
             console.log(response)
             //location.href = "/main"
+        } else if (response.data.message === "Unauthorized Role") {
+            middleSectionAddCategoryPopoverContainer[0].style.zIndex = "9999"
+            mask[0].style.display = "block"
+            noPermissionPopoverBox[0].style.transform = "translate(-50%)"
         } else {
             console.log(response)
         }
     }
     async getTabCardsData(collectionId) {
-        const tabData = await tabApi.getUserTabData(collectionId)
+        const tabData = await tabApi.getUserTabData(leftSectionBuild.nowOrganizationId, collectionId)
         this.tabsData[`${collectionId}`] = tabData
         if (tabData.length > 0) {
             for (let i of tabData) {
@@ -1701,11 +1828,18 @@ class MiddleSectionBuild {
         const middleSectionContainerCollectionTabCardBox = document.getElementById(
             `middleSection-container-collection-tab-card-box-${tabId}`
         )
+        const noPermissionPopoverBox = document.getElementsByClassName("no-permission-popover-box")
+        const mask = document.getElementsByClassName("mask")
+        const middleSectionAddCategoryPopoverContainer = document.getElementsByClassName("middleSection-popover-container")
         middleSectionContainerCollectionTabCardDeleteButton.addEventListener("click", async () => {
-            const response = await tabApi.deleteTabData(tabId)
+            const response = await tabApi.deleteTabData(leftSectionBuild.nowOrganizationId, tabId)
             if (response.data.message === "ok") {
                 middleSectionContainerCollectionTabCardBox.remove()
                 //location.href = "/main"
+            } else if (response.data.message === "Unauthorized Role") {
+                middleSectionAddCategoryPopoverContainer[0].style.zIndex = "9999"
+                mask[0].style.display = "block"
+                noPermissionPopoverBox[0].style.transform = "translate(-50%)"
             } else {
                 console.log(response)
             }
@@ -1732,8 +1866,7 @@ class MiddleSectionBuild {
                     this.nowTabDescription = i.tabDescription
                 }
             }*/
-
-            const tabData = await tabApi.getUserTabData(collectionId)
+            const tabData = await tabApi.getUserTabData(leftSectionBuild.nowOrganizationId, collectionId)
             this.tabsData[`${collectionId}`] = tabData
             for (let i of this.tabsData[collectionId]) {
                 if (i.id == tabId) {
@@ -1742,6 +1875,7 @@ class MiddleSectionBuild {
                     this.nowTabDescription = i.tabDescription
                 }
             }
+            this.nowTabId = tabId
             tabCardEditPopoverBoxTitleInput[0].value = this.nowTabName
             tabCardEditPopoverBoxUrlInput[0].value = this.nowTabUrl
             tabCardEditPopoverBoxDescriptionInput[0].value = this.nowTabDescription
@@ -1768,14 +1902,20 @@ class MiddleSectionBuild {
         const middleSectionContainerCollectionTabCardBox = document.getElementById(
             `middleSection-container-collection-tab-card-box-${tabId}`
         )
+        const noPermissionPopoverBox = document.getElementsByClassName("no-permission-popover-box")
         const tabCardEditPopoverBoxDeleteButton = document.getElementsByClassName("tab-card-edit-popover-box-delete-button")
         let deleteTabDataHandler = async () => {
-            const response = await tabApi.deleteTabData(tabId)
+            const response = await tabApi.deleteTabData(leftSectionBuild.nowOrganizationId, tabId)
             if (response.data.message === "ok") {
                 middleSectionContainerCollectionTabCardBox.remove()
                 middleSectionAddCategoryPopoverContainer[0].style.zIndex = "-1000"
                 tabCardEditPopoverBox[0].style.transform = "translate(-50%,-220%)"
                 mask[0].style.display = "none"
+            } else if (response.data.message === "Unauthorized Role") {
+                tabCardEditPopoverBox[0].style.transform = "translate(-50%,-220%)"
+                middleSectionAddCategoryPopoverContainer[0].style.zIndex = "9999"
+                mask[0].style.display = "block"
+                noPermissionPopoverBox[0].style.transform = "translate(-50%)"
             } else {
                 console.log(response)
             }
@@ -1808,6 +1948,7 @@ class MiddleSectionBuild {
         const middleSectionContainerCollectionTabCardDescription = document.getElementById(
             `middleSection-container-collection-tab-card-description-text-${this.nowTabId}`
         )
+        const noPermissionPopoverBox = document.getElementsByClassName("no-permission-popover-box")
         let saveTabDataHandler = async () => {
             if (this.newTabName === undefined) {
                 this.newTabName = this.nowTabName
@@ -1818,7 +1959,13 @@ class MiddleSectionBuild {
             if (this.newTabDescription === undefined) {
                 this.newTabDescription = this.nowTabDescription
             }
-            const response = await tabApi.updateTabData(this.nowTabId, this.newTabName, this.newTabUrl, this.newTabDescription)
+            const response = await tabApi.updateTabData(
+                leftSectionBuild.nowOrganizationId,
+                this.nowTabId,
+                this.newTabName,
+                this.newTabUrl,
+                this.newTabDescription
+            )
             if (response.data.message === "ok") {
                 middleSectionContainerCollectionTabCardText.textContent = this.newTabName
                 middleSectionContainerCollectionTabCardText.href = this.newTabUrl
@@ -1826,6 +1973,11 @@ class MiddleSectionBuild {
                 middleSectionAddCategoryPopoverContainer[0].style.zIndex = "-1000"
                 tabCardEditPopoverBox[0].style.transform = "translate(-50%,-220%)"
                 mask[0].style.display = "none"
+            } else if (response.data.message === "Unauthorized Role") {
+                tabCardEditPopoverBox[0].style.transform = "translate(-50%,-220%)"
+                middleSectionAddCategoryPopoverContainer[0].style.zIndex = "9999"
+                mask[0].style.display = "block"
+                noPermissionPopoverBox[0].style.transform = "translate(-50%)"
             }
             tabCardEditPopoverBoxSaveButton[0].removeEventListener("click", saveTabDataHandler)
         }
@@ -1882,6 +2034,9 @@ class MiddleSectionBuild {
     async tabCardEditBoxPopoverDeleteButton() {
         const middleSectionTabCardPopoverContainer = document.getElementsByClassName("middleSection-tab-card-menu-popover-container")
         const middleSectionTabPopoverDeleteButton = document.getElementsByClassName("middleSection-tab-card-popover-delete-button")
+        const noPermissionPopoverBox = document.getElementsByClassName("no-permission-popover-box")
+        const mask = document.getElementsByClassName("mask")
+        const middleSectionAddCategoryPopoverContainer = document.getElementsByClassName("middleSection-popover-container")
         let deleteId = []
         middleSectionTabPopoverDeleteButton[0].addEventListener("click", async () => {
             for (let id in this.isTabsCheck) {
@@ -1889,7 +2044,7 @@ class MiddleSectionBuild {
                     deleteId.push(id)
                 }
             }
-            const response = await tabApi.deleteTabData(deleteId)
+            const response = await tabApi.deleteTabData(leftSectionBuild.nowOrganizationId, deleteId)
             if (response.data.message === "ok") {
                 middleSectionTabCardPopoverContainer[0].style.transform = "translate(-50%, 300px)"
                 for (let i of deleteId) {
@@ -1898,6 +2053,10 @@ class MiddleSectionBuild {
                     )
                     middleSectionContainerCollectionTabCardBox.remove()
                 }
+            } else if (response.data.message === "Unauthorized Role") {
+                middleSectionAddCategoryPopoverContainer[0].style.zIndex = "9999"
+                mask[0].style.display = "block"
+                noPermissionPopoverBox[0].style.transform = "translate(-50%)"
             } else {
                 console.log(response)
             }

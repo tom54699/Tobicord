@@ -35,6 +35,7 @@ app.use(
 const associations = require("./models/associations")
 const Permission = require("./models/Permission.model")
 const Role = require("./models/Role.model")
+const Invitation = require("./models/Invitation.model")
 /*
 sequelize.sync({ force: true }).then(async () => {
     const permission = await Permission.bulkCreate([

@@ -199,6 +199,9 @@ class SpaceApi {
                 },
             }
             const response = await axios.get("/space", config)
+            if (response.data.message === "Unauthorized Role") {
+                return response.data.message
+            }
             const spaceData = response.data.spaceData
             return spaceData
         } catch (err) {
@@ -289,7 +292,15 @@ class CollectionApi {
                 },
             }
             const response = await axios.get("/collection", config)
+            console.log(response)
+            if (response.data.message === "Unauthorized Role") {
+                return response.data.message
+            } else if (response.data.role === "visitor") {
+                const collectionData = response.data.collectionData
+                collectionData[0].role = "visitor"
+            }
             const collectionData = response.data.collectionData
+            console.log(collectionData)
             return collectionData
         } catch (err) {
             console.log(err)
@@ -341,7 +352,7 @@ class CollectionApi {
     }
 }
 class TabApi {
-    async uploadTabData(collectionId, newTabId, tabId, tabName, tabUrl, favIconUrl, tabDescription) {
+    async uploadTabData(organizationId, collectionId, newTabId, tabId, tabName, tabUrl, favIconUrl, tabDescription) {
         try {
             const headers = {
                 "Content-Type": "application/json",
@@ -352,6 +363,7 @@ class TabApi {
                 headers: headers,
             }
             const content = {
+                organizationId: organizationId,
                 collectionId: collectionId,
                 newTabId: newTabId,
                 tabId: tabId,
@@ -367,7 +379,7 @@ class TabApi {
             return err.response
         }
     }
-    async getUserTabData(collectionId) {
+    async getUserTabData(organizationId, collectionId) {
         try {
             const headers = {
                 "Content-Type": "application/json",
@@ -377,6 +389,7 @@ class TabApi {
             const config = {
                 headers: headers,
                 params: {
+                    organizationId: organizationId,
                     collectionId: collectionId,
                 },
             }
@@ -388,7 +401,7 @@ class TabApi {
             return err.response
         }
     }
-    async switchTabCollection(collectionId, tabId) {
+    async switchTabCollection(organizationId, collectionId, tabId) {
         try {
             const headers = {
                 "Content-Type": "application/json",
@@ -399,6 +412,7 @@ class TabApi {
                 headers: headers,
             }
             const content = {
+                organizationId: organizationId,
                 collectionId: collectionId,
                 tabId: tabId,
             }
@@ -409,7 +423,7 @@ class TabApi {
             return err.response
         }
     }
-    async updateTabData(tabId, newTabName, newTabUrl, newTabDescription) {
+    async updateTabData(organizationId, tabId, newTabName, newTabUrl, newTabDescription) {
         try {
             const headers = {
                 "Content-Type": "application/json",
@@ -420,6 +434,7 @@ class TabApi {
                 headers: headers,
             }
             const content = {
+                organizationId: organizationId,
                 tabId: tabId,
                 newTabName: newTabName,
                 newTabUrl: newTabUrl,
@@ -432,7 +447,7 @@ class TabApi {
             return err.response
         }
     }
-    async deleteTabData(tabId) {
+    async deleteTabData(organizationId, tabId) {
         try {
             const headers = {
                 "Content-Type": "application/json",
@@ -442,6 +457,7 @@ class TabApi {
             const config = {
                 headers: headers,
                 data: {
+                    organizationId: organizationId,
                     tabId: tabId,
                 },
             }

@@ -35,6 +35,8 @@ window.addEventListener("DOMContentLoaded", async () => {
         leftSectionBuild.closeSpaceCreatePopoverBox()
         leftSectionBuild.getCreateSpacePopoverInputValue()
         leftSectionBuild.createSpaceButtonAddEvent()
+        leftSectionBuild.openInviteMemberPopoverButtonAddEvent()
+        leftSectionBuild.closeInviteMemberPopoverButtonAddEvent()
         const defaultOrganizationButton = document.getElementsByClassName("leftSection-nav-top-category-button")[0]
         await defaultOrganizationButton.click()
         await defaultOrganizationButton.focus()
@@ -55,6 +57,7 @@ window.addEventListener("DOMContentLoaded", async () => {
         await middleSectionBuild.tabCardEditBoxPopoverDeleteButton()
         middleSectionBuild.closeExportCollectionButtonAddEvent()
         middleSectionBuild.exportCollectionButtonAddEvent()
+        middleSectionBuild.invalidAuthRolePopoverBox()
     }
     mainPageBuild.rightSectionFold()
     mainPageBuild.leftSectionFold()
