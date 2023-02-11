@@ -101,6 +101,7 @@ const organizationRoutes = require("./router/organization.routes")
 const spaceRoutes = require("./router/space.routes")
 const collectionRoutes = require("./router/collection.routes")
 const tabRoutes = require("./router/tab.routes")
+const invitationRoutes = require("./router/invitation.routes")
 const errorMiddleware = require("./middlewares/error.middleware")
 
 app.get("/", (req, res) => {
@@ -115,6 +116,7 @@ app.use("/organization", organizationRoutes)
 app.use("/space", spaceRoutes)
 app.use("/collection", collectionRoutes)
 app.use("/tab", tabRoutes)
+app.use("/invitation", invitationRoutes)
 app.use(errorMiddleware)
 
 app.listen(portNum, () => {

@@ -15,7 +15,7 @@ module.exports = async (req, res, next) => {
         },
     })
     if (role === null) {
-        return res.json({
+        return res.status(403).json({
             message: "Unauthorized Role",
         })
     }
@@ -27,8 +27,12 @@ module.exports = async (req, res, next) => {
         req.role = "manager"
         return next()
     }
+    if (role.roleId == "3") {
+        req.role = "member"
+        return next()
+    }
     if (role.roleId !== "1" && role.roleId !== "2" && role.roleId !== "3") {
-        return res.json({
+        return res.status(403).json({
             message: "Unauthorized Role",
         })
     }

@@ -37,9 +37,12 @@ window.addEventListener("DOMContentLoaded", async () => {
         leftSectionBuild.createSpaceButtonAddEvent()
         leftSectionBuild.openInviteMemberPopoverButtonAddEvent()
         leftSectionBuild.closeInviteMemberPopoverButtonAddEvent()
+        leftSectionBuild.getInviteMemberPopoverInputValue()
+        await leftSectionBuild.inviteMemberPopoverAddMemberButton()
         const defaultOrganizationButton = document.getElementsByClassName("leftSection-nav-top-category-button")[0]
         await defaultOrganizationButton.click()
         await defaultOrganizationButton.focus()
+        await leftSectionBuild.getInviteMessage()
         leftSectionBuild.openSpaceEditPopoverBox()
         leftSectionBuild.closeSpaceEditPopoverBox()
         leftSectionBuild.spaceEditNameInputValue()

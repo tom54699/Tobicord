@@ -1,4 +1,4 @@
-import { windowApi, organizationApi, spaceApi, collectionApi, tabApi } from "./API/fetchApi.js"
+import { windowApi, organizationApi, spaceApi, collectionApi, tabApi, invitationApi } from "./API/fetchApi.js"
 import {
     windowFrame,
     windowCardsFrame,
@@ -459,6 +459,7 @@ class LeftSectionBuild {
         this.newSpaceName
         this.nowSpaceName
         this.nowSpaceId
+        this.inviteMemberEmail
     }
     /* UserCenter */
 
@@ -661,6 +662,7 @@ class LeftSectionBuild {
                 organizationSettingEditNameAlert[0].textContent = "Organization name must be greater than 1 character"
             } else {
                 const response = await organizationApi.updateOrganizationData(this.nowOrganizationId, inputValue)
+                console.log(response)
                 if (response.data.message === "ok") {
                     location.href = "/main"
                 } else if (response.data.message === "Unauthorized Role") {
@@ -1132,18 +1134,86 @@ class LeftSectionBuild {
         const inviteMemberPopoverBoxFormInviteInputAlert = document.getElementsByClassName(
             "invite-member-popover-box-form-invite-input-alert"
         )
+        const inviteMemberPopoverBoxFormInviteInput = document.getElementsByClassName("invite-member-popover-box-form-invite-input")
         inviteMemberPopoverBoxCloseSvg[0].addEventListener("click", () => {
             middleSectionAddCategoryPopoverContainer[0].style.zIndex = "-1000"
             inviteMemberPopoverBox[0].style.transform = "translate(-50%,-150%)"
             mask[0].style.display = "none"
+            inviteMemberPopoverBoxFormInviteInput[0].value = ""
             inviteMemberPopoverBoxFormInviteInputAlert[0].style.display = "none"
         })
         inviteMemberPopoverBoxCloseButton[0].addEventListener("click", () => {
             middleSectionAddCategoryPopoverContainer[0].style.zIndex = "-1000"
             inviteMemberPopoverBox[0].style.transform = "translate(-50%,-150%)"
             mask[0].style.display = "none"
+            inviteMemberPopoverBoxFormInviteInput[0].value = ""
             inviteMemberPopoverBoxFormInviteInputAlert[0].style.display = "none"
         })
+    }
+    getInviteMemberPopoverInputValue() {
+        const inviteMemberPopoverBoxFormInviteInput = document.getElementsByClassName("invite-member-popover-box-form-invite-input")
+        inviteMemberPopoverBoxFormInviteInput[0].addEventListener("input", (e) => {
+            this.inviteMemberEmail = e.target.value
+        })
+    }
+    async inviteMemberPopoverAddMemberButton() {
+        const inviteMemberPopoverBoxFormInviteInput = document.getElementsByClassName("invite-member-popover-box-form-invite-input")
+        const inviteMemberPopoverBox = document.getElementsByClassName("invite-member-popover-box")
+        const mask = document.getElementsByClassName("mask")
+        const middleSectionAddCategoryPopoverContainer = document.getElementsByClassName("middleSection-popover-container")
+        const inviteMemberPopoverBoxFormInviteInputAlert = document.getElementsByClassName(
+            "invite-member-popover-box-form-invite-input-alert"
+        )
+        const inviteMemberPopoverBoxFormAddButton = document.getElementsByClassName("invite-member-popover-box-form-add-button")
+        inviteMemberPopoverBoxFormAddButton[0].addEventListener("click", async () => {
+            const response = await invitationApi.uploadInvitationData(leftSectionBuild.nowOrganizationId, this.inviteMemberEmail)
+            if (response.data.message === "ok") {
+                middleSectionAddCategoryPopoverContainer[0].style.zIndex = "-1000"
+                inviteMemberPopoverBox[0].style.transform = "translate(-50%,-150%)"
+                mask[0].style.display = "none"
+                inviteMemberPopoverBoxFormInviteInput[0].value = ""
+                inviteMemberPopoverBoxFormInviteInputAlert[0].style.display = "none"
+            } else if (response.data.message === "invalid email") {
+                inviteMemberPopoverBoxFormInviteInputAlert[0].textContent = "Invalid Email, Please try again!"
+                inviteMemberPopoverBoxFormInviteInputAlert[0].style.display = "block"
+            } else if (response.data.message === "invalid format") {
+                inviteMemberPopoverBoxFormInviteInputAlert[0].textContent = "Invalid Format"
+                inviteMemberPopoverBoxFormInviteInputAlert[0].style.display = "block"
+            } else if (response.data.message === "duplicate invitation") {
+                inviteMemberPopoverBoxFormInviteInputAlert[0].textContent = "Duplicate Invitation"
+                inviteMemberPopoverBoxFormInviteInputAlert[0].style.display = "block"
+            }
+        })
+    }
+    async getInviteMessage() {
+        const response = await invitationApi.getUserInvitationData(this.nowOrganizationId)
+        console.log("邀請", response)
+        if (response.data.message === "ok") {
+            const invitationData = response.data.invitationData
+            const role = response.data.role
+            const userId = response.data.userId
+            const userEmail = response.data.userEmail
+            for (let i of invitationData.inviteResponse) {
+                break
+            }
+            for (let i of invitationData.inviteeResponse) {
+                if (i.inviteeEmail === userEmail) {
+                    console.log(i.Inviter.username, i.Organization.organizationName)
+                    this.generateInviteMessageCardWithButton(i.Inviter.username, i.Organization.organizationName)
+                }
+            }
+        }
+    }
+    generateInviteMessageCardWithButton(inviterName, organizationName) {
+        const noticeCardBoxContainer = document.getElementsByClassName("notice-card-box-container")
+        const noticeCardBox = document.createElement("div")
+        noticeCardBox.classList.add("notice-card-box")
+        noticeCardBox.innerHTML = `<div>${inviterName}寄送了${organizationName}群組邀請</div>
+        <div>
+            <button class="notice-popover-container-refuse-button">拒絕</button>
+            <button class="notice-popover-container-accept-button">接受</button>
+        </div>`
+        noticeCardBoxContainer[0].appendChild(noticeCardBox)
     }
 }
 class MiddleSectionBuild {

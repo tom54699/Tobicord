@@ -9,18 +9,6 @@ const Invitation = sequelize.define(
             autoIncrement: true,
             primaryKey: true,
         },
-        inviterId: {
-            type: Sequelize.STRING(500),
-            allowNull: false,
-        },
-        inviteeEmail: {
-            type: Sequelize.STRING(500),
-            allowNull: false,
-        },
-        organizationId: {
-            type: Sequelize.STRING(500),
-            allowNull: false,
-        },
         status: {
             type: Sequelize.STRING(500),
             allowNull: false,

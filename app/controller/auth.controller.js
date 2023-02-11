@@ -36,7 +36,7 @@ class AuthController {
             res.clearCookie("refreshToken")
             return res.status(200).json({ message: "ok" })
         } catch (err) {
-            next(err)
+            return err
         }
     }
     async refreshToken(req, res, next) {
@@ -53,7 +53,7 @@ class AuthController {
                 accessToken: access,
             })
         } catch (err) {
-            next(err)
+            return err
         }
     }
     async register(req, res, next) {
@@ -86,7 +86,7 @@ class AuthController {
             }
         } catch (err) {
             console.log("Something Wrong:", err)
-            next(err)
+            return err
         }
     }
 }

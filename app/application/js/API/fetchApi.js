@@ -1,5 +1,3 @@
-import { authAxios } from "./axios-interceptors.js"
-
 class AuthApi {
     async register(registerEmail, registerPassword, registerUsername) {
         try {
@@ -469,11 +467,122 @@ class TabApi {
         }
     }
 }
+class InvitationApi {
+    async uploadInvitationData(organizationId, inviteeEmail) {
+        try {
+            const headers = {
+                "Content-Type": "application/json",
+                Accept: "application/json",
+                Authorization: `Bearer ${window.localStorage.getItem("accessToken")}`,
+            }
+            const config = {
+                headers: headers,
+            }
+            const content = {
+                organizationId: organizationId,
+                inviteeEmail: inviteeEmail,
+            }
+            const response = await axios.post("/invitation", content, config)
+            return response
+        } catch (err) {
+            console.log(err)
+            return err.response
+        }
+    }
+    async getUserInvitationData(organizationId) {
+        try {
+            const headers = {
+                "Content-Type": "application/json",
+                Accept: "application/json",
+                Authorization: `Bearer ${window.localStorage.getItem("accessToken")}`,
+            }
+            const config = {
+                headers: headers,
+                params: {
+                    organizationId: organizationId,
+                },
+            }
+            const response = await axios.get("/invitation", config)
+            return response
+        } catch (err) {
+            console.log(err)
+            return err.response
+        }
+    } /*
+    async switchTabCollection(organizationId, collectionId, tabId) {
+        try {
+            const headers = {
+                "Content-Type": "application/json",
+                Accept: "application/json",
+                Authorization: `Bearer ${window.localStorage.getItem("accessToken")}`,
+            }
+            const config = {
+                headers: headers,
+            }
+            const content = {
+                organizationId: organizationId,
+                collectionId: collectionId,
+                tabId: tabId,
+            }
+            const response = await axios.put("/tab/collection", content, config)
+            return response
+        } catch (err) {
+            console.log(err)
+            return err.response
+        }
+    }
+    async updateTabData(organizationId, tabId, newTabName, newTabUrl, newTabDescription) {
+        try {
+            const headers = {
+                "Content-Type": "application/json",
+                Accept: "application/json",
+                Authorization: `Bearer ${window.localStorage.getItem("accessToken")}`,
+            }
+            const config = {
+                headers: headers,
+            }
+            const content = {
+                organizationId: organizationId,
+                tabId: tabId,
+                newTabName: newTabName,
+                newTabUrl: newTabUrl,
+                newTabDescription: newTabDescription,
+            }
+            const response = await axios.put("/tab", content, config)
+            return response
+        } catch (err) {
+            console.log(err)
+            return err.response
+        }
+    }
+    async deleteTabData(organizationId, tabId) {
+        try {
+            const headers = {
+                "Content-Type": "application/json",
+                Accept: "application/json",
+                Authorization: `Bearer ${window.localStorage.getItem("accessToken")}`,
+            }
+            const config = {
+                headers: headers,
+                data: {
+                    organizationId: organizationId,
+                    tabId: tabId,
+                },
+            }
+            const response = await axios.delete("/tab", config)
+            return response
+        } catch (err) {
+            console.log(err)
+            return err.response
+        }
+    }*/
+}
 const authApi = new AuthApi()
 const windowApi = new WindowApi()
 const organizationApi = new OrganizationApi()
 const spaceApi = new SpaceApi()
 const collectionApi = new CollectionApi()
 const tabApi = new TabApi()
+const invitationApi = new InvitationApi()
 
-export { authApi, windowApi, organizationApi, spaceApi, collectionApi, tabApi }
+export { authApi, windowApi, organizationApi, spaceApi, collectionApi, tabApi, invitationApi }

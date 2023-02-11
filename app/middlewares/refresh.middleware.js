@@ -23,7 +23,6 @@ module.exports = async (req, res, next) => {
             req.userId = decoded.userId
             return next()
         } catch (err) {
-            console.log(err)
             return next(new ServerError(401, "Invalid jwt token"))
         }
     }
