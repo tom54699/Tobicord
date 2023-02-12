@@ -1,5 +1,8 @@
 .none {
-    display: none;
+    display: none !important;
+}
+.show {
+    display: block !important;
 }
 .svg-hover:hover {
     background-color: rgb(214, 73, 107);

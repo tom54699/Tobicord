@@ -247,8 +247,7 @@ body {
     height: 40px;
     right: 0px;
 }
-.leftSection-nav-bottom-user-container:focus .user-popover::before,
-.leftSection-nav-bottom-notice-container:focus .notice-popover::before {
+.leftSection-nav-bottom-user-container:focus .user-popover::before {
     position: absolute;
     display: block;
     width: 1rem;
@@ -261,8 +260,24 @@ body {
     bottom: 1rem;
     content: "";
 }
-.leftSection-nav-bottom-user-container:focus .user-popover-container,
-.leftSection-nav-bottom-notice-container:focus .notice-popover-container {
+.pointer {
+    position: absolute;
+    display: block;
+    width: 1rem;
+    height: 1rem;
+    transform: rotate(-45deg);
+    background-color: rgb(63, 65, 77);
+    border-left: 1px solid rgb(63, 65, 77);
+    border-top: 1px solid rgb(63, 65, 77);
+    left: 3.5rem;
+    bottom: 2.5rem;
+    content: "";
+    z-index: 2000;
+}
+.leftSection-nav-bottom-user-container:focus .user-popover-container {
+    display: block;
+}
+.leftSection-nav-bottom-notice-container:focus + .notice-popover-container {
     display: block;
 }
 .leftSection-nav-bottom-question-svg {
@@ -303,7 +318,7 @@ body {
     background: rgb(63, 65, 77);
     border: 1px solid rgb(33, 33, 42);
     box-shadow: rgb(0 0 0 / 17%) 1px 2px 4px 0px;
-    border-radius: 5px;
+    border-radius: 1.2rem;
     z-index: 1000;
     flex-direction: column;
     padding: 0rem 1.3rem;
@@ -329,14 +344,14 @@ body {
     text-overflow: ellipsis;
     white-space: normal;
     overflow: hidden;
-    font-size: 14px;
+    font-size: 18px;
     color: rgb(183, 183, 206);
 }
 .user-popover-account-email {
     font-weight: 400;
     text-overflow: ellipsis;
     overflow: hidden;
-    font-size: 12px;
+    font-size: 14px;
     color: rgb(183, 183, 206);
     white-space: nowrap;
 }
@@ -344,7 +359,7 @@ body {
     text-overflow: ellipsis;
     white-space: normal;
     overflow: hidden;
-    font-size: 12px;
+    font-size: 14px;
     cursor: pointer;
     text-decoration: none;
     align-self: flex-start;
@@ -354,7 +369,7 @@ body {
     text-overflow: ellipsis;
     white-space: normal;
     overflow: hidden;
-    font-size: 12px;
+    font-size: 14px;
     cursor: pointer;
     text-decoration: none;
     align-self: flex-start;
@@ -370,7 +385,7 @@ body {
     grid-area: ga_logout / ga_logout / ga_logout / ga_logout;
 }
 .user-popover-logout-button {
-    font-size: 12px;
+    font-size: 14px;
     cursor: pointer;
     text-decoration: none;
     align-self: flex-start;
@@ -711,6 +726,9 @@ input[placeholder] {
 }
 .notice-popover-container {
     display: none;
+    position: absolute;
+    bottom: 3rem;
+    left: 0;
 }
 .notice-popover {
     position: absolute;
@@ -720,7 +738,7 @@ input[placeholder] {
     background: rgb(63, 65, 77);
     border: 1px solid rgb(33, 33, 42);
     box-shadow: rgb(0 0 0 / 17%) 1px 2px 4px 0px;
-    border-radius: 5px;
+    border-radius: 1.2rem;
     z-index: 1000;
     flex-direction: column;
     padding: 0rem 1.3rem;
@@ -4074,6 +4092,7 @@ input[placeholder] {
 .rightSection-spaces-window-tabs-container-close-button:hover {
     background: rgb(170, 63, 91);
 }
+
 @media only screen and (min-width: 480px) {
     .middleSection-top {
         padding: 0px 32px;

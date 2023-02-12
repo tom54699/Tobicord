@@ -1112,6 +1112,7 @@ class LeftSectionBuild {
             location.href = "/main"
         })
     }
+    /*invite */
     openInviteMemberPopoverButtonAddEvent() {
         const leftSectionSpacesTopSubtitleAddFriendContainer = document.getElementsByClassName(
             "leftSection-spaces-top-subtitle-addFriend-container"
@@ -1214,6 +1215,26 @@ class LeftSectionBuild {
             <button class="notice-popover-container-accept-button">接受</button>
         </div>`
         noticeCardBoxContainer[0].appendChild(noticeCardBox)
+    }
+    openInviteNoticeBox() {
+        let isClicked = false
+        const leftSectionNavBottomNoticeContainer = document.getElementsByClassName("leftSection-nav-bottom-notice-container")
+        const noticePopoverContainer = document.getElementsByClassName("notice-popover-container")
+        document.addEventListener("click", (event) => {
+            if (!noticePopoverContainer[0].contains(event.target) && !leftSectionNavBottomNoticeContainer[0].contains(event.target)) {
+                noticePopoverContainer[0].classList.remove("show")
+                isClicked = false
+            }
+        })
+        leftSectionNavBottomNoticeContainer[0].addEventListener("click", (e) => {
+            if (!isClicked) {
+                noticePopoverContainer[0].classList.add("show")
+                isClicked = true
+            } else {
+                noticePopoverContainer[0].classList.remove("show")
+                isClicked = false
+            }
+        })
     }
 }
 class MiddleSectionBuild {

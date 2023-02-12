@@ -43,6 +43,7 @@ window.addEventListener("DOMContentLoaded", async () => {
         await defaultOrganizationButton.click()
         await defaultOrganizationButton.focus()
         await leftSectionBuild.getInviteMessage()
+        leftSectionBuild.openInviteNoticeBox()
         leftSectionBuild.openSpaceEditPopoverBox()
         leftSectionBuild.closeSpaceEditPopoverBox()
         leftSectionBuild.spaceEditNameInputValue()
@@ -74,6 +75,8 @@ async function checkMainPageAuth() {
         console.log(result)
         if (response.status === 200) {
             isCheck = true
+            const userPopoverAccountEmail = document.getElementsByClassName("user-popover-account-email")
+            userPopoverAccountEmail[0].textContent = `${result.username} (${result.email})`
         } else {
             location.href = "/auth"
         }

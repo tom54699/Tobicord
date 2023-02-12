@@ -17,10 +17,6 @@ const MemberOrganization = sequelize.define(
             autoIncrement: true,
             primaryKey: true,
         },
-        roleId: {
-            type: Sequelize.STRING(500),
-            allowNull: false,
-        },
     },
     {
         freezeTableName: true,
@@ -32,6 +28,8 @@ Organization.belongsToMany(Member, { through: "Member_Organization", onDelete: "
 
 Role.belongsToMany(Permission, { through: "Role_Permission", onDelete: "cascade" })
 Permission.belongsToMany(Role, { through: "Role_Permission", onDelete: "cascade" })
+
+MemberOrganization.belongsTo(Role, { foreignKey: "roleId", targetKey: "id" })
 
 Invitation.belongsTo(Member, { as: "Inviter", foreignKey: "inviterId", targetKey: "id" })
 Invitation.belongsTo(Member, { as: "Invitee", foreignKey: "inviteeEmail", targetKey: "email" })

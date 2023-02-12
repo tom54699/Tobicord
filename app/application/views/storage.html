@@ -25,9 +25,7 @@
                     <h5 class="middleSection-container-collection-tab-card-text">WeHelp 軟體工程師扶持計畫</h5>
                 </div>
                 <div class="middleSection-container-collection-tab-card-cancel-description">
-                    <span class="middleSection-container-collection-tab-card-cancel-description-text"
-                        >WeHelp 軟體工程師扶持計畫</span
-                    >
+                    <span class="middleSection-container-collection-tab-card-cancel-description-text">WeHelp 軟體工程師扶持計畫</span>
                 </div>
                 <button class="middleSection-container-collection-tab-card-cancel-button"></button>
                 <button class="middleSection-container-collection-tab-card-edit-button"></button>
@@ -50,10 +48,7 @@
             </button>
         </div>
     </div>
-    <div
-        id="middleSection-container-remind-add-collection-box"
-        class="middleSection-container-remind-add-collection-box"
-    ></div>
+    <div id="middleSection-container-remind-add-collection-box" class="middleSection-container-remind-add-collection-box"></div>
 </div>
 /* ------ collection card-------*/
 <div class="middleSection-container-collection-card-box">
@@ -66,9 +61,7 @@
                 <div class="middleSection-container-collection-card-container-nav">
                     <!--Collection Title-->
                     <div class="middleSection-container-collection-card-container-nav-title none">
-                        <h3 class="middleSection-container-collection-card-container-nav-title-text">
-                            Untitled collection
-                        </h3>
+                        <h3 class="middleSection-container-collection-card-container-nav-title-text">Untitled collection</h3>
                         <div class="middleSection-container-collection-card-container-nav-arrow-svg-container">
                             <button class="middleSection-container-collection-card-container-nav-arrow-svg-button">
                                 <div class="middleSection-container-collection-card-container-nav-arrow-down-svg"></div>
@@ -78,11 +71,7 @@
                     </div>
                     <!-- Edit Name -->
                     <div class="middleSection-container-add-collection-container">
-                        <input
-                            class="middleSection-container-add-Name-input"
-                            type="text"
-                            placeholder="Type the collection title"
-                        />
+                        <input class="middleSection-container-add-Name-input" type="text" placeholder="Type the collection title" />
                         <div class="middleSection-container-add-collection-box-save-button-box">
                             <button class="middleSection-container-add-collection-box-save-cancel-button" type="button">
                                 <span>Cancel</span>
@@ -113,10 +102,7 @@
                     </div>
                 </div>
                 <!-- Remind -->
-                <div
-                    id="middleSection-container-remind-add-collection-box"
-                    class="middleSection-container-remind-add-collection-box"
-                ></div>
+                <div id="middleSection-container-remind-add-collection-box" class="middleSection-container-remind-add-collection-box"></div>
             </div>
         </div>
     </div>
@@ -138,8 +124,31 @@
     </div>
 </div>
 
+data-bs-toggle="collapse" data-bs-target="#window_${windowId}" aria-expanded="false" aria-controls="window_${windowId}" const
+noPermissionPopoverBox = document.getElementsByClassName("no-permission-popover-box") const mask = document.getElementsByClassName("mask")
+const middleSectionAddCategoryPopoverContainer = document.getElementsByClassName("middleSection-popover-container") else
+if(response.data.message ==="Unauthorized Role"){ middleSectionAddCategoryPopoverContainer[0].style.zIndex = "9999" mask[0].style.display =
+"block" noPermissionPopoverBox[0].style.transform = "translate(-50%)" } middleSectionAddCategoryPopoverContainer[0].style.zIndex = "-1000"
+spaceCreatePopoverBox[0].style.transform = "translate(-50%,-150%)" mask[0].style.display = "none" spaceCreateNameInputAlert[0].style.display
+= "none"
 
-data-bs-toggle="collapse"
-data-bs-target="#window_${windowId}"
-aria-expanded="false"
-aria-controls="window_${windowId}"
+<div class="notice-card-box">
+    <div>某某某寄送了群組邀請</div>
+    <div>
+        <button class="notice-popover-container-refuse-button">拒絕</button>
+        <button class="notice-popover-container-accept-button">接受</button>
+    </div>
+</div>
+<div class="notice-card-box">
+    <div>某某某拒絕了邀請</div>
+</div>
+<div class="notice-card-box">
+    <div>某某某接受了邀請</div>
+</div>
+<div class="notice-card-box">
+    <div>某某某接受某某某推薦加入群組，請審核</div>
+    <div>
+        <button class="notice-popover-container-refuse-button">拒絕</button>
+        <button class="notice-popover-container-accept-button">同意</button>
+    </div>
+</div>
