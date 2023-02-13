@@ -14,6 +14,41 @@ const registerButton = document.getElementById("registerButton")
 const errorMessage = document.getElementsByClassName("errorMessage")
 const errorMessageTile = document.getElementsByClassName("errorMessageTile ")
 
+window.addEventListener("load", async () => {
+    await checkIsLogin()
+    closeIsLoginPopoverBox()
+})
+
+async function checkIsLogin() {
+    try {
+        console.log("檢查有無登入")
+        const response = await authApi.checkIsLogin()
+        if (response.data.message === "Is Login") {
+            openIsLoginPopoverBox()
+        }
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+const openIsLoginPopoverBox = () => {
+    const mask = document.getElementsByClassName("mask")
+    const isLoginAlertPopoverBox = document.getElementsByClassName("isLogin-alert-popover-box")
+    mask[0].classList.remove("none")
+    isLoginAlertPopoverBox[0].style.transform = "translate(-50%, 0%)"
+}
+
+const closeIsLoginPopoverBox = () => {
+    const isLoginAlertPopoverBoxCloseSvg = document.getElementsByClassName("isLogin-alert-popover-box-close-svg-container")
+    const isLoginAlertPopoverBoxCloseButton = document.getElementsByClassName("isLogin-alert-popover-box-close-button")
+    isLoginAlertPopoverBoxCloseSvg[0].addEventListener("click", () => {
+        location.href = "/main"
+    })
+    isLoginAlertPopoverBoxCloseButton[0].addEventListener("click", () => {
+        location.href = "/main"
+    })
+}
+
 signUpSwitchButton.addEventListener("click", () => {
     loginCard.classList.add("none")
     signupCard.classList.remove("none")

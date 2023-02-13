@@ -89,6 +89,23 @@ class AuthController {
             return err
         }
     }
+    async renderPage(req, res) {
+        res.render("login")
+    }
+    async checkIsLogin(req, res, next) {
+        try {
+            const userId = req.userId
+            if (userId) {
+                return res.status(403).json({
+                    message: "Is Login",
+                })
+            } else {
+                return next()
+            }
+        } catch (err) {
+            console.log(err)
+        }
+    }
 }
 
 module.exports = new AuthController()

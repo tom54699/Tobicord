@@ -6,11 +6,12 @@ let isCheck = false
 
 window.addEventListener("load", async () => {
     await new Promise((resolve) => setTimeout(resolve, 100))
-    preloadBackGround[0].classList.add("none")
+    //preloadBackGround[0].classList.add("none")
 })
 window.addEventListener("DOMContentLoaded", async () => {
     await checkMainPageAuth()
     if (isCheck) {
+        preloadBackGround[0].classList.add("none")
         /* Right-Section Cards */
         await rightSectionBuild.getUserWindow()
         await rightSectionBuild.reloadWindows()

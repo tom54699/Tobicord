@@ -3,12 +3,12 @@ const { check } = require("express-validator")
 const router = express.Router()
 
 const authController = require("../controller/auth.controller")
+const checkLoginMiddleware = require("../middlewares/checkLogin.middleware")
 const refreshMiddleware = require("../middlewares/refresh.middleware")
 const authMiddleware = require("../middlewares/auth.middleware")
 
-router.get("/", (req, res) => {
-    res.render("login")
-})
+router.get("/", authController.renderPage)
+router.get("/login/check", checkLoginMiddleware, authController.checkIsLogin, authController.renderPage)
 router.put("/login", authController.login)
 router.post("/refresh", refreshMiddleware, authController.refreshToken)
 router.post(

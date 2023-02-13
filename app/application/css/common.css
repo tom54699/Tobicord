@@ -1,3 +1,31 @@
+* {
+    outline: none !important;
+}
+input {
+    line-height: normal;
+}
+button,
+input,
+optgroup,
+select,
+textarea {
+    font-size: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: Ubuntu, Arial, sans-serif;
+}
+
+button,
+html input[type="button"],
+input[type="reset"],
+input[type="submit"] {
+    cursor: pointer;
+}
+
+button {
+    border: none;
+    background: rgba(0, 0, 0, 0);
+}
 .none {
     display: none !important;
 }

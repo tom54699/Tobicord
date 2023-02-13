@@ -38,6 +38,7 @@ class AuthApi {
         const headers = {
             "Content-Type": "application/json",
             Accept: "application/json",
+            Authorization: `Bearer ${window.localStorage.getItem("accessToken")}`,
         }
         const config = {
             headers: headers,
@@ -56,6 +57,22 @@ class AuthApi {
                 headers: headers,
             }
             const response = await axios.get("/users", config)
+            return response
+        } catch (err) {
+            console.log(err)
+            return err.response
+        }
+    }
+    async checkIsLogin() {
+        try {
+            const headers = {
+                "Content-Type": "application/json",
+                Accept: "application/json",
+            }
+            const config = {
+                headers: headers,
+            }
+            const response = await axios.get("/auth/login/check", config)
             return response
         } catch (err) {
             console.log(err)

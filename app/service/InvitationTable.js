@@ -73,7 +73,6 @@ const GetUserInvitationData = async (role, inviterId, inviteeEmail) => {
                 inviteeEmail: inviteeEmail,
             },
         })
-        console.log(inviteeResponse)
         let combinedResponse = {}
         let inviteResponseData = []
         let inviteeResponseData = []

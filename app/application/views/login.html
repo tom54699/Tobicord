@@ -21,6 +21,7 @@
         <link rel="stylesheet" href="/css/common.css" />
     </head>
     <body>
+        <div class="mask none"></div>
         <section id="gradient-custom" class="min-vh-100 gradient-custom">
             <div class="container py-5 h-100">
                 <div class="row d-flex justify-content-center align-items-center h-100">
@@ -131,7 +132,20 @@
                 </div>
             </div>
         </section>
+        <div class="isLogin-alert-popover-box">
+            <button class="isLogin-alert-popover-box-close-svg-container">
+                <div class="isLogin-alert-popover-box-close-svg"></div>
+            </button>
+            <h4 class="isLogin-alert-popover-box--text">若要切換帳號，請登出上一個帳號。</h4>
+            <div>
+                <button class="isLogin-alert-popover-box-close-button">
+                    <span>Done</span>
+                </button>
+            </div>
+        </div>
+
         <script type="module" src="/js/login.js"></script>
+        <script type="module" src="/js/API/axios-interceptors.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.net.min.js"></script>

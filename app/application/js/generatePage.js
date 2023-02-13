@@ -1,4 +1,4 @@
-import { windowApi, organizationApi, spaceApi, collectionApi, tabApi, invitationApi } from "./API/fetchApi.js"
+import { windowApi, organizationApi, spaceApi, collectionApi, tabApi,invitationApi } from "./API/fetchApi.js"
 import {
     windowFrame,
     windowCardsFrame,
@@ -1113,37 +1113,33 @@ class LeftSectionBuild {
         })
     }
     /*invite */
-    openInviteMemberPopoverButtonAddEvent() {
-        const leftSectionSpacesTopSubtitleAddFriendContainer = document.getElementsByClassName(
-            "leftSection-spaces-top-subtitle-addFriend-container"
-        )
+    openInviteMemberPopoverButtonAddEvent(){
+        const leftSectionSpacesTopSubtitleAddFriendContainer = document.getElementsByClassName("leftSection-spaces-top-subtitle-addFriend-container")
         const inviteMemberPopoverBox = document.getElementsByClassName("invite-member-popover-box")
         const mask = document.getElementsByClassName("mask")
         const middleSectionAddCategoryPopoverContainer = document.getElementsByClassName("middleSection-popover-container")
-        leftSectionSpacesTopSubtitleAddFriendContainer[0].addEventListener("click", () => {
+        leftSectionSpacesTopSubtitleAddFriendContainer[0].addEventListener("click", ()=>{
             middleSectionAddCategoryPopoverContainer[0].style.zIndex = "9999"
             mask[0].style.display = "block"
             inviteMemberPopoverBox[0].style.transform = "translate(-50%)"
         })
     }
-    closeInviteMemberPopoverButtonAddEvent() {
+    closeInviteMemberPopoverButtonAddEvent(){
         const inviteMemberPopoverBox = document.getElementsByClassName("invite-member-popover-box")
         const mask = document.getElementsByClassName("mask")
         const middleSectionAddCategoryPopoverContainer = document.getElementsByClassName("middleSection-popover-container")
         const inviteMemberPopoverBoxCloseSvg = document.getElementsByClassName("invite-member-popover-box-close-svg-container")
-        const inviteMemberPopoverBoxCloseButton = document.getElementsByClassName("invite-member-popover-box-form-cancel-button")
-        const inviteMemberPopoverBoxFormInviteInputAlert = document.getElementsByClassName(
-            "invite-member-popover-box-form-invite-input-alert"
-        )
+        const inviteMemberPopoverBoxCloseButton= document.getElementsByClassName("invite-member-popover-box-form-cancel-button")
+        const inviteMemberPopoverBoxFormInviteInputAlert = document.getElementsByClassName("invite-member-popover-box-form-invite-input-alert")
         const inviteMemberPopoverBoxFormInviteInput = document.getElementsByClassName("invite-member-popover-box-form-invite-input")
-        inviteMemberPopoverBoxCloseSvg[0].addEventListener("click", () => {
+        inviteMemberPopoverBoxCloseSvg[0].addEventListener("click",()=>{
             middleSectionAddCategoryPopoverContainer[0].style.zIndex = "-1000"
             inviteMemberPopoverBox[0].style.transform = "translate(-50%,-150%)"
             mask[0].style.display = "none"
             inviteMemberPopoverBoxFormInviteInput[0].value = ""
             inviteMemberPopoverBoxFormInviteInputAlert[0].style.display = "none"
         })
-        inviteMemberPopoverBoxCloseButton[0].addEventListener("click", () => {
+        inviteMemberPopoverBoxCloseButton[0].addEventListener("click",()=>{
             middleSectionAddCategoryPopoverContainer[0].style.zIndex = "-1000"
             inviteMemberPopoverBox[0].style.transform = "translate(-50%,-150%)"
             mask[0].style.display = "none"
@@ -1151,61 +1147,59 @@ class LeftSectionBuild {
             inviteMemberPopoverBoxFormInviteInputAlert[0].style.display = "none"
         })
     }
-    getInviteMemberPopoverInputValue() {
+    getInviteMemberPopoverInputValue(){
         const inviteMemberPopoverBoxFormInviteInput = document.getElementsByClassName("invite-member-popover-box-form-invite-input")
-        inviteMemberPopoverBoxFormInviteInput[0].addEventListener("input", (e) => {
+        inviteMemberPopoverBoxFormInviteInput[0].addEventListener("input",(e)=>{
             this.inviteMemberEmail = e.target.value
         })
     }
-    async inviteMemberPopoverAddMemberButton() {
+    async inviteMemberPopoverAddMemberButton(){
         const inviteMemberPopoverBoxFormInviteInput = document.getElementsByClassName("invite-member-popover-box-form-invite-input")
         const inviteMemberPopoverBox = document.getElementsByClassName("invite-member-popover-box")
         const mask = document.getElementsByClassName("mask")
         const middleSectionAddCategoryPopoverContainer = document.getElementsByClassName("middleSection-popover-container")
-        const inviteMemberPopoverBoxFormInviteInputAlert = document.getElementsByClassName(
-            "invite-member-popover-box-form-invite-input-alert"
-        )
+        const inviteMemberPopoverBoxFormInviteInputAlert = document.getElementsByClassName("invite-member-popover-box-form-invite-input-alert")
         const inviteMemberPopoverBoxFormAddButton = document.getElementsByClassName("invite-member-popover-box-form-add-button")
-        inviteMemberPopoverBoxFormAddButton[0].addEventListener("click", async () => {
+        inviteMemberPopoverBoxFormAddButton[0].addEventListener("click", async()=>{
             const response = await invitationApi.uploadInvitationData(leftSectionBuild.nowOrganizationId, this.inviteMemberEmail)
-            if (response.data.message === "ok") {
+            if(response.data.message === "ok"){
                 middleSectionAddCategoryPopoverContainer[0].style.zIndex = "-1000"
                 inviteMemberPopoverBox[0].style.transform = "translate(-50%,-150%)"
                 mask[0].style.display = "none"
                 inviteMemberPopoverBoxFormInviteInput[0].value = ""
-                inviteMemberPopoverBoxFormInviteInputAlert[0].style.display = "none"
-            } else if (response.data.message === "invalid email") {
+                inviteMemberPopoverBoxFormInviteInputAlert[0].style.display ="none"
+            }else if(response.data.message === "invalid email"){
                 inviteMemberPopoverBoxFormInviteInputAlert[0].textContent = "Invalid Email, Please try again!"
-                inviteMemberPopoverBoxFormInviteInputAlert[0].style.display = "block"
-            } else if (response.data.message === "invalid format") {
+                inviteMemberPopoverBoxFormInviteInputAlert[0].style.display ="block"
+            }else if(response.data.message === "invalid format"){
                 inviteMemberPopoverBoxFormInviteInputAlert[0].textContent = "Invalid Format"
-                inviteMemberPopoverBoxFormInviteInputAlert[0].style.display = "block"
-            } else if (response.data.message === "duplicate invitation") {
+                inviteMemberPopoverBoxFormInviteInputAlert[0].style.display ="block"
+            }else if(response.data.message === "duplicate invitation"){
                 inviteMemberPopoverBoxFormInviteInputAlert[0].textContent = "Duplicate Invitation"
-                inviteMemberPopoverBoxFormInviteInputAlert[0].style.display = "block"
+                inviteMemberPopoverBoxFormInviteInputAlert[0].style.display ="block"
             }
         })
     }
-    async getInviteMessage() {
-        const response = await invitationApi.getUserInvitationData(this.nowOrganizationId)
-        console.log("邀請", response)
-        if (response.data.message === "ok") {
+    async getInviteMessage(){
+        const response = await invitationApi.getUserInvitationData(this.nowOrganizationId) 
+        console.log("邀請",response)
+        if(response.data.message === "ok"){
             const invitationData = response.data.invitationData
             const role = response.data.role
             const userId = response.data.userId
             const userEmail = response.data.userEmail
-            for (let i of invitationData.inviteResponse) {
+            for(let i of invitationData.inviteResponse){
                 break
             }
-            for (let i of invitationData.inviteeResponse) {
-                if (i.inviteeEmail === userEmail) {
-                    console.log(i.Inviter.username, i.Organization.organizationName)
-                    this.generateInviteMessageCardWithButton(i.Inviter.username, i.Organization.organizationName)
+            for(let i of invitationData.inviteeResponse){
+                if(i.inviteeEmail === userEmail){
+                    console.log(i.Inviter.username,i.Organization.organizationName)
+                    this.generateInviteMessageCardWithButton(i.Inviter.username,i.Organization.organizationName)
                 }
             }
         }
     }
-    generateInviteMessageCardWithButton(inviterName, organizationName) {
+    generateInviteMessageCardWithButton(inviterName,organizationName){
         const noticeCardBoxContainer = document.getElementsByClassName("notice-card-box-container")
         const noticeCardBox = document.createElement("div")
         noticeCardBox.classList.add("notice-card-box")
@@ -1216,15 +1210,15 @@ class LeftSectionBuild {
         </div>`
         noticeCardBoxContainer[0].appendChild(noticeCardBox)
     }
-    openInviteNoticeBox() {
+    openInviteNoticeBox(){
         let isClicked = false
         const leftSectionNavBottomNoticeContainer = document.getElementsByClassName("leftSection-nav-bottom-notice-container")
         const noticePopoverContainer = document.getElementsByClassName("notice-popover-container")
-        document.addEventListener("click", (event) => {
-            if (!noticePopoverContainer[0].contains(event.target) && !leftSectionNavBottomNoticeContainer[0].contains(event.target)) {
-                noticePopoverContainer[0].classList.remove("show")
-                isClicked = false
-            }
+        document.addEventListener('click', (event) => {
+                if (!noticePopoverContainer[0].contains(event.target) && !leftSectionNavBottomNoticeContainer[0].contains(event.target)) {
+                    noticePopoverContainer[0].classList.remove("show")
+                    isClicked = false
+                }
         })
         leftSectionNavBottomNoticeContainer[0].addEventListener("click", (e) => {
             if (!isClicked) {

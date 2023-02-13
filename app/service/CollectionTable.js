@@ -45,7 +45,6 @@ const DeleteCollectionData = async (collectionId) => {
                 id: collectionId,
             },
         })
-        console.log(response)
         return response
     } catch (err) {
         console.log(err)

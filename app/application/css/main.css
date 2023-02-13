@@ -1,33 +1,6 @@
 @import url("https://fonts.googleapis.com/css?family=Ubuntu:300,400,500");
 
-* {
-    outline: none !important;
-}
-input {
-    line-height: normal;
-}
-button,
-input,
-optgroup,
-select,
-textarea {
-    font-size: 100%;
-    margin: 0;
-    padding: 0;
-    font-family: Ubuntu, Arial, sans-serif;
-}
 
-button,
-html input[type="button"],
-input[type="reset"],
-input[type="submit"] {
-    cursor: pointer;
-}
-
-button {
-    border: none;
-    background: rgba(0, 0, 0, 0);
-}
 body {
     min-width: 15rem;
     min-height: 30rem;
@@ -274,10 +247,10 @@ body {
     content: "";
     z-index: 2000;
 }
-.leftSection-nav-bottom-user-container:focus .user-popover-container {
+.leftSection-nav-bottom-user-container:focus .user-popover-container{
     display: block;
 }
-.leftSection-nav-bottom-notice-container:focus + .notice-popover-container {
+.leftSection-nav-bottom-notice-container:focus + .notice-popover-container{
     display: block;
 }
 .leftSection-nav-bottom-question-svg {
@@ -728,7 +701,7 @@ input[placeholder] {
     display: none;
     position: absolute;
     bottom: 3rem;
-    left: 0;
+    left:0;
 }
 .notice-popover {
     position: absolute;
