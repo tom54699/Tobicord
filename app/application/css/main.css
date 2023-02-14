@@ -1,6 +1,5 @@
 @import url("https://fonts.googleapis.com/css?family=Ubuntu:300,400,500");
 
-
 body {
     min-width: 15rem;
     min-height: 30rem;
@@ -247,10 +246,10 @@ body {
     content: "";
     z-index: 2000;
 }
-.leftSection-nav-bottom-user-container:focus .user-popover-container{
+.leftSection-nav-bottom-user-container:focus .user-popover-container {
     display: block;
 }
-.leftSection-nav-bottom-notice-container:focus + .notice-popover-container{
+.leftSection-nav-bottom-notice-container:focus + .notice-popover-container {
     display: block;
 }
 .leftSection-nav-bottom-question-svg {
@@ -701,7 +700,7 @@ input[placeholder] {
     display: none;
     position: absolute;
     bottom: 3rem;
-    left:0;
+    left: 0;
 }
 .notice-popover {
     position: absolute;
@@ -721,13 +720,37 @@ input[placeholder] {
     height: 600px;
 }
 .notice-popover > div:nth-child(1) {
+    width: 100%;
+    margin-top: 15px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+.notice-popover > div:nth-child(1) > div:nth-child(1) {
+    width: 50%;
+    font-weight: 500;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    font-size: 18px;
+    color: rgb(214, 73, 107);
+    border-bottom: 1px solid rgb(214, 73, 107);
+    white-space: nowrap;
+    text-align: center;
+    transition: background 300ms ease-in-out 0s;
+    cursor: pointer;
+}
+.notice-popover > div:nth-child(1) > div:nth-child(2) {
+    width: 50%;
     font-weight: 500;
     text-overflow: ellipsis;
     overflow: hidden;
     font-size: 18px;
     color: rgb(183, 183, 206);
     white-space: nowrap;
-    margin-top: 15px;
+    text-align: center;
+    border-radius: 5px;
+    transition: background 300ms ease-in-out 0s;
+    cursor: pointer;
 }
 .notice-popover > div:nth-child(2) {
     width: 100%;
@@ -1600,7 +1623,8 @@ input[placeholder] {
 .collection-delete-popover-box-close-svg,
 .collection-export-popover-box-close-svg,
 .no-permission-popover-box-close-svg,
-.invite-member-popover-box-close-svg {
+.invite-member-popover-box-close-svg,
+.notice-approval-refused-cancel-svg {
     width: 1.25rem;
     height: 1.25rem;
     mask: url("../images/close.svg") no-repeat 50% 50%;
@@ -1610,6 +1634,9 @@ input[placeholder] {
     background-color: rgb(124, 124, 154);
     transition: background-color 0.3s ease-in-out;
 }
+.notice-approval-refused-cancel-svg {
+    cursor: pointer;
+}
 .organization-setting-popover-box-close-svg:hover,
 .organization-delete-popover-box-close-svg:hover,
 .space-create-popover-box-close-svg:hover,
@@ -1618,7 +1645,8 @@ input[placeholder] {
 .collection-delete-popover-box-close-svg:hover,
 .collection-export-popover-box-close-svg:hover,
 .no-permission-popover-box-close-svg:hover,
-.invite-member-popover-box-close-svg:hover {
+.invite-member-popover-box-close-svg:hover,
+.notice-approval-refused-cancel-svg:hover {
     background-color: rgb(214, 73, 107);
 }
 .organization-setting-popover-box > div:nth-child(2) {

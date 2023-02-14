@@ -27,7 +27,7 @@ button {
     background: rgba(0, 0, 0, 0);
 }
 .none {
-    display: none !important;
+    display: none;
 }
 .show {
     display: block !important;

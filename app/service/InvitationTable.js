@@ -3,6 +3,8 @@ const Collection = require("../models/Collection.model")
 const Member = require("../models/Member.model")
 const Organization = require("../models/Organization.model")
 const Invitation = require("../models/Invitation.model")
+const Sequelize = require("sequelize")
+const Op = Sequelize.Op
 
 const CreateInvitationData = async (organizationId, inviterId, inviteeEmail) => {
     try {
@@ -25,7 +27,7 @@ const checkIsInvite = async (organizationId, inviterId, inviteeEmail) => {
     })
     return response
 }
-const GetUserInvitationData = async (role, inviterId, inviteeEmail) => {
+const GetUserInvitationData = async (inviterId, inviteeEmail) => {
     try {
         /* 邀請 */
         const inviteResponse = await Invitation.findAll({
@@ -48,6 +50,9 @@ const GetUserInvitationData = async (role, inviterId, inviteeEmail) => {
             ],
             where: {
                 inviterId: inviterId,
+                notification: {
+                    [Op.ne]: "false",
+                },
             },
         })
         /* 受邀 */
@@ -71,6 +76,9 @@ const GetUserInvitationData = async (role, inviterId, inviteeEmail) => {
             ],
             where: {
                 inviteeEmail: inviteeEmail,
+                notification: {
+                    [Op.ne]: "false",
+                },
             },
         })
         let combinedResponse = {}
@@ -91,22 +99,53 @@ const GetUserInvitationData = async (role, inviterId, inviteeEmail) => {
     }
 }
 
-const UpdateCollectionData = async (collectionId, newCollectionName) => {
+const GetUserApprovalData = async (organizationsId) => {
     try {
-        const collection = await Collection.findByPk(collectionId)
-        const response = await collection.update({
-            collectionName: newCollectionName,
+        const approvalResponse = await Invitation.findAll({
+            include: [
+                {
+                    model: Member,
+                    as: "Invitee",
+                    attributes: ["username", "id"],
+                },
+                {
+                    model: Organization,
+                    as: "Organization",
+                    attributes: ["organizationName"],
+                },
+            ],
+            attributes: ["inviterId", "inviteeEmail", "organizationId"],
+            where: { organizationId: { [Op.in]: organizationsId }, status: "pending-approval" },
         })
+        console.log
+        return approvalResponse
+    } catch (err) {
+        console.error(err)
+        return err
+    }
+}
+
+const UpdateInvitationData = async (organizationId, inviterId, inviteeEmail, status, notification = "true") => {
+    try {
+        const response = await Invitation.update(
+            {
+                status: status,
+                notification: notification,
+            },
+            { where: { organizationId: organizationId, inviterId: inviterId, inviteeEmail: inviteeEmail } }
+        )
         return response
     } catch (err) {
         console.log(err)
     }
 }
-const DeleteCollectionData = async (collectionId) => {
+const DeleteInvitationData = async (organizationId, inviterId, inviteeEmail) => {
     try {
-        const response = await Collection.destroy({
+        const response = await Invitation.destroy({
             where: {
-                id: collectionId,
+                organizationId: organizationId,
+                inviterId: inviterId,
+                inviteeEmail: inviteeEmail,
             },
         })
         console.log(response)
@@ -120,4 +159,7 @@ module.exports = {
     CreateInvitationData,
     checkIsInvite,
     GetUserInvitationData,
+    UpdateInvitationData,
+    DeleteInvitationData,
+    GetUserApprovalData,
 }

@@ -1,4 +1,4 @@
-import { windowApi, organizationApi, spaceApi, collectionApi, tabApi,invitationApi } from "./API/fetchApi.js"
+import { windowApi, organizationApi, spaceApi, collectionApi, tabApi, invitationApi } from "./API/fetchApi.js"
 import {
     windowFrame,
     windowCardsFrame,
@@ -460,6 +460,8 @@ class LeftSectionBuild {
         this.nowSpaceName
         this.nowSpaceId
         this.inviteMemberEmail
+        this.invitationData
+        this.approvalData
     }
     /* UserCenter */
 
@@ -515,6 +517,7 @@ class LeftSectionBuild {
         const addCategoryPopoverFormNameInputAlert = document.getElementsByClassName(
             "middleSection-add-category-popover-box-form-name-input-alert"
         )
+        const addCategoryPopoverFormNameInput = document.getElementsByClassName("middleSection-add-category-popover-box-form-name-input")
         const mask = document.getElementsByClassName("mask")
         const middleSectionAddCategoryPopoverContainer = document.getElementsByClassName("middleSection-popover-container")
         const middleSectionAddCategoryPopoverBox = document.getElementsByClassName("middleSection-add-category-popover-box")
@@ -532,9 +535,11 @@ class LeftSectionBuild {
                     addCategoryPopoverFormNameInputAlert[0].style.display = "none"
                     await this.createCategoryButton()
                     this.switchToDifferentOrganization()
+                    addCategoryPopoverFormNameInput[0].value = ""
                     /*location.href = "/main"*/
                 } else {
                     addCategoryPopoverFormNameInputAlert[0].style.display = "block"
+                    addCategoryPopoverFormNameInput[0].value = ""
                 }
             }
         })
@@ -662,7 +667,6 @@ class LeftSectionBuild {
                 organizationSettingEditNameAlert[0].textContent = "Organization name must be greater than 1 character"
             } else {
                 const response = await organizationApi.updateOrganizationData(this.nowOrganizationId, inputValue)
-                console.log(response)
                 if (response.data.message === "ok") {
                     location.href = "/main"
                 } else if (response.data.message === "Unauthorized Role") {
@@ -714,6 +718,7 @@ class LeftSectionBuild {
     }
     closeOrganizationDeleteBox() {
         const organizationDeletePopoverBoxCloseSvg = document.getElementsByClassName("organization-delete-popover-box-close-svg")
+        const organizationDeleteNameDoubleCheckInput = document.getElementsByClassName("organization-delete-name-double-check-input")
         const organizationDeletePopoverBoxCloseButton = document.getElementsByClassName("organization-delete-popover-box-cancel-button")
         const organizationDeletePopoverBox = document.getElementsByClassName("organization-delete-popover-box")
         const mask = document.getElementsByClassName("mask")
@@ -724,12 +729,14 @@ class LeftSectionBuild {
             organizationDeletePopoverBox[0].style.transform = "translate(-50%,-150%)"
             mask[0].style.display = "none"
             organizationDeleteNameDoubleCheckAlert[0].style.display = "none"
+            organizationDeleteNameDoubleCheckInput[0].value = ""
         })
         organizationDeletePopoverBoxCloseButton[0].addEventListener("click", () => {
             middleSectionAddCategoryPopoverContainer[0].style.zIndex = "-1000"
             organizationDeletePopoverBox[0].style.transform = "translate(-50%,-150%)"
             mask[0].style.display = "none"
             organizationDeleteNameDoubleCheckAlert[0].style.display = "none"
+            organizationDeleteNameDoubleCheckInput[0].value = ""
         })
     }
     organizationDeleteDoubleCheckInput() {
@@ -1113,33 +1120,39 @@ class LeftSectionBuild {
         })
     }
     /*invite */
-    openInviteMemberPopoverButtonAddEvent(){
-        const leftSectionSpacesTopSubtitleAddFriendContainer = document.getElementsByClassName("leftSection-spaces-top-subtitle-addFriend-container")
+    openInviteMemberPopoverButtonAddEvent() {
+        const leftSectionSpacesTopSubtitleAddFriendContainer = document.getElementsByClassName(
+            "leftSection-spaces-top-subtitle-addFriend-container"
+        )
+        const inviteMemberPopoverBoxFormTitle = document.getElementsByClassName("invite-member-popover-box-form-title")
         const inviteMemberPopoverBox = document.getElementsByClassName("invite-member-popover-box")
         const mask = document.getElementsByClassName("mask")
         const middleSectionAddCategoryPopoverContainer = document.getElementsByClassName("middleSection-popover-container")
-        leftSectionSpacesTopSubtitleAddFriendContainer[0].addEventListener("click", ()=>{
+        leftSectionSpacesTopSubtitleAddFriendContainer[0].addEventListener("click", () => {
             middleSectionAddCategoryPopoverContainer[0].style.zIndex = "9999"
             mask[0].style.display = "block"
             inviteMemberPopoverBox[0].style.transform = "translate(-50%)"
+            inviteMemberPopoverBoxFormTitle[0].textContent = `Add members to ${this.nowOrganizationName}`
         })
     }
-    closeInviteMemberPopoverButtonAddEvent(){
+    closeInviteMemberPopoverButtonAddEvent() {
         const inviteMemberPopoverBox = document.getElementsByClassName("invite-member-popover-box")
         const mask = document.getElementsByClassName("mask")
         const middleSectionAddCategoryPopoverContainer = document.getElementsByClassName("middleSection-popover-container")
         const inviteMemberPopoverBoxCloseSvg = document.getElementsByClassName("invite-member-popover-box-close-svg-container")
-        const inviteMemberPopoverBoxCloseButton= document.getElementsByClassName("invite-member-popover-box-form-cancel-button")
-        const inviteMemberPopoverBoxFormInviteInputAlert = document.getElementsByClassName("invite-member-popover-box-form-invite-input-alert")
+        const inviteMemberPopoverBoxCloseButton = document.getElementsByClassName("invite-member-popover-box-form-cancel-button")
+        const inviteMemberPopoverBoxFormInviteInputAlert = document.getElementsByClassName(
+            "invite-member-popover-box-form-invite-input-alert"
+        )
         const inviteMemberPopoverBoxFormInviteInput = document.getElementsByClassName("invite-member-popover-box-form-invite-input")
-        inviteMemberPopoverBoxCloseSvg[0].addEventListener("click",()=>{
+        inviteMemberPopoverBoxCloseSvg[0].addEventListener("click", () => {
             middleSectionAddCategoryPopoverContainer[0].style.zIndex = "-1000"
             inviteMemberPopoverBox[0].style.transform = "translate(-50%,-150%)"
             mask[0].style.display = "none"
             inviteMemberPopoverBoxFormInviteInput[0].value = ""
             inviteMemberPopoverBoxFormInviteInputAlert[0].style.display = "none"
         })
-        inviteMemberPopoverBoxCloseButton[0].addEventListener("click",()=>{
+        inviteMemberPopoverBoxCloseButton[0].addEventListener("click", () => {
             middleSectionAddCategoryPopoverContainer[0].style.zIndex = "-1000"
             inviteMemberPopoverBox[0].style.transform = "translate(-50%,-150%)"
             mask[0].style.display = "none"
@@ -1147,78 +1160,169 @@ class LeftSectionBuild {
             inviteMemberPopoverBoxFormInviteInputAlert[0].style.display = "none"
         })
     }
-    getInviteMemberPopoverInputValue(){
+    getInviteMemberPopoverInputValue() {
         const inviteMemberPopoverBoxFormInviteInput = document.getElementsByClassName("invite-member-popover-box-form-invite-input")
-        inviteMemberPopoverBoxFormInviteInput[0].addEventListener("input",(e)=>{
+        inviteMemberPopoverBoxFormInviteInput[0].addEventListener("input", (e) => {
             this.inviteMemberEmail = e.target.value
         })
     }
-    async inviteMemberPopoverAddMemberButton(){
+    async inviteMemberPopoverAddMemberButton() {
         const inviteMemberPopoverBoxFormInviteInput = document.getElementsByClassName("invite-member-popover-box-form-invite-input")
         const inviteMemberPopoverBox = document.getElementsByClassName("invite-member-popover-box")
         const mask = document.getElementsByClassName("mask")
         const middleSectionAddCategoryPopoverContainer = document.getElementsByClassName("middleSection-popover-container")
-        const inviteMemberPopoverBoxFormInviteInputAlert = document.getElementsByClassName("invite-member-popover-box-form-invite-input-alert")
+        const inviteMemberPopoverBoxFormInviteInputAlert = document.getElementsByClassName(
+            "invite-member-popover-box-form-invite-input-alert"
+        )
         const inviteMemberPopoverBoxFormAddButton = document.getElementsByClassName("invite-member-popover-box-form-add-button")
-        inviteMemberPopoverBoxFormAddButton[0].addEventListener("click", async()=>{
+        inviteMemberPopoverBoxFormAddButton[0].addEventListener("click", async () => {
             const response = await invitationApi.uploadInvitationData(leftSectionBuild.nowOrganizationId, this.inviteMemberEmail)
-            if(response.data.message === "ok"){
+            console.log(response)
+            if (response.data.message === "ok") {
                 middleSectionAddCategoryPopoverContainer[0].style.zIndex = "-1000"
                 inviteMemberPopoverBox[0].style.transform = "translate(-50%,-150%)"
                 mask[0].style.display = "none"
                 inviteMemberPopoverBoxFormInviteInput[0].value = ""
-                inviteMemberPopoverBoxFormInviteInputAlert[0].style.display ="none"
-            }else if(response.data.message === "invalid email"){
+                inviteMemberPopoverBoxFormInviteInputAlert[0].style.display = "none"
+            } else if (response.data.message === "invalid email") {
                 inviteMemberPopoverBoxFormInviteInputAlert[0].textContent = "Invalid Email, Please try again!"
-                inviteMemberPopoverBoxFormInviteInputAlert[0].style.display ="block"
-            }else if(response.data.message === "invalid format"){
+                inviteMemberPopoverBoxFormInviteInputAlert[0].style.display = "block"
+            } else if (response.data.message === "invalid format") {
                 inviteMemberPopoverBoxFormInviteInputAlert[0].textContent = "Invalid Format"
-                inviteMemberPopoverBoxFormInviteInputAlert[0].style.display ="block"
-            }else if(response.data.message === "duplicate invitation"){
+                inviteMemberPopoverBoxFormInviteInputAlert[0].style.display = "block"
+            } else if (response.data.message === "duplicate invitation") {
                 inviteMemberPopoverBoxFormInviteInputAlert[0].textContent = "Duplicate Invitation"
-                inviteMemberPopoverBoxFormInviteInputAlert[0].style.display ="block"
+                inviteMemberPopoverBoxFormInviteInputAlert[0].style.display = "block"
+            } else if (response.data.message === "Invitee is already in the organization.") {
+                inviteMemberPopoverBoxFormInviteInputAlert[0].textContent = "Invitee is already in the organization."
+                inviteMemberPopoverBoxFormInviteInputAlert[0].style.display = "block"
             }
         })
     }
-    async getInviteMessage(){
-        const response = await invitationApi.getUserInvitationData(this.nowOrganizationId) 
-        console.log("邀請",response)
-        if(response.data.message === "ok"){
-            const invitationData = response.data.invitationData
-            const role = response.data.role
-            const userId = response.data.userId
-            const userEmail = response.data.userEmail
-            for(let i of invitationData.inviteResponse){
-                break
-            }
-            for(let i of invitationData.inviteeResponse){
-                if(i.inviteeEmail === userEmail){
-                    console.log(i.Inviter.username,i.Organization.organizationName)
-                    this.generateInviteMessageCardWithButton(i.Inviter.username,i.Organization.organizationName)
-                }
+    notificationButton() {
+        const noticePopoverNoticeButton = document.getElementsByClassName("notice-popover-notice-button")
+        const noticePopoverApproveButton = document.getElementsByClassName("notice-popover-approve-button")
+        noticePopoverNoticeButton[0].addEventListener("click", async () => {
+            noticePopoverNoticeButton[0].style.color = "rgb(214, 73, 107)"
+            noticePopoverNoticeButton[0].style.borderBottom = "1px solid rgb(214, 73, 107)"
+            noticePopoverApproveButton[0].style.color = "rgb(183, 183, 206)"
+            noticePopoverApproveButton[0].style.borderBottom = "none"
+            this.initNotification()
+            await this.getInviteMessage()
+        })
+    }
+    initNotification() {
+        const parentNode = document.getElementsByClassName("notice-card-box-container")
+        const childNodes = parentNode[0].children
+        const number = childNodes.length
+        for (let i = number - 1; i >= 0; i--) {
+            parentNode[0].removeChild(childNodes[i])
+        }
+    }
+    approvalListButton() {
+        const noticePopoverApproveButton = document.getElementsByClassName("notice-popover-approve-button")
+        const noticePopoverNoticeButton = document.getElementsByClassName("notice-popover-notice-button")
+        noticePopoverApproveButton[0].addEventListener("click", async () => {
+            noticePopoverApproveButton[0].style.color = "rgb(214, 73, 107)"
+            noticePopoverApproveButton[0].style.borderBottom = "1px solid rgb(214, 73, 107)"
+            noticePopoverNoticeButton[0].style.color = "rgb(183, 183, 206)"
+            noticePopoverNoticeButton[0].style.borderBottom = "none"
+            this.initNotification()
+            await this.getApprovalMessage()
+        })
+    }
+    async getApprovalMessage() {
+        const response = await invitationApi.getUserApprovalData(this.nowOrganizationId)
+        console.log("審核", response)
+        if (response.data.message === "ok") {
+            this.approvalData = response.data.approvalData
+            for (let i of this.approvalData) {
+                this.generateApprovalMessageCardWithButton(
+                    i.Invitee.id,
+                    i.Invitee.username,
+                    i.organizationId,
+                    i.Organization.organizationName
+                )
+                this.approvalButtonAddEvent(i.inviterId, i.Invitee.id, i.organizationId, i.inviteeEmail)
             }
         }
     }
-    generateInviteMessageCardWithButton(inviterName,organizationName){
+    async getInviteMessage() {
+        try {
+            const response = await invitationApi.getUserInvitationData(this.nowOrganizationId)
+            console.log("邀請", response)
+            if (response.data.message === "ok") {
+                this.invitationData = response.data.invitationData
+                const userEmail = response.data.userEmail
+                for (let i of this.invitationData.inviteResponse) {
+                }
+                for (let i of this.invitationData.inviteeResponse) {
+                    if (i.inviteeEmail === userEmail) {
+                        if (i.status === "invited") {
+                            this.generateInviteMessageCardWithButton(
+                                i.inviterId,
+                                i.Inviter.username,
+                                i.organizationId,
+                                i.Organization.organizationName
+                            )
+                            this.inviteButtonAddEvent(i.inviterId, i.organizationId)
+                        }
+                        if (i.status === "approve-refused") {
+                            this.generateApprovalRefusedMessage(i.inviterId, i.organizationId, i.Organization.organizationName)
+                            this.approvalRefuseMessageCloseButton(i.inviterId, i.organizationId, i.inviteeEmail)
+                        }
+                    }
+                }
+            }
+        } catch (err) {
+            console.log(err)
+        }
+    }
+    generateApprovalRefusedMessage(inviterId, organizationId, organizationName) {
         const noticeCardBoxContainer = document.getElementsByClassName("notice-card-box-container")
         const noticeCardBox = document.createElement("div")
         noticeCardBox.classList.add("notice-card-box")
-        noticeCardBox.innerHTML = `<div>${inviterName}寄送了${organizationName}群組邀請</div>
+        noticeCardBox.setAttribute("id", `notice-approval-refused-card-box-${inviterId}-${organizationId}`)
+        noticeCardBox.innerHTML = `<div>申請${organizationName}群組，遭管理員否決。</div>
         <div>
-            <button class="notice-popover-container-refuse-button">拒絕</button>
-            <button class="notice-popover-container-accept-button">接受</button>
+            <div id="notice-approval-refused-cancel-svg-${inviterId}-${organizationId}" class="notice-approval-refused-cancel-svg"></div>
         </div>`
         noticeCardBoxContainer[0].appendChild(noticeCardBox)
     }
-    openInviteNoticeBox(){
+    generateApprovalMessageCardWithButton(inviteeId, inviteeName, organizationId, organizationName) {
+        const noticeCardBoxContainer = document.getElementsByClassName("notice-card-box-container")
+        const noticeCardBox = document.createElement("div")
+        noticeCardBox.classList.add("notice-card-box")
+        noticeCardBox.setAttribute("id", `notice-approval-card-box-${inviteeId}-${organizationId}`)
+        noticeCardBox.innerHTML = `<div>${inviteeName}申請加入${organizationName}群組</div>
+        <div>
+            <button id="notice-popover-container-approval-refuse-button-${inviteeId}-${organizationId}" class="notice-popover-container-refuse-button">拒絕</button>
+            <button id="notice-popover-container-approval-accept-button-${inviteeId}-${organizationId}" class="notice-popover-container-accept-button">接受</button>
+        </div>`
+        noticeCardBoxContainer[0].appendChild(noticeCardBox)
+    }
+
+    generateInviteMessageCardWithButton(inviterId, inviterName, organizationId, organizationName) {
+        const noticeCardBoxContainer = document.getElementsByClassName("notice-card-box-container")
+        const noticeCardBox = document.createElement("div")
+        noticeCardBox.classList.add("notice-card-box")
+        noticeCardBox.setAttribute("id", `notice-invite-card-box-${inviterId}-${organizationId}`)
+        noticeCardBox.innerHTML = `<div>${inviterName}寄送了${organizationName}群組邀請</div>
+        <div>
+            <button id="notice-popover-container-invite-refuse-button-${inviterId}-${organizationId}" class="notice-popover-container-refuse-button">拒絕</button>
+            <button id="notice-popover-container-invite-accept-button-${inviterId}-${organizationId}" class="notice-popover-container-accept-button">接受</button>
+        </div>`
+        noticeCardBoxContainer[0].appendChild(noticeCardBox)
+    }
+    openInviteNoticeBox() {
         let isClicked = false
         const leftSectionNavBottomNoticeContainer = document.getElementsByClassName("leftSection-nav-bottom-notice-container")
         const noticePopoverContainer = document.getElementsByClassName("notice-popover-container")
-        document.addEventListener('click', (event) => {
-                if (!noticePopoverContainer[0].contains(event.target) && !leftSectionNavBottomNoticeContainer[0].contains(event.target)) {
-                    noticePopoverContainer[0].classList.remove("show")
-                    isClicked = false
-                }
+        document.addEventListener("click", (event) => {
+            if (!noticePopoverContainer[0].contains(event.target) && !leftSectionNavBottomNoticeContainer[0].contains(event.target)) {
+                noticePopoverContainer[0].classList.remove("show")
+                isClicked = false
+            }
         })
         leftSectionNavBottomNoticeContainer[0].addEventListener("click", (e) => {
             if (!isClicked) {
@@ -1227,6 +1331,62 @@ class LeftSectionBuild {
             } else {
                 noticePopoverContainer[0].classList.remove("show")
                 isClicked = false
+            }
+        })
+    }
+    inviteButtonAddEvent(inviterId, organizationId) {
+        const noticePopoverContainerAcceptButton = document.getElementById(
+            `notice-popover-container-invite-accept-button-${inviterId}-${organizationId}`
+        )
+        const noticePopoverContainerRefuseButton = document.getElementById(
+            `notice-popover-container-invite-refuse-button-${inviterId}-${organizationId}`
+        )
+        const noticeCardBox = document.getElementById(`notice-invite-card-box-${inviterId}-${organizationId}`)
+        noticePopoverContainerAcceptButton.addEventListener("click", async () => {
+            const response = await invitationApi.acceptInvitation(organizationId, inviterId)
+            if (response.status === 200) {
+                noticeCardBox.innerHTML = `<div>${response.data.message}</div>`
+            }
+        })
+        noticePopoverContainerRefuseButton.addEventListener("click", async () => {
+            const response = await invitationApi.refuseInvitation(organizationId, inviterId)
+            console.log(response)
+            if (response.status === 200) {
+                noticeCardBox.innerHTML = `<div>${response.data.message}</div>`
+            }
+        })
+    }
+    approvalRefuseMessageCloseButton(inviterId, organizationId, inviteeEmail) {
+        const noticeApprovalRefusedCancelSvg = document.getElementById(`notice-approval-refused-cancel-svg-${inviterId}-${organizationId}`)
+        const noticeApprovalRefusedCardBox = document.getElementById(`notice-approval-refused-card-box-${inviterId}-${organizationId}`)
+        noticeApprovalRefusedCancelSvg.addEventListener("click", async () => {
+            const response = await invitationApi.closeRefuseApproval(organizationId, inviterId, inviteeEmail)
+            console.log(response)
+            if (response.status === 200) {
+                noticeApprovalRefusedCardBox.remove()
+            }
+        })
+    }
+    approvalButtonAddEvent(inviterId, inviteeId, organizationId, inviteeEmail) {
+        const noticeCardBox = document.getElementById(`notice-approval-card-box-${inviteeId}-${organizationId}`)
+        const noticePopoverContainerApprovalAcceptButton = document.getElementById(
+            `notice-popover-container-approval-accept-button-${inviteeId}-${organizationId}`
+        )
+        const noticePopoverContainerApprovalRefuseButton = document.getElementById(
+            `notice-popover-container-approval-refuse-button-${inviteeId}-${organizationId}`
+        )
+        noticePopoverContainerApprovalAcceptButton.addEventListener("click", async () => {
+            const response = await invitationApi.acceptApproval(organizationId, inviterId, inviteeEmail, inviteeId)
+            console.log(response)
+            if (response.status === 200) {
+                noticeCardBox.innerHTML = `<div>${response.data.message}</div>`
+            }
+        })
+        noticePopoverContainerApprovalRefuseButton.addEventListener("click", async () => {
+            const response = await invitationApi.refuseApproval(organizationId, inviterId, inviteeEmail, inviteeId)
+            console.log(response)
+            if (response.status === 200) {
+                noticeCardBox.innerHTML = `<div>${response.data.message}</div>`
             }
         })
     }

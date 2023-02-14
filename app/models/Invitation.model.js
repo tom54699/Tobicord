@@ -13,6 +13,10 @@ const Invitation = sequelize.define(
             type: Sequelize.STRING(500),
             allowNull: false,
         },
+        notification: {
+            type: Sequelize.BOOLEAN,
+            defaultValue: true,
+        },
     },
     {
         freezeTableName: true,

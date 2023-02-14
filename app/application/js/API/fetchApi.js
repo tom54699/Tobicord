@@ -525,8 +525,29 @@ class InvitationApi {
             console.log(err)
             return err.response
         }
-    } /*
-    async switchTabCollection(organizationId, collectionId, tabId) {
+    }
+    async getUserApprovalData(organizationId) {
+        try {
+            const headers = {
+                "Content-Type": "application/json",
+                Accept: "application/json",
+                Authorization: `Bearer ${window.localStorage.getItem("accessToken")}`,
+            }
+            const config = {
+                headers: headers,
+                params: {
+                    organizationId: organizationId,
+                },
+            }
+            const response = await axios.get("/invitation/approval", config)
+            return response
+        } catch (err) {
+            console.log(err)
+            return err.response
+        }
+    }
+
+    async acceptInvitation(organizationId, inviterId) {
         try {
             const headers = {
                 "Content-Type": "application/json",
@@ -538,17 +559,16 @@ class InvitationApi {
             }
             const content = {
                 organizationId: organizationId,
-                collectionId: collectionId,
-                tabId: tabId,
+                inviterId: inviterId,
             }
-            const response = await axios.put("/tab/collection", content, config)
+            const response = await axios.put("/invitation/accept", content, config)
             return response
         } catch (err) {
             console.log(err)
             return err.response
         }
     }
-    async updateTabData(organizationId, tabId, newTabName, newTabUrl, newTabDescription) {
+    async refuseInvitation(organizationId, inviterId) {
         try {
             const headers = {
                 "Content-Type": "application/json",
@@ -560,19 +580,62 @@ class InvitationApi {
             }
             const content = {
                 organizationId: organizationId,
-                tabId: tabId,
-                newTabName: newTabName,
-                newTabUrl: newTabUrl,
-                newTabDescription: newTabDescription,
+                inviterId: inviterId,
             }
-            const response = await axios.put("/tab", content, config)
+            const response = await axios.put("/invitation/refuse", content, config)
             return response
         } catch (err) {
             console.log(err)
             return err.response
         }
     }
-    async deleteTabData(organizationId, tabId) {
+    async acceptApproval(organizationId, inviterId, inviteeEmail, inviteeId) {
+        try {
+            const headers = {
+                "Content-Type": "application/json",
+                Accept: "application/json",
+                Authorization: `Bearer ${window.localStorage.getItem("accessToken")}`,
+            }
+            const config = {
+                headers: headers,
+            }
+            const content = {
+                organizationId: organizationId,
+                inviterId: inviterId,
+                inviteeEmail: inviteeEmail,
+                inviteeId: inviteeId,
+            }
+            const response = await axios.put("/invitation/approval/accept", content, config)
+            return response
+        } catch (err) {
+            console.log(err)
+            return err.response
+        }
+    }
+    async refuseApproval(organizationId, inviterId, inviteeEmail, inviteeId) {
+        try {
+            const headers = {
+                "Content-Type": "application/json",
+                Accept: "application/json",
+                Authorization: `Bearer ${window.localStorage.getItem("accessToken")}`,
+            }
+            const config = {
+                headers: headers,
+            }
+            const content = {
+                organizationId: organizationId,
+                inviterId: inviterId,
+                inviteeEmail: inviteeEmail,
+                inviteeId: inviteeId,
+            }
+            const response = await axios.put("/invitation/approval/refuse", content, config)
+            return response
+        } catch (err) {
+            console.log(err)
+            return err.response
+        }
+    }
+    async closeRefuseApproval(organizationId, inviterId, inviteeEmail) {
         try {
             const headers = {
                 "Content-Type": "application/json",
@@ -583,16 +646,17 @@ class InvitationApi {
                 headers: headers,
                 data: {
                     organizationId: organizationId,
-                    tabId: tabId,
+                    inviterId: inviterId,
+                    inviteeEmail: inviteeEmail,
                 },
             }
-            const response = await axios.delete("/tab", config)
+            const response = await axios.delete("/invitation", config)
             return response
         } catch (err) {
             console.log(err)
             return err.response
         }
-    }*/
+    }
 }
 const authApi = new AuthApi()
 const windowApi = new WindowApi()

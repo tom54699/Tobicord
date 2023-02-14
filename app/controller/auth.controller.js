@@ -96,7 +96,7 @@ class AuthController {
         try {
             const userId = req.userId
             if (userId) {
-                return res.status(403).json({
+                return res.json({
                     message: "Is Login",
                 })
             } else {

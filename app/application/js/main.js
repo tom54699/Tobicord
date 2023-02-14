@@ -44,6 +44,8 @@ window.addEventListener("DOMContentLoaded", async () => {
         await defaultOrganizationButton.click()
         await defaultOrganizationButton.focus()
         await leftSectionBuild.getInviteMessage()
+        leftSectionBuild.notificationButton()
+        leftSectionBuild.approvalListButton()
         leftSectionBuild.openInviteNoticeBox()
         leftSectionBuild.openSpaceEditPopoverBox()
         leftSectionBuild.closeSpaceEditPopoverBox()
