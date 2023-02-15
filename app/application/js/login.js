@@ -33,12 +33,15 @@ async function checkIsLogin() {
 
 const openIsLoginPopoverBox = () => {
     const mask = document.getElementsByClassName("mask")
+    const isLoginAlertPopoverBoxContainer = document.getElementsByClassName("isLogin-alert-popover-box-container")
     const isLoginAlertPopoverBox = document.getElementsByClassName("isLogin-alert-popover-box")
+    isLoginAlertPopoverBoxContainer[0].style.display = "block"
     mask[0].classList.remove("none")
     isLoginAlertPopoverBox[0].style.transform = "translate(-50%, 0%)"
 }
 
 const closeIsLoginPopoverBox = () => {
+    const isLoginAlertPopoverBoxContainer = document.getElementsByClassName("isLogin-alert-popover-box-container")
     const isLoginAlertPopoverBoxCloseSvg = document.getElementsByClassName("isLogin-alert-popover-box-close-svg-container")
     const isLoginAlertPopoverBoxCloseButton = document.getElementsByClassName("isLogin-alert-popover-box-close-button")
     isLoginAlertPopoverBoxCloseSvg[0].addEventListener("click", () => {

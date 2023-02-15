@@ -443,6 +443,141 @@ const htmlExportForm = (tabUrl, tabName) => {
     const content = `<a href="${tabUrl}">${tabName}</a><br>`
     return content
 }
+const OrganizationOwnerSideCardForm = (memberId, memberName, memberEmail, roleName) => {
+    if (roleName === "Owner") {
+        return ` 
+        <div>
+            <div>t</div>
+            <div>
+                <p class="organization-member-popover-right-box-member-name">
+                    ${memberName}
+                </p>
+            </div>
+            <div>
+                <p class="organization-member-popover-right-box-member-email">
+                    ${memberEmail}
+                </p>
+            </div>
+        </div>
+        <div>
+            <p>${roleName}</p>
+        </div>`
+    } else {
+        return ` 
+        <div>
+            <div>t</div>
+            <div>
+                <p class="organization-member-popover-right-box-member-name">
+                    ${memberName}
+                </p>
+            </div>
+            <div>
+                <p class="organization-member-popover-right-box-member-email">
+                    ${memberEmail}
+                </p>
+            </div>
+        </div>
+        <div>
+            <p>${roleName}</p>
+            <button
+                tabindex="-1"
+                id="organization-member-popover-right-box-member-edit-button-${memberId}"
+                class="organization-member-popover-right-box-member-edit-button"
+            ></button>
+            <div
+                id="organization-member-popover-right-box-member-edit-popover-${memberId}"
+                class="organization-member-popover-right-box-member-edit-popover"
+            >
+                <div
+                    id="organization-member-popover-right-box-member-edit-permission-${memberId}"
+                    class="organization-member-popover-right-box-member-edit-permission"
+                >
+                    <div>Permissions</div>
+                </div>
+                <div
+                    id="organization-member-popover-right-box-member-edit-remove-${memberId}"
+                    class="organization-member-popover-right-box-member-edit-remove"
+                >
+                    <div>Remove</div>
+                </div>
+            </div>
+        </div>`
+    }
+}
+const OrganizationManagerSideCardForm = (memberId, memberName, memberEmail, roleName) => {
+    if (roleName === "Owner") {
+        return ` 
+        <div>
+            <div>t</div>
+            <div>
+                <p class="organization-member-popover-right-box-member-name">
+                    ${memberName}
+                </p>
+            </div>
+            <div>
+                <p class="organization-member-popover-right-box-member-email">
+                    ${memberEmail}
+                </p>
+            </div>
+        </div>
+        <div>
+            <p>${roleName}</p>
+        </div>`
+    } else {
+        return ` 
+        <div>
+            <div>t</div>
+            <div>
+                <p class="organization-member-popover-right-box-member-name">
+                    ${memberName}
+                </p>
+            </div>
+            <div>
+                <p class="organization-member-popover-right-box-member-email">
+                    ${memberEmail}
+                </p>
+            </div>
+        </div>
+        <div>
+            <p>${roleName}</p>
+            <button
+                tabindex="-1"
+                id="organization-member-popover-right-box-member-edit-button-${memberId}"
+                class="organization-member-popover-right-box-member-edit-button"
+            ></button>
+            <div
+                id="organization-member-popover-right-box-member-edit-popover-${memberId}"
+                class="organization-member-popover-right-box-member-edit-popover none"
+            >
+                <div
+                    id="organization-member-popover-right-box-member-edit-remove-${memberId}"
+                    class="organization-member-popover-right-box-member-edit-remove"
+                >
+                    <div>Remove</div>
+                </div>
+            </div>
+        </div>`
+    }
+}
+const OrganizationMemberSideCardForm = (memberId, memberName, memberEmail, roleName) => {
+    return ` 
+        <div>
+            <div>t</div>
+            <div>
+                <p class="organization-member-popover-right-box-member-name">
+                    ${memberName}
+                </p>
+            </div>
+            <div>
+                <p class="organization-member-popover-right-box-member-email">
+                    ${memberEmail}
+                </p>
+            </div>
+        </div>
+        <div>
+            <p>${roleName}</p>
+        </div>`
+}
 export {
     windowFrame,
     windowCardsFrame,
@@ -451,4 +586,7 @@ export {
     tabCardFrame,
     tabCardTransferFrame,
     htmlExportForm,
+    OrganizationMemberSideCardForm,
+    OrganizationOwnerSideCardForm,
+    OrganizationManagerSideCardForm,
 }

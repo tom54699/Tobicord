@@ -7,6 +7,7 @@ const authMiddleware = require("../middlewares/auth.middleware")
 const ownerMiddleware = require("../middlewares/owner.middleware")
 
 router.get("/", authMiddleware, organizationController.getUserOrganizationData)
+router.get("/members", authMiddleware, organizationController.getOrganizationMember)
 router.post(
     "/",
     authMiddleware,

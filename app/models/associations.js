@@ -22,7 +22,7 @@ const MemberOrganization = sequelize.define(
         freezeTableName: true,
     }
 )
-
+MemberOrganization.belongsTo(Member, { foreignKey: "MemberId", targetKey: "id" })
 Member.belongsToMany(Organization, { through: "Member_Organization", onDelete: "cascade" })
 Organization.belongsToMany(Member, { through: "Member_Organization", onDelete: "cascade" })
 

@@ -135,6 +135,26 @@ class OrganizationApi {
             return err.response
         }
     }
+    async getOrganizationMember(organizationId) {
+        try {
+            const headers = {
+                "Content-Type": "application/json",
+                Accept: "application/json",
+                Authorization: `Bearer ${window.localStorage.getItem("accessToken")}`,
+            }
+            const config = {
+                headers: headers,
+                params: {
+                    organizationId: organizationId,
+                },
+            }
+            const response = await axios.get("/organization/members", config)
+            return response
+        } catch (err) {
+            console.log(err)
+            return err.response
+        }
+    }
     async updateOrganizationData(organizationId, newOrganizationName) {
         try {
             const headers = {

@@ -29,7 +29,7 @@ button {
 .none {
     display: none;
 }
-.show {
+.show-display {
     display: block !important;
 }
 .svg-hover:hover {

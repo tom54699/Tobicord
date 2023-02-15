@@ -7,7 +7,11 @@ import {
     tabCardFrame,
     tabCardTransferFrame,
     htmlExportForm,
+    OrganizationMemberSideCardForm,
+    OrganizationOwnerSideCardForm,
+    OrganizationManagerSideCardForm,
 } from "./component.js"
+import { nowUserName, nowUserEmail } from "./main.js"
 class RightSectionBuild {
     constructor() {
         this.isWindowTabsCheck = {}
@@ -462,6 +466,7 @@ class LeftSectionBuild {
         this.inviteMemberEmail
         this.invitationData
         this.approvalData
+        this.organizationMemberData
     }
     /* UserCenter */
 
@@ -485,6 +490,7 @@ class LeftSectionBuild {
         const addCategoryPopoverBoxCloseButton = document.getElementsByClassName(
             "middleSection-add-category-popover-box-form-cancel-button"
         )
+        const addCategoryPopoverFormNameInput = document.getElementsByClassName("middleSection-add-category-popover-box-form-name-input")
         const mask = document.getElementsByClassName("mask")
         const middleSectionAddCategoryPopoverContainer = document.getElementsByClassName("middleSection-popover-container")
         const middleSectionAddCategoryPopoverBox = document.getElementsByClassName("middleSection-add-category-popover-box")
@@ -493,12 +499,14 @@ class LeftSectionBuild {
             middleSectionAddCategoryPopoverBox[0].style.transform = "translate(-50%,-150%)"
             mask[0].style.display = "none"
             addCategoryPopoverFormNameInputAlert[0].style.display = "none"
+            addCategoryPopoverFormNameInput[0].value = ""
         })
         addCategoryPopoverBoxCloseSvg[0].addEventListener("click", () => {
             middleSectionAddCategoryPopoverContainer[0].style.zIndex = "-1000"
             middleSectionAddCategoryPopoverBox[0].style.transform = "translate(-50%,-150%)"
             mask[0].style.display = "none"
             addCategoryPopoverFormNameInputAlert[0].style.display = "none"
+            addCategoryPopoverFormNameInput[0].value = ""
         })
     }
     getAddCategoryPopoverInputValue() {
@@ -576,6 +584,7 @@ class LeftSectionBuild {
     /* OrganizationSwitch */
     async switchToDifferentOrganization() {
         const organizationSettingPopoverRightBoxTitle = document.getElementsByClassName("organization-setting-popover-right-box-title")
+        const organizationMemberPopoverRightBoxTitle = document.getElementsByClassName("organization-member-popover-right-box-title")
         const organizationSettingNameInput = document.getElementsByClassName("organization-setting-popover-right-box-edit-name-input")
         const leftSectionNavTopCategory = document.getElementsByClassName("leftSection-nav-top-category")
         const organizationDeleteName = document.getElementsByClassName("organization-delete-name")
@@ -596,6 +605,7 @@ class LeftSectionBuild {
                 this.nowOrganizationId = this.organizationData[i].Member_Organization.OrganizationId
                 leftSectionSpacesTopTitle[0].textContent = this.organizationData[i].organizationName
                 organizationSettingPopoverRightBoxTitle[0].textContent = `${this.organizationData[i].organizationName} Preferences`
+                organizationMemberPopoverRightBoxTitle[0].textContent = `${this.organizationData[i].organizationName} Members`
                 organizationSettingNameInput[0].value = this.organizationData[i].organizationName
                 organizationDeleteName[0].textContent = `"${this.organizationData[i].organizationName}"`
                 organizationDeleteName[1].textContent = `"${this.organizationData[i].organizationName}"`
@@ -620,10 +630,12 @@ class LeftSectionBuild {
         const middleSectionAddCategoryPopoverContainer = document.getElementsByClassName("middleSection-popover-container")
         const organizationSettingPopoverBox = document.getElementsByClassName("organization-setting-popover-box")
         const mask = document.getElementsByClassName("mask")
-        openOrganizationEditPopoverButton[0].addEventListener("click", () => {
+        openOrganizationEditPopoverButton[0].addEventListener("click", async () => {
             middleSectionAddCategoryPopoverContainer[0].style.zIndex = "9999"
             mask[0].style.display = "block"
             organizationSettingPopoverBox[0].style.transform = "translate(-50%)"
+            this.initMemberCards()
+            await this.getOrganizationMemberLists(this.nowOrganizationId)
         })
     }
     closeOrganizationEditPopoverButtonAddEvent() {
@@ -634,6 +646,9 @@ class LeftSectionBuild {
         const organizationSettingPopoverCloseButton = document.getElementsByClassName("organization-setting-popover-right-box-close-button")
         const organizationSettingEditNameAlert = document.getElementsByClassName("organization-setting-popover-right-box-edit-name-alert")
         const organizationSettingNameInput = document.getElementsByClassName("organization-setting-popover-right-box-edit-name-input")
+        const organizationMemberPopoverRightBoxCloseButton = document.getElementsByClassName(
+            "organization-member-popover-right-box-close-button"
+        )
         organizationSettingPopoverCloseButton[0].addEventListener("click", () => {
             middleSectionAddCategoryPopoverContainer[0].style.zIndex = "-1000"
             organizationSettingPopoverBox[0].style.transform = "translate(-50%,-150%)"
@@ -643,6 +658,14 @@ class LeftSectionBuild {
             this.newOrganizationName = ""
         })
         organizationSettingPopoverCloseSvg[0].addEventListener("click", () => {
+            middleSectionAddCategoryPopoverContainer[0].style.zIndex = "-1000"
+            organizationSettingPopoverBox[0].style.transform = "translate(-50%,-150%)"
+            mask[0].style.display = "none"
+            organizationSettingEditNameAlert[0].style.display = "none"
+            organizationSettingNameInput[0].value = this.nowOrganizationName
+            this.newOrganizationName = ""
+        })
+        organizationMemberPopoverRightBoxCloseButton[0].addEventListener("click", () => {
             middleSectionAddCategoryPopoverContainer[0].style.zIndex = "-1000"
             organizationSettingPopoverBox[0].style.transform = "translate(-50%,-150%)"
             mask[0].style.display = "none"
@@ -1301,7 +1324,6 @@ class LeftSectionBuild {
         </div>`
         noticeCardBoxContainer[0].appendChild(noticeCardBox)
     }
-
     generateInviteMessageCardWithButton(inviterId, inviterName, organizationId, organizationName) {
         const noticeCardBoxContainer = document.getElementsByClassName("notice-card-box-container")
         const noticeCardBox = document.createElement("div")
@@ -1320,16 +1342,17 @@ class LeftSectionBuild {
         const noticePopoverContainer = document.getElementsByClassName("notice-popover-container")
         document.addEventListener("click", (event) => {
             if (!noticePopoverContainer[0].contains(event.target) && !leftSectionNavBottomNoticeContainer[0].contains(event.target)) {
-                noticePopoverContainer[0].classList.remove("show")
+                noticePopoverContainer[0].classList.remove("show-display")
                 isClicked = false
             }
         })
         leftSectionNavBottomNoticeContainer[0].addEventListener("click", (e) => {
             if (!isClicked) {
-                noticePopoverContainer[0].classList.add("show")
+                noticePopoverContainer[0].classList.add("show-display")
                 isClicked = true
             } else {
-                noticePopoverContainer[0].classList.remove("show")
+                noticePopoverContainer[0].classList.remove("show-display")
+                leftSectionNavBottomNoticeContainer[0].blur()
                 isClicked = false
             }
         })
@@ -1389,6 +1412,134 @@ class LeftSectionBuild {
                 noticeCardBox.innerHTML = `<div>${response.data.message}</div>`
             }
         })
+    }
+    /* 群組會員管理 */
+    switchBetweenMemberPreferences() {
+        const organizationSettingPopoverPreferenceButton = document.getElementsByClassName("organization-setting-popover-preference-button")
+        const organizationSettingPopoverMemberButton = document.getElementsByClassName("organization-setting-popover-member-button")
+        const organizationSettingPopoverRightBox = document.getElementsByClassName("organization-setting-popover-right-box")
+        const organizationMemberPopoverRightBox = document.getElementsByClassName("organization-member-popover-right-box")
+        organizationSettingPopoverPreferenceButton[0].addEventListener("click", () => {
+            organizationMemberPopoverRightBox[0].classList.add("none")
+            organizationSettingPopoverRightBox[0].classList.remove("none")
+            organizationSettingPopoverPreferenceButton[0].style.color = "rgb(214, 73, 107)"
+            organizationSettingPopoverPreferenceButton[0].style.borderBottom = "1px solid rgb(214, 73, 107)"
+            organizationSettingPopoverMemberButton[0].style.color = "rgb(197, 197, 211)"
+            organizationSettingPopoverMemberButton[0].style.borderBottom = "none"
+        })
+        organizationSettingPopoverMemberButton[0].addEventListener("click", () => {
+            organizationSettingPopoverRightBox[0].classList.add("none")
+            organizationMemberPopoverRightBox[0].classList.remove("none")
+            organizationSettingPopoverMemberButton[0].style.color = "rgb(214, 73, 107)"
+            organizationSettingPopoverMemberButton[0].style.borderBottom = "1px solid rgb(214, 73, 107)"
+            organizationSettingPopoverPreferenceButton[0].style.color = "rgb(197, 197, 211)"
+            organizationSettingPopoverPreferenceButton[0].style.borderBottom = "none"
+        })
+    }
+    addMembersButton() {
+        const organizationSettingPopoverBox = document.getElementsByClassName("organization-setting-popover-box")
+        const organizationMemberPopoverRightBoxAddFriendSvgContainer = document.getElementsByClassName(
+            "organization-member-popover-right-box-add-friend-svg-container"
+        )
+        const inviteMemberPopoverBox = document.getElementsByClassName("invite-member-popover-box")
+        organizationMemberPopoverRightBoxAddFriendSvgContainer[0].addEventListener("click", () => {
+            organizationSettingPopoverBox[0].style.transform = "translate(-50%,-150%)"
+            inviteMemberPopoverBox[0].style.transform = "translate(-50%)"
+        })
+    }
+    async getOrganizationMemberLists(organizationId) {
+        const organizationMemberPopoverRightBoxMemberCardContainer = document.getElementsByClassName(
+            "organization-member-popover-right-box-member-card-container"
+        )
+        const organizationMemberPopoverRightBoxOwnerName = document.getElementById("organization-member-popover-right-box-owner-name")
+        const organizationMemberPopoverRightBoxOwnerEmail = document.getElementById("organization-member-popover-right-box-owner-email")
+        const response = await organizationApi.getOrganizationMember(organizationId)
+        let roleName
+        let ownerName
+        let ownerId
+        let managerName
+        let managerId
+        console.log(response)
+        console.log(nowUserName, nowUserEmail)
+        if (response.status === 200) {
+            this.organizationMemberData = response.data.organizationMemberData
+            for (let i of this.organizationMemberData) {
+                if (i.roleId === 1) {
+                    roleName = "Owner"
+                    ownerName = i.Member.username
+                    ownerId = i.MemberId
+                } else if (i.roleId === 2) {
+                    roleName = "Manager"
+                    managerName = i.Member.username
+                    managerId = i.MemberId
+                } else if (i.roleId === 3) {
+                    roleName = "Member"
+                } else if (i.roleId === 4) {
+                    roleName = "Visitor"
+                }
+                OrganizationManagerSideCardForm
+                if (nowUserName === ownerName) {
+                    console.log("房主")
+                    this.generateOrganizationSideCards("owner", i.MemberId, i.Member.username, i.Member.email, roleName)
+                    if (!(ownerId === i.MemberId)) {
+                        console.log("111111")
+                        this.openManageOrganizationMemberLists(i.MemberId)
+                    }
+                } else if (nowUserName === managerName) {
+                    console.log("管理者")
+                    this.generateOrganizationSideCards("manager", i.MemberId, i.Member.username, i.Member.email, roleName)
+                    if (!(managerId === i.MemberId)) {
+                        this.openManageOrganizationMemberLists(i.MemberId)
+                    }
+                } else {
+                    this.generateOrganizationSideCards("member", i.MemberId, i.Member.username, i.Member.email, roleName)
+                }
+            }
+        }
+    }
+    generateOrganizationSideCards(status, memberId, memberName, memberEmail, roleName) {
+        const organizationMemberPopoverRightBoxMemberCardContainer = document.getElementsByClassName(
+            "organization-member-popover-right-box-member-card-container"
+        )
+        let memberCardHtml
+        const memberCard = document.createElement("div")
+        memberCard.classList.add("organization-member-popover-right-box-member-card")
+        memberCard.setAttribute("id", `organization-member-popover-right-box-member-card-${memberId}`)
+        if (status === "owner") {
+            memberCardHtml = OrganizationOwnerSideCardForm(memberId, memberName, memberEmail, roleName)
+        } else if (status === "manager") {
+            memberCardHtml = OrganizationManagerSideCardForm(memberId, memberName, memberEmail, roleName)
+        } else {
+            memberCardHtml = OrganizationMemberSideCardForm(memberId, memberName, memberEmail, roleName)
+        }
+        memberCard.innerHTML = memberCardHtml
+        organizationMemberPopoverRightBoxMemberCardContainer[0].appendChild(memberCard)
+    }
+    initMemberCards() {
+        const parentNode = document.getElementsByClassName("organization-member-popover-right-box-member-card-container")
+        const childNodes = parentNode[0].children
+        const number = childNodes.length
+        for (let i = number - 1; i >= 0; i--) {
+            parentNode[0].removeChild(childNodes[i])
+        }
+    }
+    openManageOrganizationMemberLists(memberId) {
+        const organizationMemberPopoverRightBoxMemberEditButton = document.getElementById(
+            `organization-member-popover-right-box-member-edit-button-${memberId}`
+        )
+        const organizationMemberPopoverRightBoxMemberEditPopover = document.getElementById(
+            `organization-member-popover-right-box-member-edit-popover-${memberId}`
+        )
+        let isClicked = false /*
+        organizationMemberPopoverRightBoxMemberEditButton.addEventListener("click", () =>{
+            if(!isClicked){
+                organizationMemberPopoverRightBoxMemberEditPopover.classList.remove("none")
+                isClicked = true
+            }else{
+                organizationMemberPopoverRightBoxMemberEditPopover.classList.add("none")
+                isClicked = false
+            }
+        })*/
     }
 }
 class MiddleSectionBuild {

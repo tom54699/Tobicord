@@ -3,7 +3,8 @@ import { rightSectionBuild, mainPageBuild, leftSectionBuild, middleSectionBuild 
 const logoutButton = document.getElementsByClassName("user-popover-logout-button")
 const preloadBackGround = document.getElementsByClassName("preload-back-ground")
 let isCheck = false
-
+let nowUserName
+let nowUserEmail
 window.addEventListener("load", async () => {
     await new Promise((resolve) => setTimeout(resolve, 100))
     //preloadBackGround[0].classList.add("none")
@@ -57,6 +58,8 @@ window.addEventListener("DOMContentLoaded", async () => {
         leftSectionBuild.spaceDeleteDoubleCheckInput()
         leftSectionBuild.spaceDeleteDoubleCheckButton()
         leftSectionBuild.closeSpaceSuccessDeletePopoverBox()
+        leftSectionBuild.switchBetweenMemberPreferences()
+        leftSectionBuild.addMembersButton()
         middleSectionBuild.createFirstCollectionBoxButtonAddEvent()
         middleSectionBuild.openCloseDeleteCollectionCardPopover()
         await middleSectionBuild.deleCollectionCardsButton()
@@ -78,6 +81,8 @@ async function checkMainPageAuth() {
         console.log(result)
         if (response.status === 200) {
             isCheck = true
+            nowUserName = result.username
+            nowUserEmail = result.email
             const userPopoverAccountEmail = document.getElementsByClassName("user-popover-account-email")
             userPopoverAccountEmail[0].textContent = `${result.username} (${result.email})`
         } else {
@@ -135,3 +140,5 @@ middleSectionNavCollapseButton[0].addEventListener("click", () => {
         i.classList.remove("show")
     }
 })
+
+export { nowUserEmail, nowUserName }

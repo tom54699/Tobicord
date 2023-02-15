@@ -1,6 +1,8 @@
 const Organization = require("../service/OrganizationTable")
 const Space = require("../service/SpaceTable")
 const { validationResult } = require("express-validator")
+const Member = require("../models/Member.model")
+const MemberTable = require("../service/MemberTable")
 
 class OrganizationController {
     async uploadOrganizationData(req, res, next) {
@@ -33,6 +35,18 @@ class OrganizationController {
             next(err)
         }
     }
+    async getOrganizationMember(req, res, next) {
+        try {
+            const organizationId = req.query.organizationId
+            const response = await MemberTable.GetMembersFromOrganization(organizationId)
+            return res.status(200).json({
+                message: "ok",
+                organizationMemberData: response,
+            })
+        } catch (err) {
+            next(err)
+        }
+    }
     async updateOrganizationData(req, res, next) {
         try {
             const errors = validationResult(req)
@@ -42,11 +56,7 @@ class OrganizationController {
                     errorMessages: errors.array(),
                 })
             }
-            const response = await Organization.UpdateOrganizationData(
-                req.userId,
-                req.body.organizationId,
-                req.body.newOrganizationName
-            )
+            const response = await Organization.UpdateOrganizationData(req.userId, req.body.organizationId, req.body.newOrganizationName)
             return res.status(200).json({
                 message: "ok",
             })

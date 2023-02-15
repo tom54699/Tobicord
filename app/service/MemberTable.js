@@ -75,6 +75,25 @@ const HasPermissionOrganization = async (memberId) => {
     }
 }
 
+const GetMembersFromOrganization = async (organizationId) => {
+    try {
+        const response = await MemberOrganization.findAll({
+            include: [
+                {
+                    model: Member,
+                    as: "Member",
+                    attributes: ["username", "email"],
+                },
+            ],
+            attributes: ["MemberId", "roleId"],
+            where: { OrganizationId: organizationId },
+        })
+        return response
+    } catch (err) {
+        console.log(err)
+    }
+}
+
 module.exports = {
     AddMembersBasicData,
     CheckEmailRepeat,
@@ -84,4 +103,5 @@ module.exports = {
     AddMemberToOrganization,
     HasPermissionOrganization,
     CheckIsJoined,
+    GetMembersFromOrganization,
 }
