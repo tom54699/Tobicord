@@ -1,4 +1,4 @@
-import { windowApi, organizationApi, spaceApi, collectionApi, tabApi, invitationApi } from "./API/fetchApi.js"
+import { windowApi, organizationApi, spaceApi, collectionApi, tabApi, invitationApi, authApi } from "./API/fetchApi.js"
 import {
     windowFrame,
     windowCardsFrame,
@@ -467,6 +467,7 @@ class LeftSectionBuild {
         this.invitationData
         this.approvalData
         this.organizationMemberData
+        this.selectedRole
     }
     /* UserCenter */
 
@@ -630,10 +631,24 @@ class LeftSectionBuild {
         const middleSectionAddCategoryPopoverContainer = document.getElementsByClassName("middleSection-popover-container")
         const organizationSettingPopoverBox = document.getElementsByClassName("organization-setting-popover-box")
         const mask = document.getElementsByClassName("mask")
+        const organizationSettingPopoverRightBox = document.getElementsByClassName("organization-setting-popover-right-box")
+        const organizationMemberPopoverRightBox = document.getElementsByClassName("organization-member-popover-right-box")
+        const organizationMemberEditPermissionPopoverRightBox = document.getElementsByClassName(
+            "organization-member-edit-permission-popover-right-box"
+        )
+        const organizationSettingPopoverMemberButton = document.getElementsByClassName("organization-setting-popover-member-button")
+        const organizationSettingPopoverPreferenceButton = document.getElementsByClassName("organization-setting-popover-preference-button")
         openOrganizationEditPopoverButton[0].addEventListener("click", async () => {
             middleSectionAddCategoryPopoverContainer[0].style.zIndex = "9999"
             mask[0].style.display = "block"
             organizationSettingPopoverBox[0].style.transform = "translate(-50%)"
+            organizationSettingPopoverRightBox[0].classList.remove("none")
+            organizationMemberEditPermissionPopoverRightBox[0].classList.add("none")
+            organizationMemberPopoverRightBox[0].classList.add("none")
+            organizationSettingPopoverPreferenceButton[0].style.color = "rgb(214, 73, 107)"
+            organizationSettingPopoverPreferenceButton[0].style.borderBottom = "1px solid rgb(214, 73, 107)"
+            organizationSettingPopoverMemberButton[0].style.color = "rgb(197, 197, 211)"
+            organizationSettingPopoverMemberButton[0].style.borderBottom = "none"
             this.initMemberCards()
             await this.getOrganizationMemberLists(this.nowOrganizationId)
         })
@@ -648,6 +663,10 @@ class LeftSectionBuild {
         const organizationSettingNameInput = document.getElementsByClassName("organization-setting-popover-right-box-edit-name-input")
         const organizationMemberPopoverRightBoxCloseButton = document.getElementsByClassName(
             "organization-member-popover-right-box-close-button"
+        )
+        const organizationMemberPopoverRightBox = document.getElementsByClassName("organization-member-popover-right-box")
+        const organizationMemberEditPermissionPopoverRightBox = document.getElementsByClassName(
+            "organization-member-edit-permission-popover-right-box"
         )
         organizationSettingPopoverCloseButton[0].addEventListener("click", () => {
             middleSectionAddCategoryPopoverContainer[0].style.zIndex = "-1000"
@@ -664,6 +683,8 @@ class LeftSectionBuild {
             organizationSettingEditNameAlert[0].style.display = "none"
             organizationSettingNameInput[0].value = this.nowOrganizationName
             this.newOrganizationName = ""
+            organizationMemberEditPermissionPopoverRightBox[0].classList.add("none")
+            organizationMemberPopoverRightBox[0].classList.add("none")
         })
         organizationMemberPopoverRightBoxCloseButton[0].addEventListener("click", () => {
             middleSectionAddCategoryPopoverContainer[0].style.zIndex = "-1000"
@@ -672,6 +693,8 @@ class LeftSectionBuild {
             organizationSettingEditNameAlert[0].style.display = "none"
             organizationSettingNameInput[0].value = this.nowOrganizationName
             this.newOrganizationName = ""
+            organizationMemberEditPermissionPopoverRightBox[0].classList.add("none")
+            organizationMemberPopoverRightBox[0].classList.add("none")
         })
     }
     getOrganizationNameEditInputValue() {
@@ -1231,7 +1254,13 @@ class LeftSectionBuild {
             noticePopoverApproveButton[0].style.color = "rgb(183, 183, 206)"
             noticePopoverApproveButton[0].style.borderBottom = "none"
             this.initNotification()
-            await this.getInviteMessage()
+            const response = await this.getInviteMessage()
+            if (response === "No Data") {
+                const noticeCardBoxContainer = document.getElementsByClassName("notice-card-box-container")
+                const noticeCardBox = document.createElement("div")
+                noticeCardBox.innerHTML = `<div>No Notification</div>`
+                noticeCardBoxContainer[0].appendChild(noticeCardBox)
+            }
         })
     }
     initNotification() {
@@ -1251,7 +1280,13 @@ class LeftSectionBuild {
             noticePopoverNoticeButton[0].style.color = "rgb(183, 183, 206)"
             noticePopoverNoticeButton[0].style.borderBottom = "none"
             this.initNotification()
-            await this.getApprovalMessage()
+            const response = await this.getApprovalMessage()
+            if (response === "No Data") {
+                const noticeCardBoxContainer = document.getElementsByClassName("notice-card-box-container")
+                const noticeCardBox = document.createElement("div")
+                noticeCardBox.innerHTML = `<div>No Notification</div>`
+                noticeCardBoxContainer[0].appendChild(noticeCardBox)
+            }
         })
     }
     async getApprovalMessage() {
@@ -1259,6 +1294,9 @@ class LeftSectionBuild {
         console.log("審核", response)
         if (response.data.message === "ok") {
             this.approvalData = response.data.approvalData
+            if (this.approvalData.length < 1) {
+                return "No Data"
+            }
             for (let i of this.approvalData) {
                 this.generateApprovalMessageCardWithButton(
                     i.Invitee.id,
@@ -1277,6 +1315,9 @@ class LeftSectionBuild {
             if (response.data.message === "ok") {
                 this.invitationData = response.data.invitationData
                 const userEmail = response.data.userEmail
+                if (this.invitationData.inviteeResponse.length < 1) {
+                    return "No Data"
+                }
                 for (let i of this.invitationData.inviteResponse) {
                 }
                 for (let i of this.invitationData.inviteeResponse) {
@@ -1419,6 +1460,9 @@ class LeftSectionBuild {
         const organizationSettingPopoverMemberButton = document.getElementsByClassName("organization-setting-popover-member-button")
         const organizationSettingPopoverRightBox = document.getElementsByClassName("organization-setting-popover-right-box")
         const organizationMemberPopoverRightBox = document.getElementsByClassName("organization-member-popover-right-box")
+        const organizationMemberEditPermissionPopoverRightBox = document.getElementsByClassName(
+            "organization-member-edit-permission-popover-right-box"
+        )
         organizationSettingPopoverPreferenceButton[0].addEventListener("click", () => {
             organizationMemberPopoverRightBox[0].classList.add("none")
             organizationSettingPopoverRightBox[0].classList.remove("none")
@@ -1426,9 +1470,11 @@ class LeftSectionBuild {
             organizationSettingPopoverPreferenceButton[0].style.borderBottom = "1px solid rgb(214, 73, 107)"
             organizationSettingPopoverMemberButton[0].style.color = "rgb(197, 197, 211)"
             organizationSettingPopoverMemberButton[0].style.borderBottom = "none"
+            organizationMemberEditPermissionPopoverRightBox[0].classList.add("none")
         })
         organizationSettingPopoverMemberButton[0].addEventListener("click", () => {
             organizationSettingPopoverRightBox[0].classList.add("none")
+            organizationMemberEditPermissionPopoverRightBox[0].classList.add("none")
             organizationMemberPopoverRightBox[0].classList.remove("none")
             organizationSettingPopoverMemberButton[0].style.color = "rgb(214, 73, 107)"
             organizationSettingPopoverMemberButton[0].style.borderBottom = "1px solid rgb(214, 73, 107)"
@@ -1453,6 +1499,9 @@ class LeftSectionBuild {
         )
         const organizationMemberPopoverRightBoxOwnerName = document.getElementById("organization-member-popover-right-box-owner-name")
         const organizationMemberPopoverRightBoxOwnerEmail = document.getElementById("organization-member-popover-right-box-owner-email")
+        const organizationMemberPopoverRightBoxMemberCount = document.getElementsByClassName(
+            "organization-member-popover-right-box-member-count"
+        )
         const response = await organizationApi.getOrganizationMember(organizationId)
         let roleName
         let ownerName
@@ -1463,6 +1512,7 @@ class LeftSectionBuild {
         console.log(nowUserName, nowUserEmail)
         if (response.status === 200) {
             this.organizationMemberData = response.data.organizationMemberData
+            organizationMemberPopoverRightBoxMemberCount[0].textContent = `ORGANIZATION MEMBERS (${this.organizationMemberData.length})`
             for (let i of this.organizationMemberData) {
                 if (i.roleId === 1) {
                     roleName = "Owner"
@@ -1482,14 +1532,31 @@ class LeftSectionBuild {
                     console.log("房主")
                     this.generateOrganizationSideCards("owner", i.MemberId, i.Member.username, i.Member.email, roleName)
                     if (!(ownerId === i.MemberId)) {
-                        console.log("111111")
                         this.openManageOrganizationMemberLists(i.MemberId)
+                        this.manageOrganizationMemberPermissionsButtons(
+                            i.MemberId,
+                            nowUserName,
+                            nowUserEmail,
+                            this.nowOrganizationName,
+                            i.roleId
+                        )
+                        this.removeOrganizationMemberButton(i.MemberId, i.Member.email)
                     }
                 } else if (nowUserName === managerName) {
                     console.log("管理者")
-                    this.generateOrganizationSideCards("manager", i.MemberId, i.Member.username, i.Member.email, roleName)
-                    if (!(managerId === i.MemberId)) {
+                    if (roleName === "Owner") {
+                        this.generateOrganizationSideCards("owner", i.MemberId, i.Member.username, i.Member.email, roleName)
+                    } else {
+                        this.generateOrganizationSideCards("manager", i.MemberId, i.Member.username, i.Member.email, roleName)
                         this.openManageOrganizationMemberLists(i.MemberId)
+                        this.manageOrganizationMemberPermissionsButtons(
+                            i.MemberId,
+                            nowUserName,
+                            nowUserEmail,
+                            this.nowOrganizationName,
+                            i.roleId
+                        )
+                        this.removeOrganizationMemberButton(i.MemberId, i.Member.email)
                     }
                 } else {
                     this.generateOrganizationSideCards("member", i.MemberId, i.Member.username, i.Member.email, roleName)
@@ -1530,16 +1597,137 @@ class LeftSectionBuild {
         const organizationMemberPopoverRightBoxMemberEditPopover = document.getElementById(
             `organization-member-popover-right-box-member-edit-popover-${memberId}`
         )
-        let isClicked = false /*
-        organizationMemberPopoverRightBoxMemberEditButton.addEventListener("click", () =>{
-            if(!isClicked){
-                organizationMemberPopoverRightBoxMemberEditPopover.classList.remove("none")
-                isClicked = true
-            }else{
-                organizationMemberPopoverRightBoxMemberEditPopover.classList.add("none")
+        let isClicked = false
+        let isAddEvent = false
+        document.addEventListener("click", (event) => {
+            if (
+                !organizationMemberPopoverRightBoxMemberEditButton.contains(event.target) &&
+                !organizationMemberPopoverRightBoxMemberEditPopover.contains(event.target)
+            ) {
+                organizationMemberPopoverRightBoxMemberEditPopover.classList.remove("show-display")
                 isClicked = false
             }
-        })*/
+        })
+        organizationMemberPopoverRightBoxMemberEditButton.addEventListener("click", () => {
+            if (!isClicked) {
+                organizationMemberPopoverRightBoxMemberEditPopover.classList.add("show-display")
+                isClicked = true
+                if (!isAddEvent) {
+                    this.manageOrganizationMemberPermissionsSaveButton(memberId)
+                    isAddEvent = true
+                }
+            } else {
+                organizationMemberPopoverRightBoxMemberEditButton.blur()
+                organizationMemberPopoverRightBoxMemberEditPopover.classList.remove("show-display")
+                isClicked = false
+            }
+        })
+    }
+    manageOrganizationMemberPermissionsButtons(memberId, nowUserName, nowUserEmail, organizationName, roleId) {
+        const organizationMemberPopoverRightBoxMemberEditPermission = document.getElementById(
+            `organization-member-popover-right-box-member-edit-permission-${memberId}`
+        )
+        const organizationMemberPopoverRightBox = document.getElementsByClassName(`organization-member-popover-right-box`)
+        const organizationMemberEditPermissionPopoverRightBox = document.getElementsByClassName(
+            "organization-member-edit-permission-popover-right-box"
+        )
+        const organizationMemberEditPermissionMemberName = document.getElementsByClassName(
+            "organization-member-edit-permission-member-name"
+        )
+        const organizationMemberEditPermissionOrganizationName = document.getElementsByClassName(
+            "organization-member-edit-permission-organization-name"
+        )
+        const permissionManager = document.getElementById("permission-manager")
+        const permissionMember = document.getElementById("permission-member")
+        const permissionVisitor = document.getElementById("permission-visitor")
+        const organizationMemberEditPermissionPopoverRightBoxAlertMessage = document.getElementsByClassName(
+            "organization-member-edit-permission-popover-right-box-alert-message"
+        )
+        organizationMemberPopoverRightBoxMemberEditPermission.addEventListener("click", () => {
+            permissionManager.classList.remove("permission-checkbox-check")
+            permissionMember.classList.remove("permission-checkbox-check")
+            permissionVisitor.classList.remove("permission-checkbox-check")
+            organizationMemberPopoverRightBox[0].classList.add("none")
+            organizationMemberEditPermissionPopoverRightBoxAlertMessage[0].style.display = "none"
+            organizationMemberEditPermissionPopoverRightBox[0].classList.remove("none")
+            organizationMemberEditPermissionMemberName[0].textContent = ` ${nowUserName}(${nowUserEmail})`
+            organizationMemberEditPermissionOrganizationName[0].textContent = `${organizationName}`
+            if (roleId === 2) {
+                permissionManager.classList.add("permission-checkbox-check")
+                this.selectedRole = "2"
+            } else if (roleId === 3) {
+                permissionMember.classList.add("permission-checkbox-check")
+                this.selectedRole = "3"
+            } else if (roleId === 4) {
+                permissionVisitor.classList.add("permission-checkbox-check")
+                this.selectedRole = "4"
+            }
+        })
+    }
+    manageOrganizationMemberPermissionsCheckBox() {
+        const permissionManager = document.getElementById("permission-manager")
+        const permissionMember = document.getElementById("permission-member")
+        const permissionVisitor = document.getElementById("permission-visitor")
+        permissionManager.addEventListener("click", () => {
+            permissionManager.classList.add("permission-checkbox-check")
+            permissionMember.classList.remove("permission-checkbox-check")
+            permissionVisitor.classList.remove("permission-checkbox-check")
+            this.selectedRole = "2"
+        })
+        permissionMember.addEventListener("click", () => {
+            permissionMember.classList.add("permission-checkbox-check")
+            permissionManager.classList.remove("permission-checkbox-check")
+            permissionVisitor.classList.remove("permission-checkbox-check")
+            this.selectedRole = "3"
+        })
+        permissionVisitor.addEventListener("click", () => {
+            permissionVisitor.classList.add("permission-checkbox-check")
+            permissionManager.classList.remove("permission-checkbox-check")
+            permissionMember.classList.remove("permission-checkbox-check")
+            this.selectedRole = "4"
+        })
+    }
+    backManageOrganizationMemberPermissions() {
+        const organizationMemberPopoverRightBox = document.getElementsByClassName(`organization-member-popover-right-box`)
+        const organizationMemberEditPermissionPopoverRightBox = document.getElementsByClassName(
+            "organization-member-edit-permission-popover-right-box"
+        )
+        const organizationMemberEditPermissionPopoverRightBoxBackButton = document.getElementsByClassName(
+            "organization-member-edit-permission-popover-right-box-back-button"
+        )
+        organizationMemberEditPermissionPopoverRightBoxBackButton[0].addEventListener("click", async () => {
+            organizationMemberEditPermissionPopoverRightBox[0].classList.add("none")
+            organizationMemberPopoverRightBox[0].classList.remove("none")
+            this.initMemberCards()
+            await this.getOrganizationMemberLists(this.nowOrganizationId)
+        })
+    }
+    manageOrganizationMemberPermissionsSaveButton(memberId) {
+        const organizationMemberEditPermissionPopoverRightBoxSaveButton = document.getElementsByClassName(
+            "organization-member-edit-permission-popover-right-box-save-button"
+        )
+        const organizationMemberEditPermissionPopoverRightBoxAlertMessage = document.getElementsByClassName(
+            "organization-member-edit-permission-popover-right-box-alert-message"
+        )
+        organizationMemberEditPermissionPopoverRightBoxSaveButton[0].addEventListener("click", async () => {
+            const response = await organizationApi.changeMemberRole(this.nowOrganizationId, memberId, this.selectedRole)
+            if (response.status === 200) {
+                organizationMemberEditPermissionPopoverRightBoxAlertMessage[0].style.display = "block"
+                organizationMemberEditPermissionPopoverRightBoxAlertMessage[0].textContent = "Success"
+            } else {
+                organizationMemberEditPermissionPopoverRightBoxAlertMessage[0].style.display = "block"
+                organizationMemberEditPermissionPopoverRightBoxAlertMessage[0].textContent = "Failed, server error!"
+            }
+        })
+    }
+    removeOrganizationMemberButton(memberId, inviteeEmail) {
+        const organizationMemberPopoverRightBoxMemberEditRemove = document.getElementById(
+            `organization-member-popover-right-box-member-edit-remove-${memberId}`
+        )
+        organizationMemberPopoverRightBoxMemberEditRemove.addEventListener("click", async () => {
+            const response = await organizationApi.deleteOrganizationMember(this.nowOrganizationId, memberId, inviteeEmail)
+            console.log(response)
+        })
     }
 }
 class MiddleSectionBuild {

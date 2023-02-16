@@ -196,6 +196,50 @@ class OrganizationApi {
             return err.response
         }
     }
+    async changeMemberRole(organizationId, memberId, roleId) {
+        try {
+            const headers = {
+                "Content-Type": "application/json",
+                Accept: "application/json",
+                Authorization: `Bearer ${window.localStorage.getItem("accessToken")}`,
+            }
+            const config = {
+                headers: headers,
+            }
+            const content = {
+                organizationId: organizationId,
+                memberId: memberId,
+                roleId: roleId,
+            }
+            const response = await axios.put("/organization/role", content, config)
+            return response
+        } catch (err) {
+            console.log(err)
+            return err.response
+        }
+    }
+    async deleteOrganizationMember(organizationId, memberId, inviteeEmail) {
+        try {
+            const headers = {
+                "Content-Type": "application/json",
+                Accept: "application/json",
+                Authorization: `Bearer ${window.localStorage.getItem("accessToken")}`,
+            }
+            const config = {
+                headers: headers,
+                data: {
+                    organizationId: organizationId,
+                    memberId: memberId,
+                    inviteeEmail: inviteeEmail,
+                },
+            }
+            const response = await axios.delete("/organization/member", config)
+            return response
+        } catch (err) {
+            console.log(err)
+            return err.response
+        }
+    }
 }
 
 class SpaceApi {

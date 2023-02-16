@@ -549,11 +549,18 @@ const OrganizationManagerSideCardForm = (memberId, memberName, memberEmail, role
                 id="organization-member-popover-right-box-member-edit-popover-${memberId}"
                 class="organization-member-popover-right-box-member-edit-popover none"
             >
+                <button
+                    id="organization-member-popover-right-box-member-edit-permission-${memberId}"
+                    class="organization-member-popover-right-box-member-edit-permission" disabled 
+                >
+                    <div>Permissions</div>
+                </button>
                 <div
                     id="organization-member-popover-right-box-member-edit-remove-${memberId}"
                     class="organization-member-popover-right-box-member-edit-remove"
                 >
                     <div>Remove</div>
+                </div>
                 </div>
             </div>
         </div>`

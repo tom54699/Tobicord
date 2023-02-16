@@ -3,6 +3,7 @@ const Space = require("../service/SpaceTable")
 const { validationResult } = require("express-validator")
 const Member = require("../models/Member.model")
 const MemberTable = require("../service/MemberTable")
+const Invitation = require("../service/InvitationTable")
 
 class OrganizationController {
     async uploadOrganizationData(req, res, next) {
@@ -72,6 +73,35 @@ class OrganizationController {
             })
         } catch (err) {
             next(err)
+        }
+    }
+    async changeMemberRole(req, res, next) {
+        try {
+            const memberId = req.body.memberId
+            const organizationId = req.body.organizationId
+            const roleId = req.body.roleId
+            const response = await MemberTable.ChangeMemberRole(organizationId, memberId, roleId)
+            return res.status(200).json({
+                message: "ok",
+            })
+        } catch (err) {
+            console.log(err)
+            return err
+        }
+    }
+    async deleteOrganizationMember(req, res, next) {
+        try {
+            const memberId = req.body.memberId
+            const inviteeEmail = req.body.inviteeEmail
+            const organizationId = req.body.organizationId
+            const response = await MemberTable.DeleteOrganizationMember(organizationId, memberId)
+            const result = await Invitation.DeleteInvitationDataWithoutInviter(organizationId, inviteeEmail)
+            return res.status(200).json({
+                message: "ok",
+            })
+        } catch (err) {
+            console.log(err)
+            return err
         }
     }
 }

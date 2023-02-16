@@ -94,6 +94,30 @@ const GetMembersFromOrganization = async (organizationId) => {
     }
 }
 
+const ChangeMemberRole = async (organizationId, memberId, roleId) => {
+    try {
+        const response = await MemberOrganization.update(
+            { roleId: roleId },
+            {
+                where: { OrganizationId: organizationId, MemberId: memberId },
+            }
+        )
+        return response
+    } catch (err) {
+        console.log(err)
+    }
+}
+
+const DeleteOrganizationMember = async (organizationId, memberId) => {
+    try {
+        const response = await MemberOrganization.destroy({
+            where: { OrganizationId: organizationId, MemberId: memberId },
+        })
+        return response
+    } catch (err) {
+        console.log(err)
+    }
+}
 module.exports = {
     AddMembersBasicData,
     CheckEmailRepeat,
@@ -104,4 +128,6 @@ module.exports = {
     HasPermissionOrganization,
     CheckIsJoined,
     GetMembersFromOrganization,
+    ChangeMemberRole,
+    DeleteOrganizationMember,
 }

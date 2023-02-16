@@ -10,6 +10,7 @@ const authMiddleware = require("../middlewares/auth.middleware")
 router.get("/", authController.renderPage)
 router.get("/login/check", checkLoginMiddleware, authController.checkIsLogin, authController.renderPage)
 router.put("/login", authController.login)
+
 router.post("/refresh", refreshMiddleware, authController.refreshToken)
 router.post(
     "/register",

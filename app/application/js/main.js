@@ -44,7 +44,13 @@ window.addEventListener("DOMContentLoaded", async () => {
         const defaultOrganizationButton = document.getElementsByClassName("leftSection-nav-top-category-button")[0]
         await defaultOrganizationButton.click()
         await defaultOrganizationButton.focus()
-        await leftSectionBuild.getInviteMessage()
+        const response = await leftSectionBuild.getInviteMessage()
+        if (response === "No Data") {
+            const noticeCardBoxContainer = document.getElementsByClassName("notice-card-box-container")
+            const noticeCardBox = document.createElement("div")
+            noticeCardBox.innerHTML = `<div>No Notification</div>`
+            noticeCardBoxContainer[0].appendChild(noticeCardBox)
+        }
         leftSectionBuild.notificationButton()
         leftSectionBuild.approvalListButton()
         leftSectionBuild.openInviteNoticeBox()
@@ -60,6 +66,8 @@ window.addEventListener("DOMContentLoaded", async () => {
         leftSectionBuild.closeSpaceSuccessDeletePopoverBox()
         leftSectionBuild.switchBetweenMemberPreferences()
         leftSectionBuild.addMembersButton()
+        leftSectionBuild.backManageOrganizationMemberPermissions()
+        leftSectionBuild.manageOrganizationMemberPermissionsCheckBox()
         middleSectionBuild.createFirstCollectionBoxButtonAddEvent()
         middleSectionBuild.openCloseDeleteCollectionCardPopover()
         await middleSectionBuild.deleCollectionCardsButton()

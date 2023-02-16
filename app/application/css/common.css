@@ -14,7 +14,18 @@ textarea {
     padding: 0;
     font-family: Ubuntu, Arial, sans-serif;
 }
-
+.organization-member-popover-right-box-member-edit-permission:disabled {
+    background-color: dimgrey;
+    color: linen;
+    text-decoration: line-through;
+    opacity: 1;
+}
+.organization-member-popover-right-box-member-edit-permission:disabled:hover {
+    text-decoration: line-through;
+    background-color: dimgrey;
+    color: linen;
+    opacity: 1;
+}
 button,
 html input[type="button"],
 input[type="reset"],

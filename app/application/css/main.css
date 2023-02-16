@@ -746,7 +746,6 @@ input[placeholder] {
     color: rgb(183, 183, 206);
     white-space: nowrap;
     text-align: center;
-    border-radius: 5px;
     transition: background 300ms ease-in-out 0s;
     cursor: pointer;
 }
@@ -3546,7 +3545,8 @@ input[placeholder] {
     border-radius: 5px;
     transition: transform 0.3s ease-in-out 0.2s;
 }
-.organization-member-popover-right-box {
+.organization-member-popover-right-box,
+.organization-member-edit-permission-popover-right-box {
     display: flex;
     flex-direction: column;
     -webkit-box-flex: 1;
@@ -3555,7 +3555,8 @@ input[placeholder] {
     padding: 1rem;
     overflow: hidden;
 }
-.organization-member-popover-right-box > div:nth-child(1) {
+.organization-member-popover-right-box > div:nth-child(1),
+.organization-member-edit-permission-popover-right-box > div:nth-child(1) {
     display: flex;
     flex-direction: column;
     gap: 1rem;
@@ -3781,8 +3782,8 @@ input[placeholder] {
     right: 0;
     box-shadow: rgba(112, 112, 140, 0.25) 0px 2px 15px;
 }
-.organization-member-popover-right-box-member-edit-popover > div:nth-child(1),
-.organization-member-popover-right-box-member-edit-popover > div:nth-child(2) {
+.organization-member-popover-right-box-member-edit-permission,
+.organization-member-popover-right-box-member-edit-remove {
     display: flex;
     gap: 10px;
     -webkit-box-align: center;
@@ -3790,13 +3791,6 @@ input[placeholder] {
     padding: 0.25rem 0.75rem;
     cursor: pointer;
     background: rgb(56, 56, 73);
-}
-.organization-member-popover-right-box-member-edit-popover > div:nth-child(1):hover,
-.organization-member-popover-right-box-member-edit-popover > div:nth-child(2):hover {
-    background: rgb(95, 95, 119);
-}
-.organization-member-popover-right-box-member-edit-permission,
-.organization-member-popover-right-box-member-edit-remove {
     font-weight: 400;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -3805,6 +3799,11 @@ input[placeholder] {
     line-height: 1.2;
     color: #dadbeb;
 }
+.organization-member-popover-right-box-member-edit-permission:hover,
+.organization-member-popover-right-box-member-edit-remove:hover {
+    background: rgb(95, 95, 119);
+}
+
 .organization-member-popover-right-box-close-button {
     display: flex;
     appearance: none;
@@ -3838,6 +3837,176 @@ input[placeholder] {
 .organization-member-popover-right-box-close-button:hover {
     background: #383849;
     color: #aa3f5b;
+}
+.organization-member-edit-permission-popover-right-box > div:nth-child(1) > h2 {
+    font-weight: 500;
+    text-overflow: ellipsis;
+    white-space: normal;
+    overflow: hidden;
+    font-size: 16px;
+    line-height: 1.2;
+    color: #d6496b;
+    text-align: center;
+    text-transform: capitalize;
+}
+.organization-member-edit-permission-popover-right-box > div:nth-child(1) > p,
+.organization-member-edit-permission-organization-name {
+    font-size: 14px;
+    font-weight: 400;
+    text-overflow: ellipsis;
+    white-space: normal;
+    overflow: hidden;
+    color: #b7b7ce;
+    text-align: center;
+}
+.organization-member-edit-permission-member-name {
+    font-weight: bold;
+}
+.organization-member-edit-permission-popover-right-box-main-container {
+    display: grid;
+    grid-template-columns: 20px 1fr;
+    grid-row-gap: 1.25rem;
+}
+.organization-member-edit-permission-popover-right-box-main-container > div:nth-child(1),
+.organization-member-edit-permission-popover-right-box-main-container > div:nth-child(3),
+.organization-member-edit-permission-popover-right-box-main-container > div:nth-child(5) {
+    display: flex;
+    gap: 5px;
+    opacity: 1;
+}
+#permission-manager,
+#permission-member,
+#permission-visitor {
+    width: 15px;
+    height: 15px;
+    border: 1px solid rgb(124, 124, 154);
+    border-radius: 5px;
+    display: inline-block;
+    flex-shrink: 0;
+    cursor: pointer;
+}
+.permission-checkbox-check {
+    width: 15px;
+    height: 15px;
+    border: 1px solid rgb(214, 73, 107);
+    border-radius: 5px;
+    display: inline-block;
+    flex-shrink: 0;
+    cursor: pointer;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: 9.62px 7.62px;
+    background-image: url("../images/check.svg");
+    transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1) 0s;
+    background-color: rgb(214, 73, 107);
+}
+.organization-member-edit-permission-popover-right-box-main-container > div:nth-child(2),
+.organization-member-edit-permission-popover-right-box-main-container > div:nth-child(4),
+.organization-member-edit-permission-popover-right-box-main-container > div:nth-child(6) {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    opacity: 1;
+}
+.organization-member-edit-permission-popover-right-box-main-container > div:nth-child(2) > p:nth-child(1),
+.organization-member-edit-permission-popover-right-box-main-container > div:nth-child(4) > p:nth-child(1),
+.organization-member-edit-permission-popover-right-box-main-container > div:nth-child(6) > p:nth-child(1) {
+    font-size: 14px;
+    font-weight: 400;
+    text-overflow: ellipsis;
+    white-space: normal;
+    overflow: hidden;
+    color: #b7b7ce;
+    margin: 0;
+}
+.organization-member-edit-permission-popover-right-box-main-container > div:nth-child(2) > p:nth-child(2),
+.organization-member-edit-permission-popover-right-box-main-container > div:nth-child(4) > p:nth-child(2),
+.organization-member-edit-permission-popover-right-box-main-container > div:nth-child(6) > p:nth-child(2) {
+    font-size: 12px;
+    font-weight: 300;
+    text-overflow: ellipsis;
+    white-space: normal;
+    overflow: hidden;
+    color: #b7b7ce;
+    line-height: 19.2px;
+    margin: 0;
+}
+.organization-member-edit-permission-popover-right-box > div:nth-child(1) > div:nth-child(4) {
+    display: flex;
+    -webkit-box-pack: justify;
+    justify-content: space-between;
+    gap: 0.625rem;
+    align-items: center;
+    margin-top: auto;
+}
+.organization-member-edit-permission-popover-right-box-back-button {
+    display: flex;
+    appearance: none;
+    -webkit-box-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    justify-content: center;
+    user-select: none;
+    position: relative;
+    white-space: nowrap;
+    vertical-align: middle;
+    outline: transparent solid 2px;
+    outline-offset: 2px;
+    line-height: 1.2;
+    border-radius: 5px;
+    font-weight: 500;
+    padding: 5px 20px;
+    flex-direction: row;
+    text-transform: uppercase;
+    text-align: center;
+    height: 32px;
+    min-width: 2.5rem;
+    font-size: 14px;
+    padding-inline-start: 1rem;
+    padding-inline-end: 1rem;
+    width: min-content;
+    color: #d6496b;
+}
+.organization-member-edit-permission-popover-right-box-back-button:hover {
+    background: #383849;
+    color: #aa3f5b;
+}
+.organization-member-edit-permission-popover-right-box-save-button {
+    display: flex;
+    appearance: none;
+    -webkit-box-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    justify-content: center;
+    user-select: none;
+    position: relative;
+    white-space: nowrap;
+    vertical-align: middle;
+    outline: transparent solid 2px;
+    outline-offset: 2px;
+    line-height: 1.2;
+    border-radius: 5px;
+    font-weight: 500;
+    padding: 5px 20px;
+    flex-direction: row;
+    text-transform: uppercase;
+    text-align: center;
+    height: 32px;
+    min-width: 2.5rem;
+    font-size: 14px;
+    padding-inline-start: 1rem;
+    padding-inline-end: 1rem;
+    width: min-content;
+    background: #d6496b;
+    color: #ffffff;
+}
+.organization-member-edit-permission-popover-right-box-save-button:hover {
+    background: #aa3f5b;
+}
+.organization-member-edit-permission-popover-right-box-alert-message {
+    color: #d6496b;
+    font-weight: 500;
+    font-size: 14px;
 }
 .rightSection {
     display: flex;

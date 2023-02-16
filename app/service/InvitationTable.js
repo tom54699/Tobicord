@@ -154,7 +154,20 @@ const DeleteInvitationData = async (organizationId, inviterId, inviteeEmail) => 
         console.log(err)
     }
 }
-
+const DeleteInvitationDataWithoutInviter = async (organizationId, inviteeEmail) => {
+    try {
+        const response = await Invitation.destroy({
+            where: {
+                organizationId: organizationId,
+                inviteeEmail: inviteeEmail,
+            },
+        })
+        console.log(response)
+        return response
+    } catch (err) {
+        console.log(err)
+    }
+}
 module.exports = {
     CreateInvitationData,
     checkIsInvite,
@@ -162,4 +175,5 @@ module.exports = {
     UpdateInvitationData,
     DeleteInvitationData,
     GetUserApprovalData,
+    DeleteInvitationDataWithoutInviter,
 }

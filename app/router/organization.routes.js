@@ -5,6 +5,7 @@ const { check } = require("express-validator")
 const organizationController = require("../controller/organization.controller")
 const authMiddleware = require("../middlewares/auth.middleware")
 const ownerMiddleware = require("../middlewares/owner.middleware")
+const managerMiddleware = require("../middlewares/manager.middleware")
 
 router.get("/", authMiddleware, organizationController.getUserOrganizationData)
 router.get("/members", authMiddleware, organizationController.getOrganizationMember)
@@ -21,5 +22,7 @@ router.put(
     check("newOrganizationName").trim().isLength({ min: 1 }),
     organizationController.updateOrganizationData
 )
+router.put("/role", authMiddleware, ownerMiddleware, organizationController.changeMemberRole)
 router.delete("/", authMiddleware, ownerMiddleware, organizationController.deleteOrganizationData)
+router.delete("/member", authMiddleware, managerMiddleware, organizationController.deleteOrganizationMember)
 module.exports = router
