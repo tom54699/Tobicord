@@ -394,7 +394,8 @@ const initCollectionCardFrame = (collectionId, collectionName) => {
             <div
                 id="middleSection-container-remind-add-collection-box-${collectionId}"
                 class="middleSection-container-remind-add-collection-box-created"
-            ></div>
+            >
+            </div>
         </div>
     </div>
 </div>`

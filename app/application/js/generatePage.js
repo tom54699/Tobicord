@@ -1598,7 +1598,6 @@ class LeftSectionBuild {
             `organization-member-popover-right-box-member-edit-popover-${memberId}`
         )
         let isClicked = false
-        let isAddEvent = false
         document.addEventListener("click", (event) => {
             if (
                 !organizationMemberPopoverRightBoxMemberEditButton.contains(event.target) &&
@@ -1608,14 +1607,11 @@ class LeftSectionBuild {
                 isClicked = false
             }
         })
-        organizationMemberPopoverRightBoxMemberEditButton.addEventListener("click", () => {
+        organizationMemberPopoverRightBoxMemberEditButton.addEventListener("click", async () => {
             if (!isClicked) {
                 organizationMemberPopoverRightBoxMemberEditPopover.classList.add("show-display")
                 isClicked = true
-                if (!isAddEvent) {
-                    this.manageOrganizationMemberPermissionsSaveButton(memberId)
-                    isAddEvent = true
-                }
+                await this.manageOrganizationMemberPermissionsSaveButton(memberId)
             } else {
                 organizationMemberPopoverRightBoxMemberEditButton.blur()
                 organizationMemberPopoverRightBoxMemberEditPopover.classList.remove("show-display")
@@ -1702,14 +1698,14 @@ class LeftSectionBuild {
             await this.getOrganizationMemberLists(this.nowOrganizationId)
         })
     }
-    manageOrganizationMemberPermissionsSaveButton(memberId) {
+    async manageOrganizationMemberPermissionsSaveButton(memberId) {
         const organizationMemberEditPermissionPopoverRightBoxSaveButton = document.getElementsByClassName(
             "organization-member-edit-permission-popover-right-box-save-button"
         )
         const organizationMemberEditPermissionPopoverRightBoxAlertMessage = document.getElementsByClassName(
             "organization-member-edit-permission-popover-right-box-alert-message"
         )
-        organizationMemberEditPermissionPopoverRightBoxSaveButton[0].addEventListener("click", async () => {
+        let savePermissionChange = async () => {
             const response = await organizationApi.changeMemberRole(this.nowOrganizationId, memberId, this.selectedRole)
             if (response.status === 200) {
                 organizationMemberEditPermissionPopoverRightBoxAlertMessage[0].style.display = "block"
@@ -1718,7 +1714,9 @@ class LeftSectionBuild {
                 organizationMemberEditPermissionPopoverRightBoxAlertMessage[0].style.display = "block"
                 organizationMemberEditPermissionPopoverRightBoxAlertMessage[0].textContent = "Failed, server error!"
             }
-        })
+            organizationMemberEditPermissionPopoverRightBoxSaveButton[0].removeEventListener("click", savePermissionChange)
+        }
+        organizationMemberEditPermissionPopoverRightBoxSaveButton[0].addEventListener("click", savePermissionChange)
     }
     removeOrganizationMemberButton(memberId, inviteeEmail) {
         const organizationMemberPopoverRightBoxMemberEditRemove = document.getElementById(
@@ -1726,7 +1724,10 @@ class LeftSectionBuild {
         )
         organizationMemberPopoverRightBoxMemberEditRemove.addEventListener("click", async () => {
             const response = await organizationApi.deleteOrganizationMember(this.nowOrganizationId, memberId, inviteeEmail)
-            console.log(response)
+            if (response.status === 200) {
+                this.initMemberCards()
+                await this.getOrganizationMemberLists(this.nowOrganizationId)
+            }
         })
     }
 }

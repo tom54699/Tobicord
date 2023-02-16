@@ -4128,6 +4128,7 @@ input[placeholder] {
     width: 100%;
     align-self: flex-start;
     margin: 0px 0px 10px;
+    flex-direction: column;
 }
 .rightSection-spaces-window-container {
     width: 100%;
@@ -4137,6 +4138,7 @@ input[placeholder] {
     padding: 10px;
     overflow-y: auto;
     overflow-x: hidden;
+    height: 90%;
 }
 .rightSection-spaces-window-tabs-container {
     cursor: grab;
@@ -4552,7 +4554,31 @@ input[placeholder] {
 .rightSection-spaces-window-tabs-container-close-button:hover {
     background: rgb(170, 63, 91);
 }
-
+.rightSection-spaces-manually-add-tab-card {
+    height: 100px;
+    width: 100%;
+    display: flex;
+    gap: 10px;
+    flex-direction: column;
+    padding: 10px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+.rightSection-spaces-window-tabs-container-top-add-svg {
+    width: 1.25rem;
+    height: 1.25rem;
+    mask: url("../images/plus.svg") no-repeat 50% 50%;
+    mask-size: cover;
+    -webkit-mask: url("../images/plus.svg") no-repeat 50% 50%;
+    -webkit-mask-size: cover;
+    background-color: rgb(214, 73, 107);
+    box-shadow: none;
+    transition: box-shadow 0.1s ease-in-out 0.2s;
+    cursor: pointer;
+}
+.rightSection-spaces-window-tabs-container-top-add-svg:hover {
+    box-shadow: rgb(30 30 38 / 30%) 0px 0px 0px 1000px inset;
+}
 @media only screen and (min-width: 480px) {
     .middleSection-top {
         padding: 0px 32px;
