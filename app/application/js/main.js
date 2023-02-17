@@ -21,6 +21,7 @@ window.addEventListener("DOMContentLoaded", async () => {
         mainPageBuild.dragManuallyTabCardsAddEvent()
         await leftSectionBuild.createCategoryButton()
         /* Left Section Cards */
+        leftSectionBuild.beginnerGuidePopoverBoxButton()
         leftSectionBuild.leftSectionNavPlusButtonAddEvent()
         leftSectionBuild.closeAddCategoryPopover()
         leftSectionBuild.getAddCategoryPopoverInputValue()

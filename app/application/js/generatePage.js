@@ -1847,6 +1847,29 @@ class LeftSectionBuild {
             }
         })
     }
+    /*教學*/
+    beginnerGuidePopoverBoxButton() {
+        const middleSectionAddCategoryPopoverContainer = document.getElementsByClassName("middleSection-popover-container")
+        const mask = document.getElementsByClassName("mask")
+        const leftSectionNavBottomButton = document.getElementsByClassName("leftSection-nav-bottom-button")
+        const beginnerGuidePopoverBox = document.getElementsByClassName("beginner-guide-popover-box")
+        const beginnerGuidePopoverBoxCloseButton = document.getElementsByClassName("beginner-guide-popover-box-close-button")
+        leftSectionNavBottomButton[0].addEventListener("click", () => {
+            middleSectionAddCategoryPopoverContainer[0].style.zIndex = "9999"
+            mask[0].style.display = "block"
+            beginnerGuidePopoverBox[0].style.transform = "translate(-50%, -7%)"
+        })
+        beginnerGuidePopoverBoxCloseButton[0].addEventListener("click", () => {
+            middleSectionAddCategoryPopoverContainer[0].style.zIndex = "-1000"
+            mask[0].style.display = "none"
+            beginnerGuidePopoverBox[0].style.transform = "translate(-50%, -150%)"
+        })
+    }
+    switchGuidePages() {
+        const beginnerGuideExtensionText = document.getElementsByClassName("beginner-guide-extension-text")
+        const carouselControlNext = document.getElementsByClassName("carousel-control-next")
+        const carouselControlPrev = document.getElementsByClassName("carousel-control-prev")
+    }
 }
 class MiddleSectionBuild {
     constructor() {
