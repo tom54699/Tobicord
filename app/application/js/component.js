@@ -97,6 +97,23 @@ const windowCardsFrame = (tabId, tabName, tabUrl, favIconUrl) => {
         ></button>
     </div>`
 }
+const manuallyCardsFrame = (tabId, tabName, tabUrl, favIconUrl) => {
+    return `
+    <div class="rightSection-spaces-window-tabs-card">
+        <div class="rightSection-spaces-window-tabs-url-image-container">
+            <img
+                class="rightSection-spaces-window-tabs-url-image"
+                src="${favIconUrl}"
+            />
+        </div>
+        <a href=${tabUrl} target="_blank" class="rightSection-spaces-window-tabs-card-title"
+            >${tabName}</a
+        >
+        <button
+            class="rightSection-spaces-window-tabs-card-close-button" id="windowTabsCardCloseButton-${tabId}"
+        ></button>
+    </div>`
+}
 
 const firstCollectionCardFrame = (status = "") => {
     return ` <div class="middleSection-container-collection-card-box-hover">
@@ -420,7 +437,7 @@ const tabCardFrame = (tabId, tabName, tabUrl, favIconUrl, tabDescription) => {
         </div>
     </div>`
 }
-const tabCardTransferFrame = (newTabId, tabName, tabUrl, favIconUrl) => {
+const tabCardTransferFrame = (newTabId, tabName, tabUrl, favIconUrl, tabDescription) => {
     return ` <div class="middleSection-container-collection-tab-card-container">
     <div class="middleSection-container-collection-tab-card">
         <div class="middleSection-container-collection-tab-card-title">
@@ -432,7 +449,7 @@ const tabCardTransferFrame = (newTabId, tabName, tabUrl, favIconUrl) => {
             </div>
             <div class="middleSection-container-collection-tab-card-cancel-description">
                 <span class="middleSection-container-collection-tab-card-cancel-description-text" id="middleSection-container-collection-tab-card-description-text-${newTabId}"
-                    >${tabName}</span
+                    >${tabDescription}</span
                 >
             </div>
             <button id="middleSection-container-collection-tab-card-delete-button-${newTabId}" class="middleSection-container-collection-tab-card-delete-button"></button>
@@ -589,6 +606,7 @@ const OrganizationMemberSideCardForm = (memberId, memberName, memberEmail, roleN
 export {
     windowFrame,
     windowCardsFrame,
+    manuallyCardsFrame,
     firstCollectionCardFrame,
     initCollectionCardFrame,
     tabCardFrame,

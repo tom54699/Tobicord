@@ -4,6 +4,9 @@
 input {
     line-height: normal;
 }
+textarea::placeholder {
+    color: rgb(124, 124, 154);
+}
 button,
 input,
 optgroup,

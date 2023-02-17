@@ -577,6 +577,7 @@
                                             class="tab-card-edit-popover-box-title-input"
                                             placeholder="Type title"
                                             value="WeHelp 軟體工程師扶持計畫"
+                                            tabindex="-1"
                                         />
                                     </div>
                                 </div>
@@ -586,7 +587,7 @@
                                 <div>
                                     <div>
                                         <input
-                                            class="tab-card-edit-popover-box-utl-input"
+                                            class="tab-card-edit-popover-box-url-input"
                                             placeholder="Type URL"
                                             value="https://wehelp.tw/"
                                         />
@@ -600,7 +601,10 @@ WeHelp 軟體工程師扶持計畫</textarea
                                 >
                             </div>
                             <div>
-                                <button class="tab-card-edit-popover-box-delete-button">Delete</button>
+                                <button class="tab-card-edit-popover-box-delete-button">
+                                    <div class="tab-card-edit-popover-box-delete-svg"></div>
+                                    Delete
+                                </button>
                                 <button class="tab-card-edit-popover-box-cancel-button">Cancel</button>
                                 <button class="tab-card-edit-popover-box-save-button">Save</button>
                             </div>
@@ -677,6 +681,43 @@ WeHelp 軟體工程師扶持計畫</textarea
                                 </div>
                             </div>
                         </div>
+                        <div class="tab-card-manually-add-popover-box">
+                            <div>
+                                <h4>Title</h4>
+                                <div>
+                                    <div>
+                                        <input
+                                            class="tab-card-manually-add-popover-box-title-input"
+                                            placeholder="Type title"
+                                            tabindex="-1"
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <h4>URL</h4>
+                                <div>
+                                    <div>
+                                        <input class="tab-card-manually-add-popover-box-url-input" placeholder="Type url" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <h4>Description</h4>
+                                <textarea
+                                    class="tab-card-manually-add-popover-box-description-input"
+                                    placeholder="Type description"
+                                ></textarea>
+                            </div>
+                            <div>
+                                <button class="tab-card-manually-add-popover-box-delete-button">
+                                    <div class="tab-card-manually-add-popover-box-delete-svg"></div>
+                                    Delete
+                                </button>
+                                <button class="tab-card-manually-add-popover-box-cancel-button">Cancel</button>
+                                <button class="tab-card-manually-add-popover-box-save-button">Save</button>
+                            </div>
+                        </div>
                     </div>
                     <div class="middleSection-collection-menu-popover-container">
                         <span class="middleSection-collection-menu-popover-container-title">(0 collections selected)</span>
@@ -739,14 +780,14 @@ WeHelp 軟體工程師扶持計畫</textarea
                                 <div class="rightSection-spaces-window-tabs-box">
                                     <div class="rightSection-spaces-window-tabs-line">
                                         <div class="rightSection-spaces-window-tabs-left-block">
-                                            <span class="rightSection-spaces-window-title">手動新增</span>
+                                            <span class="rightSection-spaces-manually-window-title">手動新增網址卡片</span>
                                             <button
                                                 class="rightSection-spaces-window-fold-button"
                                                 tabindex="-1"
                                                 data-bs-toggle="collapse"
-                                                data-bs-target="manually-add"
+                                                data-bs-target="#manually-add-tabs-cards"
                                                 aria-expanded="false"
-                                                aria-controls="manually-add"
+                                                aria-controls="#manually-add-tabs-cards"
                                             >
                                                 <div class="arrow-right-svg"></div>
                                                 <div class="rightSection-spaces-window-arrow-down-svg"></div>
@@ -756,10 +797,12 @@ WeHelp 軟體工程師扶持計畫</textarea
                                             <div class="rightSection-spaces-window-tabs-container-top-add-svg"></div>
                                         </div>
                                     </div>
-                                    <div class="rightSection-spaces-window-tabs-cards-container-a collapse" id="manually-add"></div>
+                                    <div
+                                        class="rightSection-spaces-window-tabs-cards-container-manually-add collapse"
+                                        id="manually-add-tabs-cards"
+                                    ></div>
                                 </div>
                             </div>
-
                             <div class="rightSection-spaces-window-container">
                                 <!-- Window Tab Cards-->
                             </div>

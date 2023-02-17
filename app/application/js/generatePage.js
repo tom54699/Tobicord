@@ -2,6 +2,7 @@ import { windowApi, organizationApi, spaceApi, collectionApi, tabApi, invitation
 import {
     windowFrame,
     windowCardsFrame,
+    manuallyCardsFrame,
     firstCollectionCardFrame,
     initCollectionCardFrame,
     tabCardFrame,
@@ -16,6 +17,10 @@ class RightSectionBuild {
     constructor() {
         this.isWindowTabsCheck = {}
         this.windowData = {}
+        this.nowCreateTabTitle
+        this.nowCreateTabUrl
+        this.nowCreateTabDescription
+        this.manuallyTabCards = {}
     }
     async getUserWindow() {
         try {
@@ -236,6 +241,85 @@ class RightSectionBuild {
         const selectedAmount = Object.values(this.isWindowTabsCheck).filter((val) => val === true).length
         checkSelectedAmount[0].textContent = `(${selectedAmount} tabs selected)`
     }
+    /* 手動增加卡片 */
+    getManuallyAddTabCardInput() {
+        const tabCardManuallyAddPopoverBoxTitleInput = document.getElementsByClassName("tab-card-manually-add-popover-box-title-input")
+        const tabCardManuallyAddPopoverBoxUrlInput = document.getElementsByClassName("tab-card-manually-add-popover-box-url-input")
+        const tabCardManuallyAddPopoverBoxDescriptionInput = document.getElementsByClassName(
+            "tab-card-manually-add-popover-box-description-input"
+        )
+        tabCardManuallyAddPopoverBoxTitleInput[0].addEventListener("input", (e) => {
+            this.nowCreateTabTitle = e.target.value
+        })
+        tabCardManuallyAddPopoverBoxUrlInput[0].addEventListener("input", (e) => {
+            this.nowCreateTabUrl = e.target.value
+        })
+        tabCardManuallyAddPopoverBoxDescriptionInput[0].addEventListener("input", (e) => {
+            this.nowCreateTabDescription = e.target.value
+        })
+    }
+    manuallyAddTabCardButton() {
+        const tabCardManuallyAddPopoverBoxTitleInput = document.getElementsByClassName("tab-card-manually-add-popover-box-title-input")
+        const tabCardManuallyAddPopoverBoxUrlInput = document.getElementsByClassName("tab-card-manually-add-popover-box-url-input")
+        const tabCardManuallyAddPopoverBoxDescriptionInput = document.getElementsByClassName(
+            "tab-card-manually-add-popover-box-description-input"
+        )
+        const rightSectionSpacesWindowTabsContainerTopAddSvg = document.getElementsByClassName(
+            "rightSection-spaces-window-tabs-container-top-add-svg"
+        )
+        const middleSectionAddCategoryPopoverContainer = document.getElementsByClassName("middleSection-popover-container")
+        const mask = document.getElementsByClassName("mask")
+        const tabCardManuallyAddPopoverBox = document.getElementsByClassName("tab-card-manually-add-popover-box")
+        const tabCardManuallyAddPopoverBoxCancelButton = document.getElementsByClassName("tab-card-manually-add-popover-box-cancel-button")
+        const tabCardManuallyAddPopoverBoxSaveButton = document.getElementsByClassName("tab-card-manually-add-popover-box-save-button")
+        rightSectionSpacesWindowTabsContainerTopAddSvg[0].addEventListener("click", () => {
+            middleSectionAddCategoryPopoverContainer[0].style.zIndex = "9999"
+            mask[0].style.display = "block"
+            tabCardManuallyAddPopoverBox[0].style.transform = "translate(-50%, -55%)"
+        })
+        tabCardManuallyAddPopoverBoxCancelButton[0].addEventListener("click", () => {
+            middleSectionAddCategoryPopoverContainer[0].style.zIndex = "-1000"
+            tabCardManuallyAddPopoverBox[0].style.transform = "translate(-50%,-220%)"
+            mask[0].style.display = "none"
+            tabCardManuallyAddPopoverBoxTitleInput[0].value = ""
+            tabCardManuallyAddPopoverBoxUrlInput[0].value = ""
+            tabCardManuallyAddPopoverBoxDescriptionInput[0].value = ""
+        })
+        tabCardManuallyAddPopoverBoxSaveButton[0].addEventListener("click", () => {
+            const tabId = Math.random().toString(36).substr(2, 5)
+            const favIconUrl = "../images/dot.png"
+            this.manuallyTabCards[tabId] = {
+                tabTitle: this.nowCreateTabTitle,
+                tabUrl: this.nowCreateTabUrl,
+                favIconUrl: favIconUrl,
+                tabDescription: this.nowCreateTabDescription,
+            }
+            this.generateManuallyTabCards(this.nowCreateTabTitle, this.nowCreateTabUrl, tabId, favIconUrl)
+            this.deleteManuallyTabCardButton(tabId)
+            middleSectionAddCategoryPopoverContainer[0].style.zIndex = "-1000"
+            tabCardManuallyAddPopoverBox[0].style.transform = "translate(-50%,-220%)"
+            mask[0].style.display = "none"
+            tabCardManuallyAddPopoverBoxTitleInput[0].value = ""
+            tabCardManuallyAddPopoverBoxUrlInput[0].value = ""
+            tabCardManuallyAddPopoverBoxDescriptionInput[0].value = ""
+        })
+    }
+    generateManuallyTabCards(tabName, tabUrl, tabId, favIconUrl) {
+        const manuallyTabCardsContainer = document.getElementsByClassName("rightSection-spaces-window-tabs-cards-container-manually-add")
+        const manuallyTabCards = document.createElement("div")
+        manuallyTabCards.classList.add("rightSection-spaces-window-tabs-card-frame")
+        manuallyTabCards.setAttribute("id", `userWindowCards-${tabId}`)
+        const windowCardsFrameHtml = manuallyCardsFrame(tabId, tabName, tabUrl, favIconUrl)
+        manuallyTabCards.innerHTML = windowCardsFrameHtml
+        manuallyTabCardsContainer[0].appendChild(manuallyTabCards)
+    }
+    deleteManuallyTabCardButton(tabId) {
+        const windowTabsCardCloseButton = document.getElementById(`windowTabsCardCloseButton-${tabId}`)
+        const userWindowCards = document.getElementById(`userWindowCards-${tabId}`)
+        windowTabsCardCloseButton.addEventListener("click", () => {
+            userWindowCards.remove()
+        })
+    }
 }
 
 class MainPageBuild {
@@ -331,6 +415,19 @@ class MainPageBuild {
         })
     }
     /* 拖移 */
+    dragManuallyTabCardsAddEvent() {
+        const manuallyTabCardsContainer = document.getElementsByClassName("rightSection-spaces-window-tabs-cards-container-manually-add")
+        new Sortable(manuallyTabCardsContainer[0], {
+            group: {
+                name: "shared",
+                put: false, // 不允许拖拽进这个列表
+            },
+            animation: 150,
+            onEnd(evt) {
+                console.log("onEnd: 列表单元拖放结束后的回调函数！")
+            },
+        })
+    }
     dragCollectionCardAddEvent() {
         const middleSectionContainerCollectionCardsBox = document.getElementsByClassName("middleSection-container-collection-cards-box")
         new Sortable(middleSectionContainerCollectionCardsBox[0], {
@@ -382,13 +479,33 @@ class MainPageBuild {
                 const fromBlock = evt.from.id.slice(0, 6)
                 const windowId = evt.from.id.slice(7)
                 const collectionId = evt.to.id.slice(50)
-                if (fromBlock === "window") {
-                    const tabId = evt.item.id.slice(16)
-                    const newTabId = tabId + Math.random().toString(36).substr(2, 5)
-                    const tabData = rightSectionBuild.windowData[`${windowId}`][`${tabId}`]
-                    const tabName = tabData.tabName
-                    const favIconUrl = tabData.favIconUrl
-                    const tabUrl = tabData.tabUrl
+
+                if (fromBlock === "window" || fromBlock === "manual") {
+                    let tabId
+                    let newTabId
+                    let tabData
+                    let tabName
+                    let favIconUrl
+                    let tabUrl
+                    let tabDescription
+                    if (fromBlock === "window") {
+                        tabId = evt.item.id.slice(16)
+                        newTabId = tabId + Math.random().toString(36).substr(2, 5)
+                        tabData = rightSectionBuild.windowData[`${windowId}`][`${tabId}`]
+                        tabName = tabData.tabName
+                        favIconUrl = tabData.favIconUrl
+                        tabUrl = tabData.tabUrl
+                        tabDescription = tabName
+                    } else if (fromBlock === "manual") {
+                        tabId = evt.item.id.slice(16)
+                        newTabId = tabId + Math.random().toString(36).substr(2, 5)
+                        tabData = rightSectionBuild.manuallyTabCards[tabId]
+                        console.log(tabData)
+                        tabName = tabData.tabTitle
+                        favIconUrl = tabData.favIconUrl
+                        tabUrl = tabData.tabUrl
+                        tabDescription = tabData.tabDescription
+                    }
                     /*const tabDataJson = {
                         id: newTabId,
                         tabId:tabId,
@@ -399,7 +516,7 @@ class MainPageBuild {
                     }
                     middleSectionBuild.tabsData[collectionId].push(tabDataJson)*/
                     middleSectionBuild.collectionCardArrowControl(collectionId)
-                    mainPageBuild.transferTabCardsFormat(tabId, newTabId, tabName, tabUrl, favIconUrl)
+                    mainPageBuild.transferTabCardsFormat(tabId, newTabId, tabName, tabUrl, favIconUrl, tabDescription)
                     await middleSectionBuild.uploadTabCardsData(collectionId, newTabId, tabId, tabName, tabUrl, favIconUrl, tabName)
                     await middleSectionBuild.tabCardDeleteButton(newTabId)
                     middleSectionBuild.tabCardEditButton(collectionId, newTabId)
@@ -442,11 +559,11 @@ class MainPageBuild {
             },
         })
     }
-    transferTabCardsFormat(tabId, newTabId, tabName, tabUrl, favIconUrl) {
+    transferTabCardsFormat(tabId, newTabId, tabName, tabUrl, favIconUrl, tabDescription) {
         const userWindowCards = document.getElementById(`userWindowCards-${tabId}`)
         userWindowCards.classList.replace("rightSection-spaces-window-tabs-card-frame", "middleSection-container-collection-tab-card-box")
         userWindowCards.setAttribute("id", `middleSection-container-collection-tab-card-box-${newTabId}`)
-        const tabCardTransferFrameHtml = tabCardTransferFrame(newTabId, tabName, tabUrl, favIconUrl)
+        const tabCardTransferFrameHtml = tabCardTransferFrame(newTabId, tabName, tabUrl, favIconUrl, tabDescription)
         userWindowCards.innerHTML = tabCardTransferFrameHtml
     }
 }
@@ -2435,7 +2552,7 @@ class MiddleSectionBuild {
             `middleSection-container-collection-tab-card-edit-button-${tabId}`
         )
         const tabCardEditPopoverBoxTitleInput = document.getElementsByClassName("tab-card-edit-popover-box-title-input")
-        const tabCardEditPopoverBoxUrlInput = document.getElementsByClassName("tab-card-edit-popover-box-utl-input")
+        const tabCardEditPopoverBoxUrlInput = document.getElementsByClassName("tab-card-edit-popover-box-url-input")
         const tabCardEditPopoverBoxDescriptionInput = document.getElementsByClassName("tab-card-edit-popover-box-description-input")
         const tabCardEditPopoverBoxCancelButton = document.getElementsByClassName("tab-card-edit-popover-box-cancel-button")
         const middleSectionAddCategoryPopoverContainer = document.getElementsByClassName("middleSection-popover-container")
@@ -2510,7 +2627,7 @@ class MiddleSectionBuild {
     }
     getTabCardEditBoxInput() {
         const tabCardEditPopoverBoxTitleInput = document.getElementsByClassName("tab-card-edit-popover-box-title-input")
-        const tabCardEditPopoverBoxUrlInput = document.getElementsByClassName("tab-card-edit-popover-box-utl-input")
+        const tabCardEditPopoverBoxUrlInput = document.getElementsByClassName("tab-card-edit-popover-box-url-input")
         const tabCardEditPopoverBoxDescriptionInput = document.getElementsByClassName("tab-card-edit-popover-box-description-input")
         tabCardEditPopoverBoxTitleInput[0].addEventListener("input", (e) => {
             this.newTabName = e.target.value

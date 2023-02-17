@@ -3008,8 +3008,6 @@ input[placeholder] {
     width: 1.5rem;
     height: 1.5rem;
     opacity: 0;
-    background-size: 1.5rem 1.5rem;
-    background-image: url("https://wehelp.tw/images/logo-16.png");
 }
 .tab-card-image-show-opacity {
     opacity: 1;
@@ -3303,28 +3301,36 @@ input[placeholder] {
 .collection-delete-popover-box-delete-button:hover {
     background: rgb(170, 63, 91);
 }
-.tab-card-edit-popover-box {
+.tab-card-edit-popover-box,
+.tab-card-manually-add-popover-box {
     position: fixed;
     left: 50%;
     top: 40%;
-    width: 400px;
+    width: 500px;
     transform: translate(-50%, -220%);
     border-radius: 5px;
     z-index: 3000;
-    background-color: #36373f;
+    background-color: #49495c;
+    color: #b7b7ce;
     -webkit-filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.09));
     filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.09));
     -webkit-box-shadow: none;
     box-shadow: none;
     transition: transform 0.3s ease-in-out 0.2s;
+    padding: 0.5rem;
+    padding-bottom: 0;
 }
 .tab-card-edit-popover-box > div:nth-child(1),
 .tab-card-edit-popover-box > div:nth-child(2),
-.tab-card-edit-popover-box > div:nth-child(3) {
+.tab-card-edit-popover-box > div:nth-child(3),
+.tab-card-manually-add-popover-box > div:nth-child(1),
+.tab-card-manually-add-popover-box > div:nth-child(2),
+.tab-card-manually-add-popover-box > div:nth-child(3) {
     padding: 0rem 1rem;
     font-size: 0.75rem;
 }
-.tab-card-edit-popover-box > div:nth-child(4) {
+.tab-card-edit-popover-box > div:nth-child(4),
+.tab-card-manually-add-popover-box > div:nth-child(4) {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     padding: 1rem;
@@ -3332,14 +3338,19 @@ input[placeholder] {
 }
 .tab-card-edit-popover-box > div:nth-child(1) > h4,
 .tab-card-edit-popover-box > div:nth-child(2) > h4,
-.tab-card-edit-popover-box > div:nth-child(3) > h4 {
-    color: #f0f0f6;
+.tab-card-edit-popover-box > div:nth-child(3) > h4,
+.tab-card-manually-add-popover-box > div:nth-child(1) > h4,
+.tab-card-manually-add-popover-box > div:nth-child(2) > h4,
+.tab-card-manually-add-popover-box > div:nth-child(3) > h4 {
+    color: #c5c5d3;
     padding: 0.5rem 0.25rem;
     font-weight: bold;
     font-size: 0.75rem;
 }
 .tab-card-edit-popover-box > div:nth-child(1) > div:nth-child(2),
-.tab-card-edit-popover-box > div:nth-child(2) > div:nth-child(2) {
+.tab-card-edit-popover-box > div:nth-child(2) > div:nth-child(2),
+.tab-card-manually-add-popover-box > div:nth-child(1) > div:nth-child(2),
+.tab-card-manually-add-popover-box > div:nth-child(2) > div:nth-child(2) {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -3348,14 +3359,18 @@ input[placeholder] {
     width: 100%;
 }
 .tab-card-edit-popover-box > div:nth-child(1) > div:nth-child(2) > div,
-.tab-card-edit-popover-box > div:nth-child(2) > div:nth-child(2) > div {
+.tab-card-edit-popover-box > div:nth-child(2) > div:nth-child(2) > div,
+.tab-card-manually-add-popover-box > div:nth-child(1) > div:nth-child(2) > div,
+.tab-card-manually-add-popover-box > div:nth-child(2) > div:nth-child(2) > div {
     position: relative;
     width: 100%;
 }
 .tab-card-edit-popover-box > div:nth-child(1) > div:nth-child(2) > div > input,
-.tab-card-edit-popover-box > div:nth-child(2) > div:nth-child(2) > div > input {
-    background-color: #515151;
-    color: #fff;
+.tab-card-edit-popover-box > div:nth-child(2) > div:nth-child(2) > div > input,
+.tab-card-manually-add-popover-box > div:nth-child(1) > div:nth-child(2) > div > input,
+.tab-card-manually-add-popover-box > div:nth-child(2) > div:nth-child(2) > div > input {
+    background-color: #49495c;
+    color: #b7b7ce;
     border: 1px solid #b7b8cc;
     height: 33px;
     width: 100%;
@@ -3366,17 +3381,25 @@ input[placeholder] {
     padding: 0.625rem;
     transition: border-bottom 0.3s cubic-bezier(0.68, -0.55, 0.265, 1) 0s;
 }
+
 .tab-card-edit-popover-box > div:nth-child(1) > div:nth-child(2) > div > input[placeholder],
 .tab-card-edit-popover-box > div:nth-child(2) > div:nth-child(2) > div > input[placeholder],
-.tab-card-edit-popover-box > div:nth-child(3) > textarea[placeholder] {
+.tab-card-edit-popover-box > div:nth-child(3) > textarea[placeholder],
+.tab-card-manually-add-popover-box > div:nth-child(1) > div:nth-child(2) > div > input[placeholder],
+.tab-card-manually-add-popover-box > div:nth-child(2) > div:nth-child(2) > div > input[placeholder],
+.tab-card-manually-add-popover-box > div:nth-child(3) > textarea[placeholder] {
     text-align: unset;
 }
 .tab-card-edit-popover-box > div:nth-child(1) > div:nth-child(2) > div > input::-webkit-input-placeholder,
 .tab-card-edit-popover-box > div:nth-child(2) > div:nth-child(2) > div > input::-webkit-input-placeholder,
-.tab-card-edit-popover-box > div:nth-child(3) > textarea::-webkit-input-placeholder {
+.tab-card-edit-popover-box > div:nth-child(3) > textarea::-webkit-input-placeholder,
+.tab-card-manually-add-popover-box > div:nth-child(1) > div:nth-child(2) > div > input::-webkit-input-placeholder,
+.tab-card-manually-add-popover-box > div:nth-child(2) > div:nth-child(2) > div > input::-webkit-input-placeholder,
+.tab-card-manually-add-popover-box > div:nth-child(3) > textarea::-webkit-input-placeholder {
     text-align: unset;
 }
-.tab-card-edit-popover-box > div:nth-child(3) > textarea {
+.tab-card-edit-popover-box > div:nth-child(3) > textarea,
+.tab-card-manually-add-popover-box > div:nth-child(3) > textarea {
     height: 100px;
     width: 100%;
     font-size: 0.875rem;
@@ -3384,49 +3407,84 @@ input[placeholder] {
     border-radius: 6px;
     resize: none;
     padding: 0.625rem;
-    background-color: #515151;
-    color: #fff;
+    background-color: #49495c;
+    color: #b7b7ce;
     border: 1px solid #b7b8cc;
 }
-.tab-card-edit-popover-box-delete-button {
+.tab-card-edit-popover-box-delete-button,
+.tab-card-manually-add-popover-box-delete-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 500;
+    text-transform: uppercase;
+    text-align: center;
     width: 80%;
     color: #fa507b;
-    background-color: #515151;
+    background-color: #49495c;
     padding: 0.5rem;
     border: none;
     border-radius: 1.6px;
     box-shadow: 1px 1px 3px rgb(77 0 113 / 12%);
     height: 28px;
-    font-size: 12px;
-    line-height: 12px;
+    font-size: 14px;
     transition: background-color 0.1s cubic-bezier(0.68, -0.55, 0.265, 1) 0s;
 }
-
-.tab-card-edit-popover-box-cancel-button {
-    background-color: #515151;
+.tab-card-edit-popover-box-delete-button:hover,
+.tab-card-edit-popover-box-cancel-button:hover,
+.tab-card-manually-add-popover-box-delete-button:hover,
+.tab-card-manually-add-popover-box-cancel-button:hover {
+    background: #383849;
+    color: #aa3f5b;
+}
+.tab-card-edit-popover-box-delete-svg,
+.tab-card-manually-add-popover-box-delete-svg {
+    width: 1rem;
+    height: 1rem;
+    mask: url("../images/trashcan.svg") no-repeat 50% 50%;
+    mask-size: cover;
+    -webkit-mask: url("../images/trashcan.svg") no-repeat 50% 50%;
+    -webkit-mask-size: cover;
+    background-color: rgb(214, 73, 107);
+    margin-inline-end: 0.5rem;
+}
+.tab-card-edit-popover-box-cancel-button,
+.tab-card-manually-add-popover-box-cancel-button {
+    background-color: #49495c;
     box-shadow: 1px 1px 3px rgb(77 0 113 / 12%);
     width: 90%;
+    font-weight: 500;
+    text-transform: uppercase;
+    text-align: center;
     justify-self: flex-end;
-    color: #9795ac;
+    color: #fa507b;
     padding: 0.5rem;
     border: none;
     border-radius: 1.6px;
     height: 28px;
-    font-size: 12px;
+    font-size: 14px;
     line-height: 12px;
 }
-.tab-card-edit-popover-box-save-button {
+.tab-card-edit-popover-box-save-button,
+.tab-card-manually-add-popover-box-save-button {
     padding: 0.5rem;
     border: none;
     box-shadow: 1px 1px 3px 0 rgba(58, 58, 82, 0.25);
     border-radius: 1.6px;
     width: 90%;
+    font-weight: 500;
+    text-transform: uppercase;
+    text-align: center;
     background-color: #fa507b;
     justify-self: flex-end;
     color: #fff;
     height: 28px;
-    font-size: 12px;
+    font-size: 14px;
     line-height: 12px;
+}
+.tab-card-edit-popover-box-save-button:hover,
+.tab-card-manually-add-popover-box-save-button:hover {
+    background: #aa3f5b;
 }
 .collection-export-popover-box {
     position: fixed;
@@ -4138,7 +4196,8 @@ input[placeholder] {
     padding: 10px;
     overflow-y: auto;
     overflow-x: hidden;
-    height: 90%;
+    height: auto;
+    min-height: 100px;
 }
 .rightSection-spaces-window-tabs-container {
     cursor: grab;
@@ -4175,6 +4234,15 @@ input[placeholder] {
     white-space: normal;
     overflow: hidden;
     font-size: 12px;
+    color: rgb(197, 197, 211);
+}
+.rightSection-spaces-manually-window-title {
+    font-weight: 400;
+    font-family: Ubuntu, Arial, sans-serif;
+    text-overflow: ellipsis;
+    white-space: normal;
+    overflow: hidden;
+    font-size: 14px;
     color: rgb(197, 197, 211);
 }
 .rightSection-spaces-window-fold-button {
@@ -4555,7 +4623,7 @@ input[placeholder] {
     background: rgb(170, 63, 91);
 }
 .rightSection-spaces-manually-add-tab-card {
-    height: 100px;
+    height: auto;
     width: 100%;
     display: flex;
     gap: 10px;

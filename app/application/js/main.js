@@ -16,6 +16,9 @@ window.addEventListener("DOMContentLoaded", async () => {
         /* Right-Section Cards */
         await rightSectionBuild.getUserWindow()
         await rightSectionBuild.reloadWindows()
+        rightSectionBuild.manuallyAddTabCardButton()
+        rightSectionBuild.getManuallyAddTabCardInput()
+        mainPageBuild.dragManuallyTabCardsAddEvent()
         await leftSectionBuild.createCategoryButton()
         /* Left Section Cards */
         leftSectionBuild.leftSectionNavPlusButtonAddEvent()
