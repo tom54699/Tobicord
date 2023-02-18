@@ -162,7 +162,7 @@ const DeleteInvitationDataWithoutInviter = async (organizationId, inviteeEmail) 
                 inviteeEmail: inviteeEmail,
             },
         })
-        console.log(response)
+        console.log("55555555555555555", response)
         return response
     } catch (err) {
         console.log(err)

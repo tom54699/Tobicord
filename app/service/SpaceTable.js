@@ -11,6 +11,7 @@ const CreateSpaceData = async (organizationId, userId, spaceName) => {
                 id: organizationId,
             },
         })
+        console.log("789789", organization)
         if (!organization) {
             throw new Error("Organization 不存在")
         }

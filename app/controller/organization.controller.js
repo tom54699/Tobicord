@@ -104,6 +104,28 @@ class OrganizationController {
             return err
         }
     }
+    async leaveOrganizationMember(req, res, next) {
+        try {
+            const memberId = req.userId
+            const inviteeEmail = req.email
+            const organizationId = req.body.organizationId
+            console.log(memberId, inviteeEmail, organizationId)
+            const response = await MemberTable.CheckMemberRole(organizationId, memberId)
+            if (response.dataValues.roleId === 1) {
+                return res.status(403).json({
+                    message: "Owner can't leave organization.",
+                })
+            }
+            await MemberTable.DeleteOrganizationMember(organizationId, memberId)
+            await Invitation.DeleteInvitationDataWithoutInviter(organizationId, inviteeEmail)
+            return res.status(200).json({
+                message: "ok",
+            })
+        } catch (err) {
+            console.log(err)
+            return err
+        }
+    }
 }
 
 module.exports = new OrganizationController()

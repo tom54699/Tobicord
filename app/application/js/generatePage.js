@@ -755,6 +755,9 @@ class LeftSectionBuild {
         )
         const organizationSettingPopoverMemberButton = document.getElementsByClassName("organization-setting-popover-member-button")
         const organizationSettingPopoverPreferenceButton = document.getElementsByClassName("organization-setting-popover-preference-button")
+        const organizationSettingPopoverRightBoxLeaveAlert = document.getElementsByClassName(
+            "organization-setting-popover-right-box-Leave-alert"
+        )
         openOrganizationEditPopoverButton[0].addEventListener("click", async () => {
             middleSectionAddCategoryPopoverContainer[0].style.zIndex = "9999"
             mask[0].style.display = "block"
@@ -766,6 +769,7 @@ class LeftSectionBuild {
             organizationSettingPopoverPreferenceButton[0].style.borderBottom = "1px solid rgb(214, 73, 107)"
             organizationSettingPopoverMemberButton[0].style.color = "rgb(197, 197, 211)"
             organizationSettingPopoverMemberButton[0].style.borderBottom = "none"
+            organizationSettingPopoverRightBoxLeaveAlert[0].classList.add("none")
             this.initMemberCards()
             await this.getOrganizationMemberLists(this.nowOrganizationId)
         })
@@ -1577,6 +1581,9 @@ class LeftSectionBuild {
         const organizationSettingPopoverMemberButton = document.getElementsByClassName("organization-setting-popover-member-button")
         const organizationSettingPopoverRightBox = document.getElementsByClassName("organization-setting-popover-right-box")
         const organizationMemberPopoverRightBox = document.getElementsByClassName("organization-member-popover-right-box")
+        const organizationSettingPopoverRightBoxLeaveAlert = document.getElementsByClassName(
+            "organization-setting-popover-right-box-Leave-alert"
+        )
         const organizationMemberEditPermissionPopoverRightBox = document.getElementsByClassName(
             "organization-member-edit-permission-popover-right-box"
         )
@@ -1588,6 +1595,7 @@ class LeftSectionBuild {
             organizationSettingPopoverMemberButton[0].style.color = "rgb(197, 197, 211)"
             organizationSettingPopoverMemberButton[0].style.borderBottom = "none"
             organizationMemberEditPermissionPopoverRightBox[0].classList.add("none")
+            organizationSettingPopoverRightBoxLeaveAlert[0].classList.add("none")
         })
         organizationSettingPopoverMemberButton[0].addEventListener("click", () => {
             organizationSettingPopoverRightBox[0].classList.add("none")
@@ -1644,7 +1652,6 @@ class LeftSectionBuild {
                 } else if (i.roleId === 4) {
                     roleName = "Visitor"
                 }
-                OrganizationManagerSideCardForm
                 if (nowUserName === ownerName) {
                     console.log("房主")
                     this.generateOrganizationSideCards("owner", i.MemberId, i.Member.username, i.Member.email, roleName)
@@ -1865,10 +1872,22 @@ class LeftSectionBuild {
             beginnerGuidePopoverBox[0].style.transform = "translate(-50%, -150%)"
         })
     }
-    switchGuidePages() {
-        const beginnerGuideExtensionText = document.getElementsByClassName("beginner-guide-extension-text")
-        const carouselControlNext = document.getElementsByClassName("carousel-control-next")
-        const carouselControlPrev = document.getElementsByClassName("carousel-control-prev")
+    async leaveOrganizationButton() {
+        const organizationSettingPopoverRightBoxLeaveButton = document.getElementsByClassName(
+            "organization-setting-popover-right-box-Leave-button"
+        )
+        const organizationSettingPopoverRightBoxLeaveAlert = document.getElementsByClassName(
+            "organization-setting-popover-right-box-Leave-alert"
+        )
+        organizationSettingPopoverRightBoxLeaveButton[0].addEventListener("click", async () => {
+            const response = await organizationApi.leaveOrganizationMember(this.nowOrganizationId)
+            console.log(response)
+            if (response.status === 200) {
+                location.href = "/main"
+            } else {
+                organizationSettingPopoverRightBoxLeaveAlert[0].classList.remove("none")
+            }
+        })
     }
 }
 class MiddleSectionBuild {

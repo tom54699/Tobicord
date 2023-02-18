@@ -72,6 +72,7 @@ window.addEventListener("DOMContentLoaded", async () => {
         leftSectionBuild.addMembersButton()
         leftSectionBuild.backManageOrganizationMemberPermissions()
         leftSectionBuild.manageOrganizationMemberPermissionsCheckBox()
+        await leftSectionBuild.leaveOrganizationButton()
         middleSectionBuild.createFirstCollectionBoxButtonAddEvent()
         middleSectionBuild.openCloseDeleteCollectionCardPopover()
         await middleSectionBuild.deleCollectionCardsButton()

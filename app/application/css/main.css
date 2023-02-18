@@ -1710,7 +1710,8 @@ input[placeholder] {
 }
 .organization-setting-popover-right-box-name > h4,
 .organization-setting-popover-right-box-theme > h4,
-.organization-setting-popover-right-box-Delete > h4 {
+.organization-setting-popover-right-box-Delete > h4,
+.organization-setting-popover-right-box-Leave > h4 {
     text-overflow: ellipsis;
     white-space: normal;
     overflow: hidden;
@@ -1885,6 +1886,14 @@ input[placeholder] {
     font-size: 14px;
     color: rgb(197, 197, 211);
 }
+.organization-setting-popover-right-box-Leave > span {
+    font-weight: 400;
+    text-overflow: ellipsis;
+    white-space: normal;
+    overflow: hidden;
+    font-size: 14px;
+    color: rgb(214, 73, 107);
+}
 .organization-setting-popover-right-box-theme > span > div:nth-child(1) {
     display: flex;
     gap: 10px;
@@ -1915,14 +1924,16 @@ input[placeholder] {
     display: block;
     position: relative;
 }
-.organization-setting-popover-right-box-Delete {
+.organization-setting-popover-right-box-Delete,
+.organization-setting-popover-right-box-Leave {
     display: grid;
     grid-template-columns: 2fr 1fr;
     gap: 5px;
     -webkit-box-align: center;
     align-items: center;
 }
-.organization-setting-popover-right-box-Delete-button {
+.organization-setting-popover-right-box-Delete-button,
+.organization-setting-popover-right-box-Leave-button {
     font-family: Ubuntu, Arial, sans-serif;
     text-overflow: ellipsis;
     white-space: normal;
@@ -4728,6 +4739,10 @@ input[placeholder] {
 .beginner-guide-extension-text {
     margin-top: 15px;
 }
+.beginner-guide-extension-text > b {
+    color: rgb(214, 73, 107);
+}
+
 @media (max-width: 1200px) {
     .beginner-guide-popover-box {
         width: 650px;

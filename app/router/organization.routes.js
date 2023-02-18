@@ -25,4 +25,5 @@ router.put(
 router.put("/role", authMiddleware, ownerMiddleware, organizationController.changeMemberRole)
 router.delete("/", authMiddleware, ownerMiddleware, organizationController.deleteOrganizationData)
 router.delete("/member", authMiddleware, managerMiddleware, organizationController.deleteOrganizationMember)
+router.delete("/leave", authMiddleware, organizationController.leaveOrganizationMember)
 module.exports = router

@@ -240,6 +240,48 @@ class OrganizationApi {
             return err.response
         }
     }
+    async deleteOrganizationMember(organizationId, memberId, inviteeEmail) {
+        try {
+            const headers = {
+                "Content-Type": "application/json",
+                Accept: "application/json",
+                Authorization: `Bearer ${window.localStorage.getItem("accessToken")}`,
+            }
+            const config = {
+                headers: headers,
+                data: {
+                    organizationId: organizationId,
+                    memberId: memberId,
+                    inviteeEmail: inviteeEmail,
+                },
+            }
+            const response = await axios.delete("/organization/member", config)
+            return response
+        } catch (err) {
+            console.log(err)
+            return err.response
+        }
+    }
+    async leaveOrganizationMember(organizationId) {
+        try {
+            const headers = {
+                "Content-Type": "application/json",
+                Accept: "application/json",
+                Authorization: `Bearer ${window.localStorage.getItem("accessToken")}`,
+            }
+            const config = {
+                headers: headers,
+                data: {
+                    organizationId: organizationId,
+                },
+            }
+            const response = await axios.delete("/organization/leave", config)
+            return response
+        } catch (err) {
+            console.log(err)
+            return err.response
+        }
+    }
 }
 
 class SpaceApi {
