@@ -79,6 +79,23 @@ class AuthApi {
             return err.response
         }
     }
+    async firstLoginDone() {
+        try {
+            const headers = {
+                "Content-Type": "application/json",
+                Accept: "application/json",
+                Authorization: `Bearer ${window.localStorage.getItem("accessToken")}`,
+            }
+            const config = {
+                headers: headers,
+            }
+            const response = await axios.put("/users", config)
+            return response
+        } catch (err) {
+            console.log(err)
+            return err.response
+        }
+    }
 }
 
 class WindowApi {

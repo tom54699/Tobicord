@@ -94,10 +94,19 @@ async function checkMainPageAuth() {
         console.log(result)
         if (response.status === 200) {
             isCheck = true
-            nowUserName = result.username
-            nowUserEmail = result.email
+            nowUserName = result.userName
+            nowUserEmail = result.userEmail
+            if (result.firstLogin) {
+                const middleSectionAddCategoryPopoverContainer = document.getElementsByClassName("middleSection-popover-container")
+                const mask = document.getElementsByClassName("mask")
+                const beginnerGuidePopoverBox = document.getElementsByClassName("beginner-guide-popover-box")
+                middleSectionAddCategoryPopoverContainer[0].style.zIndex = "9999"
+                mask[0].style.display = "block"
+                beginnerGuidePopoverBox[0].style.transform = "translate(-50%, -7%)"
+                await authApi.firstLoginDone()
+            }
             const userPopoverAccountEmail = document.getElementsByClassName("user-popover-account-email")
-            userPopoverAccountEmail[0].textContent = `${result.username} (${result.email})`
+            userPopoverAccountEmail[0].textContent = `${result.userName} (${result.userEmail})`
         } else {
             location.href = "/auth"
         }

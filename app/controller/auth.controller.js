@@ -72,7 +72,6 @@ class AuthController {
                 const memberData = await MemberTable.AddMembersBasicData(username, email, hash)
                 const userId = memberData.dataValues.id
                 const organizationData = await Organization.AddOrganizationData("My Favorite", userId)
-                console.log(organizationData)
                 const organizationId = organizationData.OrganizationId
                 await Space.CreateSpaceData(organizationId, userId, "Starred Collections")
                 res.json({ message: "ok" })

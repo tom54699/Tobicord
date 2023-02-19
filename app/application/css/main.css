@@ -4671,8 +4671,8 @@ input[placeholder] {
     gap: 1.5rem;
     box-shadow: rgb(91 76 76 / 13%) 0px 2px 25px;
     animation: 0.7s cubic-bezier(0.68, -0.55, 0.265, 1.3) 0s 1 normal forwards running dOnrbB;
-    width: 900px;
-    height: 700px;
+    width: 1000px;
+    height: 730px;
     background: rgb(73, 73, 92);
     border-radius: 5px;
     padding: 1rem;
@@ -4693,13 +4693,15 @@ input[placeholder] {
     line-height: 150%;
     color: rgb(197, 197, 211);
 }
-.beginner-guide-popover-box > div:nth-child(1) > h3 {
+.beginner-guide-popover-box-title {
     text-overflow: ellipsis;
     overflow: hidden;
     font-size: 18px;
     color: rgb(197, 197, 211);
     flex-shrink: 0;
     white-space: nowrap;
+    text-align: center;
+    margin-bottom: 10px;
 }
 .beginner-guide-popover-box-close-button {
     color: rgb(214, 73, 107);
@@ -4734,7 +4736,7 @@ input[placeholder] {
     color: rgb(170, 63, 91);
 }
 .carousel-indicators {
-    top: 650px !important;
+    top: 480px !important;
 }
 .beginner-guide-extension-text {
     margin-top: 15px;
@@ -4749,26 +4751,26 @@ input[placeholder] {
         height: 550px;
     }
     .carousel-indicators {
-        top: 450px !important;
+        top: 300px !important;
     }
 }
 
 @media (max-width: 650px) {
     .beginner-guide-popover-box {
         width: 450px;
-        height: 550px;
+        height: 470px;
     }
     .carousel-indicators {
-        top: 280px !important;
+        top: 190px !important;
     }
 }
 @media (max-width: 450px) {
     .beginner-guide-popover-box {
         width: 360px;
-        height: 500px;
+        height: 420px;
     }
     .carousel-indicators {
-        top: 210px !important;
+        top: 145px !important;
     }
     .carousel-control-next,
     .carousel-control-prev {

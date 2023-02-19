@@ -22,6 +22,24 @@ const CheckLoginData = async (email) => {
     return response
 }
 
+const CheckFirstLogin = async (email) => {
+    const response = await Member.findOne({
+        attributes: ["firstLogin"],
+        where: { email: email },
+    })
+    return response
+}
+
+const EditFirstLogin = async (email) => {
+    const response = await Member.update(
+        { firstLogin: false },
+        {
+            where: { email: email },
+        }
+    )
+    return response
+}
+
 const CheckIsJoined = async (organizationId, inviteeId) => {
     const response = await MemberOrganization.findOne({
         attributes: ["roleId"],
@@ -122,6 +140,8 @@ module.exports = {
     AddMembersBasicData,
     CheckEmailRepeat,
     CheckLoginData,
+    CheckFirstLogin,
+    EditFirstLogin,
     GetMemberNameByEmail,
     CheckMemberRole,
     AddMemberToOrganization,

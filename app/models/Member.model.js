@@ -22,8 +22,9 @@ const Member = sequelize.define(
             type: Sequelize.STRING(500),
             allowNull: false,
         },
-        verifyCode: {
-            type: Sequelize.STRING,
+        firstLogin: {
+            type: Sequelize.BOOLEAN,
+            defaultValue: true,
         },
     },
     {
