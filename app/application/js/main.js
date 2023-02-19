@@ -18,6 +18,7 @@ window.addEventListener("DOMContentLoaded", async () => {
         await rightSectionBuild.reloadWindows()
         rightSectionBuild.manuallyAddTabCardButton()
         rightSectionBuild.getManuallyAddTabCardInput()
+        rightSectionBuild.windowTabCreateNewCollection()
         mainPageBuild.dragManuallyTabCardsAddEvent()
         await leftSectionBuild.createCategoryButton()
         /* Left Section Cards */

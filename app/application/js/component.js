@@ -388,11 +388,6 @@ const initCollectionCardFrame = (collectionId, collectionName) => {
                             <span>Edit title</span>
                         </button>
                         <hr />
-                        <button class="card-container-nav-more-list-star-button">
-                            <div class="card-container-nav-more-list-star-svg"></div>
-                            <span>Star</span>
-                        </button>
-                        <hr />
                         <button id="card-container-nav-more-list-export-button-${collectionId}" class="card-container-nav-more-list-export-button">
                             <div class="card-container-nav-more-list-export-svg"></div>
                             <span>Export</span>

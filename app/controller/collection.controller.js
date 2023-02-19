@@ -13,9 +13,10 @@ class CollectionController {
             }
             const spaceId = req.body.spaceId
             const collectionName = req.body.collectionName
-            await Collection.CreateCollectionData(spaceId, collectionName)
+            const response = await Collection.CreateCollectionData(spaceId, collectionName)
             return res.status(200).json({
                 message: "ok",
+                collectionId: response.dataValues.id,
             })
         } catch (err) {
             return err

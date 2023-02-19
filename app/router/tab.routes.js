@@ -9,6 +9,7 @@ const memberMiddleware = require("../middlewares/member.middleware")
 
 router.get("/", authMiddleware, visitorMiddleware, tabController.getUserTabData)
 router.post("/", authMiddleware, memberMiddleware, check("tabName").trim().isLength({ min: 1 }), tabController.uploadTabData)
+router.post("/json", authMiddleware, memberMiddleware, tabController.uploadTabCardsData)
 router.put("/", authMiddleware, memberMiddleware, check("newTabName").trim().isLength({ min: 1 }), tabController.updateTabData)
 router.put("/collection", authMiddleware, memberMiddleware, tabController.switchTabCollection)
 router.delete("/", authMiddleware, memberMiddleware, tabController.deleteTabData)

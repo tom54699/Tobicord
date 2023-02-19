@@ -4736,13 +4736,18 @@ input[placeholder] {
     color: rgb(170, 63, 91);
 }
 .carousel-indicators {
-    top: 480px !important;
+    top: 520px !important;
+    height: 50px;
 }
 .beginner-guide-extension-text {
     margin-top: 15px;
 }
 .beginner-guide-extension-text > b {
     color: rgb(214, 73, 107);
+}
+.carousel-control-prev,
+.carousel-control-next {
+    height: 95%;
 }
 
 @media (max-width: 1200px) {
@@ -4751,7 +4756,7 @@ input[placeholder] {
         height: 550px;
     }
     .carousel-indicators {
-        top: 300px !important;
+        top: 340px !important;
     }
 }
 
@@ -4761,7 +4766,7 @@ input[placeholder] {
         height: 470px;
     }
     .carousel-indicators {
-        top: 190px !important;
+        top: 225px !important;
     }
 }
 @media (max-width: 450px) {
@@ -4770,11 +4775,7 @@ input[placeholder] {
         height: 420px;
     }
     .carousel-indicators {
-        top: 145px !important;
-    }
-    .carousel-control-next,
-    .carousel-control-prev {
-        top: -100px;
+        top: 180px !important;
     }
 }
 

@@ -20,6 +20,16 @@ const CreateTabData = async (collectionId, newTabId, tabId, tabName, tabUrl, fav
         return err
     }
 }
+const CreateTabsData = async (tabsData) => {
+    try {
+        const response = await Tab.bulkCreate(tabsData)
+        console.log("999999999999999", response)
+        return response
+    } catch (err) {
+        console.error(err)
+        return err
+    }
+}
 
 const GetUserTabData = async (collectionId) => {
     try {
@@ -72,6 +82,7 @@ const DeleteTabData = async (tabId) => {
 
 module.exports = {
     CreateTabData,
+    CreateTabsData,
     GetUserTabData,
     DeleteTabData,
     SwitchTabCollection,

@@ -26,6 +26,17 @@ class TabController {
             return err
         }
     }
+    async uploadTabCardsData(req, res, next) {
+        try {
+            const tabsData = req.body.tabsData
+            await Tab.CreateTabsData(tabsData)
+            return res.status(200).json({
+                message: "ok",
+            })
+        } catch (err) {
+            return err
+        }
+    }
     async getUserTabData(req, res, next) {
         try {
             const collectionId = req.query.collectionId

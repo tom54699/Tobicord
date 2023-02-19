@@ -517,6 +517,27 @@ class TabApi {
             return err.response
         }
     }
+    async uploadTabCardsData(organizationId, tabsData) {
+        try {
+            const headers = {
+                "Content-Type": "application/json",
+                Accept: "application/json",
+                Authorization: `Bearer ${window.localStorage.getItem("accessToken")}`,
+            }
+            const config = {
+                headers: headers,
+            }
+            const content = {
+                organizationId: organizationId,
+                tabsData: tabsData,
+            }
+            const response = await axios.post("/tab/json", content, config)
+            return response
+        } catch (err) {
+            console.log(err)
+            return err.response
+        }
+    }
     async getUserTabData(organizationId, collectionId) {
         try {
             const headers = {

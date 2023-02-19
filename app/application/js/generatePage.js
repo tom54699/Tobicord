@@ -235,6 +235,48 @@ class RightSectionBuild {
             isisWindowTabsCheckTrue = []
         })
     }
+    windowTabCreateNewCollection() {
+        const middleSectionTabPopoverCreateButton = document.getElementsByClassName("middleSection-tab-popover-create-button")
+        let tabsData = []
+        middleSectionTabPopoverCreateButton[0].addEventListener("click", async () => {
+            let isisWindowTabsCheckTrue = []
+            Object.keys(this.isWindowTabsCheck).forEach((key) => {
+                if (this.isWindowTabsCheck[key] === true) {
+                    isisWindowTabsCheckTrue.push(key)
+                }
+            })
+            const now = new Date()
+            const currentTime = now.toLocaleTimeString()
+            const response = await collectionApi.uploadCollectionData(
+                leftSectionBuild.nowOrganizationId,
+                leftSectionBuild.nowSpaceId,
+                currentTime
+            )
+            for (let i of isisWindowTabsCheckTrue) {
+                for (let j of Object.values(this.windowData)) {
+                    if (j[i]) {
+                        console.log(j[i])
+                        const newTabId = i + Math.random().toString(36).substr(2, 5)
+                        tabsData.push({
+                            CollectionId: response.data.collectionId,
+                            id: newTabId,
+                            tabId: i,
+                            tabName: j[i].tabName,
+                            tabUrl: j[i].tabUrl,
+                            favIconUrl: j[i].favIconUrl,
+                            tabDescription: j[i].tabName,
+                        })
+                    }
+                }
+            }
+            if (response.status === 200) {
+                const result = await tabApi.uploadTabCardsData(leftSectionBuild.nowOrganizationId, tabsData)
+                console.log(result)
+            }
+            await middleSectionBuild.getCollectionDataToCreateCollections()
+            isisWindowTabsCheckTrue = []
+        })
+    }
     /* 打勾後popover的視窗*/
     countCheckAmount() {
         const checkSelectedAmount = document.getElementsByClassName("middleSection-tab-popover-title")
