@@ -1,8 +1,5 @@
 name: Deploy to EC2 instance
-on:
-    workflow_run:
-        workflows: CI # 需要监听的流程名字
-        types: completed
+on: push
 
 jobs:
     continuous-integration:
