@@ -184,6 +184,7 @@ const firstCollectionCardFrame = (status = "") => {
                             <span>Cancel</span>
                         </button>
                         <button
+                            id = "middleSection-container-add-collection-box-save-button"
                             class="middleSection-container-add-collection-box-save-button"
                             type="button"
                         >

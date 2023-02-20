@@ -97,13 +97,145 @@ async function checkMainPageAuth() {
             isCheck = true
             nowUserName = result.userName
             nowUserEmail = result.userEmail
+            const driver = new Driver({
+                className: "step-popover-class",
+                prevBtnText: "PREV",
+                nextBtnText: "NEXT",
+                doneBtnText: "DONE",
+                closeBtnText: "CLOSE",
+                allowClose: false,
+                animate: true,
+                opacity: 0.5,
+                onHighlightStarted: (Element) => {
+                    if (Element.node.id == "middleSection-nav-add-button-container") {
+                        const addButton = document.getElementsByClassName("beginner-guide-popover-box-close-button")[0]
+                        addButton.click()
+                    }
+                },
+                onNext: (Element) => {
+                    driver.preventMove() //先讓下一步的動作停止
+                    setTimeout(() => {
+                        driver.moveNext()
+                    }, 500)
+                    if (Element.node.id == "middleSection-nav-add-button-container") {
+                        const addButton = document.getElementsByClassName("middleSection-nav-add-button")[0]
+                        addButton.click()
+                    }
+                    if (Element.node.id == "reload-svg-container") {
+                        const reloadButton = document.getElementById("reload-svg-container")
+                        reloadButton.click()
+                    }
+                    if (Element.node.id == "rightSection-spaces-manually-add-tab-card") {
+                        const addButton = document.getElementsByClassName("rightSection-spaces-window-tabs-container-top-add-svg")[0]
+                        addButton.click()
+                    }
+                    if (Element.node.id == "tab-card-manually-add-popover-box") {
+                        const addButton = document.getElementsByClassName("tab-card-manually-add-popover-box-save-button")[0]
+                        addButton.click()
+                    }
+                    if (Element.node.id == "middleSection-container-collection-cards-box") {
+                        const addButton = document.getElementsByClassName("middleSection-container-add-collection-box-save-button")[0]
+                        addButton.click()
+                    }
+                },
+                onPrevious: (Element) => {
+                    driver.preventMove() //先讓下一步的動作停止
+
+                    //設定時間，在0.1秒跑完後再去往下一步
+                    setTimeout(() => {
+                        driver.movePrevious()
+                    }, 500)
+                    if (Element.node.id == "rightSection-spaces") {
+                        const addButton = document.getElementsByClassName("rightSection-spaces-window-tabs-container-top-add-svg")[0]
+                        addButton.click()
+                        console.log(Element)
+                    }
+                },
+            })
+            driver.defineSteps([
+                {
+                    element: "#leftSection-nav-bottom-button",
+                    popover: {
+                        title: "新手指南",
+                        description: `詳細的教學，包括擴充套件安裝，十分建議在指引結束後回來閱讀`,
+                        position: "right",
+                    },
+                },
+                {
+                    element: "#middleSection-nav-add-button-container",
+                    popover: {
+                        title: "創建Collection(1)",
+                        description: `請點擊ADD COLLECTION`,
+                        position: "bottom",
+                    },
+                },
+                {
+                    element: "#middleSection-container-collection-cards-box",
+                    popover: {
+                        title: "創建Collection(2)",
+                        description: "輸入Collection名稱，並點擊Save",
+                        position: "left",
+                    },
+                },
+                {
+                    element: "#rightSection",
+                    popover: {
+                        title: "分頁小卡建立與儲存教學(1)",
+                        description: `分頁小卡的建立分為手動和自動兩種`,
+                        position: "left",
+                    },
+                },
+                {
+                    element: "#reload-svg-container",
+                    popover: {
+                        title: "自動建立分頁小卡(1)",
+                        description: `如果有安裝Tobicord擴充套件，並已經打開ON。<br/>點擊圖示就會自動產生分頁小卡。`,
+                        position: "left",
+                    },
+                },
+                {
+                    element: "#rightSection-spaces-window-container",
+                    popover: {
+                        title: "自動建立分頁小卡(2)",
+                        description: `自動產生的分頁小卡會根據瀏覽器被放在不同的window底下，點擊箭頭會縮放，並看到分頁小卡。`,
+                        position: "left",
+                    },
+                },
+                {
+                    element: "#rightSection-spaces-manually-add-tab-card",
+                    popover: {
+                        title: "手動建立分頁小卡(1)",
+                        description: `若是沒有安裝擴充套件，就必須手動新增</br>點擊+按鈕，就可以編輯新的分頁小卡`,
+                        position: "left",
+                    },
+                },
+                {
+                    element: "#tab-card-manually-add-popover-box",
+                    popover: {
+                        title: "手動建立分頁小卡(2)",
+                        description: `輸入資訊完成，點擊save，即完成創建。`,
+                        position: "bottom",
+                    },
+                },
+                {
+                    element: "#rightSection-spaces",
+                    popover: {
+                        title: "拖曳並儲存分頁小卡(1)",
+                        description: `點擊箭頭，即可以看到剛剛創了的小卡，並可以把它拖曳到剛剛創立的Collection儲存。<img class="d-block w-100" src="https://pub-61a84bb50f35476fb1e838152ab72616.r2.dev/Tobicord%E6%8B%96%E6%9B%B3%E5%B0%8F%E5%8D%A1.gif"/>`,
+                        position: "left",
+                    },
+                },
+                {
+                    element: "#leftSection-nav-bottom-button",
+                    popover: {
+                        title: "新手指南",
+                        description: `再度推薦您回來閱讀教學指南。`,
+                        position: "right",
+                    },
+                },
+            ])
             if (result.firstLogin) {
-                const middleSectionAddCategoryPopoverContainer = document.getElementsByClassName("middleSection-popover-container")
-                const mask = document.getElementsByClassName("mask")
-                const beginnerGuidePopoverBox = document.getElementsByClassName("beginner-guide-popover-box")
-                middleSectionAddCategoryPopoverContainer[0].style.zIndex = "9999"
-                mask[0].style.display = "block"
-                beginnerGuidePopoverBox[0].style.transform = "translate(-50%, -7%)"
+                await driver.start()
                 await authApi.firstLoginDone()
             }
             const userPopoverAccountEmail = document.getElementsByClassName("user-popover-account-email")

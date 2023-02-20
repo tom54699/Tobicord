@@ -13,6 +13,7 @@
             crossorigin="anonymous"
         />
         <link href="/css/font.css" rel="stylesheet" />
+        <link rel="stylesheet" href="https://unpkg.com/driver.js/dist/driver.min.css" />
         <link rel="stylesheet" href="/css/main.css" />
         <link rel="stylesheet" href="/css/common.css" />
     </head>
@@ -31,7 +32,7 @@
                             <button class="add-svg svg-gray svg-hover"></button>
                             <div class="leftSection-nav-bottom">
                                 <div class="leftSection-nav-bottom-question-container" tabindex="-1">
-                                    <div class="leftSection-nav-bottom-button">
+                                    <div id="leftSection-nav-bottom-button" class="leftSection-nav-bottom-button">
                                         <div class="leftSection-nav-bottom-question-svg"></div>
                                     </div>
                                 </div>
@@ -161,7 +162,7 @@
                                 <span>COLLAPSE</span>
                             </button>
                         </div>
-                        <div class="middleSection-nav-add-button-container">
+                        <div id="middleSection-nav-add-button-container" class="middleSection-nav-add-button-container">
                             <button class="middleSection-nav-add-button">
                                 <div class="add-svg svg-white"></div>
                                 <span class="middleSection-nav-add-text">ADD COLLECTION</span>
@@ -169,15 +170,18 @@
                         </div>
                     </div>
                     <div class="middleSection-container">
-                        <div>
+                        <div id="guide-collection-cards-box">
                             <div class="middleSection-container-without-collection-box none">
                                 <span>No collections shared with this space yet.</span>
                                 <span>Add or share collections with your space and you will see them here.</span>
                                 <button class="middleSection-container-add-first-collection-button"></button>
                             </div>
                             <div class="middleSection-container-collection-box none">
-                                <div>
-                                    <div class="middleSection-container-collection-cards-box"></div>
+                                <div class="middleSection-container-collection-box-1">
+                                    <div
+                                        id="middleSection-container-collection-cards-box"
+                                        class="middleSection-container-collection-cards-box"
+                                    ></div>
                                 </div>
                             </div>
                         </div>
@@ -687,7 +691,7 @@ WeHelp 軟體工程師扶持計畫</textarea
                                 </div>
                             </div>
                         </div>
-                        <div class="tab-card-manually-add-popover-box">
+                        <div id="tab-card-manually-add-popover-box" class="tab-card-manually-add-popover-box">
                             <div>
                                 <h4>Title</h4>
                                 <div>
@@ -835,7 +839,7 @@ WeHelp 軟體工程師扶持計畫</textarea
                                                 alt="教學三"
                                             />
                                             <div class="beginner-guide-extension-text">
-                                                3.這是基本的網站按鈕介紹，下一步會有完整的流程動圖說明。<br />
+                                                3.這是基本的網站按鈕介紹，接下來有更詳細的功能介紹。<br />
                                             </div>
                                         </div>
                                         <div class="carousel-item">
@@ -846,7 +850,8 @@ WeHelp 軟體工程師扶持計畫</textarea
                                                 alt="教學四"
                                             />
                                             <div class="beginner-guide-extension-text">
-                                                4.這篇介紹的是Tobicord的<b>基礎創建與使用流程</b>。將右側分頁卡片拖曳到中間Collection部分，即會儲存在帳號空間，未來就不會遺失囉。(創建帳號後，都會有一個預設群組和空間。)
+                                                4.這篇介紹的是Tobicord的<b>基礎創建與使用流程</b>。將右側分頁卡片拖曳到中間Collection部分，即會儲存在帳號空間，未來就不會遺失囉。(Window1
+                                                是有安裝擴充套件才會自動產生的唷，手動新增在下一篇。)
                                             </div>
                                         </div>
                                         <div class="carousel-item">
@@ -918,7 +923,7 @@ WeHelp 軟體工程師扶持計畫</textarea
                                     </button>
                                 </div>
                             </div>
-                            <button class="beginner-guide-popover-box-close-button">
+                            <button id="beginner-guide-popover-box-close-button" class="beginner-guide-popover-box-close-button">
                                 <span>完成教學</span>
                             </button>
                         </div>
@@ -964,19 +969,19 @@ WeHelp 軟體工程師扶持計畫</textarea
                         </button>
                     </div>
                 </section>
-                <section class="rightSection">
+                <section id="rightSection" class="rightSection">
                     <button class="rightSection-fold-button">
                         <div class="rightSection-fold-button-svg svg-hover"></div>
                     </button>
                     <div class="rightSection-container">
                         <div class="rightSection-nav">
                             <div class="rightSection-nav-title">Reload</div>
-                            <div class="reload-svg-container">
+                            <div id="reload-svg-container" class="reload-svg-container">
                                 <div class="reload-svg"></div>
                             </div>
                         </div>
-                        <div class="rightSection-spaces">
-                            <div class="rightSection-spaces-manually-add-tab-card">
+                        <div id="rightSection-spaces" class="rightSection-spaces">
+                            <div id="rightSection-spaces-manually-add-tab-card" class="rightSection-spaces-manually-add-tab-card">
                                 <div class="rightSection-spaces-window-tabs-box">
                                     <div class="rightSection-spaces-window-tabs-line">
                                         <div class="rightSection-spaces-window-tabs-left-block">
@@ -986,7 +991,7 @@ WeHelp 軟體工程師扶持計畫</textarea
                                                 tabindex="-1"
                                                 data-bs-toggle="collapse"
                                                 data-bs-target="#manually-add-tabs-cards"
-                                                aria-expanded="false"
+                                                aria-expanded="true"
                                                 aria-controls="#manually-add-tabs-cards"
                                             >
                                                 <div class="arrow-right-svg"></div>
@@ -1003,7 +1008,7 @@ WeHelp 軟體工程師扶持計畫</textarea
                                     ></div>
                                 </div>
                             </div>
-                            <div class="rightSection-spaces-window-container">
+                            <div id="rightSection-spaces-window-container" class="rightSection-spaces-window-container">
                                 <!-- Window Tab Cards-->
                             </div>
                         </div>
@@ -1015,6 +1020,7 @@ WeHelp 軟體工程師扶持計畫</textarea
         <script type="module" src="/js/API/axios-interceptors.js"></script>
         <script type="module" src="/js/API/fetchApi.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+        <script src="https://unpkg.com/driver.js/dist/driver.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
         <script
             src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.1/dist/umd/popper.min.js"

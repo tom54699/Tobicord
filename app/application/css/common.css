@@ -115,3 +115,29 @@ h6 {
     z-index: 9000;
     background-color: black;
 }
+.step-popover-class {
+    background-color: #49495b !important;
+    color: rgb(197, 197, 211) !important;
+}
+.driver-popover-description {
+    color: rgb(197, 197, 211) !important;
+}
+.driver-close-btn,
+.driver-prev-btn,
+div#driver-popover-item .driver-popover-footer button {
+    color: rgb(214, 73, 107);
+    background-color: #49495b;
+    text-shadow: none !important;
+    border: none !important;
+    margin-top: 5px !important;
+    font-size: 12px !important;
+    font-weight: bold !important;
+}
+.driver-next-btn {
+    background-color: rgb(214, 73, 107) !important;
+    color: rgb(255, 255, 255) !important;
+}
+div#driver-highlighted-element-stage {
+    background: none !important;
+    border: 2px solid rgb(214, 73, 107) !important;
+}

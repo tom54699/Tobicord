@@ -2505,9 +2505,9 @@ input[placeholder] {
     overflow: visible;
     width: 100%;
 }
-.middleSection-container-collection-box > div:nth-child(1) {
+.middleSection-container-collection-box-1 {
     position: relative;
-    height: 820px;
+    height: auto;
     width: 100%;
     overflow: hidden auto;
     will-change: transform;
