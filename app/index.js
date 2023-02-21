@@ -108,7 +108,7 @@ const invitationRoutes = require("./router/invitation.routes")
 const errorMiddleware = require("./middlewares/error.middleware")
 
 app.get("/", (req, res) => {
-    res.render("login")
+    res.render("index")
 })
 
 app.use("/auth", authRoutes)

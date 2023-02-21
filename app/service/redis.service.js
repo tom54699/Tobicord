@@ -9,6 +9,7 @@ class RedisService {
             })
             this.asyncInit()
         } catch (error) {
+            c
             console.log(error)
         }
     }
