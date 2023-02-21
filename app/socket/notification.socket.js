@@ -8,7 +8,7 @@ function notificationSocket(server) {
         console.log("a user connected", socket.id)
         socket.on("disconnect", () => {
             console.log("------------------------------------")
-            console.log("user disconnected")
+            console.log("user disconnected", socket.id)
         })
         socket.on("notification", (data) => {
             console.log("------------------------------------")
