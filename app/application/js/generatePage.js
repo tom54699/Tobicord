@@ -1388,6 +1388,8 @@ class LeftSectionBuild {
             const response = await invitationApi.uploadInvitationData(leftSectionBuild.nowOrganizationId, this.inviteMemberEmail)
             console.log(response)
             if (response.data.message === "ok") {
+                const socket = io()
+                socket.emit("notification", `傳送邀請給${this.inviteMemberEmail}`)
                 middleSectionAddCategoryPopoverContainer[0].style.zIndex = "-1000"
                 inviteMemberPopoverBox[0].style.transform = "translate(-50%,-150%)"
                 mask[0].style.display = "none"

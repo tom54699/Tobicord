@@ -152,3 +152,17 @@ spaceCreatePopoverBox[0].style.transform = "translate(-50%,-150%)" mask[0].style
         <button class="notice-popover-container-accept-button">同意</button>
     </div>
 </div>
+
+
+const middleSectionAddCategoryPopoverContainer = document.getElementsByClassName("middleSection-popover-container")
+const mask = document.getElementsByClassName("mask")
+
+middleSectionAddCategoryPopoverContainer[0].style.zIndex = "9999"
+mask[0].style.display = "block"
+
+middleSectionAddCategoryPopoverContainer[0].style.zIndex = "-1000"
+tabCardEditPopoverBox[0].style.transform = "translate(-50%,-220%)"
+mask[0].style.display = "none"
+
+const organizationSettingPopoverRightBoxLeaveAlert = document.getElementsByClassName("organization-setting-popover-right-box-Leave-alert")
+organizationSettingPopoverRightBoxLeaveAlert[0].classList.add("none")

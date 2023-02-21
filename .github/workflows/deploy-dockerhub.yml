@@ -46,7 +46,7 @@ jobs:
               id: deploy
               run: |
                   aws deploy create-deployment \
-                  --application-name cicid-test \
-                  --deployment-group-name cicid-test-groups \
+                  --application-name Tobicord-CICD \
+                  --deployment-group-name Tobicord-CICD \
                   --deployment-config-name CodeDeployDefault.OneAtATime \
                   --github-location repository=${{ github.repository }},commitId=${{ github.sha }}

@@ -22,7 +22,8 @@
         "jsonwebtoken": "^9.0.0",
         "mysql2": "^3.0.1",
         "redis": "^4.5.1",
-        "sequelize": "^6.28.0"
+        "sequelize": "^6.28.0",
+        "socket.io": "^4.6.1"
     },
     "devDependencies": {
         "hbs": "^4.2.0"

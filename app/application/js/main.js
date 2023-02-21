@@ -92,7 +92,6 @@ async function checkMainPageAuth() {
         console.log("檢查MAIN權限")
         const response = await authApi.checkAuth()
         const result = await response.data
-        console.log(result)
         if (response.status === 200) {
             isCheck = true
             nowUserName = result.userName
