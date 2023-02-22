@@ -29,11 +29,12 @@ class WindowController {
         try {
             const key = req.email
             const result = await RedisService.getWindow(key)
+            console.log(result)
             const windowData = JSON.parse(result)
             windowData.message = "ok"
             return res.status(200).send(windowData)
         } catch (err) {
-            next(err)
+            return err
         }
     }
     async updateWindow(req, res, next) {
