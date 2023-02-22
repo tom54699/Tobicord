@@ -4,8 +4,8 @@ class RedisService {
     constructor() {
         try {
             this.client = redis.createClient({
-                /*url: "redis://localhost:6379",*/
-                url: `redis://:${process.env["REDIS_PASSWORD"]}@redis:6379`,
+                url: "redis://localhost:6379",
+                /*url: `redis://:${process.env["REDIS_PASSWORD"]}@redis:6379`,*/
             })
             this.asyncInit()
         } catch (error) {

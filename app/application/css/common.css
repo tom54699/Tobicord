@@ -141,3 +141,18 @@ div#driver-highlighted-element-stage {
     background: none !important;
     border: 2px solid rgb(214, 73, 107) !important;
 }
+.notice-blink {
+    animation: notice-blink 1s ease infinite;
+}
+
+@keyframes notice-blink {
+    0% {
+        background-color: rgb(214, 73, 107);
+    }
+    50% {
+        background-color: rgb(124, 124, 154);
+    }
+    100% {
+        background-color: rgb(214, 73, 107);
+    }
+}

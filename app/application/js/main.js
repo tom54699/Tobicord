@@ -3,6 +3,7 @@ import { rightSectionBuild, mainPageBuild, leftSectionBuild, middleSectionBuild 
 const logoutButton = document.getElementsByClassName("user-popover-logout-button")
 const preloadBackGround = document.getElementsByClassName("preload-back-ground")
 let isCheck = false
+let nowUserId
 let nowUserName
 let nowUserEmail
 window.addEventListener("load", async () => {
@@ -86,6 +87,7 @@ window.addEventListener("DOMContentLoaded", async () => {
     mainPageBuild.rightSectionFold()
     mainPageBuild.leftSectionFold()
 })
+
 // 檢查權限
 async function checkMainPageAuth() {
     try {
@@ -94,8 +96,11 @@ async function checkMainPageAuth() {
         const result = await response.data
         if (response.status === 200) {
             isCheck = true
+            nowUserId = result.userId
             nowUserName = result.userName
             nowUserEmail = result.userEmail
+            const socket = window.socket
+            socket.emit("login", result)
             const driver = new Driver({
                 className: "step-popover-class",
                 prevBtnText: "PREV",
@@ -295,4 +300,4 @@ middleSectionNavCollapseButton[0].addEventListener("click", () => {
     }
 })
 
-export { nowUserEmail, nowUserName }
+export { nowUserEmail, nowUserName, nowUserId }

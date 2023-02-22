@@ -12,7 +12,7 @@ import {
     OrganizationOwnerSideCardForm,
     OrganizationManagerSideCardForm,
 } from "./component.js"
-import { nowUserName, nowUserEmail } from "./main.js"
+import { nowUserName, nowUserEmail, nowUserId } from "./main.js"
 class RightSectionBuild {
     constructor() {
         this.isWindowTabsCheck = {}
@@ -1388,8 +1388,15 @@ class LeftSectionBuild {
             const response = await invitationApi.uploadInvitationData(leftSectionBuild.nowOrganizationId, this.inviteMemberEmail)
             console.log(response)
             if (response.data.message === "ok") {
-                const socket = io()
-                socket.emit("notification", `傳送邀請給${this.inviteMemberEmail}`)
+                const socket = window.socket
+                socket.emit("sendInvitation", {
+                    inviterId: nowUserId,
+                    inviterName: nowUserName,
+                    inviterEmail: nowUserEmail,
+                    inviteeEmail: this.inviteMemberEmail,
+                    organizationId: leftSectionBuild.nowOrganizationId,
+                    organizationName: leftSectionBuild.nowOrganizationName,
+                })
                 middleSectionAddCategoryPopoverContainer[0].style.zIndex = "-1000"
                 inviteMemberPopoverBox[0].style.transform = "translate(-50%,-150%)"
                 mask[0].style.display = "none"
@@ -1494,7 +1501,7 @@ class LeftSectionBuild {
                                 i.organizationId,
                                 i.Organization.organizationName
                             )
-                            this.inviteButtonAddEvent(i.inviterId, i.organizationId)
+                            this.inviteButtonAddEvent(i.inviterId, i.organizationId, i.Organization.organizationName)
                         }
                         if (i.status === "approve-refused") {
                             this.generateApprovalRefusedMessage(i.inviterId, i.organizationId, i.Organization.organizationName)
@@ -1563,7 +1570,7 @@ class LeftSectionBuild {
             }
         })
     }
-    inviteButtonAddEvent(inviterId, organizationId) {
+    inviteButtonAddEvent(inviterId, organizationId, organizationName) {
         const noticePopoverContainerAcceptButton = document.getElementById(
             `notice-popover-container-invite-accept-button-${inviterId}-${organizationId}`
         )
@@ -1575,6 +1582,16 @@ class LeftSectionBuild {
             const response = await invitationApi.acceptInvitation(organizationId, inviterId)
             if (response.status === 200) {
                 noticeCardBox.innerHTML = `<div>${response.data.message}</div>`
+                const socket = window.socket
+                socket.emit("sendAcceptInvitation", {
+                    inviterId: inviterId,
+                    organizationId: organizationId,
+                    organizationName: organizationName,
+                    inviteeName: nowUserName,
+                    inviteeId: nowUserId,
+                    inviteeEmail: nowUserEmail,
+                    message: response.data.message,
+                })
             }
         })
         noticePopoverContainerRefuseButton.addEventListener("click", async () => {
@@ -1582,6 +1599,18 @@ class LeftSectionBuild {
             console.log(response)
             if (response.status === 200) {
                 noticeCardBox.innerHTML = `<div>${response.data.message}</div>`
+                const socket = window.socket
+                socket.emit("sendRefuseInvitation", {
+                    inviterId: inviterId,
+                    organizationId: organizationId,
+                    organizationName: organizationName,
+                    inviteeName: nowUserName,
+                    inviteeId: nowUserId,
+                    inviteeEmail: nowUserEmail,
+                })
+                setTimeout(() => {
+                    noticeCardBox.remove()
+                }, 4000)
             }
         })
     }

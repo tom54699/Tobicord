@@ -4,11 +4,13 @@ class UsersController {
     async loggedIn(req, res, next) {
         try {
             const response = usersService.loggedIn(req)
+            const userId = response.userId
             const userName = response.username
             const userEmail = response.email
             const result = await MemberTable.CheckFirstLogin(userEmail)
             const firstLogin = result.dataValues.firstLogin
             return res.status(200).json({
+                userId: userId,
                 userName: userName,
                 userEmail: userEmail,
                 firstLogin: firstLogin,
