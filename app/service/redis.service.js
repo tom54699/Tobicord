@@ -51,7 +51,6 @@ class RedisService {
             return result
         } catch (error) {
             console.log(error)
-            return error
         }
     }
     async deleteWindow(key) {
