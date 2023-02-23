@@ -34,9 +34,6 @@ function notificationSocket(server) {
                 })
             } else {
                 console.log("------------------------------------", "其中一方找不到")
-                socket.emit("invitation_error", {
-                    message: `找不到 email 為 ${data.inviteeEmail} 的使用者`,
-                })
             }
         })
         socket.on("sendRefuseInvitation", (data) => {

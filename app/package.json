@@ -11,6 +11,7 @@
     "author": "",
     "license": "ISC",
     "dependencies": {
+        "aws-sdk": "^2.1321.0",
         "bcrypt": "^5.1.0",
         "body-parser": "^1.20.1",
         "cookie-parser": "^1.4.6",
@@ -23,7 +24,8 @@
         "mysql2": "^3.0.1",
         "redis": "^4.5.1",
         "sequelize": "^6.28.0",
-        "socket.io": "^4.6.1"
+        "socket.io": "^4.6.1",
+        "uuid": "^9.0.0"
     },
     "devDependencies": {
         "hbs": "^4.2.0"

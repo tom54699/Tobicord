@@ -802,6 +802,44 @@ class InvitationApi {
         }
     }
 }
+
+class MemberApi {
+    async uploadMemberHeadShot(image, imageType) {
+        try {
+            const headers = {
+                "Content-Type": "application/json",
+                Accept: "application/json",
+                Authorization: `Bearer ${window.localStorage.getItem("accessToken")}`,
+            }
+            const content = {
+                imageType: imageType,
+                image: Array.from(new Uint8Array(image)),
+            }
+            const response = await axios.put("/users/avatar", content, headers)
+            return response
+        } catch (err) {
+            console.log(err)
+            return err
+        }
+    }
+    async getMemberHeadShot() {
+        try {
+            const headers = {
+                "Content-Type": "application/json",
+                Accept: "application/json",
+                Authorization: `Bearer ${window.localStorage.getItem("accessToken")}`,
+            }
+            const config = {
+                headers: headers,
+            }
+            const response = await axios.get("/users/avatar", config)
+            return response
+        } catch (err) {
+            console.log(err)
+            return err.response
+        }
+    }
+}
 const authApi = new AuthApi()
 const windowApi = new WindowApi()
 const organizationApi = new OrganizationApi()
@@ -809,5 +847,6 @@ const spaceApi = new SpaceApi()
 const collectionApi = new CollectionApi()
 const tabApi = new TabApi()
 const invitationApi = new InvitationApi()
+const memberApi = new MemberApi()
 
-export { authApi, windowApi, organizationApi, spaceApi, collectionApi, tabApi, invitationApi }
+export { authApi, windowApi, organizationApi, spaceApi, collectionApi, tabApi, invitationApi, memberApi }

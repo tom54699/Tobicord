@@ -2,15 +2,19 @@ import { rightSectionBuild, mainPageBuild, leftSectionBuild, middleSectionBuild 
 let socketId
 
 window.addEventListener("DOMContentLoaded", async () => {
-    const socket = io()
-    window.socket = socket
-    socket.on("connect", () => {
-        socketId = socket.id
-        console.log(socketId)
-        receiveInvitation(socket)
-        receiveRefuseInvitation(socket)
-        receiveAcceptInvitation(socket)
-    })
+    try {
+        const socket = io()
+        window.socket = socket
+        socket.on("connect", () => {
+            socketId = socket.id
+            console.log(socketId)
+            receiveInvitation(socket)
+            receiveRefuseInvitation(socket)
+            receiveAcceptInvitation(socket)
+        })
+    } catch (error) {
+        console.log(error)
+    }
 })
 
 function receiveInvitation(socket) {
@@ -25,7 +29,7 @@ function receiveInvitation(socket) {
         leftSectionNavBottomNoticeButton[1].classList.add("notice-blink")
         setTimeout(() => {
             leftSectionNavBottomNoticeButton[1].classList.remove("notice-blink")
-        }, 5000)
+        }, 10000)
     })
 }
 
@@ -34,10 +38,12 @@ function receiveRefuseInvitation(socket) {
     socket.on("receiveRefuseInvitation", (data) => {
         console.log("------------------------------------")
         console.log(data)
+        const audio = new Audio("../mp3/提示音效.wav")
+        audio.play()
         leftSectionNavBottomNoticeButton[1].classList.add("notice-blink")
         setTimeout(() => {
             leftSectionNavBottomNoticeButton[1].classList.remove("notice-blink")
-        }, 5000)
+        }, 10000)
         const refuseMessage = `<div>${data.inviteeName}已拒絕了${data.organizationName}群組邀請</div>`
         generateInvitationNotification(data.inviterId, data.inviteeName, data.organizationId, data.organizationName, refuseMessage)
     })
@@ -54,10 +60,12 @@ function receiveAcceptInvitation(socket) {
         } else if (data.message === "🎉恭喜你，加入群組成功!🎉") {
             message = `<div>${data.inviteeName}已加入${data.organizationName}群組</div>`
         }
+        const audio = new Audio("../mp3/提示音效.wav")
+        audio.play()
         leftSectionNavBottomNoticeButton[1].classList.add("notice-blink")
         setTimeout(() => {
             leftSectionNavBottomNoticeButton[1].classList.remove("notice-blink")
-        }, 6000)
+        }, 10000)
         generateInvitationNotification(data.inviterId, data.inviteeName, data.organizationId, data.organizationName, message)
     })
 }

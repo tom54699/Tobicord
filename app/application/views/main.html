@@ -42,7 +42,7 @@
                                     </div>
                                 </div>
                                 <section class="notice-popover-container">
-                                    <div class="pointer"></div>
+                                    <div class="pointer-notification"></div>
                                     <div class="notice-popover">
                                         <div>
                                             <div class="notice-popover-notice-button">Notification Panel</div>
@@ -55,21 +55,28 @@
                                     <div class="leftSection-nav-bottom-button">
                                         <div class="leftSection-nav-bottom-user-svg"></div>
                                     </div>
-                                    <section class="user-popover-container">
-                                        <div class="user-popover">
-                                            <div class="user-popover-account">
-                                                <div class="user-popover-account-title">Account</div>
-                                                <span class="user-popover-account-email">moonightear (tom54699@gmail.com)</span>
-                                                <a class="user-popover-edit-account">Edit account</a>
-                                                <a class="user-popover-change-password">Change Password</a>
-                                            </div>
-                                            <div class="user-popover-logout">
-                                                <br />
-                                                <a class="user-popover-logout-button">Log out</a>
-                                            </div>
-                                        </div>
-                                    </section>
                                 </div>
+                                <section class="user-popover-container">
+                                    <div class="pointer-user"></div>
+                                    <div class="user-popover">
+                                        <div class="user-popover-account">
+                                            <div class="avatar-container">
+                                                <div class="avatar-edit-overlay">
+                                                    <button class="avatar-edit-button">
+                                                        <label>Edit</label>
+                                                        <input class="avatar-input" type="file" accept="image/gif, image/jpeg, image/png" />
+                                                    </button>
+                                                </div>
+                                                <img id="preview_img" src="../images/Anya.png" alt="avatar" />
+                                            </div>
+                                            <span class="user-popover-account-email">moonightear (tom54699@gmail.com)</span>
+                                        </div>
+                                        <div class="user-popover-logout">
+                                            <br />
+                                            <a class="user-popover-logout-button">Log out</a>
+                                        </div>
+                                    </div>
+                                </section>
                             </div>
                         </section>
                         <section class="leftSection-spaces">
@@ -129,31 +136,18 @@
                     <div class="middleSection-nav">
                         <div class="middleSection-nav-list">
                             <div class="middleSection-nav-tag-button-container">
-                                <button class="middleSection-nav-button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <div class="middleSection-nav-tag-svg"></div>
-                                    <span>Tag Filter</span>
-                                    <div class="arrow-down-svg"></div>
+                                <button
+                                    class="middleSection-nav-button"
+                                    data-bs-toggle="collapse"
+                                    data-bs-target="#middleSection-chat-container"
+                                    aria-expanded="true"
+                                    aria-controls="#middleSection-chat-container"
+                                >
+                                    <div class="middleSection-nav-chat-svg"></div>
+                                    <span>Chatroom</span>
                                     <div class="arrow-up-svg"></div>
+                                    <div class="arrow-down-svg"></div>
                                 </button>
-                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                    <li class="dropdown-item middleSection-nav-dropdown-menu-li-container">
-                                        <span>Clear all Tags</span>
-                                    </li>
-                                    <li class="dropdown-item middleSection-nav-dropdown-menu-li-container">
-                                        <div class="middleSection-nav-tag-svg"></div>
-                                        <span> 奇幻</span>
-                                        <button class="edit-svg-container">
-                                            <div class="edit-svg"></div>
-                                        </button>
-                                    </li>
-                                    <li class="dropdown-item middleSection-nav-dropdown-menu-li-container">
-                                        <div class="middleSection-nav-tag-svg"></div>
-                                        <span> 科幻</span>
-                                        <button class="edit-svg-container">
-                                            <div class="edit-svg"></div>
-                                        </button>
-                                    </li>
-                                </ul>
                             </div>
                             <button class="middleSection-nav-expand-button">
                                 <span>EXPAND</span>
@@ -169,7 +163,32 @@
                             </button>
                         </div>
                     </div>
-                    <div class="middleSection-container">
+                    <div class="middleSection-chat-container collapse" id="middleSection-chat-container">
+                        <div>1</div>
+                        <div>
+                            <div>
+                                <div>
+                                    <div class="middleSection-chat-container-chat-input-bar-container">
+                                        <div>
+                                            <button>
+                                                <div class="middleSection-chat-container-chat-input-bar-add-svg"></div>
+                                            </button>
+                                        </div>
+                                        <div>
+                                            <div class="middleSection-chat-container-chat-input-placeholder">傳訊息到 #chat-room</div>
+                                            <div contenteditable="true" class="middleSection-chat-container-chat-input"></div>
+                                        </div>
+                                        <div>
+                                            <button>
+                                                <div class="middleSection-chat-container-chat-input-bar-send-message-svg"></div>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="middleSection-container none">
                         <div id="guide-collection-cards-box">
                             <div class="middleSection-container-without-collection-box none">
                                 <span>No collections shared with this space yet.</span>
@@ -443,7 +462,7 @@
                                 <div class="space-create-popover-box-close-svg"></div>
                             </button>
                             <div>
-                                <form class="space-create-popover-container">
+                                <div class="space-create-popover-container">
                                     <h3>Create a Space</h3>
                                     <div>
                                         <h5>Name your space</h5>
@@ -458,7 +477,7 @@
                                             <span>Create</span>
                                         </button>
                                     </div>
-                                </form>
+                                </div>
                             </div>
                         </div>
                         <div class="space-setting-popover-box">

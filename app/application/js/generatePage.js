@@ -1,4 +1,4 @@
-import { windowApi, organizationApi, spaceApi, collectionApi, tabApi, invitationApi, authApi } from "./API/fetchApi.js"
+import { windowApi, organizationApi, spaceApi, collectionApi, tabApi, invitationApi, authApi, memberApi } from "./API/fetchApi.js"
 import {
     windowFrame,
     windowCardsFrame,
@@ -30,7 +30,6 @@ class RightSectionBuild {
             this.isWindowTabsCheck = {}
             console.log("拿使用者tab資料")
             const response = await windowApi.getWindow()
-            console.log(response)
             for (let i of response.data.data) {
                 this.windowData[i.windowId] = {}
                 this.generateUserWindowFrame(windowNum, i.windowId)
@@ -1571,6 +1570,53 @@ class LeftSectionBuild {
             }
         })
     }
+    openMemberBox() {
+        let isClicked = false
+        const leftSectionNavBottomUserContainer = document.getElementsByClassName("leftSection-nav-bottom-user-container")
+        const userPopoverContainer = document.getElementsByClassName("user-popover-container")
+        document.addEventListener("click", (event) => {
+            if (!userPopoverContainer[0].contains(event.target) && !leftSectionNavBottomUserContainer[0].contains(event.target)) {
+                userPopoverContainer[0].classList.remove("show-display")
+                isClicked = false
+            }
+        })
+        leftSectionNavBottomUserContainer[0].addEventListener("click", (e) => {
+            if (!isClicked) {
+                userPopoverContainer[0].classList.add("show-display")
+                isClicked = true
+            } else {
+                userPopoverContainer[0].classList.remove("show-display")
+                leftSectionNavBottomUserContainer[0].blur()
+                isClicked = false
+            }
+        })
+    }
+    uploadMemberHeadShot() {
+        const avatarInput = document.getElementsByClassName("avatar-input")
+        const preview_img = document.getElementById("preview_img")
+        avatarInput[0].addEventListener("change", (e) => {
+            const file = e.target.files[0]
+            const imageType = e.target.files[0]["type"].slice(6)
+            const reader = new FileReader()
+            reader.readAsArrayBuffer(file)
+            reader.onload = async () => {
+                const arrayBuffer = reader.result
+                const blob = new Blob([arrayBuffer], { type: `image/${imageType}` })
+                const url = URL.createObjectURL(blob)
+                preview_img.src = url
+                await memberApi.uploadMemberHeadShot(arrayBuffer, imageType)
+            }
+            e.target.value = ""
+        })
+    }
+    async getMemberHeadShot() {
+        const preview_img = document.getElementById("preview_img")
+        const response = await memberApi.getMemberHeadShot()
+        console.log(response)
+        if (response.status === 200) {
+            preview_img.src = response.data.avatarUrl
+        }
+    }
     inviteButtonAddEvent(inviterId, organizationId, organizationName) {
         const noticePopoverContainerAcceptButton = document.getElementById(
             `notice-popover-container-invite-accept-button-${inviterId}-${organizationId}`
@@ -1648,6 +1694,41 @@ class LeftSectionBuild {
                 noticeCardBox.innerHTML = `<div>${response.data.message}</div>`
             }
         })
+    }
+    async hasNotification() {
+        const noticePopoverNoticeButton = document.getElementsByClassName("notice-popover-notice-button")
+        const noticePopoverApproveButton = document.getElementsByClassName("notice-popover-approve-button")
+        const response = await invitationApi.getUserApprovalData(this.nowOrganizationId)
+        const leftSectionNavBottomNoticeButton = document.getElementsByClassName("leftSection-nav-bottom-button")
+        console.log("審核", response)
+        if (response.data.message === "ok") {
+            this.approvalData = response.data.approvalData
+            if (this.approvalData.length < 1) {
+                return "No Data"
+            } else {
+                const audio = new Audio("../mp3/提示音效.wav")
+                audio.play()
+                leftSectionNavBottomNoticeButton[1].classList.add("notice-blink")
+                setTimeout(() => {
+                    leftSectionNavBottomNoticeButton[1].classList.remove("notice-blink")
+                }, 20000)
+            }
+        }
+        const result = await invitationApi.getUserInvitationData(this.nowOrganizationId)
+        if (result.data.message === "ok") {
+            this.invitationData = result.data.invitationData
+            if (this.invitationData.inviteeResponse.length < 1) {
+                return "No Data"
+            } else {
+                console.log(this.invitationData.inviteeResponse)
+                const audio = new Audio("../mp3/提示音效.wav")
+                audio.play()
+                leftSectionNavBottomNoticeButton[1].classList.add("notice-blink")
+                setTimeout(() => {
+                    leftSectionNavBottomNoticeButton[1].classList.remove("notice-blink")
+                }, 20000)
+            }
+        }
     }
     /* 群組會員管理 */
     switchBetweenMemberPreferences() {

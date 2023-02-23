@@ -17,7 +17,6 @@ class WindowController {
         try {
             const key = req.body.userEmail
             const result = await RedisService.deleteWindow(key)
-            console.log(result)
             return res.status(200).json({
                 message: "ok",
             })
@@ -29,7 +28,6 @@ class WindowController {
         try {
             const key = req.email
             const result = await RedisService.getWindow(key)
-            console.log(result)
             const windowData = JSON.parse(result)
             windowData.message = "ok"
             return res.status(200).send(windowData)

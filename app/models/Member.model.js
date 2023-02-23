@@ -26,6 +26,10 @@ const Member = sequelize.define(
             type: Sequelize.BOOLEAN,
             defaultValue: true,
         },
+        avatarUrl: {
+            type: Sequelize.STRING(500),
+            allowNull: true,
+        },
     },
     {
         freezeTableName: true,

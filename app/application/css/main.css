@@ -219,20 +219,8 @@ body {
     height: 40px;
     right: 0px;
 }
-.leftSection-nav-bottom-user-container:focus .user-popover::before {
-    position: absolute;
-    display: block;
-    width: 1rem;
-    height: 1rem;
-    transform: rotate(-45deg);
-    background-color: rgb(63, 65, 77);
-    border-left: 1px solid rgb(63, 65, 77);
-    border-top: 1px solid rgb(63, 65, 77);
-    left: -0.6rem;
-    bottom: 1rem;
-    content: "";
-}
-.pointer {
+
+.pointer-notification {
     position: absolute;
     display: block;
     width: 1rem;
@@ -246,10 +234,20 @@ body {
     content: "";
     z-index: 2000;
 }
-.leftSection-nav-bottom-user-container:focus .user-popover-container {
+.pointer-user {
+    position: absolute;
     display: block;
+    width: 1rem;
+    height: 1rem;
+    transform: rotate(-45deg);
+    background-color: rgb(63, 65, 77);
+    border-left: 1px solid rgb(63, 65, 77);
+    border-top: 1px solid rgb(63, 65, 77);
+    left: 3.5rem;
+    bottom: 1.3rem;
+    content: "";
+    z-index: 2000;
 }
-
 .leftSection-nav-bottom-question-svg {
     width: 16px;
     height: 24px;
@@ -279,12 +277,15 @@ body {
 }
 .user-popover-container {
     display: none;
+    position: absolute;
+    bottom: 10px;
+    left: 0;
 }
 .user-popover {
     position: absolute;
     bottom: 0rem;
     left: 4rem;
-    width: 32rem;
+    width: 22rem;
     background: rgb(63, 65, 77);
     border: 1px solid rgb(33, 33, 42);
     box-shadow: rgb(0 0 0 / 17%) 1px 2px 4px 0px;
@@ -292,14 +293,10 @@ body {
     z-index: 1000;
     flex-direction: column;
     padding: 0rem 1.3rem;
-    grid-template-columns: repeat(2, 1fr);
-    grid-template-areas:
-        "ga_account ga_logout"
-        "ga_general ga_data"
-        "ga_about ga_help"
-        "ga_policies ga_spread";
     animation: 0.2s cubic-bezier(0.68, 1, 0.265, 2) 0s 1 normal forwards running kqXsXg;
-    display: grid;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 .user-popover-account {
     padding: 30px 0px;
@@ -324,6 +321,7 @@ body {
     font-size: 14px;
     color: rgb(183, 183, 206);
     white-space: nowrap;
+    text-align: center;
 }
 .user-popover-edit-account {
     text-overflow: ellipsis;
@@ -346,11 +344,10 @@ body {
     color: rgb(183, 183, 206);
 }
 .user-popover-logout {
-    padding: 30px 0px;
+    padding-bottom: 20px;
     display: flex;
     flex-direction: column;
     border-bottom: 1px solid rgb(33, 33, 42);
-    gap: 15px;
     overflow: hidden;
     grid-area: ga_logout / ga_logout / ga_logout / ga_logout;
 }
@@ -697,7 +694,7 @@ input[placeholder] {
 .notice-popover-container {
     display: none;
     position: absolute;
-    bottom: 3rem;
+    bottom: 45px;
     left: 0;
 }
 .notice-popover {
@@ -937,17 +934,17 @@ input[placeholder] {
     background-color: rgb(56, 56, 73);
 }
 .middleSection-nav-button:focus .arrow-down-svg {
-    display: none;
-}
-.middleSection-nav-button:focus .arrow-up-svg {
     display: block;
 }
-.middleSection-nav-tag-svg {
+.middleSection-nav-button:focus .arrow-up-svg {
+    display: none;
+}
+.middleSection-nav-chat-svg {
     width: 1rem;
     height: 1rem;
-    mask: url("../images/tag.svg") no-repeat 50% 50%;
+    mask: url("../images/chat-bubble.svg") no-repeat 50% 50%;
     mask-size: cover;
-    -webkit-mask: url("../images/tag.svg") no-repeat 50% 50%;
+    -webkit-mask: url("../images/chat-bubble.svg") no-repeat 50% 50%;
     -webkit-mask-size: cover;
     background-color: rgb(214, 73, 107);
 }
@@ -960,7 +957,7 @@ input[placeholder] {
     -webkit-mask: url("../images/arrowDown.svg") no-repeat 50% 50%;
     -webkit-mask-size: cover;
     background-color: rgb(214, 73, 107);
-    display: block;
+    display: none;
 }
 .arrow-up-svg {
     width: 1rem;
@@ -970,7 +967,7 @@ input[placeholder] {
     -webkit-mask: url("../images/arrowUp.svg") no-repeat 50% 50%;
     -webkit-mask-size: cover;
     background-color: rgb(214, 73, 107);
-    display: none;
+    display: block;
 }
 .dropdown-menu {
     min-width: 0;
@@ -1570,6 +1567,179 @@ input[placeholder] {
 .space-create-popover-box-form-create-button:hover,
 .invite-member-popover-box-form-add-button:hover {
     background: rgb(170, 63, 91);
+}
+.middleSection-chat-container {
+    display: flex;
+    flex-direction: column;
+    padding: 0rem 0px;
+    gap: 0px;
+    height: 100%;
+    flex: 1 1 auto;
+}
+.middleSection-chat-container > div:nth-child(1) {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+.middleSection-chat-container > div:nth-child(2) {
+    position: relative;
+    padding-left: 16px;
+    padding-right: 16px;
+    margin-top: -8px;
+}
+.middleSection-chat-container > div:nth-child(2) > div:nth-child(1) {
+    position: relative;
+    width: 100%;
+    text-indent: 0;
+    border-radius: 8px;
+    margin-bottom: 24px;
+    background-color: #383a40;
+}
+.middleSection-chat-container > div:nth-child(2) > div:nth-child(1) > div:nth-child(1) {
+    overflow-x: hidden;
+    max-height: 50vh;
+    border-radius: 8px;
+    scrollbar-width: none;
+}
+.middleSection-chat-container-chat-input-bar-container {
+    padding-left: 16px;
+    display: flex;
+    position: relative;
+}
+.middleSection-chat-container-chat-input-bar-container > div:nth-child(1) {
+    position: sticky;
+    -webkit-box-flex: 0;
+    flex: 0 0 auto;
+    align-self: stretch;
+}
+.middleSection-chat-container-chat-input-bar-container > div:nth-child(1) > button {
+    cursor: pointer;
+    height: 44px;
+    padding: 10px 16px;
+    position: sticky;
+    top: 0;
+    margin-left: -16px;
+    width: auto;
+    background: transparent;
+    color: currentColor;
+    border: 0;
+    margin: 0;
+    display: flex;
+    -webkit-box-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    align-items: center;
+    box-sizing: border-box;
+    border-radius: 3px;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 16px;
+    user-select: none;
+}
+.middleSection-chat-container-chat-input-bar-add-svg {
+    width: 1.5rem;
+    height: 1.5rem;
+    mask: url("../images/circleplus.svg") no-repeat 50% 50%;
+    mask-size: cover;
+    -webkit-mask: url("../images/circleplus.svg") no-repeat 50% 50%;
+    -webkit-mask-size: cover;
+    background-color: #b8b9bf;
+    box-shadow: none;
+    transition: box-shadow 0.1s ease-in-out 0.2s;
+}
+.middleSection-chat-container-chat-input-bar-container > div:nth-child(2) {
+    padding: 0;
+    position: relative;
+    background-color: transparent;
+    resize: none;
+    border: none;
+    appearance: none;
+    box-sizing: border-box;
+    font-weight: 400;
+    font-size: 1rem;
+    line-height: 1.375rem;
+    width: 80%;
+    min-height: 44px;
+}
+.middleSection-chat-container-chat-input-bar-container > div:nth-child(3) {
+    margin-left: 16px;
+    display: flex;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    flex-direction: row;
+    height: 44px;
+    position: sticky;
+    right: 16px;
+    top: 0;
+}
+.middleSection-chat-container-chat-input-bar-container > div:nth-child(3) > button {
+    cursor: pointer;
+    width: auto;
+    background: transparent;
+    color: currentColor;
+    border: 0;
+    padding: 0;
+    margin: 0;
+    position: relative;
+    display: flex;
+    -webkit-box-pack: center;
+    justify-content: center;
+    align-items: center;
+    -webkit-box-align: center;
+    box-sizing: border-box;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 16px;
+    user-select: none;
+}
+.middleSection-chat-container-chat-input-bar-send-message-svg {
+    width: 1.5rem;
+    height: 1.5rem;
+    mask: url("../images/sendMessage.svg") no-repeat 50% 50%;
+    mask-size: cover;
+    -webkit-mask: url("../images/sendMessage.svg") no-repeat 50% 50%;
+    -webkit-mask-size: cover;
+    background-color: #b8b9bf;
+    box-shadow: none;
+    transition: box-shadow 0.1s ease-in-out 0.2s;
+}
+
+.middleSection-chat-container-chat-input {
+    position: relative;
+    outline: none;
+    overflow-wrap: break-word;
+    padding-bottom: 11px;
+    padding-top: 11px;
+    padding-right: 10px;
+    left: 0;
+    right: 10px;
+    text-align: left;
+    word-wrap: break-word;
+    white-space: break-spaces !important;
+    font-size: 1rem;
+    line-height: 1.375rem;
+    color: floralwhite;
+    height: auto;
+    background-color: #383a40;
+    border: 0;
+    width: 100%;
+}
+.middleSection-chat-container-chat-input-placeholder {
+    padding-bottom: 11px;
+    padding-top: 11px;
+    padding-right: 10px;
+    position: absolute;
+    left: 0;
+    right: 10px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    color: #6d6f78;
+    text-align: left;
+    user-select: none;
+    pointer-events: none;
+    z-index: 500;
 }
 .organization-setting-popover-box {
     position: fixed;

@@ -40,6 +40,24 @@ const EditFirstLogin = async (email) => {
     return response
 }
 
+const UploadMemberHeadShot = async (id, avatarUrl) => {
+    const response = await Member.update(
+        { avatarUrl: avatarUrl },
+        {
+            where: { id: id },
+        }
+    )
+    return response
+}
+
+const GetMemberHeadShot = async (id) => {
+    const response = await Member.findOne({
+        attributes: ["avatarUrl"],
+        where: { id: id },
+    })
+    return response
+}
+
 const CheckIsJoined = async (organizationId, inviteeId) => {
     const response = await MemberOrganization.findOne({
         attributes: ["roleId"],
@@ -142,6 +160,8 @@ module.exports = {
     CheckLoginData,
     CheckFirstLogin,
     EditFirstLogin,
+    UploadMemberHeadShot,
+    GetMemberHeadShot,
     GetMemberNameByEmail,
     CheckMemberRole,
     AddMemberToOrganization,

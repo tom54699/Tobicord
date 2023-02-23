@@ -39,8 +39,8 @@ class RedisService {
 
     async setWindow(key, data) {
         try {
+            console.log("99999999999999999999", key, data)
             const result = await this.client.set(key, JSON.stringify(data), redis.print)
-            console.log(result)
         } catch (error) {
             console.log(error)
         }
@@ -51,12 +51,12 @@ class RedisService {
             return result
         } catch (error) {
             console.log(error)
+            return error
         }
     }
     async deleteWindow(key) {
         try {
             const result = await this.client.del(key)
-
             return result
         } catch (error) {
             console.log(error)
@@ -64,8 +64,8 @@ class RedisService {
     }
     async updateWindow(key, data) {
         try {
+            console.log("updateWindow", key, data)
             const result = await this.client.set(key, JSON.stringify(data), redis.print)
-            console.log(result)
         } catch (error) {
             console.log(error)
         }
