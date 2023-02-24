@@ -31,6 +31,7 @@ class RightSectionBuild {
             this.isWindowTabsCheck = {}
             console.log("拿使用者tab資料")
             const response = await windowApi.getWindow()
+            console.log(response)
             for (let i of response.data.data) {
                 this.windowData[i.windowId] = {}
                 this.generateUserWindowFrame(windowNum, i.windowId)

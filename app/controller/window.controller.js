@@ -27,10 +27,18 @@ class WindowController {
     async getWindow(req, res, next) {
         try {
             const key = req.email
+            console.log(key)
             const result = await RedisService.getWindow(key)
-            const windowData = JSON.parse(result)
-            windowData.message = "ok"
-            return res.status(200).send(windowData)
+            console.log("-------------------------------")
+            if (result === null) {
+                return res.status(404).json({
+                    message: "No Data",
+                })
+            } else {
+                const windowData = JSON.parse(result)
+                windowData.message = "ok"
+                return res.status(200).send(windowData)
+            }
         } catch (err) {
             return err
         }
