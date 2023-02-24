@@ -226,3 +226,7 @@ input[type="file"] {
     top: 0;
     left: 0;
 }
+
+img[alt] {
+    text-indent: -9999px;
+}

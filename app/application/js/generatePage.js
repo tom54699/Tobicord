@@ -11,6 +11,7 @@ import {
     OrganizationMemberSideCardForm,
     OrganizationOwnerSideCardForm,
     OrganizationManagerSideCardForm,
+    chatMessageCardHtml,
 } from "./component.js"
 import { nowUserName, nowUserEmail, nowUserId } from "./main.js"
 class RightSectionBuild {
@@ -627,6 +628,7 @@ class LeftSectionBuild {
         this.approvalData
         this.organizationMemberData
         this.selectedRole
+        this.userAvatarUrl
     }
     /* UserCenter */
 
@@ -750,6 +752,14 @@ class LeftSectionBuild {
         const organizationDeleteName = document.getElementsByClassName("organization-delete-name")
         const leftSectionSpacesTopTitle = document.getElementsByClassName("leftSection-spaces-top-title")
         const leftSectionNavTopCategoryButton = document.getElementsByClassName("leftSection-nav-top-category-button")
+        const middleSectionNavChatButtonContainer = document.getElementsByClassName("middleSection-nav-chat-button-container")
+        const middleSectionChatContainer = document.getElementsByClassName("middleSection-chat-container")
+        const middleSectionContainer = document.getElementsByClassName("middleSection-container")
+        const chatRoomPeopleAccount = document.getElementsByClassName("chatRoom-people-account")
+        const middleSectionChatMessageCards = document.getElementsByClassName("middleSection-chat-message-cards")
+        const middleSectionChatContainerChatInputBarSendMessageSvg = document.getElementsByClassName(
+            "middleSection-chat-container-chat-input-bar-send-message-svg"
+        )
         let num = Array.from(leftSectionNavTopCategoryButton).length
         for (let i = 0; i < num; i++) {
             leftSectionNavTopCategoryButton[i].addEventListener("click", async () => {
@@ -761,6 +771,11 @@ class LeftSectionBuild {
                 }
                 leftSectionNavTopCategoryButton[i].classList.add("leftSection-nav-top-category-button-click")
                 leftSectionNavTopCategory[i].style.boxShadow = "none"
+                const socket = window.socket
+                socket.emit("leaveChatRoom", {
+                    userName: nowUserName,
+                    roomId: leftSectionBuild.nowOrganizationId,
+                })
                 this.nowOrganizationName = this.organizationData[i].organizationName
                 this.nowOrganizationId = this.organizationData[i].Member_Organization.OrganizationId
                 leftSectionSpacesTopTitle[0].textContent = this.organizationData[i].organizationName
@@ -769,6 +784,23 @@ class LeftSectionBuild {
                 organizationSettingNameInput[0].value = this.organizationData[i].organizationName
                 organizationDeleteName[0].textContent = `"${this.organizationData[i].organizationName}"`
                 organizationDeleteName[1].textContent = `"${this.organizationData[i].organizationName}"`
+                middleSectionNavChatButtonContainer[0].setAttribute(
+                    "id",
+                    `middleSection-nav-chat-button-container-${this.nowOrganizationId}`
+                )
+                chatRoomPeopleAccount[0].setAttribute("id", `chatRoom-people-account-${this.nowOrganizationId}`)
+                middleSectionChatMessageCards[0].setAttribute("id", `middleSection-chat-message-cards-${this.nowOrganizationId}`)
+                middleSectionChatContainerChatInputBarSendMessageSvg[0].setAttribute(
+                    "id",
+                    `middleSection-chat-container-chat-input-bar-send-message-svg-${this.nowOrganizationId}`
+                )
+                middleSectionChatContainer[0].classList.remove("show")
+                middleSectionContainer[0].classList.remove("none")
+                socket.emit("joinChatRoom", {
+                    userName: nowUserName,
+                    roomId: leftSectionBuild.nowOrganizationId,
+                })
+                middleSectionBuild.chatRoomClicked = false
                 await this.createSpaceCards()
                 await this.switchToDifferentSpace()
                 const defaultSpaceButton = document.getElementsByClassName("leftSection-spaces-container-main-card")[0]
@@ -1614,7 +1646,8 @@ class LeftSectionBuild {
         const response = await memberApi.getMemberHeadShot()
         console.log(response)
         if (response.status === 200) {
-            preview_img.src = response.data.avatarUrl
+            this.userAvatarUrl = response.data.avatarUrl
+            preview_img.src = this.userAvatarUrl
         }
     }
     inviteButtonAddEvent(inviterId, organizationId, organizationName) {
@@ -2063,6 +2096,9 @@ class MiddleSectionBuild {
         this.newTabUrl
         this.newTabDescription
         this.isTabsCheck = {}
+        this.chatRoomClicked = false
+        this.chatRoomJoined = false
+        this.chatMessageInput
     }
     /* switch Collection */
     async initCollectionCard() {
@@ -2958,6 +2994,118 @@ class MiddleSectionBuild {
                 noPermissionPopoverBox[0].style.transform = "translate(-50%)"
             } else {
                 console.log(response)
+            }
+        })
+    }
+    /* 聊天室 */
+    chatRoomPeopleAccount() {
+        const socket = window.socket
+        socket.on("chatRoomPeopleAccount", (data) => {
+            const chatRoomPeopleAccount = document.getElementById(`chatRoom-people-account-${data.roomId}`)
+            chatRoomPeopleAccount.textContent = `上線人數(${data.peopleAccount})`
+        })
+    }
+    chatRoomPeopleJoinLeave() {
+        const middleSectionChatMessageCards = document.getElementById(
+            `middleSection-chat-message-cards-${leftSectionBuild.nowOrganizationId}`
+        )
+        const socket = window.socket
+        socket.on("chatRoomPeopleAccount", (data) => {
+            const userName = data.userName
+            if (data.status === "joined") {
+                const joinedMessage = document.createElement("div")
+                joinedMessage.classList.add("chat-notification")
+                joinedMessage.innerHTML = `<span class="chat-notification-text">${userName} 加入了群組</span>`
+                middleSectionChatMessageCards.appendChild(joinedMessage)
+            } else if (data.status === "leaved") {
+                const leavedMessage = document.createElement("div")
+                leavedMessage.classList.add("chat-notification")
+                leavedMessage.innerHTML = `<span class="chat-notification-text">${userName} 離開了群組</span>`
+                middleSectionChatMessageCards.appendChild(leavedMessage)
+            }
+            if (userName === nowUserName) {
+                console.log("加入資料庫後才可以變色")
+            }
+        })
+    }
+    openChatRoom() {
+        const middleSectionNavChatButton = document.getElementById(
+            `middleSection-nav-chat-button-container-${leftSectionBuild.nowOrganizationId}`
+        )
+        const middleSectionContainer = document.getElementsByClassName("middleSection-container")
+        middleSectionNavChatButton.addEventListener("click", () => {
+            if (!this.chatRoomClicked) {
+                middleSectionContainer[0].classList.add("none")
+                this.chatRoomClicked = true
+                const socket = window.socket
+            } else {
+                middleSectionContainer[0].classList.remove("none")
+                this.chatRoomClicked = false
+                const socket = window.socket
+            }
+        })
+    }
+    chatRoomInput() {
+        const middleSectionChatContainerChatInput = document.getElementsByClassName("middleSection-chat-container-chat-input")
+        const middleSectionChatContainerChatInputPlaceholder = document.getElementsByClassName(
+            "middleSection-chat-container-chat-input-placeholder"
+        )
+        middleSectionChatContainerChatInput[0].addEventListener("input", (e) => {
+            if (e.target.innerText === "") {
+                middleSectionChatContainerChatInputPlaceholder[0].classList.remove("none")
+            } else {
+                middleSectionChatContainerChatInputPlaceholder[0].classList.add("none")
+            }
+            this.chatMessageInput = e.target.innerText
+        })
+    }
+    sendChatMessage() {
+        const sendChatMessageButton = document.getElementById(
+            `middleSection-chat-container-chat-input-bar-send-message-svg-${leftSectionBuild.nowOrganizationId}`
+        )
+        const middleSectionChatContainerChatInputPlaceholder = document.getElementsByClassName(
+            "middleSection-chat-container-chat-input-placeholder"
+        )
+        const middleSectionChatContainerChatInput = document.getElementsByClassName("middleSection-chat-container-chat-input")
+        sendChatMessageButton.addEventListener("click", () => {
+            const socket = window.socket
+            socket.emit("chatMessage", {
+                roomId: leftSectionBuild.nowOrganizationId,
+                userName: nowUserName,
+                message: this.chatMessageInput,
+                avatarUrl: leftSectionBuild.userAvatarUrl,
+            })
+            middleSectionChatContainerChatInput[0].innerText = ""
+            middleSectionChatContainerChatInputPlaceholder[0].classList.remove("none")
+        })
+    }
+    generateChatMessage() {
+        const middleSectionChatMessageCards = document.getElementById(
+            `middleSection-chat-message-cards-${leftSectionBuild.nowOrganizationId}`
+        )
+        const socket = window.socket
+        socket.on("chatMessage", (data) => {
+            const userName = data.userName
+            const message = data.message
+            const avatarUrl = data.avatarUrl
+            const messageCard = document.createElement("div")
+            const now = new Date()
+            const options = {
+                timeZone: "Asia/Taipei",
+                year: "numeric",
+                month: "2-digit",
+                day: "2-digit",
+                hour12: false,
+                hour: "2-digit",
+                minute: "2-digit",
+            }
+            const taiwanNow = now.toLocaleString("zh-TW", options)
+            messageCard.classList.add("message-container")
+            const messageCardHtml = chatMessageCardHtml(avatarUrl, userName, taiwanNow, message)
+            messageCard.innerHTML = messageCardHtml
+            middleSectionChatMessageCards.appendChild(messageCard)
+            if (userName === nowUserName) {
+                console.log("加入資料庫後才可以變色")
             }
         })
     }

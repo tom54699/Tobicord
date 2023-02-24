@@ -80,11 +80,16 @@ class UsersController {
         try {
             const userId = req.userId
             const response = await MemberTable.GetMemberHeadShot(userId)
-            console.log(response)
-            return res.status(200).json({
-                message: "ok",
-                avatarUrl: response.dataValues.avatarUrl,
-            })
+            if (response.dataValues.avatarUrl === null) {
+                return res.status(404).json({
+                    message: "Not Found",
+                })
+            } else {
+                return res.status(200).json({
+                    message: "ok",
+                    avatarUrl: response.dataValues.avatarUrl,
+                })
+            }
         } catch (err) {
             next(err)
         }

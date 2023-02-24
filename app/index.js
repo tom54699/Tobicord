@@ -9,7 +9,7 @@ const cookieParser = require("cookie-parser")
 require("dotenv").config()
 const sequelize = require("./config/database.config")
 const http = require("http")
-const { notificationSocket } = require("./socket/notification.socket")
+const { Socket } = require("./socket/Socket")
 const portNum = 3000
 
 const app = express()
@@ -122,7 +122,7 @@ app.use("/tab", tabRoutes)
 app.use("/invitation", invitationRoutes)
 app.use(errorMiddleware)
 
-notificationSocket(server)
+Socket(server)
 
 server.listen(portNum, () => {
     console.log(`Server is running at localhost:${portNum}`)

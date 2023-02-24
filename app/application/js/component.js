@@ -599,6 +599,17 @@ const OrganizationMemberSideCardForm = (memberId, memberName, memberEmail, roleN
             <p>${roleName}</p>
         </div>`
 }
+
+const chatMessageCardHtml = (imageUrl, userName, timestamp, message) => {
+    return `<img src="${imageUrl}" alt="avatar" class="avatar" />
+    <div class="message-content">
+        <div class="user-info">
+            <span  class="username">${userName}</span>
+            <span class="timestamp">${timestamp}</span>
+        </div>
+        <p class="message-text">${message}</p>
+    </div>`
+}
 export {
     windowFrame,
     windowCardsFrame,
@@ -611,4 +622,5 @@ export {
     OrganizationMemberSideCardForm,
     OrganizationOwnerSideCardForm,
     OrganizationManagerSideCardForm,
+    chatMessageCardHtml,
 }

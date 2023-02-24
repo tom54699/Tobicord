@@ -35,6 +35,7 @@ window.addEventListener("DOMContentLoaded", async () => {
             leftSectionBuild.getOrganizationNameEditInputValue()
             leftSectionBuild.saveOrganizationNameEditButtonAddEvent()
             await leftSectionBuild.switchToDifferentOrganization()
+            middleSectionBuild.chatRoomPeopleAccount()
             leftSectionBuild.organizationDeleteButtonAddEvent()
             leftSectionBuild.closeOrganizationDeleteBox()
             leftSectionBuild.organizationDeleteDoubleCheckInput()
@@ -88,6 +89,11 @@ window.addEventListener("DOMContentLoaded", async () => {
             middleSectionBuild.closeExportCollectionButtonAddEvent()
             middleSectionBuild.exportCollectionButtonAddEvent()
             middleSectionBuild.invalidAuthRolePopoverBox()
+            middleSectionBuild.openChatRoom()
+            middleSectionBuild.chatRoomInput()
+            middleSectionBuild.sendChatMessage()
+            middleSectionBuild.generateChatMessage()
+            middleSectionBuild.chatRoomPeopleJoinLeave()
         }
         mainPageBuild.rightSectionFold()
         mainPageBuild.leftSectionFold()
@@ -275,18 +281,6 @@ logoutButton[0].addEventListener("click", async () => {
     } catch (error) {
         console.log(error)
         location.href = "/auth"
-    }
-})
-
-/* 畫面 */
-let isTagFilter = false
-const tagFilterButton = document.getElementsByClassName("middleSection-nav-button")
-tagFilterButton[0].addEventListener("click", () => {
-    if (isTagFilter) {
-        isTagFilter = false
-        tagFilterButton[0].blur()
-    } else {
-        isTagFilter = true
     }
 })
 
