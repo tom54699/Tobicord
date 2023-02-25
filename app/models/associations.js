@@ -8,6 +8,7 @@ const Tab = require("./Tab.model")
 const Role = require("./Role.model")
 const Permission = require("./Permission.model")
 const Invitation = require("./Invitation.model")
+const Chat = require("./Chat.model")
 
 const MemberOrganization = sequelize.define(
     "Member_Organization",
@@ -35,6 +36,9 @@ Invitation.belongsTo(Member, { as: "Inviter", foreignKey: "inviterId", targetKey
 Invitation.belongsTo(Member, { as: "Invitee", foreignKey: "inviteeEmail", targetKey: "email" })
 
 Invitation.belongsTo(Organization, { foreignKey: "organizationId", targetKey: "id" })
+
+Chat.belongsTo(Member, { foreignKey: "memberId", targetKey: "id" })
+Chat.belongsTo(Organization, { foreignKey: "organizationId", targetKey: "id" })
 
 Organization.hasMany(Space, { onDelete: "cascade" })
 Space.belongsTo(Organization)

@@ -600,11 +600,11 @@ const OrganizationMemberSideCardForm = (memberId, memberName, memberEmail, roleN
         </div>`
 }
 
-const chatMessageCardHtml = (imageUrl, userName, timestamp, message) => {
+const chatMessageCardHtml = (imageUrl, userName, timestamp, message, userId) => {
     return `<img src="${imageUrl}" alt="avatar" class="avatar" />
     <div class="message-content">
         <div class="user-info">
-            <span  class="username">${userName}</span>
+            <span class="username username-${userId}">${userName}</span>
             <span class="timestamp">${timestamp}</span>
         </div>
         <p class="message-text">${message}</p>

@@ -842,6 +842,29 @@ class MemberApi {
         }
     }
 }
+
+class ChatApi {
+    async getChatData(organizationId) {
+        try {
+            const headers = {
+                "Content-Type": "application/json",
+                Accept: "application/json",
+                Authorization: `Bearer ${window.localStorage.getItem("accessToken")}`,
+            }
+            const config = {
+                headers: headers,
+                params: {
+                    organizationId: organizationId,
+                },
+            }
+            const response = await axios.get("/chat", config)
+            return response
+        } catch (err) {
+            console.log(err)
+            return err.response
+        }
+    }
+}
 const authApi = new AuthApi()
 const windowApi = new WindowApi()
 const organizationApi = new OrganizationApi()
@@ -850,5 +873,6 @@ const collectionApi = new CollectionApi()
 const tabApi = new TabApi()
 const invitationApi = new InvitationApi()
 const memberApi = new MemberApi()
+const chatApi = new ChatApi()
 
-export { authApi, windowApi, organizationApi, spaceApi, collectionApi, tabApi, invitationApi, memberApi }
+export { authApi, windowApi, organizationApi, spaceApi, collectionApi, tabApi, invitationApi, memberApi, chatApi }

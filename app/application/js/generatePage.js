@@ -1,4 +1,4 @@
-import { windowApi, organizationApi, spaceApi, collectionApi, tabApi, invitationApi, authApi, memberApi } from "./API/fetchApi.js"
+import { windowApi, organizationApi, spaceApi, collectionApi, tabApi, invitationApi, authApi, memberApi, chatApi } from "./API/fetchApi.js"
 import {
     windowFrame,
     windowCardsFrame,
@@ -804,6 +804,7 @@ class LeftSectionBuild {
                     roomId: leftSectionBuild.nowOrganizationId,
                 })
                 middleSectionBuild.chatRoomClicked = false
+                middleSectionBuild.initChatRoomMessage()
                 await this.createSpaceCards()
                 await this.switchToDifferentSpace()
                 const defaultSpaceButton = document.getElementsByClassName("leftSection-spaces-container-main-card")[0]
@@ -2101,7 +2102,7 @@ class MiddleSectionBuild {
         this.isTabsCheck = {}
         this.chatRoomClicked = false
         this.chatRoomJoined = false
-        this.chatMessageInput
+        this.chatMessageInput = ""
     }
     /* switch Collection */
     async initCollectionCard() {
@@ -3041,6 +3042,7 @@ class MiddleSectionBuild {
                 middleSectionContainer[0].classList.add("none")
                 this.chatRoomClicked = true
                 const socket = window.socket
+                this.getChatRoomData()
             } else {
                 middleSectionContainer[0].classList.remove("none")
                 this.chatRoomClicked = false
@@ -3054,12 +3056,12 @@ class MiddleSectionBuild {
             "middleSection-chat-container-chat-input-placeholder"
         )
         middleSectionChatContainerChatInput[0].addEventListener("input", (e) => {
-            if (e.target.innerText === "") {
+            if (e.target.textContent === "") {
                 middleSectionChatContainerChatInputPlaceholder[0].classList.remove("none")
             } else {
                 middleSectionChatContainerChatInputPlaceholder[0].classList.add("none")
             }
-            this.chatMessageInput = e.target.innerText
+            this.chatMessageInput = e.target.textContent
         })
     }
     sendChatMessage() {
@@ -3072,15 +3074,45 @@ class MiddleSectionBuild {
         const middleSectionChatContainerChatInput = document.getElementsByClassName("middleSection-chat-container-chat-input")
         sendChatMessageButton.addEventListener("click", () => {
             const socket = window.socket
-            socket.emit("chatMessage", {
-                roomId: leftSectionBuild.nowOrganizationId,
-                userName: nowUserName,
-                message: this.chatMessageInput,
-                avatarUrl: leftSectionBuild.userAvatarUrl,
-            })
-            middleSectionChatContainerChatInput[0].innerText = ""
-            this.chatMessageInput = ""
-            middleSectionChatContainerChatInputPlaceholder[0].classList.remove("none")
+            if (this.chatMessageInput.trim() !== "" && this.chatMessageInput !== undefined) {
+                socket.emit("chatMessage", {
+                    roomId: leftSectionBuild.nowOrganizationId,
+                    organizationId: leftSectionBuild.nowOrganizationId,
+                    userId: nowUserId,
+                    userName: nowUserName,
+                    message: this.chatMessageInput,
+                    avatarUrl: leftSectionBuild.userAvatarUrl,
+                })
+                middleSectionChatContainerChatInput[0].innerText = ""
+                this.chatMessageInput = ""
+                middleSectionChatContainerChatInputPlaceholder[0].classList.remove("none")
+            }
+        })
+        middleSectionChatContainerChatInput[0].addEventListener("keypress", (event) => {
+            if (event.key === "Enter" && !event.shiftKey) {
+                event.preventDefault()
+                const socket = window.socket
+                if (this.chatMessageInput.trim() !== "" && this.chatMessageInput !== undefined) {
+                    socket.emit("chatMessage", {
+                        roomId: leftSectionBuild.nowOrganizationId,
+                        organizationId: leftSectionBuild.nowOrganizationId,
+                        userId: nowUserId,
+                        userName: nowUserName,
+                        message: this.chatMessageInput,
+                        avatarUrl: leftSectionBuild.userAvatarUrl,
+                    })
+                    middleSectionChatContainerChatInput[0].innerText = ""
+                    this.chatMessageInput = ""
+                    middleSectionChatContainerChatInputPlaceholder[0].classList.remove("none")
+                }
+            }
+        })
+        middleSectionChatContainerChatInput[0].addEventListener("keydown", (event) => {
+            if (event.key === "Enter" && event.shiftKey) {
+                // 按下Shift+Enter時換行
+                this.chatMessageInput += "\n"
+                console.log(this.chatMessageInput)
+            }
         })
     }
     generateChatMessage() {
@@ -3105,13 +3137,59 @@ class MiddleSectionBuild {
             }
             const taiwanNow = now.toLocaleString("zh-TW", options)
             messageCard.classList.add("message-container")
-            const messageCardHtml = chatMessageCardHtml(avatarUrl, userName, taiwanNow, message)
+            const messageCardHtml = chatMessageCardHtml(avatarUrl, userName, taiwanNow, message, data.userId)
             messageCard.innerHTML = messageCardHtml
             middleSectionChatMessageCards.appendChild(messageCard)
-            if (userName === nowUserName) {
-                console.log("加入資料庫後才可以變色")
-            }
         })
+    }
+    autoScrollPosition() {
+        const middleSectionChatContainer = document.getElementsByClassName("middleSection-chat-container")
+        const middleSectionChatMessageCards = document.getElementById(
+            `middleSection-chat-message-cards-${leftSectionBuild.nowOrganizationId}`
+        )
+        function onNewMessage() {
+            middleSectionChatMessageCards.scrollTop = middleSectionChatMessageCards.scrollHeight
+        }
+        onNewMessage()
+        middleSectionChatMessageCards.addEventListener("DOMNodeInserted", onNewMessage)
+    }
+    async getChatRoomData() {
+        const middleSectionChatMessageCards = document.getElementById(
+            `middleSection-chat-message-cards-${leftSectionBuild.nowOrganizationId}`
+        )
+        const response = await chatApi.getChatData(leftSectionBuild.nowOrganizationId)
+        if (response.status === 200) {
+            console.log(response.data.chatData)
+            for (let i of response.data.chatData) {
+                const userName = i.Member.username
+                const message = i.content
+                const avatarUrl = i.Member.avatarUrl
+                const date = new Date(i.createdAt)
+                const options = {
+                    timeZone: "Asia/Taipei",
+                    year: "numeric",
+                    month: "2-digit",
+                    day: "2-digit",
+                    hour12: false,
+                    hour: "2-digit",
+                    minute: "2-digit",
+                }
+                const timestamp = date.toLocaleString("zh-TW", options)
+                const messageCard = document.createElement("div")
+                messageCard.classList.add("message-container")
+                const messageCardHtml = chatMessageCardHtml(avatarUrl, userName, timestamp, message, i.Member.id)
+                messageCard.innerHTML = messageCardHtml
+                middleSectionChatMessageCards.appendChild(messageCard)
+            }
+        }
+    }
+    initChatRoomMessage() {
+        const parentNode = document.getElementById(`middleSection-chat-message-cards-${leftSectionBuild.nowOrganizationId}`)
+        const childNodes = parentNode.children
+        const number = childNodes.length
+        for (let i = number - 1; i >= 0; i--) {
+            parentNode.removeChild(childNodes[i])
+        }
     }
 }
 const rightSectionBuild = new RightSectionBuild()

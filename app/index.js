@@ -105,6 +105,7 @@ const spaceRoutes = require("./router/space.routes")
 const collectionRoutes = require("./router/collection.routes")
 const tabRoutes = require("./router/tab.routes")
 const invitationRoutes = require("./router/invitation.routes")
+const chatRoutes = require("./router/chat.routes")
 const errorMiddleware = require("./middlewares/error.middleware")
 
 app.get("/", (req, res) => {
@@ -120,6 +121,7 @@ app.use("/space", spaceRoutes)
 app.use("/collection", collectionRoutes)
 app.use("/tab", tabRoutes)
 app.use("/invitation", invitationRoutes)
+app.use("/chat", chatRoutes)
 app.use(errorMiddleware)
 
 Socket(server)

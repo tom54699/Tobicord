@@ -1,6 +1,7 @@
 const { Server } = require("socket.io")
 const Invitation = require("../service/InvitationTable")
 const MemberTable = require("../service/MemberTable")
+const ChatTable = require("../service/ChatTable")
 
 function Socket(server) {
     const io = new Server(server)
@@ -65,14 +66,17 @@ function chatSocket(socket, io, users) {
         }
     })
     // 接收來自client端的訊息
-    socket.on("chatMessage", (data) => {
+    socket.on("chatMessage", async (data) => {
         console.log(`User ${data.userName} sent message in room ${data.roomId}: ${data.message}`)
         // 發送訊息到同一個聊天室內的其他client端
         io.to(data.roomId).emit("chatMessage", {
             userName: data.userName,
             message: data.message,
             avatarUrl: data.avatarUrl,
+            userId: data.userId,
         })
+        const response = await ChatTable.CreateChatData(data.organizationId, data.userId, data.message)
+        console.log(response)
     })
 }
 

@@ -1631,6 +1631,7 @@ input[placeholder] {
     max-width: 70%;
     word-break: break-word;
     margin: 0;
+    white-space: pre-wrap;
 }
 
 .middleSection-chat-container > div:nth-child(2) {
