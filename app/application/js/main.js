@@ -95,6 +95,7 @@ window.addEventListener("DOMContentLoaded", async () => {
             middleSectionBuild.generateChatMessage()
             middleSectionBuild.chatRoomPeopleJoinLeave()
             middleSectionBuild.autoScrollPosition()
+            mainPageBuild.dragChatRoomAddEvent()
         }
         mainPageBuild.rightSectionFold()
         mainPageBuild.leftSectionFold()

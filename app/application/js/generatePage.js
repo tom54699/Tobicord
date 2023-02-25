@@ -474,6 +474,56 @@ class MainPageBuild {
             },
         })
     }
+    dragChatRoomAddEvent() {
+        const dragChatRoom = document.getElementsByClassName("middleSection-chat-container-chat-input")
+        new Sortable(dragChatRoom[0], {
+            group: {
+                name: "shared",
+            },
+            animation: 150,
+            onAdd(evt) {
+                console.log("onEnd: 列表单元拖放结束后的回调函数！", evt)
+                const fromBlock = evt.from.id.slice(0, 6)
+                const windowId = evt.from.id.slice(7)
+                const collectionId = evt.to.id.slice(50)
+                console.log(fromBlock, windowId)
+                console.log(evt.to.id)
+                if (fromBlock === "window" || fromBlock === "manual") {
+                    let tabId
+                    let newTabId
+                    let tabData
+                    let tabName
+                    let favIconUrl
+                    let tabUrl
+                    let tabDescription
+                    if (fromBlock === "window") {
+                        tabId = evt.item.id.slice(16)
+                        newTabId = tabId + Math.random().toString(36).substr(2, 5)
+                        tabData = rightSectionBuild.windowData[`${windowId}`][`${tabId}`]
+                        console.log(tabData)
+                        tabName = tabData.tabName
+                        favIconUrl = tabData.favIconUrl
+                        tabUrl = tabData.tabUrl
+                        tabDescription = tabName
+                        const userWindowCards = document.getElementById(`userWindowCards-${tabId}`)
+                        userWindowCards.remove()
+                        dragChatRoom[0].innerHTML = `<a href="${tabUrl}">${tabName}</a>`
+                        const event = new Event("input", { bubbles: true })
+                        dragChatRoom[0].dispatchEvent(event)
+                    } else if (fromBlock === "manual") {
+                        tabId = evt.item.id.slice(16)
+                        newTabId = tabId + Math.random().toString(36).substr(2, 5)
+                        tabData = rightSectionBuild.manuallyTabCards[tabId]
+                        console.log(tabData)
+                        tabName = tabData.tabTitle
+                        favIconUrl = tabData.favIconUrl
+                        tabUrl = tabData.tabUrl
+                        tabDescription = tabData.tabDescription
+                    }
+                }
+            },
+        })
+    }
     dragCollectionCardAddEvent() {
         const middleSectionContainerCollectionCardsBox = document.getElementsByClassName("middleSection-container-collection-cards-box")
         new Sortable(middleSectionContainerCollectionCardsBox[0], {
