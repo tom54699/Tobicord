@@ -3056,12 +3056,12 @@ class MiddleSectionBuild {
             "middleSection-chat-container-chat-input-placeholder"
         )
         middleSectionChatContainerChatInput[0].addEventListener("input", (e) => {
-            if (e.target.textContent === "") {
+            if (e.target.innerHTML === "") {
                 middleSectionChatContainerChatInputPlaceholder[0].classList.remove("none")
             } else {
                 middleSectionChatContainerChatInputPlaceholder[0].classList.add("none")
             }
-            this.chatMessageInput = e.target.textContent
+            this.chatMessageInput = e.target.innerHTML
         })
     }
     sendChatMessage() {
