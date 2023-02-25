@@ -1577,6 +1577,7 @@ input[placeholder] {
     height: 100%;
     flex: 1 1 auto;
     background-color: #313338;
+    overflow-x: hidden;
 }
 .middleSection-chat-message-cards {
     flex: 1 1 auto;
@@ -1584,13 +1585,17 @@ input[placeholder] {
     flex-direction: column;
     position: relative;
     gap: 10px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    height: auto;
 }
 .message-container {
     display: flex;
     align-items: flex-start;
-    margin-top: 20px;
+    margin-top: 15px;
     margin-left: 25px;
     width: 90%;
+    padding-bottom: 15px;
 }
 .message-content {
     width: 100%;
@@ -1632,7 +1637,7 @@ input[placeholder] {
     position: relative;
     padding-left: 16px;
     padding-right: 16px;
-    margin-top: -8px;
+    padding-top: 10px;
 }
 .middleSection-chat-container > div:nth-child(2) > div:nth-child(1) {
     position: relative;

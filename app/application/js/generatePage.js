@@ -31,36 +31,38 @@ class RightSectionBuild {
             this.isWindowTabsCheck = {}
             console.log("拿使用者tab資料")
             const response = await windowApi.getWindow()
-            console.log(response)
-            for (let i of response.data.data) {
-                this.windowData[i.windowId] = {}
-                this.generateUserWindowFrame(windowNum, i.windowId)
-                this.rightSectionFoldButtonBlur(windowNum)
-                for (let j of i.windowTabs) {
-                    if (j.favIconUrl === undefined) {
-                        j.favIconUrl = ""
+            if (response.status === 200) {
+                for (let i of response.data.data) {
+                    this.windowData[i.windowId] = {}
+                    this.generateUserWindowFrame(windowNum, i.windowId)
+                    this.rightSectionFoldButtonBlur(windowNum)
+                    for (let j of i.windowTabs) {
+                        if (j.favIconUrl === undefined) {
+                            j.favIconUrl = ""
+                        }
+                        if (!j.favIconUrl.startsWith("https")) {
+                            j.favIconUrl = ""
+                        }
+                        this.windowData[i.windowId][j.tabId] = {
+                            tabName: j.tabName,
+                            favIconUrl: j.favIconUrl,
+                            tabUrl: j.tabUrl,
+                        }
+                        this.generateUserWindowCards(windowNum, j.favIconUrl, j.tabName, j.tabUrl, j.tabId)
+                        this.rightSectionSpacesWindowTabsCheckBoxContainer(j.tabId)
+                        this.deleteWindowTabCardButton(j.tabId)
+                        tabNum++
                     }
-                    if (!j.favIconUrl.startsWith("https")) {
-                        j.favIconUrl = ""
-                    }
-                    this.windowData[i.windowId][j.tabId] = {
-                        tabName: j.tabName,
-                        favIconUrl: j.favIconUrl,
-                        tabUrl: j.tabUrl,
-                    }
-                    this.generateUserWindowCards(windowNum, j.favIconUrl, j.tabName, j.tabUrl, j.tabId)
-                    this.rightSectionSpacesWindowTabsCheckBoxContainer(j.tabId)
-                    this.deleteWindowTabCardButton(j.tabId)
-                    tabNum++
+                    console.log(this.windowData)
+                    windowNum++
+                    this.removeWindowCheckId(i.windowId)
+                    this.windowTabContainerAddEvent(i.windowId)
+                    mainPageBuild.dragTabCardsAddEvent(i.windowId)
                 }
-                console.log(this.windowData)
-                windowNum++
-                this.removeWindowCheckId(i.windowId)
-                this.windowTabContainerAddEvent(i.windowId)
-                mainPageBuild.dragTabCardsAddEvent(i.windowId)
+                this.deleteWindowTabCardPopoverButton()
+                this.openSelectedWindowTab()
+            } else {
             }
-            this.deleteWindowTabCardPopoverButton()
-            this.openSelectedWindowTab()
         } catch (error) {
             console.log(error)
         }
@@ -1637,7 +1639,7 @@ class LeftSectionBuild {
                 const blob = new Blob([arrayBuffer], { type: `image/${imageType}` })
                 const url = URL.createObjectURL(blob)
                 preview_img.src = url
-                await memberApi.uploadMemberHeadShot(arrayBuffer, imageType)
+                await memberApi.uploadMemberHeadShot(blob, imageType)
             }
             e.target.value = ""
         })
@@ -3077,6 +3079,7 @@ class MiddleSectionBuild {
                 avatarUrl: leftSectionBuild.userAvatarUrl,
             })
             middleSectionChatContainerChatInput[0].innerText = ""
+            this.chatMessageInput = ""
             middleSectionChatContainerChatInputPlaceholder[0].classList.remove("none")
         })
     }

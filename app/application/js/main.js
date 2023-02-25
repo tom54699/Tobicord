@@ -16,7 +16,7 @@ window.addEventListener("DOMContentLoaded", async () => {
         if (isCheck) {
             preloadBackGround[0].classList.add("none")
             /* Right-Section Cards */
-            //await rightSectionBuild.getUserWindow()
+            await rightSectionBuild.getUserWindow()
             await rightSectionBuild.reloadWindows()
             rightSectionBuild.manuallyAddTabCardButton()
             rightSectionBuild.getManuallyAddTabCardInput()

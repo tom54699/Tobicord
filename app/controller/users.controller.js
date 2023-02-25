@@ -2,6 +2,8 @@ const usersService = require("../service/users.service.js")
 const MemberTable = require("../service/MemberTable")
 const { v4: uuidv4 } = require("uuid")
 const S3 = require("aws-sdk/clients/s3.js")
+const fs = require("fs")
+
 class UsersController {
     async loggedIn(req, res, next) {
         try {
@@ -36,8 +38,8 @@ class UsersController {
         try {
             const userId = req.userId
             const imageType = req.body.imageType
-            const image = req.body.image
-            const imageBuffer = Buffer.from(image)
+            const imageBuffer = fs.readFileSync(req.file.path)
+            console.log(imageType, imageBuffer)
             const UserUUID = uuidv4()
             const s3 = new S3({
                 endpoint: `https://${process.env["R2_ACCOUNT_ID"]}.r2.cloudflarestorage.com`,
@@ -61,6 +63,7 @@ class UsersController {
             const headResult = await s3.headObject(objectParams).promise()
             if (headResult.ETag !== uploadResult.ETag) {
                 console.log("上傳失敗")
+                fs.unlinkSync(req.file.path)
                 return res.status(408).json({
                     message: "upload failed",
                 })
@@ -68,6 +71,7 @@ class UsersController {
                 console.log("上傳成功")
                 const avatarUrl = `https://pub-61a84bb50f35476fb1e838152ab72616.r2.dev/user/${userId}.${imageType}`
                 const response = await MemberTable.UploadMemberHeadShot(userId, avatarUrl)
+                fs.unlinkSync(req.file.path)
                 return res.status(200).json({
                     message: "ok",
                 })

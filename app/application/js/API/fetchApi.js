@@ -807,15 +807,17 @@ class MemberApi {
     async uploadMemberHeadShot(image, imageType) {
         try {
             const headers = {
-                "Content-Type": "application/json",
+                "Content-Type": `multipart/form-data`,
                 Accept: "application/json",
                 Authorization: `Bearer ${window.localStorage.getItem("accessToken")}`,
             }
-            const content = {
-                imageType: imageType,
-                image: Array.from(new Uint8Array(image)),
+            const config = {
+                headers: headers,
             }
-            const response = await axios.put("/users/avatar", content, headers)
+            const formData = new FormData()
+            formData.append("imageType", imageType)
+            formData.append("image", image)
+            const response = await axios.put("/users/avatar", formData, config)
             return response
         } catch (err) {
             console.log(err)
