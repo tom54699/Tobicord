@@ -1059,6 +1059,9 @@ input[placeholder] {
     flex-direction: column;
     min-width: 425px;
     position: relative;
+    overflow-y: auto;
+    overflow-x: hidden;
+    height: auto;
 }
 .middleSection-container-without-collection-box {
     display: flex;
@@ -1210,7 +1213,8 @@ input[placeholder] {
     white-space: nowrap;
     overflow: visible;
 }
-.middleSection-tab-popover-move-button {
+.middleSection-tab-popover-move-button,
+.middleSection-tab-card-popover-move-button {
     padding: 5px 10px;
     display: flex;
     flex-direction: row;
@@ -1242,16 +1246,12 @@ input[placeholder] {
     -webkit-mask-size: cover;
     background-color: rgb(197, 197, 211);
 }
-.middleSection-tab-card-popover-move-svg {
-    background-color: rgb(214, 73, 107);
-}
 .middleSection-tab-popover-move-text {
     color: rgb(197, 197, 211);
 }
 .middleSection-tab-popover-create-button,
 .middleSection-tab-popover-delete-button,
 .middleSection-tab-popover-open-button,
-.middleSection-tab-card-popover-move-button,
 .middleSection-tab-card-popover-create-button,
 .middleSection-tab-card-popover-delete-button,
 .middleSection-tab-card-popover-open-button {
@@ -1277,7 +1277,6 @@ input[placeholder] {
 .middleSection-tab-popover-create-button:hover,
 .middleSection-tab-popover-delete-button:hover,
 .middleSection-tab-popover-open-button:hover,
-.middleSection-tab-card-popover-move-button:hover,
 .middleSection-tab-card-popover-create-button:hover,
 .middleSection-tab-card-popover-delete-button:hover,
 .middleSection-tab-card-popover-open-button:hover {

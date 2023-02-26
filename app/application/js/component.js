@@ -353,6 +353,7 @@ const initCollectionCardFrame = (collectionId, collectionName) => {
                 >
                     <div>
                         <span
+                            id = "middleSection-card-container-nav-opentab-button-${collectionId}"
                             class="middleSection-card-container-nav-opentab-button"
                         >
                             <div

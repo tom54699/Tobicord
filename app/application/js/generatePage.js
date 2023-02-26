@@ -226,12 +226,15 @@ class RightSectionBuild {
                 for (let j of Object.values(this.windowData)) {
                     if (j[i]) {
                         console.log(j[i].tabUrl)
-                        let hnd = window.open(`${j[i].tabUrl}`, "_blank")
+                        const hnd = window.open(`${j[i].tabUrl}`, "_blank")
                         if (!hnd) {
-                            let div = document.createElement("div")
+                            const div = document.createElement("div")
                             div.style = "position:absolute;top:3px;right:3px;opacity:1;background-color:purple;color:white;padding:6px;"
                             div.innerText = "開啟新視窗時遭快顯封鎖"
                             document.body.appendChild(div)
+                            setTimeout(() => {
+                                div.remove()
+                            }, 5000)
                         }
                     }
                 }
@@ -2201,6 +2204,7 @@ class MiddleSectionBuild {
                 this.openExportCollectionButtonAddEvent(this.collectionData[i].id)
                 /* tab cards*/
                 this.getTabCardsData(this.collectionData[i].id)
+                this.openSelectedCollectionTabs(this.collectionData[i].id)
             }
         } else {
             middleSectionContainerCollectionBox[0].classList.add("none")
@@ -3240,6 +3244,74 @@ class MiddleSectionBuild {
         for (let i = number - 1; i >= 0; i--) {
             parentNode.removeChild(childNodes[i])
         }
+    }
+    /* openTab */
+    openSelectedCollectionTabs(collectionId) {
+        const middleSectionCollectionTabsOpenButton = document.getElementById(
+            `middleSection-card-container-nav-opentab-button-${collectionId}`
+        )
+        middleSectionCollectionTabsOpenButton.addEventListener("click", () => {
+            for (let j of this.tabsData[collectionId]) {
+                const hnd = window.open(j.tabUrl, "_blank")
+                if (!hnd) {
+                    const div = document.createElement("div")
+                    div.style = "position:absolute;top:3px;right:3px;opacity:1;background-color:purple;color:white;padding:6px;"
+                    div.innerText = "開啟新視窗時遭快顯封鎖"
+                    document.body.appendChild(div)
+                    setTimeout(() => {
+                        div.remove()
+                    }, 5000)
+                }
+            }
+        })
+    }
+    openExportCollectionsButtonAddEvent() {
+        const cardContainerNavMoreListExportButton = document.getElementsByClassName("middleSection-collection-menu-popover-export-button")
+        cardContainerNavMoreListExportButton[0].addEventListener("click", () => {
+            console.log(this.tabsData)
+            let isCollectionsCheckTrue = []
+            let collectionName
+            let collectionData
+            let collectionsData = []
+            let tabData = []
+            for (let id in this.isCollectionsCheck) {
+                if (this.isCollectionsCheck[id] === true) {
+                    isCollectionsCheckTrue.push(id)
+                }
+            }
+            for (let j of isCollectionsCheckTrue) {
+                for (let i of this.collectionData) {
+                    if (i.id == j) {
+                        collectionName = i.collectionName
+                    }
+                }
+                for (let i of this.tabsData[j]) {
+                    delete i.id
+                    delete i.tabId
+                    delete i.createdAt
+                    delete i.updatedAt
+                    delete i.CollectionId
+                    tabData.push(i)
+                }
+                collectionData = {
+                    Collection: collectionName,
+                    Cards: tabData,
+                }
+                collectionsData.push(collectionData)
+            }
+
+            const exportCollectionsData = JSON.stringify(collectionsData)
+            const collectionDataBlob = new Blob([exportCollectionsData], { type: "application/json" })
+            const url = window.URL.createObjectURL(collectionDataBlob)
+            const downloadLink = document.createElement("a")
+            downloadLink.href = url
+            downloadLink.download = `Tobicord-Collections.json`
+            document.body.appendChild(downloadLink)
+            downloadLink.click()
+            document.body.removeChild(downloadLink)
+
+            isCollectionsCheckTrue = []
+        })
     }
 }
 const rightSectionBuild = new RightSectionBuild()

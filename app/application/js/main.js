@@ -96,6 +96,7 @@ window.addEventListener("DOMContentLoaded", async () => {
             middleSectionBuild.chatRoomPeopleJoinLeave()
             middleSectionBuild.autoScrollPosition()
             mainPageBuild.dragChatRoomAddEvent()
+            middleSectionBuild.openExportCollectionsButtonAddEvent()
         }
         mainPageBuild.rightSectionFold()
         mainPageBuild.leftSectionFold()

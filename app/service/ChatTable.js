@@ -29,6 +29,7 @@ const GetUserChatData = async (organizationId) => {
             ],
             attributes: ["content", "memberId", "createdAt"],
             where: { organizationId: organizationId },
+            limit: 50,
         })
         return response
     } catch (err) {
