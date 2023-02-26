@@ -1,0 +1,229 @@
+@import url("https://fonts.googleapis.com/css?family=Ubuntu:300,400,500");
+
+body {
+    margin-bottom: 0;
+    margin-left: 1rem;
+    margin-right: 1rem;
+    color: #7b7b9f;
+    background-color: #fff;
+    font-family: Ubuntu, Arial, sans-serif;
+    font-size: 16px;
+    font-weight: 300;
+    overflow: hidden;
+    touch-action: none;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+.root {
+    display: flex;
+    margin-top: -0.5rem;
+    background-color: #f3f6f7;
+    flex-direction: column;
+    min-height: 100vh;
+    margin-right: -1rem;
+    margin-left: -1rem;
+    padding-right: 1rem;
+    padding-left: 1rem;
+}
+.root > div:nth-child(1) {
+    margin-right: -1rem;
+    margin-left: -1rem;
+    padding-right: 1rem;
+    padding-left: 1rem;
+}
+.sharing-top {
+    position: relative;
+    padding: 2rem 0;
+    padding-bottom: 2rem;
+    background-color: white;
+    text-align: center;
+    margin-right: -1rem;
+    margin-left: -1rem;
+}
+.sharing-top > div:nth-child(1) {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.logo {
+    position: absolute;
+    top: 20px;
+    left: 40px;
+    line-height: 2.5rem;
+    display: inline-block;
+    min-width: 8rem;
+    min-height: 4rem;
+    color: #f9527b;
+    font-size: 2rem;
+    font-weight: bolder;
+    text-decoration: none;
+}
+.sharing-top-title-container {
+    margin: auto;
+    max-width: 32rem;
+}
+.sharing-top-title-container > h1:nth-child(1) {
+    margin: 0;
+    padding: 1rem;
+    letter-spacing: 0.5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.sharing-top-title-container-text {
+    color: #fa507b;
+    font-weight: 800;
+}
+.sharing-top-title-container > h1:nth-child(1) > span:nth-child(2) {
+    font-size: 1.2rem;
+    color: #7b7b9f;
+}
+.sharing-main {
+    position: relative;
+    background-color: #f3f6f7;
+    padding-bottom: 2rem;
+    margin-right: -1rem;
+    margin-left: -1rem;
+    padding-right: 1rem;
+    padding-left: 1rem;
+}
+.tab-cards-container {
+    position: relative;
+    overflow: hidden;
+    padding: 2rem;
+    background-color: #f3f6f7;
+    margin-right: -1rem;
+    margin-left: -1rem;
+    display: flex;
+    justify-content: flex-start;
+    flex-flow: wrap;
+}
+.sharing-footer {
+    display: flex;
+    position: relative;
+    padding: 3rem 2rem 2rem 2rem;
+    background-color: #444462;
+    flex: 1 1 100%;
+    align-items: flex-end;
+    margin-right: -1rem;
+    margin-left: -1rem;
+    height: 80px;
+    position: absolute;
+    bottom: 0;
+    left: 20px;
+    width: 100%;
+}
+.sharing-footer > div {
+    position: absolute;
+    top: -1.5rem;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+.open-tobicord-button {
+    font-size: 0.8rem;
+    display: flex;
+    color: #fa507b;
+    background-color: #fff;
+    padding: 0.8rem 2.2rem;
+    margin: 0 0.125rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    font-weight: 800;
+    line-height: 1.6;
+    letter-spacing: 1px;
+    text-decoration: none;
+    border: none;
+    border-radius: 3rem;
+    outline: none;
+    cursor: pointer;
+    user-select: none;
+    white-space: nowrap;
+    transition: all 0.1s ease-out;
+    appearance: none;
+}
+.open-tobicord-button:hover {
+    color: #fff;
+    background-color: #fa507b;
+    text-decoration: none;
+    box-shadow: 0 5px 10px rgba(12, 12, 129, 0.05);
+    transform: scale(1.05, 1.05);
+}
+.notification {
+    width: 100%;
+    text-align: center;
+    font-size: 30px;
+    font-weight: bolder;
+}
+.share-tab-card-container {
+    will-change: transform;
+    position: relative;
+    width: 13rem;
+    height: 6.2rem;
+    border-radius: 5px;
+    cursor: pointer;
+    outline: none;
+    margin: 10px;
+    box-shadow: rgba(94, 93, 102, 0.08) 1px 1px 0px 0px, rgba(94, 93, 102, 0.1) 2px 2px 3px 0px;
+    -webkit-box-flex: 0;
+    flex-grow: 0;
+    background-color: #fff;
+}
+.share-tab-card-container:hover {
+    background-size: 1.4rem 1.4rem;
+}
+.share-tab-card {
+    position: absolute;
+    inset: 0px;
+    display: flex;
+    flex-direction: column;
+    -webkit-box-align: center;
+    align-items: center;
+}
+.share-tab-card-title {
+    position: relative;
+    flex: 0 0 62%;
+    display: flex;
+    -webkit-box-align: center;
+    align-items: center;
+    width: 100%;
+    padding: 0px 0.8rem;
+    gap: 10px;
+    border-bottom: 0.5px solid rgb(124, 124, 154);
+}
+.share-tab-card-image {
+    display: block;
+    flex: 0 0 1.5rem;
+    width: 1.5rem;
+    height: 1.5rem;
+    opacity: 1;
+}
+.share-tab-card-text {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    font-size: 15px;
+    color: #7a7a9e;
+    font-weight: 700;
+    white-space: nowrap;
+}
+.share-tab-card-description {
+    display: flex;
+    gap: 10px;
+    -webkit-box-align: center;
+    align-items: center;
+    flex: 1 1 0%;
+    width: 100%;
+    padding: 0.6rem;
+}
+.share-tab-card-description-text {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    font-size: 13px;
+    font-weight: 500;
+    white-space: nowrap;
+    color: #7a7a9e;
+}

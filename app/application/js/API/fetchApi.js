@@ -865,6 +865,89 @@ class ChatApi {
         }
     }
 }
+class ShareApi {
+    async checkIsCreatedShareUrl(collectionId) {
+        try {
+            const headers = {
+                "Content-Type": "application/json",
+                Accept: "application/json",
+                Authorization: `Bearer ${window.localStorage.getItem("accessToken")}`,
+            }
+            const config = {
+                headers: headers,
+                params: {
+                    collectionId: collectionId,
+                },
+            }
+            const response = await axios.get("/share/check", config)
+            return response
+        } catch (err) {
+            console.log(err)
+            return err.response
+        }
+    }
+    async getShareCollectionData(collectionId) {
+        try {
+            const headers = {
+                "Content-Type": "application/json",
+                Accept: "application/json",
+                Authorization: `Bearer ${window.localStorage.getItem("accessToken")}`,
+            }
+            const config = {
+                headers: headers,
+                params: {
+                    collectionId: collectionId,
+                },
+            }
+            const response = await axios.get("/share/data", config)
+            return response
+        } catch (err) {
+            console.log(err)
+            return err.response
+        }
+    }
+    async uploadSharedUrl(collectionId, sharedUrl) {
+        try {
+            const headers = {
+                "Content-Type": `application/json`,
+                Accept: "application/json",
+                Authorization: `Bearer ${window.localStorage.getItem("accessToken")}`,
+            }
+            const config = {
+                headers: headers,
+            }
+            const content = {
+                collectionId: collectionId,
+                sharedUrl: sharedUrl,
+            }
+            const response = await axios.post("/share", content, config)
+            return response
+        } catch (err) {
+            console.log(err)
+            return err
+        }
+    }
+    async deleteSharedUrl(collectionId) {
+        try {
+            const headers = {
+                "Content-Type": "application/json",
+                Accept: "application/json",
+                Authorization: `Bearer ${window.localStorage.getItem("accessToken")}`,
+            }
+            const config = {
+                headers: headers,
+            }
+            const content = {
+                collectionId: collectionId,
+            }
+            const response = await axios.put("/share", content, config)
+            return response
+        } catch (err) {
+            console.log(err)
+            return err.response
+        }
+    }
+}
 const authApi = new AuthApi()
 const windowApi = new WindowApi()
 const organizationApi = new OrganizationApi()
@@ -874,5 +957,6 @@ const tabApi = new TabApi()
 const invitationApi = new InvitationApi()
 const memberApi = new MemberApi()
 const chatApi = new ChatApi()
+const shareApi = new ShareApi()
 
-export { authApi, windowApi, organizationApi, spaceApi, collectionApi, tabApi, invitationApi, memberApi, chatApi }
+export { authApi, windowApi, organizationApi, spaceApi, collectionApi, tabApi, invitationApi, memberApi, chatApi, shareApi }

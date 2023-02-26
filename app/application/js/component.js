@@ -36,20 +36,6 @@ const windowFrame = (windowId, windowNum) => {
                 </button>
             </div>
             <div class="rightSection-spaces-window-tabs-right-block">
-                <div>
-                    <span class="rightSection-spaces-window-tabs-download-container">
-                        <button class="rightSection-spaces-window-tabs-download-button">
-                            <div
-                                class="rightSection-spaces-window-tabs-download-svg"
-                            ></div>
-                            <div
-                                class="rightSection-spaces-window-tabs-download-tool-tips"
-                            >
-                                Save Session
-                            </div>
-                        </button>
-                    </span>
-                </div>
                 <span class="rightSection-spaces-window-tabs-close-container">
                     <button class="rightSection-spaces-window-tabs-close-button" id="windowTabsCloseButton-${windowId}">
                         <div class="rightSection-spaces-window-tabs-close-svg"></div>
@@ -380,7 +366,7 @@ const initCollectionCardFrame = (collectionId, collectionName) => {
                             </div>
                         </span>
                         <div id="middleSection-card-container-nav-more-list-${collectionId}" class="middleSection-card-container-nav-more-list">
-                        <button class="card-container-nav-more-list-share-button">
+                        <button id="card-container-nav-more-list-share-button-${collectionId}" class="card-container-nav-more-list-share-button">
                             <div class="card-container-nav-more-list-share-svg"></div>
                             <span>Share</span>
                         </button>
@@ -611,6 +597,22 @@ const chatMessageCardHtml = (imageUrl, userName, timestamp, message, userId) => 
         <p class="message-text">${message}</p>
     </div>`
 }
+
+const shareTabCardFrame = (newTabId, tabName, tabUrl, favIconUrl, tabDescription) => {
+    return ` <div class="share-tab-card-container">
+    <div class="share-tab-card">
+        <div class="share-tab-card-title">
+                <img src="${favIconUrl}" class="share-tab-card-image">
+                <a href="${tabUrl}" target="_blank" class="share-tab-card-text" target="_blank">${tabName}</a>
+            </div>
+            <div class="share-tab-card-description">
+                <span class="share-tab-card-description-text"
+                    >${tabDescription}</span
+                >
+            </div>
+        </div>
+    </div>`
+}
 export {
     windowFrame,
     windowCardsFrame,
@@ -624,4 +626,5 @@ export {
     OrganizationOwnerSideCardForm,
     OrganizationManagerSideCardForm,
     chatMessageCardHtml,
+    shareTabCardFrame,
 }

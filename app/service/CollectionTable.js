@@ -51,9 +51,48 @@ const DeleteCollectionData = async (collectionId) => {
     }
 }
 
+const UploadSharedUrl = async (collectionId, url) => {
+    try {
+        const collection = await Collection.findByPk(collectionId)
+        const response = await collection.update({
+            collectionSharedUrl: url,
+        })
+        return response
+    } catch (err) {
+        console.log(err)
+    }
+}
+
+const DeleteSharedUrl = async (collectionId) => {
+    try {
+        const collection = await Collection.findByPk(collectionId)
+        const response = await collection.update({
+            collectionSharedUrl: null,
+        })
+        return response
+    } catch (err) {
+        console.log(err)
+    }
+}
+
+const CheckIsCreatedShareUrl = async (collectionId) => {
+    try {
+        const response = await Collection.findOne({
+            attributes: ["collectionSharedUrl"],
+            where: { id: collectionId },
+        })
+        return response
+    } catch (err) {
+        console.log(err)
+    }
+}
+
 module.exports = {
     CreateCollectionData,
     GetUserCollectionData,
     UpdateCollectionData,
     DeleteCollectionData,
+    UploadSharedUrl,
+    CheckIsCreatedShareUrl,
+    DeleteSharedUrl,
 }

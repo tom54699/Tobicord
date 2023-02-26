@@ -1,4 +1,15 @@
-import { windowApi, organizationApi, spaceApi, collectionApi, tabApi, invitationApi, authApi, memberApi, chatApi } from "./API/fetchApi.js"
+import {
+    windowApi,
+    organizationApi,
+    spaceApi,
+    collectionApi,
+    tabApi,
+    invitationApi,
+    authApi,
+    memberApi,
+    chatApi,
+    shareApi,
+} from "./API/fetchApi.js"
 import {
     windowFrame,
     windowCardsFrame,
@@ -14,6 +25,7 @@ import {
     chatMessageCardHtml,
 } from "./component.js"
 import { nowUserName, nowUserEmail, nowUserId } from "./main.js"
+import { v4 as uuidv4 } from "https://jspm.dev/uuid"
 class RightSectionBuild {
     constructor() {
         this.isWindowTabsCheck = {}
@@ -2202,6 +2214,7 @@ class MiddleSectionBuild {
                 }
                 this.collectionCardArrowControl(this.collectionData[i].id)
                 this.openExportCollectionButtonAddEvent(this.collectionData[i].id)
+                this.openShareCollectionButton(this.collectionData[i].id, this.collectionData[i].collectionName)
                 /* tab cards*/
                 this.getTabCardsData(this.collectionData[i].id)
                 this.openSelectedCollectionTabs(this.collectionData[i].id)
@@ -3311,6 +3324,90 @@ class MiddleSectionBuild {
             document.body.removeChild(downloadLink)
 
             isCollectionsCheckTrue = []
+        })
+    }
+    /* share */
+    openShareCollectionButton(collectionId, collectionName) {
+        const cardContainerNavMoreListShareButton = document.getElementById(`card-container-nav-more-list-share-button-${collectionId}`)
+        const collectionSharedPopoverBox = document.getElementsByClassName("collection-shared-popover-box")
+        const mask = document.getElementsByClassName("mask")
+        const middleSectionAddCategoryPopoverContainer = document.getElementsByClassName("middleSection-popover-container")
+        const collectionSharedUrl = document.getElementsByClassName("collection-shared-url")
+        const collectionSharedUrlCreateButtonContainer = document.getElementsByClassName("collection-shared-url-create-button-container")
+        const collectionSharedUrlDeleteButtonContainer = document.getElementsByClassName("collection-shared-url-delete-button-container")
+        const collectionSharedTitle = document.getElementsByClassName("collection-shared-title")
+        const collectionSharedUrlCreateButton = document.getElementsByClassName("collection-shared-url-create-button")
+        const collectionSharedUrlDeleteButton = document.getElementsByClassName("collection-shared-url-delete-button")
+        cardContainerNavMoreListShareButton.addEventListener("click", async () => {
+            const response = await shareApi.checkIsCreatedShareUrl(collectionId)
+            middleSectionAddCategoryPopoverContainer[0].style.zIndex = "9999"
+            mask[0].style.display = "block"
+            collectionSharedPopoverBox[0].style.transform = "translate(-50%)"
+            collectionSharedTitle[0].textContent = `Share collection "${collectionName}"`
+            collectionSharedUrlCreateButton[0].setAttribute("id", `collection-shared-url-create-button-${collectionId}`)
+            collectionSharedUrlDeleteButton[0].setAttribute("id", `collection-shared-url-delete-button-${collectionId}`)
+            if (response.data.message === "No DATA") {
+            } else {
+                collectionSharedUrl[0].textContent = response.data.shareUrl
+                collectionSharedUrl[0].href = response.data.shareUrl
+                collectionSharedUrlCreateButtonContainer[0].classList.add("none")
+                collectionSharedUrlDeleteButtonContainer[0].classList.remove("none")
+            }
+            await this.createShareUrl(collectionId)
+            await this.deleteShareUrl(collectionId)
+        })
+    }
+    async createShareUrl(collectionId) {
+        const collectionSharedUrlCreateButtonContainer = document.getElementsByClassName("collection-shared-url-create-button-container")
+        const collectionSharedUrlDeleteButtonContainer = document.getElementsByClassName("collection-shared-url-delete-button-container")
+        const collectionSharedUrl = document.getElementsByClassName("collection-shared-url")
+        const collectionSharedUrlCreateButton = document.getElementById(`collection-shared-url-create-button-${collectionId}`)
+        collectionSharedUrlCreateButton.addEventListener("click", async () => {
+            const uuid = uuidv4()
+            const sharedUrl = `https://moonightowl.com/share/p/${collectionId}!${uuid}`
+            collectionSharedUrl[0].textContent = sharedUrl
+            collectionSharedUrl[0].href = sharedUrl
+            collectionSharedUrlCreateButtonContainer[0].classList.add("none")
+            collectionSharedUrlDeleteButtonContainer[0].classList.remove("none")
+            const response = await shareApi.uploadSharedUrl(collectionId, sharedUrl)
+            console.log(response)
+        })
+    }
+    async deleteShareUrl(collectionId) {
+        const collectionSharedUrlCreateButtonContainer = document.getElementsByClassName("collection-shared-url-create-button-container")
+        const collectionSharedUrlDeleteButtonContainer = document.getElementsByClassName("collection-shared-url-delete-button-container")
+        const collectionSharedUrlDeleteButton = document.getElementById(`collection-shared-url-delete-button-${collectionId}`)
+        const collectionSharedUrl = document.getElementsByClassName("collection-shared-url")
+        collectionSharedUrlDeleteButton.addEventListener("click", async () => {
+            collectionSharedUrl[0].textContent = "Share this collection via link"
+            collectionSharedUrl[0].removeAttribute("href")
+            collectionSharedUrlCreateButtonContainer[0].classList.remove("none")
+            collectionSharedUrlDeleteButtonContainer[0].classList.add("none")
+            const response = await shareApi.deleteSharedUrl(collectionId)
+            console.log(response)
+        })
+    }
+    closeShareCollectionButton() {
+        const collectionSharedPopoverBox = document.getElementsByClassName("collection-shared-popover-box")
+        const mask = document.getElementsByClassName("mask")
+        const middleSectionAddCategoryPopoverContainer = document.getElementsByClassName("middleSection-popover-container")
+        const collectionSharedPopoverBoxOkButton = document.getElementsByClassName("collection-shared-popover-box-ok-button")
+        const collectionSharedPopoverBoxCancelButton = document.getElementsByClassName("collection-shared-popover-box-cancel-button")
+        const collectionSharedPopoverBoxCloseSvg = document.getElementsByClassName("collection-shared-popover-box-close-svg-container")
+        collectionSharedPopoverBoxOkButton[0].addEventListener("click", () => {
+            middleSectionAddCategoryPopoverContainer[0].style.zIndex = "-1000"
+            collectionSharedPopoverBox[0].style.transform = "translate(-50%,-150%)"
+            mask[0].style.display = "none"
+        })
+        collectionSharedPopoverBoxCancelButton[0].addEventListener("click", () => {
+            middleSectionAddCategoryPopoverContainer[0].style.zIndex = "-1000"
+            collectionSharedPopoverBox[0].style.transform = "translate(-50%,-150%)"
+            mask[0].style.display = "none"
+        })
+        collectionSharedPopoverBoxCloseSvg[0].addEventListener("click", () => {
+            middleSectionAddCategoryPopoverContainer[0].style.zIndex = "-1000"
+            collectionSharedPopoverBox[0].style.transform = "translate(-50%,-150%)"
+            mask[0].style.display = "none"
         })
     }
 }

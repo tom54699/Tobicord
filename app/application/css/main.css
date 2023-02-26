@@ -1859,7 +1859,8 @@ input[placeholder] {
 .collection-delete-popover-box-close-svg-container,
 .collection-export-popover-box-close-svg-container,
 .no-permission-popover-box-close-svg-container,
-.invite-member-popover-box-close-svg-container {
+.invite-member-popover-box-close-svg-container,
+.collection-shared-popover-box-close-svg-container {
     padding: 0px;
     width: 20px;
     height: 20px;
@@ -1879,7 +1880,8 @@ input[placeholder] {
 .collection-export-popover-box-close-svg,
 .no-permission-popover-box-close-svg,
 .invite-member-popover-box-close-svg,
-.notice-approval-refused-cancel-svg {
+.notice-approval-refused-cancel-svg,
+.collection-shared-popover-box-close-svg {
     width: 1.25rem;
     height: 1.25rem;
     mask: url("../images/close.svg") no-repeat 50% 50%;
@@ -1901,7 +1903,8 @@ input[placeholder] {
 .collection-export-popover-box-close-svg:hover,
 .no-permission-popover-box-close-svg:hover,
 .invite-member-popover-box-close-svg:hover,
-.notice-approval-refused-cancel-svg:hover {
+.notice-approval-refused-cancel-svg:hover,
+.collection-shared-popover-box-close-svg:hover {
     background-color: rgb(214, 73, 107);
 }
 .organization-setting-popover-box > div:nth-child(2) {
@@ -2129,11 +2132,13 @@ input[placeholder] {
     overflow: hidden;
     cursor: pointer;
     align-self: unset;
-    text-decoration: underline;
     font-size: 14px;
     justify-self: flex-end;
     text-transform: capitalize;
     color: rgb(197, 197, 211);
+}
+.organization-setting-popover-right-box-theme-change-button:hover {
+    cursor: not-allowed;
 }
 .organization-setting-popover-right-box-theme > span,
 .organization-setting-popover-right-box-Delete > span {
@@ -2433,7 +2438,133 @@ input[placeholder] {
     color: rgb(170, 63, 91);
     background: rgb(56, 56, 73);
 }
+.collection-shared-popover-box {
+    position: fixed;
+    top: 10%;
+    left: 50%;
+    color: rgb(94, 93, 102);
+    font-size: 14px;
+    z-index: 9000;
+    transform: translate(-50%, -150%);
+    display: flex;
+    flex-direction: column;
+    box-shadow: rgb(91 76 76 / 13%) 0px 2px 25px;
+    width: 40rem;
+    background: rgb(73, 73, 92);
+    border-radius: 5px;
+    transition: transform 0.3s ease-in-out 0.2s;
+}
+.collection-shared-title {
+    flex: 0 1 0%;
+    padding-inline-start: 1.5rem;
+    padding-inline-end: 1.5rem;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    font-size: 18px;
+    font-weight: 500;
+    background: #49495c;
+    color: #dadbe8;
+    text-align: center;
+}
+.collection-shared-popover-box > div:nth-child(3) {
+    padding-inline-start: 1.5rem;
+    padding-inline-end: 1.5rem;
+    flex: 1 1 0%;
+    background: #49495c;
+    color: #b7b7ce;
+    padding: 0px 24px;
+}
+.collection-shared-popover-box > div:nth-child(3) > div:nth-child(1) {
+    background-color: #2e2f37;
+    display: flex;
+    -webkit-box-pack: justify;
+    justify-content: space-between;
+    margin: 1rem -1.5rem -0.75rem;
+    padding: 1.5rem;
+    padding-left: 3rem;
+    background-size: 1rem;
+    background-position: 1.5rem center;
+    background-repeat: no-repeat;
+    background-image: url(../images/urlPath.svg);
+}
+.collection-shared-url,
+.collection-shared-url-create-button,
+.collection-shared-url-delete-button {
+    color: #9795ac;
+    cursor: pointer;
+    text-decoration: inherit;
+    background-color: transparent;
+}
 
+.collection-shared-popover-box > footer {
+    display: flex;
+    -webkit-box-align: center;
+    align-items: center;
+    -webkit-box-pack: justify;
+    justify-content: space-between;
+    padding-inline-start: 1.5rem;
+    padding-inline-end: 1.5rem;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    background: #49495c;
+    gap: 0.5rem;
+}
+.collection-shared-popover-box-cancel-button {
+    display: flex;
+    appearance: none;
+    -webkit-box-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    justify-content: center;
+    user-select: none;
+    position: relative;
+    white-space: nowrap;
+    vertical-align: middle;
+    outline-offset: 2px;
+    line-height: 1.2;
+    border-radius: 5px;
+    font-weight: 500;
+    padding: 5px 10px;
+    flex-direction: row;
+    text-transform: uppercase;
+    text-align: center;
+    width: 100%;
+    font-size: 14px;
+    height: 35px;
+    color: #d6496b;
+}
+.collection-shared-popover-box-cancel-button:hover {
+    background: #383849;
+    color: #aa3f5b;
+}
+.collection-shared-popover-box-ok-button {
+    display: flex;
+    appearance: none;
+    -webkit-box-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    justify-content: center;
+    user-select: none;
+    position: relative;
+    white-space: nowrap;
+    vertical-align: middle;
+    outline-offset: 2px;
+    line-height: 1.2;
+    border-radius: 5px;
+    font-weight: 500;
+    padding: 5px 10px;
+    flex-direction: row;
+    text-transform: uppercase;
+    text-align: center;
+    width: 100%;
+    font-size: 14px;
+    height: 35px;
+    background: #d6496b;
+    color: #ffffff;
+}
+.collection-shared-popover-box-ok-button:hover {
+    background: #aa3f5b;
+}
 .space-create-popover-box {
     position: fixed;
     top: 10%;
@@ -2767,7 +2898,6 @@ input[placeholder] {
     position: relative;
     height: auto;
     width: 100%;
-    overflow: hidden auto;
     will-change: transform;
     direction: ltr;
     display: flex;

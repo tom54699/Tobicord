@@ -97,6 +97,7 @@ window.addEventListener("DOMContentLoaded", async () => {
             middleSectionBuild.autoScrollPosition()
             mainPageBuild.dragChatRoomAddEvent()
             middleSectionBuild.openExportCollectionsButtonAddEvent()
+            middleSectionBuild.closeShareCollectionButton()
         }
         mainPageBuild.rightSectionFold()
         mainPageBuild.leftSectionFold()

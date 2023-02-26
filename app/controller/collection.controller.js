@@ -1,6 +1,5 @@
 const { validationResult } = require("express-validator")
 const Collection = require("../service/CollectionTable")
-
 class CollectionController {
     async uploadCollectionData(req, res, next) {
         try {
@@ -59,6 +58,49 @@ class CollectionController {
     async deleteCollectionData(req, res, next) {
         try {
             const response = await Collection.DeleteCollectionData(req.body.collectionId)
+            return res.status(200).json({
+                message: "ok",
+            })
+        } catch (err) {
+            next(err)
+        }
+    }
+    async uploadSharedUrl(req, res, next) {
+        try {
+            const collectionId = req.body.collectionId
+            const url = req.body.sharedUrl
+
+            const response = await Collection.UploadSharedUrl(collectionId, url)
+            return res.status(200).json({
+                message: "ok",
+            })
+        } catch (err) {
+            return err
+        }
+    }
+    async checkIsCreatedShareUrl(req, res, next) {
+        try {
+            const collectionId = req.query.collectionId
+            const response = await Collection.CheckIsCreatedShareUrl(collectionId)
+            if (response.dataValues.collectionSharedUrl === null) {
+                return res.status(200).json({
+                    message: "No DATA",
+                })
+            } else {
+                return res.status(200).json({
+                    message: "ok",
+                    shareUrl: response.dataValues.collectionSharedUrl,
+                })
+            }
+        } catch (err) {
+            return err
+        }
+    }
+    async deleteSharedUrl(req, res, next) {
+        try {
+            const response = await Collection.DeleteSharedUrl(req.body.collectionId)
+            console.log("*---------------------------------------")
+            console.log(response)
             return res.status(200).json({
                 message: "ok",
             })
