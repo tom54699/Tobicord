@@ -11,7 +11,8 @@ async function fetchShareCollectionData() {
     const currentUrl = window.location.href
     const collectionId = currentUrl.match(/\/p\/(\d+)!/)[1]
     console.log(collectionId)
-    const response = await shareApi.getShareCollectionData(collectionId)
+    const response = await shareApi.getShareCollectionData(collectionId, currentUrl)
+    console.log(response)
     if (response.data.tabData.length > 0) {
         notification[0].classList.add("none")
         for (let i of response.data.tabData) {

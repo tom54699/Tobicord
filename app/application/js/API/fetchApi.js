@@ -886,7 +886,7 @@ class ShareApi {
             return err.response
         }
     }
-    async getShareCollectionData(collectionId) {
+    async getShareCollectionData(collectionId, currentUrl) {
         try {
             const headers = {
                 "Content-Type": "application/json",
@@ -897,6 +897,7 @@ class ShareApi {
                 headers: headers,
                 params: {
                     collectionId: collectionId,
+                    currentUrl: currentUrl,
                 },
             }
             const response = await axios.get("/share/data", config)

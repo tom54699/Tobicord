@@ -86,6 +86,16 @@ const CheckIsCreatedShareUrl = async (collectionId) => {
         console.log(err)
     }
 }
+const CheckIsSharedUrl = async (collectionId, currentUrl) => {
+    try {
+        const response = await Collection.findOne({
+            where: { id: collectionId, collectionSharedUrl: currentUrl },
+        })
+        return response
+    } catch (err) {
+        console.log(err)
+    }
+}
 
 module.exports = {
     CreateCollectionData,
@@ -95,4 +105,5 @@ module.exports = {
     UploadSharedUrl,
     CheckIsCreatedShareUrl,
     DeleteSharedUrl,
+    CheckIsSharedUrl,
 }

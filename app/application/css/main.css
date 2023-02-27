@@ -1,8 +1,6 @@
 @import url("https://fonts.googleapis.com/css?family=Ubuntu:300,400,500");
 
 body {
-    min-width: 15rem;
-    min-height: 30rem;
     background-color: #fff;
     color: rgb(247, 243, 243);
     font-family: Ubuntu, Arial, sans-serif;
@@ -1061,7 +1059,7 @@ input[placeholder] {
     position: relative;
     overflow-y: auto;
     overflow-x: hidden;
-    height: auto;
+    height: 100%;
 }
 .middleSection-container-without-collection-box {
     display: flex;
