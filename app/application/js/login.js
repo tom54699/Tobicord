@@ -71,7 +71,6 @@ registerButton.addEventListener("click", async () => {
         } else {
             registerInvalidFormatMessageClean()
             for (let i of result.errorMessages) {
-                console.log(i)
                 if (i.param === "email") {
                     num = 2
                 } else {

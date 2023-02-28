@@ -430,7 +430,6 @@ class CollectionApi {
                 },
             }
             const response = await axios.get("/collection", config)
-            console.log(response)
             if (response.data.message === "Unauthorized Role") {
                 return response.data.message
             } else if (response.data.role === "visitor") {

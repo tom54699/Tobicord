@@ -119,6 +119,7 @@ async function checkMainPageAuth() {
             const socket = window.socket
             socket.emit("login", result)
             let isSaveClicked = false
+            let isAddClicked = false
             const driver = new Driver({
                 className: "step-popover-class",
                 prevBtnText: "PREV",
@@ -137,12 +138,17 @@ async function checkMainPageAuth() {
                         const closeButton = document.getElementsByClassName("tab-card-manually-add-popover-box-cancel-button")[0]
                         const addButton = document.getElementsByClassName("tab-card-manually-add-popover-box-save-button")[0]
                         const clickHandler = () => {
-                            isSaveClicked = true
-                            driver.moveNext()
+                            if (!isAddClicked) {
+                                isAddClicked = false
+                                driver.moveNext()
+                            }
                             addButton.removeEventListener("click", clickHandler)
                         }
                         const clickHandler1 = () => {
-                            driver.moveNext()
+                            if (!isAddClicked) {
+                                isAddClicked = false
+                                driver.moveNext()
+                            }
                             closeButton.removeEventListener("click", clickHandler1)
                         }
                         addButton.addEventListener("click", clickHandler)
@@ -151,7 +157,10 @@ async function checkMainPageAuth() {
                     if (Element.node.id == "middleSection-container-collection-cards-box") {
                         const addButton = document.getElementsByClassName("middleSection-container-add-collection-box-save-button")[0]
                         const clickHandler = () => {
-                            driver.moveNext()
+                            if (!isSaveClicked) {
+                                isSaveClicked = false
+                                driver.moveNext()
+                            }
                             addButton.removeEventListener("click", clickHandler)
                         }
                         addButton.addEventListener("click", clickHandler)
@@ -176,13 +185,14 @@ async function checkMainPageAuth() {
                     }
                     if (Element.node.id == "tab-card-manually-add-popover-box") {
                         const addButton = document.getElementsByClassName("tab-card-manually-add-popover-box-save-button")[0]
+                        isAddClicked = true
                         addButton.click()
                     }
+
                     if (Element.node.id == "middleSection-container-collection-cards-box") {
-                        if (!isSaveClicked) {
-                            const addButton = document.getElementsByClassName("middleSection-container-add-collection-box-save-button")[0]
-                            addButton.click()
-                        }
+                        const addButton = document.getElementsByClassName("middleSection-container-add-collection-box-save-button")[0]
+                        isSaveClicked = true
+                        addButton.click()
                     }
                 },
                 onPrevious: (Element) => {
@@ -194,6 +204,7 @@ async function checkMainPageAuth() {
                     }, 500)
                     if (Element.node.id == "rightSection-spaces") {
                         const addButton = document.getElementsByClassName("rightSection-spaces-window-tabs-container-top-add-svg")[0]
+                        isAddClicked = false
                         addButton.click()
                     }
                 },
@@ -280,7 +291,6 @@ async function checkMainPageAuth() {
                     },
                 },
             ])
-            await driver.start()
             if (result.firstLogin) {
                 await driver.start()
                 await authApi.firstLoginDone()

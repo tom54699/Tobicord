@@ -3136,10 +3136,15 @@ class MiddleSectionBuild {
             `middleSection-chat-message-cards-${leftSectionBuild.nowOrganizationId}`
         )
         const socket = window.socket
+        let avatarUrl
         socket.on("chatMessage", (data) => {
+            if (data.avatarUrl === undefined) {
+                avatarUrl = "../images/Anya.png"
+            } else {
+                avatarUrl = data.avatarUrl
+            }
             const userName = data.userName
             const message = data.message
-            const avatarUrl = data.avatarUrl
             const messageCard = document.createElement("div")
             const now = new Date()
             const options = {
@@ -3174,11 +3179,17 @@ class MiddleSectionBuild {
             `middleSection-chat-message-cards-${leftSectionBuild.nowOrganizationId}`
         )
         const response = await chatApi.getChatData(leftSectionBuild.nowOrganizationId)
+        let avatarUrl
         if (response.status === 200) {
             for (let i of response.data.chatData) {
+                if (i.Member.avatarUrl === null) {
+                    avatarUrl = "../images/Anya.png"
+                } else {
+                    avatarUrl = i.Member.avatarUrl
+                }
                 const userName = i.Member.username
                 const message = i.content
-                const avatarUrl = i.Member.avatarUrl
+
                 const date = new Date(i.createdAt)
                 const options = {
                     timeZone: "Asia/Taipei",
