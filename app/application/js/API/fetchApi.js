@@ -438,7 +438,6 @@ class CollectionApi {
                 collectionData[0].role = "visitor"
             }
             const collectionData = response.data.collectionData
-            console.log(collectionData)
             return collectionData
         } catch (err) {
             console.log(err)

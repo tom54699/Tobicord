@@ -39,7 +39,6 @@ class UsersController {
             const userId = req.userId
             const imageType = req.body.imageType
             const imageBuffer = fs.readFileSync(req.file.path)
-            console.log(imageType, imageBuffer)
             const UserUUID = uuidv4()
             const s3 = new S3({
                 endpoint: `https://${process.env["R2_ACCOUNT_ID"]}.r2.cloudflarestorage.com`,
@@ -62,13 +61,11 @@ class UsersController {
             // 检查 ETag 是否匹配
             const headResult = await s3.headObject(objectParams).promise()
             if (headResult.ETag !== uploadResult.ETag) {
-                console.log("上傳失敗")
                 fs.unlinkSync(req.file.path)
                 return res.status(408).json({
                     message: "upload failed",
                 })
             } else {
-                console.log("上傳成功")
                 const avatarUrl = `https://pub-61a84bb50f35476fb1e838152ab72616.r2.dev/user/${userId}.${imageType}`
                 const response = await MemberTable.UploadMemberHeadShot(userId, avatarUrl)
                 fs.unlinkSync(req.file.path)

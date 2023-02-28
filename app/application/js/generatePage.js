@@ -41,7 +41,6 @@ class RightSectionBuild {
             let tabNum = 0
             this.windowData = {}
             this.isWindowTabsCheck = {}
-            console.log("拿使用者tab資料")
             const response = await windowApi.getWindow()
             if (response.status === 200) {
                 for (let i of response.data.data) {
@@ -65,7 +64,6 @@ class RightSectionBuild {
                         this.deleteWindowTabCardButton(j.tabId)
                         tabNum++
                     }
-                    console.log(this.windowData)
                     windowNum++
                     this.removeWindowCheckId(i.windowId)
                     this.windowTabContainerAddEvent(i.windowId)
@@ -190,7 +188,6 @@ class RightSectionBuild {
         const middleTabPopoverContainer = document.getElementsByClassName("middleSection-tab-popover-container")
         reloadWindowsButton[0].addEventListener("click", async () => {
             reloadWindowsButton[0].classList.add("rotating-element")
-            console.log(this.windowData)
             middleTabPopoverContainer[0].style.transform = "translate(-50%, 300px)"
             userWindowContainer[0].innerHTML = ""
             await this.getUserWindow()
@@ -209,7 +206,6 @@ class RightSectionBuild {
     deleteWindowTabCardPopoverButton() {
         const middleSectionTabPopoverDeleteButton = document.getElementsByClassName("middleSection-tab-popover-delete-button")
         middleSectionTabPopoverDeleteButton[0].addEventListener("click", () => {
-            console.log(this.isWindowTabsCheck)
             let isisWindowTabsCheckTrue = []
             Object.keys(this.isWindowTabsCheck).forEach((key) => {
                 if (this.isWindowTabsCheck[key] === true) {
@@ -237,7 +233,6 @@ class RightSectionBuild {
             for (let i of isisWindowTabsCheckTrue) {
                 for (let j of Object.values(this.windowData)) {
                     if (j[i]) {
-                        console.log(j[i].tabUrl)
                         const hnd = window.open(`${j[i].tabUrl}`, "_blank")
                         if (!hnd) {
                             const div = document.createElement("div")
@@ -274,7 +269,6 @@ class RightSectionBuild {
             for (let i of isisWindowTabsCheckTrue) {
                 for (let j of Object.values(this.windowData)) {
                     if (j[i]) {
-                        console.log(j[i])
                         const newTabId = i + Math.random().toString(36).substr(2, 5)
                         tabsData.push({
                             CollectionId: response.data.collectionId,
@@ -290,7 +284,6 @@ class RightSectionBuild {
             }
             if (response.status === 200) {
                 const result = await tabApi.uploadTabCardsData(leftSectionBuild.nowOrganizationId, tabsData)
-                console.log(result)
             }
             await middleSectionBuild.getCollectionDataToCreateCollections()
             isisWindowTabsCheckTrue = []
@@ -484,9 +477,6 @@ class MainPageBuild {
                 put: false, // 不允许拖拽进这个列表
             },
             animation: 150,
-            onEnd(evt) {
-                console.log("onEnd: 列表单元拖放结束后的回调函数！")
-            },
         })
     }
     dragChatRoomAddEvent() {
@@ -497,12 +487,9 @@ class MainPageBuild {
             },
             animation: 150,
             onAdd(evt) {
-                console.log("onEnd: 列表单元拖放结束后的回调函数！", evt)
                 const fromBlock = evt.from.id.slice(0, 6)
                 const windowId = evt.from.id.slice(7)
                 const collectionId = evt.to.id.slice(50)
-                console.log(fromBlock, windowId)
-                console.log(evt.to.id)
                 if (fromBlock === "window" || fromBlock === "manual") {
                     let tabId
                     let newTabId
@@ -515,7 +502,6 @@ class MainPageBuild {
                         tabId = evt.item.id.slice(16)
                         newTabId = tabId + Math.random().toString(36).substr(2, 5)
                         tabData = rightSectionBuild.windowData[`${windowId}`][`${tabId}`]
-                        console.log(tabData)
                         tabName = tabData.tabName
                         favIconUrl = tabData.favIconUrl
                         tabUrl = tabData.tabUrl
@@ -529,7 +515,6 @@ class MainPageBuild {
                         tabId = evt.item.id.slice(16)
                         newTabId = tabId + Math.random().toString(36).substr(2, 5)
                         tabData = rightSectionBuild.manuallyTabCards[tabId]
-                        console.log(tabData)
                         tabName = tabData.tabTitle
                         favIconUrl = tabData.favIconUrl
                         tabUrl = tabData.tabUrl
@@ -558,9 +543,6 @@ class MainPageBuild {
                 put: false, // 不允许拖拽进这个列表
             },
             animation: 150,
-            onEnd(evt) {
-                console.log("onEnd: 列表单元拖放结束后的回调函数！")
-            },
         })
     }
     dragCollectionAddEvent(collectionId, putAllow) {
@@ -579,7 +561,6 @@ class MainPageBuild {
             sort: true,
             async onAdd(evt) {
                 const order = collectionSortable.toArray()
-                console.log("onAdd: 其他列表单元添加到本列表容器的回调函数", evt.oldIndex, evt.newIndex, order)
                 middleSectionContainerRemindAddCollectionBox.classList.replace(
                     "middleSection-container-remind-add-collection-box-created",
                     "middleSection-container-collection-card-container-cards-space"
@@ -611,7 +592,6 @@ class MainPageBuild {
                         tabId = evt.item.id.slice(16)
                         newTabId = tabId + Math.random().toString(36).substr(2, 5)
                         tabData = rightSectionBuild.manuallyTabCards[tabId]
-                        console.log(tabData)
                         tabName = tabData.tabTitle
                         favIconUrl = tabData.favIconUrl
                         tabUrl = tabData.tabUrl
@@ -660,10 +640,8 @@ class MainPageBuild {
             },
             async onEnd(evt) {
                 const order = collectionSortable.toArray()
-                console.log("onEnd: 列表单元拖放结束后的回调函数！", evt, evt.oldIndex, evt.newIndex, order)
                 if (evt.to.id.slice(50) != collectionId) {
                     const tabId = evt.item.id.slice(48)
-                    console.log(tabId)
                     //await tabApi.deleteTabData(tabId)
                     //await middleSectionBuild.tabCardDeleteButton(collectionId, tabId)
                 }
@@ -792,7 +770,6 @@ class LeftSectionBuild {
     }
     async createCategoryButton() {
         this.organizationData = await organizationApi.getUserOrganizationData()
-        console.log(this.organizationData)
         if (this.organizationData.length > 0) {
             for (let i of this.organizationData) {
                 this.generateCategoryButton(i.organizationName)
@@ -1160,7 +1137,6 @@ class LeftSectionBuild {
                 spaceCreateNameInputAlert[0].textContent = "Space name must be greater than 1 character"
             } else {
                 const response = await spaceApi.uploadSpaceData(this.nowOrganizationId, this.createSpaceName)
-                console.log(response)
                 if (response.data.message === "ok") {
                     middleSectionAddCategoryPopoverContainer[0].style.zIndex = "-1000"
                     spaceCreatePopoverBox[0].style.transform = "translate(-50%,-150%)"
@@ -1487,7 +1463,6 @@ class LeftSectionBuild {
         const inviteMemberPopoverBoxFormAddButton = document.getElementsByClassName("invite-member-popover-box-form-add-button")
         inviteMemberPopoverBoxFormAddButton[0].addEventListener("click", async () => {
             const response = await invitationApi.uploadInvitationData(leftSectionBuild.nowOrganizationId, this.inviteMemberEmail)
-            console.log(response)
             if (response.data.message === "ok") {
                 const socket = window.socket
                 socket.emit("sendInvitation", {
@@ -1564,7 +1539,6 @@ class LeftSectionBuild {
     }
     async getApprovalMessage() {
         const response = await invitationApi.getUserApprovalData(this.nowOrganizationId)
-        console.log("審核", response)
         if (response.data.message === "ok") {
             this.approvalData = response.data.approvalData
             if (this.approvalData.length < 1) {
@@ -1584,7 +1558,6 @@ class LeftSectionBuild {
     async getInviteMessage() {
         try {
             const response = await invitationApi.getUserInvitationData(this.nowOrganizationId)
-            console.log("邀請", response)
             if (response.data.message === "ok") {
                 this.invitationData = response.data.invitationData
                 const userEmail = response.data.userEmail
@@ -1620,7 +1593,7 @@ class LeftSectionBuild {
         const noticeCardBox = document.createElement("div")
         noticeCardBox.classList.add("notice-card-box")
         noticeCardBox.setAttribute("id", `notice-approval-refused-card-box-${inviterId}-${organizationId}`)
-        noticeCardBox.innerHTML = `<div>申請${organizationName}群組，遭管理員否決。</div>
+        noticeCardBox.innerHTML = `<div>${organizationName}'s application has been rejected.</div>
         <div>
             <div id="notice-approval-refused-cancel-svg-${inviterId}-${organizationId}" class="notice-approval-refused-cancel-svg"></div>
         </div>`
@@ -1631,10 +1604,10 @@ class LeftSectionBuild {
         const noticeCardBox = document.createElement("div")
         noticeCardBox.classList.add("notice-card-box")
         noticeCardBox.setAttribute("id", `notice-approval-card-box-${inviteeId}-${organizationId}`)
-        noticeCardBox.innerHTML = `<div>${inviteeName}申請加入${organizationName}群組</div>
+        noticeCardBox.innerHTML = `<div>${inviteeName} apply to join ${organizationName} organization.</div>
         <div>
-            <button id="notice-popover-container-approval-refuse-button-${inviteeId}-${organizationId}" class="notice-popover-container-refuse-button">拒絕</button>
-            <button id="notice-popover-container-approval-accept-button-${inviteeId}-${organizationId}" class="notice-popover-container-accept-button">接受</button>
+            <button id="notice-popover-container-approval-refuse-button-${inviteeId}-${organizationId}" class="notice-popover-container-refuse-button">Decline</button>
+            <button id="notice-popover-container-approval-accept-button-${inviteeId}-${organizationId}" class="notice-popover-container-accept-button">Accept</button>
         </div>`
         noticeCardBoxContainer[0].appendChild(noticeCardBox)
     }
@@ -1643,10 +1616,10 @@ class LeftSectionBuild {
         const noticeCardBox = document.createElement("div")
         noticeCardBox.classList.add("notice-card-box")
         noticeCardBox.setAttribute("id", `notice-invite-card-box-${inviterId}-${organizationId}`)
-        noticeCardBox.innerHTML = `<div>${inviterName}寄送了${organizationName}群組邀請</div>
+        noticeCardBox.innerHTML = `<div>Invitation from ${organizationName} organization.</div>
         <div>
-            <button id="notice-popover-container-invite-refuse-button-${inviterId}-${organizationId}" class="notice-popover-container-refuse-button">拒絕</button>
-            <button id="notice-popover-container-invite-accept-button-${inviterId}-${organizationId}" class="notice-popover-container-accept-button">接受</button>
+            <button id="notice-popover-container-invite-refuse-button-${inviterId}-${organizationId}" class="notice-popover-container-refuse-button">Decline</button>
+            <button id="notice-popover-container-invite-accept-button-${inviterId}-${organizationId}" class="notice-popover-container-accept-button">Accept</button>
         </div>`
         noticeCardBoxContainer[0].appendChild(noticeCardBox)
     }
@@ -1713,7 +1686,6 @@ class LeftSectionBuild {
     async getMemberHeadShot() {
         const preview_img = document.getElementById("preview_img")
         const response = await memberApi.getMemberHeadShot()
-        console.log(response)
         if (response.status === 200) {
             this.userAvatarUrl = response.data.avatarUrl
             preview_img.src = this.userAvatarUrl
@@ -1741,11 +1713,13 @@ class LeftSectionBuild {
                     inviteeEmail: nowUserEmail,
                     message: response.data.message,
                 })
+                setTimeout(() => {
+                    location.href = "/main"
+                }, 4000)
             }
         })
         noticePopoverContainerRefuseButton.addEventListener("click", async () => {
             const response = await invitationApi.refuseInvitation(organizationId, inviterId)
-            console.log(response)
             if (response.status === 200) {
                 noticeCardBox.innerHTML = `<div>${response.data.message}</div>`
                 const socket = window.socket
@@ -1759,7 +1733,7 @@ class LeftSectionBuild {
                 })
                 setTimeout(() => {
                     noticeCardBox.remove()
-                }, 4000)
+                }, 3000)
             }
         })
     }
@@ -1768,7 +1742,6 @@ class LeftSectionBuild {
         const noticeApprovalRefusedCardBox = document.getElementById(`notice-approval-refused-card-box-${inviterId}-${organizationId}`)
         noticeApprovalRefusedCancelSvg.addEventListener("click", async () => {
             const response = await invitationApi.closeRefuseApproval(organizationId, inviterId, inviteeEmail)
-            console.log(response)
             if (response.status === 200) {
                 noticeApprovalRefusedCardBox.remove()
             }
@@ -1784,14 +1757,12 @@ class LeftSectionBuild {
         )
         noticePopoverContainerApprovalAcceptButton.addEventListener("click", async () => {
             const response = await invitationApi.acceptApproval(organizationId, inviterId, inviteeEmail, inviteeId)
-            console.log(response)
             if (response.status === 200) {
                 noticeCardBox.innerHTML = `<div>${response.data.message}</div>`
             }
         })
         noticePopoverContainerApprovalRefuseButton.addEventListener("click", async () => {
             const response = await invitationApi.refuseApproval(organizationId, inviterId, inviteeEmail, inviteeId)
-            console.log(response)
             if (response.status === 200) {
                 noticeCardBox.innerHTML = `<div>${response.data.message}</div>`
             }
@@ -1802,7 +1773,6 @@ class LeftSectionBuild {
         const noticePopoverApproveButton = document.getElementsByClassName("notice-popover-approve-button")
         const response = await invitationApi.getUserApprovalData(this.nowOrganizationId)
         const leftSectionNavBottomNoticeButton = document.getElementsByClassName("leftSection-nav-bottom-button")
-        console.log("審核", response)
         if (response.data.message === "ok") {
             this.approvalData = response.data.approvalData
             if (this.approvalData.length < 1) {
@@ -1822,7 +1792,6 @@ class LeftSectionBuild {
             if (this.invitationData.inviteeResponse.length < 1) {
                 return "No Data"
             } else {
-                console.log(this.invitationData.inviteeResponse)
                 const audio = new Audio("../mp3/提示音效.wav")
                 audio.play()
                 leftSectionNavBottomNoticeButton[1].classList.add("notice-blink")
@@ -1869,10 +1838,12 @@ class LeftSectionBuild {
         const organizationMemberPopoverRightBoxAddFriendSvgContainer = document.getElementsByClassName(
             "organization-member-popover-right-box-add-friend-svg-container"
         )
+        const inviteMemberPopoverBoxFormTitle = document.getElementsByClassName("invite-member-popover-box-form-title")
         const inviteMemberPopoverBox = document.getElementsByClassName("invite-member-popover-box")
         organizationMemberPopoverRightBoxAddFriendSvgContainer[0].addEventListener("click", () => {
             organizationSettingPopoverBox[0].style.transform = "translate(-50%,-150%)"
             inviteMemberPopoverBox[0].style.transform = "translate(-50%)"
+            inviteMemberPopoverBoxFormTitle[0].textContent = `Add members to ${this.nowOrganizationName}`
         })
     }
     async getOrganizationMemberLists(organizationId) {
@@ -1890,8 +1861,6 @@ class LeftSectionBuild {
         let ownerId
         let managerName
         let managerId
-        console.log(response)
-        console.log(nowUserName, nowUserEmail)
         if (response.status === 200) {
             this.organizationMemberData = response.data.organizationMemberData
             organizationMemberPopoverRightBoxMemberCount[0].textContent = `ORGANIZATION MEMBERS (${this.organizationMemberData.length})`
@@ -1910,7 +1879,6 @@ class LeftSectionBuild {
                     roleName = "Visitor"
                 }
                 if (nowUserName === ownerName) {
-                    console.log("房主")
                     this.generateOrganizationSideCards("owner", i.MemberId, i.Member.username, i.Member.email, roleName)
                     if (!(ownerId === i.MemberId)) {
                         this.openManageOrganizationMemberLists(i.MemberId)
@@ -1924,7 +1892,6 @@ class LeftSectionBuild {
                         this.removeOrganizationMemberButton(i.MemberId, i.Member.email)
                     }
                 } else if (nowUserName === managerName) {
-                    console.log("管理者")
                     if (roleName === "Owner") {
                         this.generateOrganizationSideCards("owner", i.MemberId, i.Member.username, i.Member.email, roleName)
                     } else {
@@ -2138,7 +2105,6 @@ class LeftSectionBuild {
         )
         organizationSettingPopoverRightBoxLeaveButton[0].addEventListener("click", async () => {
             const response = await organizationApi.leaveOrganizationMember(this.nowOrganizationId)
-            console.log(response)
             if (response.status === 200) {
                 location.href = "/main"
             } else {
@@ -2185,7 +2151,6 @@ class MiddleSectionBuild {
         const middleSectionContainerWithoutCollectionBox = document.getElementsByClassName("middleSection-container-without-collection-box")
         const middleSectionContainerCollectionBox = document.getElementsByClassName("middleSection-container-collection-box")
         this.collectionData = await collectionApi.getUserCollectionData(leftSectionBuild.nowOrganizationId, leftSectionBuild.nowSpaceId)
-        console.log(this.collectionData)
         if (this.collectionData === "Unauthorized Role") {
             middleSectionAddCategoryPopoverContainer[0].style.zIndex = "9999"
             mask[0].style.display = "block"
@@ -2304,7 +2269,6 @@ class MiddleSectionBuild {
         })
         middleSectionNavAddButton[0].addEventListener("click", () => {
             const num = middleSectionContainerCollectionCardsBox[0].children.length
-            console.log(this.isCreatedFirst, this.isCreatedEdit)
             if (num === 0) {
                 this.generateFirstCollectionCard()
                 this.closeFirstCollectionBoxButtonAddEvent()
@@ -2394,7 +2358,6 @@ class MiddleSectionBuild {
                 leftSectionBuild.nowSpaceId,
                 createCollectionName
             )
-            console.log(response)
             if (response.data.message === "ok") {
                 await this.getCollectionDataToCreateCollections()
                 this.isCreatedEdit = false
@@ -2404,7 +2367,6 @@ class MiddleSectionBuild {
                 middleSectionAddCategoryPopoverContainer[0].style.zIndex = "9999"
                 mask[0].style.display = "block"
                 noPermissionPopoverBox[0].style.transform = "translate(-50%)"
-                console.log(response)
             } else {
             }
         })
@@ -2453,7 +2415,6 @@ class MiddleSectionBuild {
                     mask[0].style.display = "block"
                     noPermissionPopoverBox[0].style.transform = "translate(-50%)"
                 } else {
-                    console.log(response)
                 }
             }
         })
@@ -2530,7 +2491,6 @@ class MiddleSectionBuild {
         })
         collectionExportPopoverBoxHtmlButton[0].addEventListener("click", () => {
             let htmlContent = ""
-            console.log(this.exportCollectionData)
             for (let i of this.exportCollectionData.Cards) {
                 htmlContent = htmlContent + htmlExportForm(i.tabUrl, i.tabName)
             }
@@ -2621,7 +2581,6 @@ class MiddleSectionBuild {
                 mask[0].style.display = "block"
                 noPermissionPopoverBox[0].style.transform = "translate(-50%)"
             } else {
-                console.log(response)
             }
         })
     }
@@ -2648,7 +2607,6 @@ class MiddleSectionBuild {
                 mask[0].style.display = "block"
                 noPermissionPopoverBox[0].style.transform = "translate(-50%)"
             } else {
-                console.log(response)
             }
         })
     }
@@ -2746,7 +2704,6 @@ class MiddleSectionBuild {
             noPermissionPopoverBox[0].style.transform = "translate(-50%)"
             return "no"
         } else {
-            console.log(response)
             return "no"
         }
     }
@@ -2756,14 +2713,12 @@ class MiddleSectionBuild {
         const middleSectionAddCategoryPopoverContainer = document.getElementsByClassName("middleSection-popover-container")
         const response = await tabApi.switchTabCollection(leftSectionBuild.nowOrganizationId, collectionId, tabId)
         if (response.data.message === "ok") {
-            console.log(response)
             //location.href = "/main"
         } else if (response.data.message === "Unauthorized Role") {
             middleSectionAddCategoryPopoverContainer[0].style.zIndex = "9999"
             mask[0].style.display = "block"
             noPermissionPopoverBox[0].style.transform = "translate(-50%)"
         } else {
-            console.log(response)
         }
     }
     async getTabCardsData(collectionId) {
@@ -2847,7 +2802,6 @@ class MiddleSectionBuild {
                 mask[0].style.display = "block"
                 noPermissionPopoverBox[0].style.transform = "translate(-50%)"
             } else {
-                console.log(response)
             }
         })
     }
@@ -2923,7 +2877,6 @@ class MiddleSectionBuild {
                 mask[0].style.display = "block"
                 noPermissionPopoverBox[0].style.transform = "translate(-50%)"
             } else {
-                console.log(response)
             }
             tabCardEditPopoverBoxDeleteButton[0].removeEventListener("click", deleteTabDataHandler)
         }
@@ -3064,7 +3017,6 @@ class MiddleSectionBuild {
                 mask[0].style.display = "block"
                 noPermissionPopoverBox[0].style.transform = "translate(-50%)"
             } else {
-                console.log(response)
             }
         })
     }
@@ -3073,7 +3025,7 @@ class MiddleSectionBuild {
         const socket = window.socket
         socket.on("chatRoomPeopleAccount", (data) => {
             const chatRoomPeopleAccount = document.getElementById(`chatRoom-people-account-${data.roomId}`)
-            chatRoomPeopleAccount.textContent = `上線人數(${data.peopleAccount})`
+            chatRoomPeopleAccount.textContent = `Online User(${data.peopleAccount})`
         })
     }
     chatRoomPeopleJoinLeave() {
@@ -3094,9 +3046,6 @@ class MiddleSectionBuild {
                 leavedMessage.innerHTML = `<span class="chat-notification-text">${userName} 離開了群組</span>`
                 middleSectionChatMessageCards.appendChild(leavedMessage)
             }
-            if (userName === nowUserName) {
-                console.log("加入資料庫後才可以變色")
-            }
         })
     }
     openChatRoom() {
@@ -3109,6 +3058,7 @@ class MiddleSectionBuild {
                 middleSectionContainer[0].classList.add("none")
                 this.chatRoomClicked = true
                 const socket = window.socket
+                this.initChatRoomMessage()
                 this.getChatRoomData()
             } else {
                 middleSectionContainer[0].classList.remove("none")
@@ -3178,7 +3128,6 @@ class MiddleSectionBuild {
             if (event.key === "Enter" && event.shiftKey) {
                 // 按下Shift+Enter時換行
                 this.chatMessageInput += "\n"
-                console.log(this.chatMessageInput)
             }
         })
     }
@@ -3226,7 +3175,6 @@ class MiddleSectionBuild {
         )
         const response = await chatApi.getChatData(leftSectionBuild.nowOrganizationId)
         if (response.status === 200) {
-            console.log(response.data.chatData)
             for (let i of response.data.chatData) {
                 const userName = i.Member.username
                 const message = i.content
@@ -3281,7 +3229,6 @@ class MiddleSectionBuild {
     openExportCollectionsButtonAddEvent() {
         const cardContainerNavMoreListExportButton = document.getElementsByClassName("middleSection-collection-menu-popover-export-button")
         cardContainerNavMoreListExportButton[0].addEventListener("click", () => {
-            console.log(this.tabsData)
             let isCollectionsCheckTrue = []
             let collectionName
             let collectionData
@@ -3370,7 +3317,6 @@ class MiddleSectionBuild {
             collectionSharedUrlCreateButtonContainer[0].classList.add("none")
             collectionSharedUrlDeleteButtonContainer[0].classList.remove("none")
             const response = await shareApi.uploadSharedUrl(collectionId, sharedUrl)
-            console.log(response)
         })
     }
     async deleteShareUrl(collectionId) {
@@ -3384,7 +3330,6 @@ class MiddleSectionBuild {
             collectionSharedUrlCreateButtonContainer[0].classList.remove("none")
             collectionSharedUrlDeleteButtonContainer[0].classList.add("none")
             const response = await shareApi.deleteSharedUrl(collectionId)
-            console.log(response)
         })
     }
     closeShareCollectionButton() {

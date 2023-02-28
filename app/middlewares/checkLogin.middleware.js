@@ -19,7 +19,6 @@ module.exports = async (req, res, next) => {
             req.email = decoded.sub
             req.name = decoded.name
             req.userId = decoded.userId
-            console.log(decoded)
             return next()
         } catch (err) {
             return next()

@@ -13,7 +13,6 @@ const CreateTabData = async (collectionId, newTabId, tabId, tabName, tabUrl, fav
             favIconUrl: favIconUrl,
             tabDescription: tabDescription,
         })
-        console.log(response)
         return response
     } catch (err) {
         console.error(err)
@@ -23,7 +22,6 @@ const CreateTabData = async (collectionId, newTabId, tabId, tabName, tabUrl, fav
 const CreateTabsData = async (tabsData) => {
     try {
         const response = await Tab.bulkCreate(tabsData)
-        console.log("999999999999999", response)
         return response
     } catch (err) {
         console.error(err)
@@ -43,9 +41,7 @@ const GetUserTabData = async (collectionId) => {
 }
 const SwitchTabCollection = async (collectionId, tabId) => {
     try {
-        console.log(collectionId, tabId)
         const response = await Tab.update({ CollectionId: collectionId }, { where: { id: tabId } })
-        console.log(response)
         return response
     } catch (err) {
         console.log(err)
@@ -60,7 +56,6 @@ const UpdateTabData = async (tabId, newTabName, newTabUrl, newTabDescription) =>
             tabUrl: newTabUrl,
             tabDescription: newTabDescription,
         })
-        console.log(response)
         return response
     } catch (err) {
         console.log(err)
@@ -73,7 +68,6 @@ const DeleteTabData = async (tabId) => {
                 id: tabId,
             },
         })
-        console.log(response)
         return response
     } catch (err) {
         console.log(err)

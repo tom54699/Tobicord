@@ -24,7 +24,6 @@ axios.interceptors.response.use(
             // 如果是就略過此刷新 access token 作業，直接不處理(因為 catch 已經攔截處理更新失敗的情況了)
             const refreshTokeUrl = `/auth/refresh`
             if (error.config.url !== refreshTokeUrl) {
-                console.log("準備換發")
                 // 原始 request 資訊
                 const originalRequest = error.config
                 // 依據 refresh_token 刷新 access_token 並重發 request
@@ -35,7 +34,6 @@ axios.interceptors.response.use(
                 localStorage.setItem("accessToken", accessToken)
                 // 刷新原始 request 的 access_token
                 originalRequest.headers.Authorization = "Bearer " + response.data.accessToken
-                console.log("重發request")
                 // 重送 request (with new access_token)
                 return await axios(originalRequest).catch((err) => {
                     // [更新 access_token 失敗] ( e.g. refresh_token 過期無效)

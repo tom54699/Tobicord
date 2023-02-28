@@ -21,7 +21,6 @@ window.addEventListener("load", async () => {
 
 async function checkIsLogin() {
     try {
-        console.log("檢查有無登入")
         const response = await authApi.checkIsLogin()
         if (response.data.message === "Is Login") {
             openIsLoginPopoverBox()
@@ -66,7 +65,6 @@ registerButton.addEventListener("click", async () => {
     try {
         const response = await authApi.register(registerEmailInput.value, registerPasswordInput.value, registerUsernameInput.value)
         const result = await response.data
-        console.log(result)
         let num
         if (result.message === "ok") {
             location.href = "/auth"

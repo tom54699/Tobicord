@@ -4,8 +4,8 @@ class RedisService {
     constructor() {
         try {
             this.client = redis.createClient({
-                /*url: "redis://localhost:6379",*/
-                url: `redis://:${process.env["REDIS_PASSWORD"]}@redis:6379`,
+                url: "redis://localhost:6379",
+                /*url: `redis://:${process.env["REDIS_PASSWORD"]}@redis:6379`,*/
             })
             this.asyncInit()
         } catch (error) {
@@ -39,7 +39,6 @@ class RedisService {
 
     async setWindow(key, data) {
         try {
-            console.log("99999999999999999999", key, data)
             const result = await this.client.set(key, JSON.stringify(data), redis.print)
         } catch (error) {
             console.log(error)
@@ -64,7 +63,6 @@ class RedisService {
     }
     async updateWindow(key, data) {
         try {
-            console.log("updateWindow", key, data)
             const result = await this.client.set(key, JSON.stringify(data), redis.print)
         } catch (error) {
             console.log(error)

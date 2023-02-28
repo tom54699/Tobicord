@@ -10,7 +10,6 @@ const CreateChatData = async (organizationId, userId, content) => {
             memberId: userId,
             content: content,
         })
-        console.log(response)
         return response
     } catch (err) {
         console.error(err)
@@ -37,46 +36,6 @@ const GetUserChatData = async (organizationId) => {
         return err
     }
 }
-/*
-const SwitchTabCollection = async (collectionId, tabId) => {
-    try {
-        console.log(collectionId, tabId)
-        const response = await Tab.update({ CollectionId: collectionId }, { where: { id: tabId } })
-        console.log(response)
-        return response
-    } catch (err) {
-        console.log(err)
-    }
-}
-
-const UpdateTabData = async (tabId, newTabName, newTabUrl, newTabDescription) => {
-    try {
-        const tab = await Tab.findByPk(tabId)
-        const response = await tab.update({
-            tabName: newTabName,
-            tabUrl: newTabUrl,
-            tabDescription: newTabDescription,
-        })
-        console.log(response)
-        return response
-    } catch (err) {
-        console.log(err)
-    }
-}
-const DeleteTabData = async (tabId) => {
-    try {
-        const response = await Tab.destroy({
-            where: {
-                id: tabId,
-            },
-        })
-        console.log(response)
-        return response
-    } catch (err) {
-        console.log(err)
-    }
-}
-*/
 module.exports = {
     CreateChatData,
     GetUserChatData,

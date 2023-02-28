@@ -7,16 +7,11 @@ function Socket(server) {
     const io = new Server(server)
     let users = {}
     io.on("connection", (socket) => {
-        console.log("------------------------------------")
-        console.log("a user connected", socket.id)
         socket.on("login", (data) => {
-            console.log("------------------------------------")
             users[socket.id] = { userName: data.userName, userEmail: data.userEmail, userId: data.userId }
-            console.log(users)
             console.log(`${data.userName} 登入，socket id 為 ${socket.id}`)
         })
         socket.on("disconnect", () => {
-            console.log("------------------------------------")
             delete users[socket.id]
             console.log("user disconnected", socket.id)
         })
@@ -29,7 +24,6 @@ function chatSocket(socket, io, users) {
     // 加入聊天室
     socket.on("joinChatRoom", (data) => {
         socket.join(data.roomId)
-        console.log(io.of("/").adapter.rooms)
         const room = io.of("/").adapter.rooms.get(data.roomId)
         if (room) {
             const users = Array.from(room)
@@ -47,7 +41,6 @@ function chatSocket(socket, io, users) {
     // 離開聊天室
     socket.on("leaveChatRoom", (data) => {
         socket.leave(data.roomId)
-        console.log(io.of("/").adapter.rooms)
         const room = io.of("/").adapter.rooms.get(data.roomId)
         if (room) {
             const users = Array.from(room)
@@ -76,16 +69,13 @@ function chatSocket(socket, io, users) {
             userId: data.userId,
         })
         const response = await ChatTable.CreateChatData(data.organizationId, data.userId, data.message)
-        console.log(response)
     })
 }
 
 function notificationSocket(socket, io, users) {
     socket.on("sendInvitation", (data) => {
-        console.log("------------------------------------")
         const inviterSockedId = findSocketIdByEmail(users, data.inviterEmail)
         const inviteeSockedId = findSocketIdByEmail(users, data.inviteeEmail)
-        console.log(inviteeSockedId)
         if (inviterSockedId && inviteeSockedId) {
             message = `${data.inviterName}傳送邀請給${users[inviteeSockedId].userName}`
             io.to(inviteeSockedId).emit("invitation", {
@@ -99,7 +89,6 @@ function notificationSocket(socket, io, users) {
         }
     })
     socket.on("sendRefuseInvitation", (data) => {
-        console.log("------------------------------------")
         const inviterSockedId = findSocketIdByUserId(users, data.inviterId)
         if (users[inviterSockedId]) {
             io.to(inviterSockedId).emit("receiveRefuseInvitation", {
@@ -107,21 +96,17 @@ function notificationSocket(socket, io, users) {
                 organizationId: data.organizationId,
                 organizationName: data.organizationName,
             })
-            console.log("user refuseInvitation", data)
         }
     })
     socket.on("sendAcceptInvitation", async (data) => {
-        console.log("------------------------------------")
         const inviterSockedId = findSocketIdByUserId(users, data.inviterId)
         if (users[inviterSockedId]) {
-            console.log(data.message)
             io.to(inviterSockedId).emit("receiveAcceptInvitation", {
                 inviteeName: data.inviteeName,
                 organizationId: data.organizationId,
                 organizationName: data.organizationName,
                 message: data.message,
             })
-            console.log("user acceptInvitation", data)
         }
     })
 }

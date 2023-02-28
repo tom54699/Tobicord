@@ -109,7 +109,6 @@ window.addEventListener("DOMContentLoaded", async () => {
 // 檢查權限
 async function checkMainPageAuth() {
     try {
-        console.log("檢查MAIN權限")
         const response = await authApi.checkAuth()
         const result = await response.data
         if (response.status === 200) {
@@ -170,7 +169,6 @@ async function checkMainPageAuth() {
                     if (Element.node.id == "rightSection-spaces") {
                         const addButton = document.getElementsByClassName("rightSection-spaces-window-tabs-container-top-add-svg")[0]
                         addButton.click()
-                        console.log(Element)
                     }
                 },
             })
@@ -277,7 +275,6 @@ logoutButton[0].addEventListener("click", async () => {
     try {
         const response = await authApi.logout()
         const result = await response.data
-        console.log(result)
         if (result.message === "ok") {
             localStorage.removeItem("accessToken")
             location.href = "/auth"

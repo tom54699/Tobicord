@@ -29,7 +29,6 @@ class InvitationController {
                 })
             }
             const result = await Invitation.checkIsInvite(organizationId, req.userId, inviteeEmail)
-            console.log(result)
             if (result) {
                 if (result.status === "refused" || result.status === "approve-refused") {
                     const response = await Invitation.UpdateInvitationData(organizationId, req.userId, inviteeEmail, "invited", "true")
@@ -90,18 +89,16 @@ class InvitationController {
             const organizationId = req.body.organizationId
             const inviteeEmail = req.email
             const inviterRole = await MemberTable.CheckMemberRole(organizationId, inviterId)
-            console.log(inviterRole.roleId)
             if (inviterRole.roleId === 1 || inviterRole.roleId === 2) {
                 const response = await Invitation.UpdateInvitationData(organizationId, inviterId, inviteeEmail, "joined", "false")
                 const result = await MemberTable.AddMemberToOrganization(organizationId, req.userId)
-                console.log(result)
                 return res.status(200).json({
-                    message: "🎉恭喜你，加入群組成功!🎉",
+                    message: "🎉Congratulations, you have successfully joined the organization!🎉",
                 })
             } else {
                 const response = await Invitation.UpdateInvitationData(organizationId, inviterId, inviteeEmail, "pending-approval", "true")
                 return res.status(200).json({
-                    message: "⏳ 請稍後管者者審核，通過後會自動加入。",
+                    message: "⏳ Please wait for the administrator to review.",
                 })
             }
         } catch (err) {
@@ -114,9 +111,8 @@ class InvitationController {
             const organizationId = req.body.organizationId
             const inviteeEmail = req.email
             const response = await Invitation.UpdateInvitationData(organizationId, inviterId, inviteeEmail, "refused", "true")
-            console.log(response)
             return res.status(200).json({
-                message: "🚫 拒絕邀請成功。",
+                message: "Declined invitation successfully.",
             })
         } catch (err) {
             return err
@@ -128,12 +124,11 @@ class InvitationController {
             const organizationId = req.body.organizationId
             const inviteeEmail = req.body.inviteeEmail
             const inviteeId = req.body.inviteeId
-            console.log(organizationId, inviterId, inviteeEmail)
             const response = await Invitation.UpdateInvitationData(organizationId, inviterId, inviteeEmail, "joined", "false")
             if (response.length > 0) {
                 const result = await MemberTable.AddMemberToOrganization(organizationId, inviteeId)
                 return res.status(200).json({
-                    message: "審核完畢。",
+                    message: "Approval completed.",
                 })
             }
         } catch (err) {
@@ -146,9 +141,8 @@ class InvitationController {
             const organizationId = req.body.organizationId
             const inviteeEmail = req.body.inviteeEmail
             const response = await Invitation.UpdateInvitationData(organizationId, inviterId, inviteeEmail, "approve-refused", "true")
-            console.log(response)
             return res.status(200).json({
-                message: "審核完畢。",
+                message: "Approval completed.",
             })
         } catch (err) {
             return err
@@ -160,7 +154,6 @@ class InvitationController {
             const organizationId = req.body.organizationId
             const inviteeEmail = req.body.inviteeEmail
             const response = await Invitation.DeleteInvitationData(organizationId, inviterId, inviteeEmail)
-            console.log(response)
             return res.status(200).json({
                 message: "ok",
             })

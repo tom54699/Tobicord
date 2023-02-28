@@ -46,6 +46,9 @@ body {
     text-decoration: none;
     cursor: pointer;
 }
+.logo:hover {
+    scale: 1.1;
+}
 .nav-bar-container {
     flex: 1 1 auto;
     padding: 0;
@@ -226,10 +229,6 @@ body {
     margin-block-end: 0;
 }
 
-.feature-extension-gif {
-    width: 500px;
-}
-
 .feature-background {
     padding-top: 12rem;
     padding-bottom: 10rem;
@@ -322,4 +321,22 @@ body {
     font-size: 1rem;
     font-weight: 500;
     letter-spacing: 0.5px;
+}
+.feature-extension-gif {
+    width: 500px;
+    scale: 1.2;
+    border-radius: 10px;
+    box-shadow: 0 15px 15px 0 rgba(24, 19, 20, 0.41);
+}
+.feature-gif {
+    scale: 1.1;
+    width: 500px;
+    border-radius: 10px;
+    box-shadow: 0 10px 15px 0 rgba(24, 19, 20, 0.41);
+}
+.feature-share-gif {
+    width: 500px;
+    scale: 1.4;
+    border-radius: 10px;
+    box-shadow: 0 15px 15px 0 rgba(24, 19, 20, 0.41);
 }

@@ -117,7 +117,7 @@ const GetUserApprovalData = async (organizationsId) => {
             attributes: ["inviterId", "inviteeEmail", "organizationId"],
             where: { organizationId: { [Op.in]: organizationsId }, status: "pending-approval" },
         })
-        console.log
+
         return approvalResponse
     } catch (err) {
         console.error(err)
@@ -148,7 +148,6 @@ const DeleteInvitationData = async (organizationId, inviterId, inviteeEmail) => 
                 inviteeEmail: inviteeEmail,
             },
         })
-        console.log(response)
         return response
     } catch (err) {
         console.log(err)
@@ -162,7 +161,6 @@ const DeleteInvitationDataWithoutInviter = async (organizationId, inviteeEmail) 
                 inviteeEmail: inviteeEmail,
             },
         })
-        console.log("55555555555555555", response)
         return response
     } catch (err) {
         console.log(err)

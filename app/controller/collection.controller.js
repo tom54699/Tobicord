@@ -111,9 +111,6 @@ class CollectionController {
             const collectionId = req.query.collectionId
             const currentUrl = req.query.currentUrl
             const response = await Collection.CheckIsSharedUrl(collectionId, currentUrl)
-            console.log("*---------------------------------------")
-            console.log(response)
-            console.log(currentUrl)
             if (response.dataValues.collectionSharedUrl === null) {
                 return res.status(200).json({
                     message: "No DATA",

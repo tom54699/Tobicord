@@ -109,7 +109,6 @@ class OrganizationController {
             const memberId = req.userId
             const inviteeEmail = req.email
             const organizationId = req.body.organizationId
-            console.log(memberId, inviteeEmail, organizationId)
             const response = await MemberTable.CheckMemberRole(organizationId, memberId)
             if (response.dataValues.roleId === 1) {
                 return res.status(403).json({

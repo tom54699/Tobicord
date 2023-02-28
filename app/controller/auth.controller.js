@@ -71,7 +71,7 @@ class AuthController {
                 const hash = bcrypt.hashSync(password, process.env["SALTROUNDS"])
                 const memberData = await MemberTable.AddMembersBasicData(username, email, hash)
                 const userId = memberData.dataValues.id
-                const organizationData = await Organization.AddOrganizationData("My Favorite", userId)
+                const organizationData = await Organization.AddOrganizationData("My Organization", userId)
                 const organizationId = organizationData.OrganizationId
                 await Space.CreateSpaceData(organizationId, userId, "Starred Collections")
                 res.json({ message: "ok" })
