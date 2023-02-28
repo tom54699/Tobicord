@@ -118,6 +118,7 @@ async function checkMainPageAuth() {
             nowUserEmail = result.userEmail
             const socket = window.socket
             socket.emit("login", result)
+            let isSaveClicked = false
             const driver = new Driver({
                 className: "step-popover-class",
                 prevBtnText: "PREV",
@@ -131,6 +132,29 @@ async function checkMainPageAuth() {
                     if (Element.node.id == "middleSection-nav-add-button-container") {
                         const addButton = document.getElementsByClassName("beginner-guide-popover-box-close-button")[0]
                         addButton.click()
+                    }
+                    if (Element.node.id == "tab-card-manually-add-popover-box") {
+                        const closeButton = document.getElementsByClassName("tab-card-manually-add-popover-box-cancel-button")[0]
+                        const addButton = document.getElementsByClassName("tab-card-manually-add-popover-box-save-button")[0]
+                        const clickHandler = () => {
+                            isSaveClicked = true
+                            driver.moveNext()
+                            addButton.removeEventListener("click", clickHandler)
+                        }
+                        const clickHandler1 = () => {
+                            driver.moveNext()
+                            closeButton.removeEventListener("click", clickHandler1)
+                        }
+                        addButton.addEventListener("click", clickHandler)
+                        closeButton.addEventListener("click", clickHandler1)
+                    }
+                    if (Element.node.id == "middleSection-container-collection-cards-box") {
+                        const addButton = document.getElementsByClassName("middleSection-container-add-collection-box-save-button")[0]
+                        const clickHandler = () => {
+                            driver.moveNext()
+                            addButton.removeEventListener("click", clickHandler)
+                        }
+                        addButton.addEventListener("click", clickHandler)
                     }
                 },
                 onNext: (Element) => {
@@ -155,8 +179,10 @@ async function checkMainPageAuth() {
                         addButton.click()
                     }
                     if (Element.node.id == "middleSection-container-collection-cards-box") {
-                        const addButton = document.getElementsByClassName("middleSection-container-add-collection-box-save-button")[0]
-                        addButton.click()
+                        if (!isSaveClicked) {
+                            const addButton = document.getElementsByClassName("middleSection-container-add-collection-box-save-button")[0]
+                            addButton.click()
+                        }
                     }
                 },
                 onPrevious: (Element) => {
@@ -254,6 +280,7 @@ async function checkMainPageAuth() {
                     },
                 },
             ])
+            await driver.start()
             if (result.firstLogin) {
                 await driver.start()
                 await authApi.firstLoginDone()
