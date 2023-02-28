@@ -295,6 +295,9 @@ async function checkMainPageAuth() {
                 await driver.start()
                 await authApi.firstLoginDone()
             }
+            if (result.userEmail === "test@gmail.com") {
+                await driver.start()
+            }
             const userPopoverAccountEmail = document.getElementsByClassName("user-popover-account-email")
             userPopoverAccountEmail[0].textContent = `${result.userName} (${result.userEmail})`
         } else {
