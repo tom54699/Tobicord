@@ -7,7 +7,7 @@ const tabController = require("../controller/tab.controller")
 router.get("/p/:id", (req, res) => {
     res.render("share")
 })
-router.get("/data", collectionController.checkIsSharedUrl, tabController.getUserTabData)
+router.get("/", collectionController.checkIsSharedUrl, tabController.getUserTabData)
 router.get("/check", collectionController.checkIsCreatedShareUrl)
 router.post("/", collectionController.uploadSharedUrl)
 router.put("/", collectionController.deleteSharedUrl)

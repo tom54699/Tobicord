@@ -10,7 +10,7 @@ class AuthApi {
                 password: registerPassword,
                 username: registerUsername,
             }
-            const response = await axios.post("/auth/register", content, headers)
+            const response = await axios.post("/auth", content, headers)
             return response
         } catch (err) {
             console.log(err)
@@ -27,7 +27,7 @@ class AuthApi {
                 email: loginEmail,
                 password: loginPassword,
             }
-            const response = await axios.put("/auth/login", content, headers)
+            const response = await axios.put("/auth", content, headers)
             return response
         } catch (err) {
             console.log(err)
@@ -43,7 +43,7 @@ class AuthApi {
         const config = {
             headers: headers,
         }
-        const response = await axios.delete("/auth/logout", config)
+        const response = await axios.delete("/auth", config)
         return response
     }
     async checkAuth() {
@@ -72,7 +72,7 @@ class AuthApi {
             const config = {
                 headers: headers,
             }
-            const response = await axios.get("/auth/login/check", config)
+            const response = await axios.get("/auth/check", config)
             return response
         } catch (err) {
             console.log(err)
@@ -898,7 +898,7 @@ class ShareApi {
                     currentUrl: currentUrl,
                 },
             }
-            const response = await axios.get("/share/data", config)
+            const response = await axios.get("/share", config)
             return response
         } catch (err) {
             console.log(err)
