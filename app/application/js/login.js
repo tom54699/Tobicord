@@ -63,11 +63,17 @@ loginSwitchButton.addEventListener("click", () => {
 
 registerButton.addEventListener("click", async () => {
     try {
+        const loginSwitchButton = document.getElementById("loginSwitchButton")
+        const loginEmailInput = document.getElementById("loginEmailInput")
+        const loginPasswordInput = document.getElementById("loginPasswordInput")
         const response = await authApi.register(registerEmailInput.value, registerPasswordInput.value, registerUsernameInput.value)
         const result = await response.data
         let num
         if (result.message === "ok") {
-            location.href = "/auth"
+            loginSwitchButton.click()
+            loginEmailInput.value = registerEmailInput.value
+            loginPasswordInput.value = registerPasswordInput.value
+            //location.href = "/auth"
         } else {
             registerInvalidFormatMessageClean()
             for (let i of result.errorMessages) {

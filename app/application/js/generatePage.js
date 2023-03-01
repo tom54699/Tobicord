@@ -3057,13 +3057,11 @@ class MiddleSectionBuild {
             if (!this.chatRoomClicked) {
                 middleSectionContainer[0].classList.add("none")
                 this.chatRoomClicked = true
-                const socket = window.socket
                 this.initChatRoomMessage()
                 this.getChatRoomData()
             } else {
                 middleSectionContainer[0].classList.remove("none")
                 this.chatRoomClicked = false
-                const socket = window.socket
             }
         })
     }

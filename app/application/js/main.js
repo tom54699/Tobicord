@@ -6,15 +6,11 @@ let isCheck = false
 let nowUserId
 let nowUserName
 let nowUserEmail
-window.addEventListener("load", async () => {
-    await new Promise((resolve) => setTimeout(resolve, 100))
-    //preloadBackGround[0].classList.add("none")
-})
+
 window.addEventListener("DOMContentLoaded", async () => {
     try {
         await checkMainPageAuth()
         if (isCheck) {
-            preloadBackGround[0].classList.add("none")
             /* Right-Section Cards */
             await rightSectionBuild.getUserWindow()
             await rightSectionBuild.reloadWindows()
@@ -79,6 +75,7 @@ window.addEventListener("DOMContentLoaded", async () => {
             leftSectionBuild.addMembersButton()
             leftSectionBuild.backManageOrganizationMemberPermissions()
             leftSectionBuild.manageOrganizationMemberPermissionsCheckBox()
+            middleSectionBuild.openChatRoom()
             await leftSectionBuild.hasNotification()
             await leftSectionBuild.leaveOrganizationButton()
             middleSectionBuild.createFirstCollectionBoxButtonAddEvent()
@@ -89,7 +86,6 @@ window.addEventListener("DOMContentLoaded", async () => {
             middleSectionBuild.closeExportCollectionButtonAddEvent()
             middleSectionBuild.exportCollectionButtonAddEvent()
             middleSectionBuild.invalidAuthRolePopoverBox()
-            middleSectionBuild.openChatRoom()
             middleSectionBuild.chatRoomInput()
             middleSectionBuild.sendChatMessage()
             middleSectionBuild.generateChatMessage()
@@ -101,6 +97,7 @@ window.addEventListener("DOMContentLoaded", async () => {
         }
         mainPageBuild.rightSectionFold()
         mainPageBuild.leftSectionFold()
+        preloadBackGround[0].classList.add("none")
     } catch (error) {
         console.log(error)
     }
