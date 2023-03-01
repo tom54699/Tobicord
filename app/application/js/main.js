@@ -11,6 +11,7 @@ window.addEventListener("DOMContentLoaded", async () => {
     try {
         await checkMainPageAuth()
         if (isCheck) {
+            preloadBackGround[0].classList.add("none")
             /* Right-Section Cards */
             await rightSectionBuild.getUserWindow()
             await rightSectionBuild.reloadWindows()
@@ -48,6 +49,7 @@ window.addEventListener("DOMContentLoaded", async () => {
             const defaultOrganizationButton = document.getElementsByClassName("leftSection-nav-top-category-button")[0]
             await defaultOrganizationButton.click()
             await defaultOrganizationButton.focus()
+            middleSectionBuild.openChatRoom()
             const response = await leftSectionBuild.getInviteMessage()
             if (response === "No Data") {
                 const noticeCardBoxContainer = document.getElementsByClassName("notice-card-box-container")
@@ -75,7 +77,6 @@ window.addEventListener("DOMContentLoaded", async () => {
             leftSectionBuild.addMembersButton()
             leftSectionBuild.backManageOrganizationMemberPermissions()
             leftSectionBuild.manageOrganizationMemberPermissionsCheckBox()
-            middleSectionBuild.openChatRoom()
             await leftSectionBuild.hasNotification()
             await leftSectionBuild.leaveOrganizationButton()
             middleSectionBuild.createFirstCollectionBoxButtonAddEvent()
@@ -97,7 +98,6 @@ window.addEventListener("DOMContentLoaded", async () => {
         }
         mainPageBuild.rightSectionFold()
         mainPageBuild.leftSectionFold()
-        preloadBackGround[0].classList.add("none")
     } catch (error) {
         console.log(error)
     }
@@ -292,8 +292,21 @@ async function checkMainPageAuth() {
                 await driver.start()
                 await authApi.firstLoginDone()
             }
+            const HOURS_TO_EXPIRE = 3
+            const KEY_LAST_POPUP_TIMESTAMP = "last-popup-timestamp"
+            function shouldShowPopup() {
+                const lastPopupTimestamp = localStorage.getItem(KEY_LAST_POPUP_TIMESTAMP)
+                if (!lastPopupTimestamp) {
+                    return true
+                }
+                const hoursSinceLastPopup = (Date.now() - lastPopupTimestamp) / (1000 * 60 * 60)
+                return hoursSinceLastPopup >= HOURS_TO_EXPIRE
+            }
             if (result.userEmail === "test@gmail.com") {
-                await driver.start()
+                if (shouldShowPopup()) {
+                    await driver.start()
+                }
+                localStorage.setItem(KEY_LAST_POPUP_TIMESTAMP, Date.now())
             }
             const userPopoverAccountEmail = document.getElementsByClassName("user-popover-account-email")
             userPopoverAccountEmail[0].textContent = `${result.userName} (${result.userEmail})`

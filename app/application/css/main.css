@@ -479,6 +479,7 @@ body {
     border: unset;
     color: rgb(124, 124, 154);
     line-height: 24px;
+    cursor: not-allowed;
 }
 input[placeholder] {
     color: rgb(124, 124, 154);
