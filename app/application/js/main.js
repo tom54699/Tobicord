@@ -353,4 +353,37 @@ middleSectionNavCollapseButton[0].addEventListener("click", () => {
     }
 })
 
+function checkExtension(extensionId) {
+    const isExtensionInstalled = function (extensionId) {
+        return new Promise((resolve, reject) => {
+            try {
+                chrome.runtime.sendMessage(extensionId, { type: "ping" }, function (response) {
+                    if (response && response.type === "pong") {
+                        resolve(true)
+                    } else {
+                        resolve(false)
+                    }
+                })
+            } catch (e) {
+                resolve(false)
+            }
+        })
+    }
+    const hasShownPrompt = localStorage.getItem("extensionCheckTime")
+    if (!hasShownPrompt) {
+        isExtensionInstalled(extensionId).then((installed) => {
+            if (!installed) {
+                const installUrl = "https://chrome.google.com/webstore/detail/tobicord/elclbdojjgnbooalpmbpjiadbeoigdca?hl=zh-TW" // 下載和安裝擴充套件的URL
+                const r = confirm("您尚未安裝指定的擴充套件，是否現在前往下載和安裝？")
+                if (r) {
+                    window.open(installUrl, "_blank")
+                }
+            }
+            localStorage.setItem("extensionCheckTime", "true")
+        })
+    }
+}
+const extensionId = "elclbdojjgnbooalpmbpjiadbeoigdca" // 擴充套件的ID
+checkExtension(extensionId)
+
 export { nowUserEmail, nowUserName, nowUserId }
