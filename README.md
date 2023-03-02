@@ -16,4 +16,4 @@ Test account and password : test@gmail.com / 123456
 ![Tobicord-Readme-1](https://pub-61a84bb50f35476fb1e838152ab72616.r2.dev/Tobicord-Readme-1.gif)  
 
 ### Team-
-![Tobicord-Readme-1](https://pub-61a84bb50f35476fb1e838152ab72616.r2.dev/Tobicord-Readme-2.gif)  
+![Tobicord-Readme-2](/Tobicord-Readme-2.gif)  
