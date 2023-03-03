@@ -125,17 +125,49 @@ Test account and password : test@gmail.com / 123456
 
 <div align="center">
   <img src="Architecture.drawio.png" alt="server-architecture" style="width: 800px">
-</div>  <br>  
-### Socket Architecture 
-- real-time invitation
+</div>  <br>
+
+### Socket Architecture
+
+-   Real-time invitation
 <div align="center">
   <img src="Socket Architecture - Inivatation.drawio.png" alt="socket-architecture" style="width: 800px">
-</div>  <br> 
-- chat-room  
+</div>  <br>
+
+-   Chat-room
 <div align="center">
   <img src="Socket Architecture - ChatRoom.drawio.png" alt="socket-architecture" style="width: 800px">
-</div>  <br>  
-### Extension Architecture  
+</div>  <br>
+
+### Extension Architecture
+
 <div align="center">
   <img src="Extension Architecture.drawio.png" alt="socket-architecture" style="width: 800px">
 </div>  <br>
+
+### Database Schema
+
+<div align="center">
+  <img src="tobicord-mysql.png" alt="database-schema " style="width: 800px">
+</div>  <br>
+
+## Frontend Technique
+
+-   HTML
+-   JavaScript
+-   CSS
+-   Third Party Library
+    -   axios
+    -   vanta.js
+    -   bootstrap
+    -   driver.js
+    -   sortable.js
+
+## API Doc
+
+# [API Doc](https://app.swaggerhub.com/apis-docs/TOM54699_1/Tobicord/1.0.0)
+
+## Contact
+
+👨‍💻 廖梓兆 ZIH-JHAO LIAO
+📪 Email : tom54699@gmail.com
