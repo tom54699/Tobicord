@@ -8,6 +8,8 @@ Tobicord provides individuals and groups with browser tab management, classifica
 
 🖥️ Website URL : https://moonightowl.com/
 
+🧰 Chrome Extension : https://chrome.google.com/webstore/detail/tobicord/elclbdojjgnbooalpmbpjiadbeoigdca?hl=zh-TW
+
 Test account and password : test@gmail.com / 123456
 
 ## Demo
