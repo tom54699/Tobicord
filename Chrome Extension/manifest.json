@@ -1,0 +1,20 @@
+{
+    "manifest_version": 3,
+    "name": "Tobicord",
+    "description": "Combined Discord and Toby",
+    "version": "1.1.0",
+    "icons": {
+        "128": "images/tobicord2.png"
+    },
+    "background": {
+        "service_worker": "background.js"
+    },
+    "action": {
+        "default_icon": {
+            "128": "images/tobicord2.png"
+        }
+    },
+    "permissions": ["windows", "tabs", "activeTab", "scripting"],
+    "host_permissions": ["http://localhost:3000/*", "https://moonightowl.com/*"],
+    "optional_host_permissions": ["*://*/*"]
+}

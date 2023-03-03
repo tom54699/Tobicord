@@ -17,7 +17,7 @@ Test account and password : test@gmail.com / 123456
 -   Get all browser tabs by extension and easily organize、save、edit browser tabs by drag and drop. Users can create a URL and share their bookmark collection with others.
 
 <div align="center">
-  <img src="Tobicord-Readme-1.gif" alt="Tobicord-Readme-1" style="width: 800px">
+  <img src="/README/Tobicord-Readme-1.gif" alt="Tobicord-Readme-1" style="width: 800px">
 </div>  <br>
 
 ### Multi-users Online Interaction
@@ -25,7 +25,7 @@ Test account and password : test@gmail.com / 123456
 -   Invitation system, Permission system and Chat-room system. Invite friends or team-members to collaborative organizing browser tabs.
 
 <div align="center">
-  <img src="Tobicord-Readme-2.gif" alt="Tobicord-Readme-2" style="width: 800px">
+  <img src="/README/Tobicord-Readme-2.gif" alt="Tobicord-Readme-2" style="width: 800px">
 </div>  <br>
 
 ## Table of Contents
@@ -124,31 +124,31 @@ Test account and password : test@gmail.com / 123456
 ### Server Architecture
 
 <div align="center">
-  <img src="Architecture.drawio.png" alt="server-architecture" style="width: 700px">
+  <img src="/README/Architecture.drawio.png" alt="server-architecture" style="width: 700px">
 </div>  <br>
 
 ### Socket Architecture
 
 -   Real-time invitation
 <div align="center">
-  <img src="Socket Architecture - Inivatation.drawio.png" alt="socket-architecture" style="width: 700px">
+  <img src="/README/Socket Architecture - Inivatation.drawio.png" alt="socket-architecture" style="width: 700px">
 </div>  <br>
 
 -   Chat-room
 <div align="center">
-  <img src="Socket Architecture - ChatRoom.drawio.png" alt="socket-architecture" style="width: 700px">
+  <img src="/README/Socket Architecture - ChatRoom.drawio.png" alt="socket-architecture" style="width: 700px">
 </div>  <br>
 
 ### Extension Architecture
 
 <div align="center">
-  <img src="Extension Architecture.drawio.png" alt="socket-architecture" style="width: 700px">
+  <img src="/README/Extension Architecture.drawio.png" alt="socket-architecture" style="width: 700px">
 </div>  <br>
 
 ### Database Schema
 
 <div align="center">
-  <img src="tobicord-mysql.png" alt="database-schema " style="width: 700px">
+  <img src="/README/tobicord-mysql.png" alt="database-schema " style="width: 700px">
 </div>  <br>
 
 ## Frontend Technique
