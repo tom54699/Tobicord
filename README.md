@@ -125,33 +125,30 @@ Test account and password : test@gmail.com / 123456
 
 ### Server Architecture
 
-<div align="center">
-  <img src="/README/Architecture.drawio.png" alt="server-architecture" style="width: 700px">
-</div>  <br>
+<img src="/README/Architecture.drawio.png" alt="server-architecture" style="width: 700px">
+<br>
 
 ### Socket Architecture
 
 -   Real-time invitation
-<div align="center">
-  <img src="/README/Socket Architecture - Inivatation.drawio.png" alt="socket-architecture" style="width: 700px">
-</div>  <br>
+
+<img src="/README/Socket Architecture - Inivatation.drawio.png" alt="socket-architecture" style="width: 700px">
+<br>
 
 -   Chat-room
-<div align="center">
-  <img src="/README/Socket Architecture - ChatRoom.drawio.png" alt="socket-architecture" style="width: 700px">
-</div>  <br>
+
+<img src="/README/Socket Architecture - ChatRoom.drawio.png" alt="socket-architecture" style="width: 700px">
+<br>
 
 ### Extension Architecture
 
-<div align="center">
-  <img src="/README/Extension Architecture.drawio.png" alt="socket-architecture" style="width: 700px">
-</div>  <br>
+<img src="/README/Extension Architecture.drawio.png" alt="socket-architecture" style="width: 700px">
+<br>
 
 ### Database Schema
 
-<div align="center">
-  <img src="/README/tobicord-mysql.png" alt="database-schema " style="width: 700px">
-</div>  <br>
+<img src="/README/tobicord-mysql.png" alt="database-schema " style="width: 700px">
+<br>
 
 ## Frontend Technique
 
