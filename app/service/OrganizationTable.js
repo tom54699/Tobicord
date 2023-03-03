@@ -1,6 +1,7 @@
 const sequelize = require("../config/database.config")
 const Organization = require("../models/Organization.model")
 const Member = require("../models/Member.model")
+const MemberOrganization = require("../models/associations")
 
 const AddOrganizationData = async (organizationName, userId) => {
     const member = await Member.findByPk(userId)
@@ -32,8 +33,15 @@ const UpdateOrganizationData = async (userId, organizationId, newOrganizationNam
         console.log(err)
     }
 }
-const DeleteOrganizationData = async (organizationId) => {
+const DeleteOrganizationData = async (organizationId, userId) => {
     try {
+        const member = await MemberOrganization.findAll({
+            attributes: ["OrganizationId"],
+            where: { MemberId: userId, roleId: "1" },
+        })
+        if (member.length <= 1) {
+            return "Cannot delete the last collection"
+        }
         const response = await Organization.destroy({
             where: {
                 id: organizationId,

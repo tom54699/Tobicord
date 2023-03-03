@@ -719,9 +719,6 @@ class LeftSectionBuild {
     }
     getAddCategoryPopoverInputValue() {
         const addCategoryPopoverFormNameInput = document.getElementsByClassName("middleSection-add-category-popover-box-form-name-input")
-        const addCategoryPopoverFormInviteInput = document.getElementsByClassName(
-            "middleSection-add-category-popover-box-form-invite-input"
-        )
         addCategoryPopoverFormNameInput[0].addEventListener("input", (e) => {
             this.createOrganizationName = e.target.value
         })
@@ -1061,7 +1058,11 @@ class LeftSectionBuild {
                 organizationSuccessDeletePopoverBox[0].style.transform = "translate(-50%)"
                 organizationSuccessDeleteText[0].textContent = `"${this.nowOrganizationName}"Deleted`
                 organizationDeleteNameDoubleCheckAlert[0].style.display = "none"
+            } else if (response.data.message === "Forbidden") {
+                organizationDeleteNameDoubleCheckAlert[0].textContent = "Cannot delete the last collection"
+                organizationDeleteNameDoubleCheckAlert[0].style.display = "block"
             } else {
+                organizationDeleteNameDoubleCheckAlert[0].textContent = "Unauthorized Role"
                 organizationDeleteNameDoubleCheckAlert[0].style.display = "block"
             }
         })

@@ -67,10 +67,16 @@ class OrganizationController {
     }
     async deleteOrganizationData(req, res, next) {
         try {
-            const response = await Organization.DeleteOrganizationData(req.body.organizationId)
-            return res.status(200).json({
-                message: "ok",
-            })
+            const response = await Organization.DeleteOrganizationData(req.body.organizationId, req.userId)
+            if (response === "Cannot delete the last collection") {
+                return res.status(403).json({
+                    message: "Forbidden",
+                })
+            } else {
+                return res.status(200).json({
+                    message: "ok",
+                })
+            }
         } catch (err) {
             next(err)
         }
