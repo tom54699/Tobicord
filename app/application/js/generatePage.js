@@ -2915,7 +2915,6 @@ class MiddleSectionBuild {
         let saveTabDataHandler = async () => {
             if (this.newTabName === undefined || this.newTabName === "") {
                 this.newTabName = this.nowTabName
-                console.log(this.newTabName)
             }
             if (this.newTabUrl === undefined || this.newTabUrl === "") {
                 this.newTabUrl = this.nowTabUrl

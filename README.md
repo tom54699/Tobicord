@@ -10,11 +10,13 @@ Tobicord provides individuals and groups with browser tab management, classifica
 
 🧰 Chrome Extension : https://chrome.google.com/webstore/detail/tobicord/elclbdojjgnbooalpmbpjiadbeoigdca?hl=zh-TW
 
+📃 API Doc : https://app.swaggerhub.com/apis-docs/TOM54699_1/Tobicord/1.0.0
+
 Test account and password : test@gmail.com / 123456
 
 ## Demo
 
-### Better Than Bookmarks
+### Chrome Extension![image](https://user-images.githubusercontent.com/108926305/222872302-cb6a86ee-6ca1-4802-be41-a7d13a2e9f23.png) and Organize Browser Tabs Feature
 
 -   Get all browser tabs by extension and easily organize、save、edit browser tabs by drag and drop. Users can create a URL and share their bookmark collection with others.
 
@@ -104,12 +106,10 @@ Test account and password : test@gmail.com / 123456
 
 -   Socket.IO
 -   bcrypt
--   helmet
+-   helmet (Prevent XSS attacks)
 -   sequelize
 -   aws-sdk
 -   jsonwebtoken
--   uuid
--   cookie-parser
 -   cors
 
 ### Version Control
