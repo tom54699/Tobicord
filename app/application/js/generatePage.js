@@ -2843,8 +2843,13 @@ class MiddleSectionBuild {
             middleSectionAddCategoryPopoverContainer[0].style.zIndex = "9999"
             mask[0].style.display = "block"
             tabCardEditPopoverBox[0].style.transform = "translate(-50%,-55%)"
+            const tabCardEditPopoverBoxDeleteButton = document.getElementsByClassName("tab-card-edit-popover-box-delete-button")
+            tabCardEditPopoverBoxDeleteButton[0].removeEventListener("click", () => this.deleteTabDataHandler())
             await this.tabCardEditBoxDeleteButton()
             await this.tabCardEditBoxSaveButton()
+            this.newTabName = ""
+            this.newTabUrl = ""
+            this.newTabDescription = ""
         })
         tabCardEditPopoverBoxCancelButton[0].addEventListener("click", () => {
             middleSectionAddCategoryPopoverContainer[0].style.zIndex = "-1000"
@@ -2856,32 +2861,30 @@ class MiddleSectionBuild {
         })
     }
     async tabCardEditBoxDeleteButton() {
+        const tabCardEditPopoverBoxDeleteButton = document.getElementsByClassName("tab-card-edit-popover-box-delete-button")
+        tabCardEditPopoverBoxDeleteButton[0].addEventListener("click", () => this.deleteTabDataHandler())
+    }
+    async deleteTabDataHandler() {
         const tabId = this.nowTabId
+        const noPermissionPopoverBox = document.getElementsByClassName("no-permission-popover-box")
         const mask = document.getElementsByClassName("mask")
         const middleSectionAddCategoryPopoverContainer = document.getElementsByClassName("middleSection-popover-container")
         const tabCardEditPopoverBox = document.getElementsByClassName("tab-card-edit-popover-box")
         const middleSectionContainerCollectionTabCardBox = document.getElementById(
             `middleSection-container-collection-tab-card-box-${tabId}`
         )
-        const noPermissionPopoverBox = document.getElementsByClassName("no-permission-popover-box")
-        const tabCardEditPopoverBoxDeleteButton = document.getElementsByClassName("tab-card-edit-popover-box-delete-button")
-        let deleteTabDataHandler = async () => {
-            const response = await tabApi.deleteTabData(leftSectionBuild.nowOrganizationId, tabId)
-            if (response.data.message === "ok") {
-                middleSectionContainerCollectionTabCardBox.remove()
-                middleSectionAddCategoryPopoverContainer[0].style.zIndex = "-1000"
-                tabCardEditPopoverBox[0].style.transform = "translate(-50%,-220%)"
-                mask[0].style.display = "none"
-            } else if (response.data.message === "Unauthorized Role") {
-                tabCardEditPopoverBox[0].style.transform = "translate(-50%,-220%)"
-                middleSectionAddCategoryPopoverContainer[0].style.zIndex = "9999"
-                mask[0].style.display = "block"
-                noPermissionPopoverBox[0].style.transform = "translate(-50%)"
-            } else {
-            }
-            tabCardEditPopoverBoxDeleteButton[0].removeEventListener("click", deleteTabDataHandler)
+        const response = await tabApi.deleteTabData(leftSectionBuild.nowOrganizationId, tabId)
+        if (response.data.message === "ok") {
+            middleSectionContainerCollectionTabCardBox.remove()
+            middleSectionAddCategoryPopoverContainer[0].style.zIndex = "-1000"
+            tabCardEditPopoverBox[0].style.transform = "translate(-50%,-220%)"
+            mask[0].style.display = "none"
+        } else if (response.data.message === "Unauthorized Role") {
+            tabCardEditPopoverBox[0].style.transform = "translate(-50%,-220%)"
+            middleSectionAddCategoryPopoverContainer[0].style.zIndex = "9999"
+            mask[0].style.display = "block"
+            noPermissionPopoverBox[0].style.transform = "translate(-50%)"
         }
-        tabCardEditPopoverBoxDeleteButton[0].addEventListener("click", deleteTabDataHandler)
     }
     getTabCardEditBoxInput() {
         const tabCardEditPopoverBoxTitleInput = document.getElementsByClassName("tab-card-edit-popover-box-title-input")
@@ -2910,13 +2913,14 @@ class MiddleSectionBuild {
         )
         const noPermissionPopoverBox = document.getElementsByClassName("no-permission-popover-box")
         let saveTabDataHandler = async () => {
-            if (this.newTabName === undefined) {
+            if (this.newTabName === undefined || this.newTabName === "") {
                 this.newTabName = this.nowTabName
+                console.log(this.newTabName)
             }
-            if (this.newTabUrl === undefined) {
+            if (this.newTabUrl === undefined || this.newTabUrl === "") {
                 this.newTabUrl = this.nowTabUrl
             }
-            if (this.newTabDescription === undefined) {
+            if (this.newTabDescription === undefined || this.newTabDescription === "") {
                 this.newTabDescription = this.nowTabDescription
             }
             const response = await tabApi.updateTabData(
