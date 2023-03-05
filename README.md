@@ -56,7 +56,7 @@ Test account and password : test@gmail.com / 123456
 ## Main Features
 
 -   Setup CI/CD with github action、Docker Hub and AWS ECR / CodeDeploy.
--   Memebr System
+-   Member System
     -   User authentication with JWT.
     -   Automatically refresh access token with axios-interceptors.
     -   Redis is used to block attempts to refresh tokens by logged out users.
