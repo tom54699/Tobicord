@@ -4593,7 +4593,7 @@ input[placeholder] {
     overflow-y: auto;
     overflow-x: hidden;
     height: auto;
-    min-height: 100px;
+    min-height: 192px;
 }
 .rightSection-spaces-window-tabs-container {
     cursor: grab;
