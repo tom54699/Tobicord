@@ -340,3 +340,19 @@ body {
     border-radius: 10px;
     box-shadow: 0 15px 15px 0 rgba(24, 19, 20, 0.41);
 }
+
+@media (max-width: 900px) {
+    body {
+        zoom: 0.7;
+    }
+}
+@media (max-width: 800px) {
+    body {
+        zoom: 0.6;
+    }
+}
+@media (max-width: 700px) {
+    body {
+        zoom: 0.5;
+    }
+}

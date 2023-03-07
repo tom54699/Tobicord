@@ -12,7 +12,6 @@ window.addEventListener("DOMContentLoaded", async () => {
         await checkMainPageAuth()
         if (isCheck) {
             preloadBackGround[0].classList.add("none")
-            /* Right-Section Cards */
             await rightSectionBuild.getUserWindow()
             await rightSectionBuild.reloadWindows()
             rightSectionBuild.manuallyAddTabCardButton()
@@ -20,7 +19,6 @@ window.addEventListener("DOMContentLoaded", async () => {
             rightSectionBuild.windowTabCreateNewCollection()
             mainPageBuild.dragManuallyTabCardsAddEvent()
             await leftSectionBuild.createCategoryButton()
-            /* Left Section Cards */
             leftSectionBuild.beginnerGuidePopoverBoxButton()
             leftSectionBuild.leftSectionNavPlusButtonAddEvent()
             leftSectionBuild.closeAddCategoryPopover()
@@ -103,7 +101,6 @@ window.addEventListener("DOMContentLoaded", async () => {
     }
 })
 
-// 檢查權限
 async function checkMainPageAuth() {
     try {
         const response = await authApi.checkAuth()
@@ -320,7 +317,6 @@ async function checkMainPageAuth() {
     }
 }
 
-// logout
 logoutButton[0].addEventListener("click", async () => {
     try {
         const response = await authApi.logout()

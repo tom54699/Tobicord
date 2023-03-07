@@ -4,7 +4,6 @@ import { shareTabCardFrame } from "./component.js"
 window.addEventListener("load", async () => {
     await fetchShareCollectionData()
 })
-/* 抓檔案 */
 
 async function fetchShareCollectionData() {
     const notification = document.getElementsByClassName("notification")
