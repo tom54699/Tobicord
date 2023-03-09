@@ -55,7 +55,7 @@ Test account and password : test@gmail.com / 123456
 
 ## Main Features
 
--   Setup CI/CD with github action、Docker Hub and AWS ECR / CodeDeploy.
+-   Setup CI/CD with GitHub Actions、Docker Hub and AWS CodeDeploy.
 -   Member System
     -   User authentication with JWT.
     -   Automatically refresh access token with axios-interceptors.
