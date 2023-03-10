@@ -55,14 +55,14 @@ Test account and password : test@gmail.com / 123456
 
 ## Main Features
 
--   Setup CI/CD with GitHub Actions、Docker Hub and AWS CodeDeploy.
+-   Setup CI/CD with GitHub Actions, Docker Hub and AWS CodeDeploy.
 -   Member System
     -   User authentication with JWT.
     -   Automatically refresh access token with axios-interceptors.
     -   Redis is used to block attempts to refresh tokens by logged out users.
--   Build own chrome extension and push to Chrome Web Store.
-    -   When the extension is activated, it can detect changes in the browser tabs at any time, retrieve tabs information, and send it to Redis.
--   Organize the tabs get from the extension.
+-   Build my own chrome extension and push it to the Chrome Web Store.
+    -   When the extension is activated, it can detect changes in the browser tabs at any time, retrieve tabs information and send it to Redis.
+-   Organize the tabs from the extension.
     -   Users are able to create various organizations, spaces, and collections to classify, edit, and store different tabs.
 -   Invitation system and Permission System.
     -   User can invite other members to organization and owner can grant different permissions to members.
@@ -71,6 +71,7 @@ Test account and password : test@gmail.com / 123456
     -   Users can create a URL and share their bookmark collections with others.
     -   User can export collections with different format(json、html、txt).
 -   Tutorial system with step-by-step guidance and beginner guideline cards.
+-   Using the MVC design pattern and normalize MySQL database in 3NF.
 
 ## Backend Technique
 
