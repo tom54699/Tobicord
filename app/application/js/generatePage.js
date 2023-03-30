@@ -342,6 +342,15 @@ class RightSectionBuild {
         tabCardManuallyAddPopoverBoxSaveButton[0].addEventListener("click", () => {
             const tabId = Math.random().toString(36).substr(2, 5)
             const favIconUrl = "../images/dot.png"
+            if (this.nowCreateTabTitle === undefined || this.nowCreateTabTitle === "") {
+                this.nowCreateTabTitle = "No Content"
+            }
+            if (this.nowCreateTabUrl === undefined || this.nowCreateTabUrl === "") {
+                this.nowCreateTabUrl = "No Content"
+            }
+            if (this.nowCreateTabDescription === undefined || this.nowCreateTabDescription === "") {
+                this.nowCreateTabDescription = "No Content"
+            }
             this.manuallyTabCards[tabId] = {
                 tabTitle: this.nowCreateTabTitle,
                 tabUrl: this.nowCreateTabUrl,
