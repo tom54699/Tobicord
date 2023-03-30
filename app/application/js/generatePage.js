@@ -356,6 +356,9 @@ class RightSectionBuild {
             tabCardManuallyAddPopoverBoxTitleInput[0].value = ""
             tabCardManuallyAddPopoverBoxUrlInput[0].value = ""
             tabCardManuallyAddPopoverBoxDescriptionInput[0].value = ""
+            this.nowCreateTabTitle = ""
+            this.nowCreateTabUrl = ""
+            this.nowCreateTabDescription = ""
         })
     }
     generateManuallyTabCards(tabName, tabUrl, tabId, favIconUrl) {
